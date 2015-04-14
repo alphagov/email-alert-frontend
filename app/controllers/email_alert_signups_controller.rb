@@ -1,13 +1,8 @@
-
-require 'gds_api/helpers'
-
 class EmailAlertSignupsController < ApplicationController
-  include GdsApi::Helpers
-
   def new
-    @email_alert_signup = EmailAlertSignupPresenter.new(content_store.content_item!("/#{params[:base_path]}"))
+    set_slimmer_dummy_artefact(breadcrumbs_for_slimmer(email_alert_signup.breadcrumbs))
+  end
 
-    set_slimmer_dummy_artefact(breadcrumbs_for_slimmer(@email_alert_signup.breadcrumbs))
   end
 
 private
@@ -20,4 +15,13 @@ private
       crumb
     end
   end
+
+  def content_store
+    EmailAlertFrontend.services(:content_store)
+  end
+
+  def email_alert_signup
+    @email_alert_signup ||= EmailAlertSignup.new(content_store.content_item!("/#{params[:base_path]}"))
+  end
+  helper_method :email_alert_signup
 end

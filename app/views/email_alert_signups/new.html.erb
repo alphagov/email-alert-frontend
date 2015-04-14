@@ -1,16 +1,24 @@
-<% content_for :title, @email_alert_signup.title %>
+<% content_for :title, email_alert_signup.title %>
 
 <header>
  <div class="title-and-metadata">
     <%= render partial: 'govuk_component/title', locals: {
-      title: @email_alert_signup.title,
+      title: email_alert_signup.title,
       context: "Email alert subscription"
     } %>
   </div>
 </header>
 
+<<<<<<< HEAD
 <div class="outer-block">
   <div class="signup-content">
     <p><%= @email_alert_signup.description %></p>
   </div>
 </div>
+=======
+<%= form_for email_alert_signup, html: { class: "signup-form" } do |form| %>
+  <p><%= email_alert_signup.summary %></p>
+
+  <%= button_tag 'Create subscription' %>
+<% end %>
+>>>>>>> 11d7070... fixup! Refactor Presenter
