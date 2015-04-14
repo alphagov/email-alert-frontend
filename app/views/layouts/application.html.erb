@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= yield :title %> - GOV.UK</title>
-  <%= stylesheet_link_tag "application" %>
-  <%= csrf_meta_tags %>
-  <%= yield :head %>
-</head>
+  <head>
+    <title><%= yield :title %> - GOV.UK</title>
+    <%= stylesheet_link_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= yield :head %>
+  </head>
 
-<body>
-<div class="header-context"></div>
-<div id="wrapper">
-  <main id="content" role="main" class="email-alert-frontend-content">
-    <div id="email-alert-frontend">
-      <%= yield %>
+  <body>
+    <div id="wrapper">
+      <main id="content" role="main" class="email-alert-frontend-content">
+        <div id="email-alert-frontend">
+          <%= yield %>
+        </div>
+      </main>
     </div>
-  </main>
-</div>
-</body>
+  </body>
 </html>
