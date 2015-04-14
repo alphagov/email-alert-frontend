@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Email alert frontend</title>
-    <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= csrf_meta_tags %>
-  </head>
+<head>
+  <title><%= yield :title %> - GOV.UK</title>
+  <%= stylesheet_link_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= yield :head %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<div class="header-context"></div>
+<div id="wrapper">
+  <main id="content" role="main" class="email-alert-frontend-content">
+    <div id="email-alert-frontend">
+      <%= yield %>
+    </div>
+  </main>
+</div>
+</body>
 </html>

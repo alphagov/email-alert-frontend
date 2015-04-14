@@ -1,0 +1,16 @@
+<% content_for :title, @email_alert_signup.title %>
+
+<header>
+ <div class="title-and-metadata">
+    <%= render partial: 'govuk_component/title', locals: {
+      title: @email_alert_signup.title,
+      context: "Email alert subscription"
+    } %>
+  </div>
+</header>
+
+<div class="outer-block">
+  <div class="signup-content">
+    <p><%= @email_alert_signup.description %></p>
+  </div>
+</div>
