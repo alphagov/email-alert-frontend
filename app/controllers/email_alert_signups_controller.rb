@@ -3,6 +3,12 @@ class EmailAlertSignupsController < ApplicationController
     set_slimmer_dummy_artefact(breadcrumbs_for_slimmer(email_alert_signup.breadcrumbs))
   end
 
+  def create
+    if email_alert_signup.save
+      redirect_to email_alert_signup.subscription_url
+    else
+      render action: 'new'
+    end
   end
 
 private

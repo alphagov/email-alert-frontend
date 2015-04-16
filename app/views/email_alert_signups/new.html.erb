@@ -11,9 +11,13 @@
 
 <<<<<<< HEAD
 <div class="outer-block">
-  <div class="signup-content">
-    <p><%= @email_alert_signup.description %></p>
-  </div>
+  <section>
+    <%= form_for email_alert_signup, html: { class: "signup-form" } do |form| %>
+      <p><%= email_alert_signup.description %></p>
+
+      <%= button_tag 'Create subscription' %>
+    <% end %>
+  </section>
 </div>
 =======
 <%= form_for email_alert_signup, html: { class: "signup-form" } do |form| %>
