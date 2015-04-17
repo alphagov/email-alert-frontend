@@ -28,4 +28,5 @@ group :test do
   gem 'launchy'
   gem 'webmock'
   gem 'timecop'
+  gem 'govuk-content-schema-test-helpers'
 end
