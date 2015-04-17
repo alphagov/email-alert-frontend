@@ -67,4 +67,17 @@ describe EmailAlertSignup do
       expect("http://govdelivery_signup_url").to eq(email_signup.subscription_url)
     end
   end
+
+  describe "#breadcrumbs" do
+    it "returns a nested hash of the breadcrumbs" do
+      email_signup = EmailAlertSignup.new(content_item)
+
+      expected_breadcrumbs = {
+        title: "Employment",
+        link: "https://www.gov.uk/government/policies/employment",
+      }
+
+      expect(email_signup.breadcrumbs).to eq(expected_breadcrumbs)
+    end
+  end
 end

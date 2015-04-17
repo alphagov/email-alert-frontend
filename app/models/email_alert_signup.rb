@@ -28,13 +28,31 @@ class EmailAlertSignup
       .find_or_create_subscriber_list(subscription_params)
   end
 
+  def breadcrumbs
+    return {} if raw_breadcrumbs.blank?
+
+    raw_breadcrumbs.reverse.reduce { |memo, crumb|
+      crumb.merge(parent: memo)
+    }
+  end
+
 private
   attr_reader :content_item
 
   def subscription_params
     {
       title: title,
-      tags: tags.marshal_dump
+      tags: openstruct_to_hash(tags)
     }.deep_stringify_keys
+  end
+
+  def raw_breadcrumbs
+    if content_item.details.breadcrumbs
+      content_item.details.breadcrumbs.map(&method(:openstruct_to_hash))
+    end
+  end
+
+  def openstruct_to_hash(openstruct)
+    openstruct.marshal_dump
   end
 end

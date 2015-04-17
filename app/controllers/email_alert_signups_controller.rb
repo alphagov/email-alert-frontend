@@ -1,6 +1,6 @@
 class EmailAlertSignupsController < ApplicationController
   def new
-    set_slimmer_dummy_artefact(breadcrumbs_for_slimmer(email_alert_signup.breadcrumbs))
+    set_slimmer_dummy_artefact(email_alert_signup.breadcrumbs)
   end
 
   def create
@@ -12,15 +12,6 @@ class EmailAlertSignupsController < ApplicationController
   end
 
 private
-
-  def breadcrumbs_for_slimmer(breadcrumbs)
-    crumb = breadcrumbs.shift
-    if breadcrumbs.any?
-      crumb.merge(parent: build_breadcrumb(breadcrumbs))
-    else
-      crumb
-    end
-  end
 
   def content_store
     EmailAlertFrontend.services(:content_store)
