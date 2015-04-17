@@ -7,6 +7,14 @@
 @import "design-patterns/buttons";
 
 #wrapper {
+  display: block;
+  padding-bottom: $gutter;
+  @extend %site-width-container;
+
+  @include media(desktop) {
+    padding-bottom: $gutter*2;
+  }
+
   button {
     @include button;
     @include bold-24;
