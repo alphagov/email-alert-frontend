@@ -75,7 +75,6 @@ GEM
       mime-types (>= 1.16, < 3)
       nokogiri (~> 1.5)
       rails (>= 3, < 5)
-    database_cleaner (1.4.0)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     decent_exposure (2.3.2)
@@ -226,7 +225,6 @@ DEPENDENCIES
   binding_of_caller
   byebug
   cucumber-rails
-  database_cleaner
   decent_exposure (= 2.3.2)
   gds-api-adapters (= 18.2.0)
   govuk_frontend_toolkit (= 3.1.0)
