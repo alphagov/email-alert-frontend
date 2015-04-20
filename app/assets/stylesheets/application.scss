@@ -1,15 +1,9 @@
-@import "conditionals";
-@import "colours";
 @import "typography";
-@import "css3";
-@import "grid_layout";
 @import "measurements";
 @import "design-patterns/buttons";
 
 #wrapper {
-  display: block;
   padding-bottom: $gutter;
-  @extend %site-width-container;
 
   @include media(desktop) {
     padding-bottom: $gutter*2;
