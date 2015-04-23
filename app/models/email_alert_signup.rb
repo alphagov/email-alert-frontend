@@ -12,6 +12,7 @@ class EmailAlertSignup
 
   def initialize(content_item)
     @content_item = content_item
+    @base_path = content_item.base_path if content_item
   end
 
   def save
@@ -36,8 +37,16 @@ class EmailAlertSignup
     }
   end
 
+  def government?
+    base_path.starts_with?("/government")
+  end
+
+  def government_content_section
+    base_path.split('/')[2]
+  end
+
 private
-  attr_reader :content_item
+  attr_reader :content_item, :base_path
 
   def subscription_params
     {

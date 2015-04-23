@@ -3,7 +3,7 @@ require 'ostruct'
 module EmailAlertSignupHelper
   include GovukContentSchemaExamples
 
-  def content_store_has_employment_email_alert_signup(base_path:, tags:)
+  def content_store_has_email_alert_signup(base_path:, tags:)
     content_store_has_item(base_path, govuk_content_schema_example("email_alert_signup").merge(tags).to_json)
   end
 
