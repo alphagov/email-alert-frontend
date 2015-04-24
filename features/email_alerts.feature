@@ -10,3 +10,7 @@ Feature: Email alert signup
     Then I see the email signup page
     When I sign up to the email alerts
     Then my subscription should be registered
+
+  Scenario: Visit a government email alert page
+    Given a government email alert page exists
+    Then I can see the government header
