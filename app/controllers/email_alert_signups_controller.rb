@@ -1,4 +1,6 @@
 class EmailAlertSignupsController < ApplicationController
+  protect_from_forgery except: [:create]
+
   def new
     set_slimmer_dummy_artefact(email_alert_signup.breadcrumbs)
   end
