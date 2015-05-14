@@ -6,7 +6,7 @@ class EmailAlertSignup
   validates_presence_of :content_item
 
   delegate :title, to: :content_item
-  delegate :summary, :tags, to: :"content_item.details"
+  delegate :summary, :tags, :govdelivery_title, to: :"content_item.details"
 
   attr_reader :subscription_url
 
@@ -50,7 +50,7 @@ private
 
   def subscription_params
     {
-      title: title,
+      title: govdelivery_title.present? ? govdelivery_title : title,
       tags: openstruct_to_hash(tags)
     }.deep_stringify_keys
   end
