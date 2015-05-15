@@ -21,7 +21,7 @@ When(/^I sign up to the email alerts$/) do
 end
 
 Then(/^my subscription should be registered$/) do
-  expect_registration_to(title: "Employment", tags: @tags, base_path: @base_path)
+  expect_registration_to(title: "Employment policy", tags: @tags, base_path: @base_path)
 end
 
 Given(/^a government email alert page exists$/) do

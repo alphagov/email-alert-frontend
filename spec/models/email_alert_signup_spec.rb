@@ -11,6 +11,15 @@ describe EmailAlertSignup do
   let(:content_item) {
     dummy_http_response = double("net http response",
       code: 200,
+      body: govuk_content_schema_example('email_alert_signup').except('govdelivery_title').to_json,
+      headers: {}
+    )
+    GdsApi::Response.new(dummy_http_response).to_ostruct
+  }
+
+  let(:govdelivery_title_content_item) {
+    dummy_http_response = double("net http response",
+      code: 200,
       body: govuk_content_schema_example('email_alert_signup').to_json,
       headers: {}
     )
@@ -31,6 +40,20 @@ describe EmailAlertSignup do
     email_alert_api_creates_subscriber_list(subscription_params)
   }
 
+  let (:govdelivery_title_subscription_params) {
+    {
+      "title" => "Employment Policy",
+      "tags" => {
+        "policy" => ["employment"]
+      },
+      "subscription_url" => "http://govdelivery_signup_url"
+    }
+  }
+
+  let (:create_subscriber_list_request_with_govdelivery_title) {
+    email_alert_api_creates_subscriber_list(govdelivery_title_subscription_params)
+  }
+
   before do
     EmailAlertFrontend.register_service(:email_alert_api, api_client)
   end
@@ -40,11 +63,28 @@ describe EmailAlertSignup do
   end
 
   describe "#save" do
-    it "creates the topic in GovDelivery using the tag and title" do
+    it "creates the topic in GovDelivery using the tag and title if there is no govdelivery_title" do
       email_alert_api_does_not_have_subscriber_list(subscription_params)
       create_subscriber_list_request = email_alert_api_creates_subscriber_list(subscription_params)
       email_signup = EmailAlertSignup.new(content_item)
 
+      expect email_signup.save
+      expect(create_subscriber_list_request).to have_been_requested
+    end
+
+    it "creates the topic in GovDelivery using the tag and govdelivery_title" do
+      email_alert_api_does_not_have_subscriber_list(govdelivery_title_subscription_params)
+      create_subscriber_list_request_with_govdelivery_title = email_alert_api_creates_subscriber_list(govdelivery_title_subscription_params)
+      email_signup = EmailAlertSignup.new(govdelivery_title_content_item)
+
+      expect email_signup.save
+      expect(create_subscriber_list_request_with_govdelivery_title).to have_been_requested
+    end
+
+    it "creates the topic in GovDelivery using the tag and title" do
+      email_alert_api_does_not_have_subscriber_list(subscription_params)
+      create_subscriber_list_request = email_alert_api_creates_subscriber_list(subscription_params)
+      email_signup = EmailAlertSignup.new(content_item)
 
       expect email_signup.save
       expect(create_subscriber_list_request).to have_been_requested
