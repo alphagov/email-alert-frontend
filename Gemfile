@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.2'
 gem 'slimmer', '8.1.0'
 
 gem 'govuk_frontend_toolkit', '3.1.0'
@@ -23,7 +23,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec-rails', '3.2.0'
+  gem 'rspec-rails', '3.2.1'
   gem 'cucumber-rails', require: false
   gem 'launchy'
   gem 'webmock'
