@@ -14,7 +14,7 @@ gem 'plek', '1.10.0'
 gem 'airbrake', '4.1.0'
 gem 'decent_exposure', '2.3.2'
 
-gem 'gds-api-adapters', '18.2.0'
+gem 'gds-api-adapters', '20.1.1'
 
 group :development, :test do
   gem 'byebug'
