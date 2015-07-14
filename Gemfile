@@ -10,7 +10,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'unicorn'
 gem 'quiet_assets', '1.1.0'
 
-gem 'plek', '1.10.0'
+gem 'plek', '1.11.0'
 gem 'airbrake', '4.1.0'
 gem 'decent_exposure', '2.3.2'
 
