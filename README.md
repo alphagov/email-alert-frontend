@@ -6,6 +6,10 @@
 
 A consistent frontend for displaying email alert signup pages.
 
+## Live examples
+
+- [gov.uk/government/policies/academies-and-free-schools/email-signupg](https://www.gov.uk/government/policies/academies-and-free-schools/email-signup)
+
 ## Nomenclature
 
 - Email Alert Signup: a page displaying the title of what the User is signing up to
