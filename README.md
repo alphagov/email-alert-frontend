@@ -8,7 +8,7 @@ A consistent frontend for displaying email alert signup pages.
 
 ## Live examples
 
-- [gov.uk/government/policies/academies-and-free-schools/email-signupg](https://www.gov.uk/government/policies/academies-and-free-schools/email-signup)
+- [gov.uk/government/policies/academies-and-free-schools/email-signup](https://www.gov.uk/government/policies/academies-and-free-schools/email-signup)
 
 ## Nomenclature
 
