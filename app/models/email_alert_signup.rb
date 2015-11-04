@@ -51,8 +51,14 @@ private
   def subscription_params
     {
       title: govdelivery_title.present? ? govdelivery_title : title,
-      tags: openstruct_to_hash(tags)
+      tags: openstruct_to_hash(tags),
+      links: extract_content_item_parent,
     }.deep_stringify_keys
+  end
+
+  def extract_content_item_parent
+    parent_id = content_item.links.parent.first.content_id
+    { parent: [parent_id] }
   end
 
   def raw_breadcrumbs
