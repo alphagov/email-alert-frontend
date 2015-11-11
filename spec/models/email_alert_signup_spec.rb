@@ -65,7 +65,7 @@ describe EmailAlertSignup do
           {
            "title" => "Employment policy",
            "tags"  => {"policy"=>["employment"]},
-           "links" => {"parent"=>["f8c3682c-3a88-4f35-afba-3607384e39e6"]}
+           "links" => {"policies"=>["f8c3682c-3a88-4f35-afba-3607384e39e6"]}
           }
         )
         .and_return(double(subscriber_list: double(subscription_url: 'foo')))

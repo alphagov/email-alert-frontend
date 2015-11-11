@@ -52,13 +52,14 @@ private
     {
       title: govdelivery_title.present? ? govdelivery_title : title,
       tags: openstruct_to_hash(tags),
-      links: extract_signup_page_parent,
+      links: construct_links_payload_for_alert_api,
     }.deep_stringify_keys
   end
 
-  def extract_signup_page_parent
+  def construct_links_payload_for_alert_api
+    email_alert_type = signup_page.details.email_alert_type
     parent_id = signup_page.links.parent.first.content_id
-    { parent: [parent_id] }
+    { email_alert_type => [parent_id] }
   end
 
   def raw_breadcrumbs
