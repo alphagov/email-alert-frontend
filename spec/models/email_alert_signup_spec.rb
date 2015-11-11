@@ -36,10 +36,6 @@ describe EmailAlertSignup do
     }
   }
 
-  let (:create_subscriber_list_request) {
-    email_alert_api_creates_subscriber_list(subscription_params)
-  }
-
   let (:govdelivery_title_subscription_params) {
     {
       "title" => "Employment Policy",
@@ -50,8 +46,8 @@ describe EmailAlertSignup do
     }
   }
 
-  let (:create_subscriber_list_request_with_govdelivery_title) {
-    email_alert_api_creates_subscriber_list(govdelivery_title_subscription_params)
+  let (:create_subscriber_list_request) {
+    email_alert_api_creates_subscriber_list(subscription_params)
   }
 
   before do
@@ -63,6 +59,21 @@ describe EmailAlertSignup do
   end
 
   describe "#save" do
+    it "sends the correct subscription params to the email alert api" do
+      expect(api_client).to receive(:find_or_create_subscriber_list)
+        .with(
+          {
+           "title" => "Employment policy",
+           "tags"  => {"policy"=>["employment"]},
+           "links" => {"policies"=>["f8c3682c-3a88-4f35-afba-3607384e39e6"]}
+          }
+        )
+        .and_return(double(subscriber_list: double(subscription_url: 'foo')))
+
+      email_signup = EmailAlertSignup.new(content_item)
+      email_signup.save
+    end
+
     it "creates the topic in GovDelivery using the tag and title if there is no govdelivery_title" do
       email_alert_api_does_not_have_subscriber_list(subscription_params)
       create_subscriber_list_request = email_alert_api_creates_subscriber_list(subscription_params)

@@ -17,7 +17,7 @@ gem 'decent_exposure', '~> 2.3.2'
 gem 'gds-api-adapters', '~> 20.1.1'
 
 group :development, :test do
-  gem 'byebug'
+  gem 'pry-byebug'
   gem 'better_errors'
   gem 'binding_of_caller'
 end

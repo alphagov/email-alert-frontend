@@ -1,9 +1,10 @@
 Given(/^a content item exists for an email alert signup page$/) do
-  @base_path = "/government/policies/employment/email-signup"
-  @tags = {
-    "policy"=> ["employment"]
-  }
-  content_store_has_email_alert_signup(base_path: @base_path, tags: @tags)
+  content_item = govuk_content_schema_example("email_alert_signup")
+  @base_path = content_item["base_path"]
+  @tags = content_item["details"]["tags"]
+  @alert_type = content_item["details"]["email_alert_type"]
+  @parent_id = content_item["links"]["parent"].first["content_id"]
+  content_store_has_item(@base_path, content_item.to_json)
 end
 
 When(/^I access the email signup page$/) do
@@ -17,20 +18,27 @@ Then(/^I see the email signup page$/) do
 end
 
 When(/^I sign up to the email alerts$/) do
-  subscribe_to_email_alerts
+  @subscription_params = {
+    "title" => "Employment policy",
+    "tags" => @tags,
+    "links" => { @alert_type => [@parent_id] }
+  }
+  allow(EmailAlertFrontend.services(:email_alert_api)).
+    to receive(:find_or_create_subscriber_list).
+    with(@subscription_params).
+    and_return(OpenStruct.new("subscriber_list" => OpenStruct.new("subscription_url" => @base_path)))
+
+  click_on "Create subscription"
 end
 
 Then(/^my subscription should be registered$/) do
-  expect_registration_to(title: "Employment policy", tags: @tags, base_path: @base_path)
+  expect(EmailAlertFrontend.services(:email_alert_api))
+    .to have_received(:find_or_create_subscriber_list)
+    .with(@subscription_params)
 end
 
 Given(/^a government email alert page exists$/) do
-  content_store_has_email_alert_signup(
-    base_path: "/government/policies/employment/email-signup",
-    tags: {
-        "policy"=> ["employment"]
-    }
-  )
+  step("a content item exists for an email alert signup page")
 end
 
 Then(/^I can see the government header$/) do

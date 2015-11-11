@@ -3,16 +3,16 @@ require 'active_model'
 class EmailAlertSignup
   include ActiveModel::Model
 
-  validates_presence_of :content_item
+  validates_presence_of :signup_page
 
-  delegate :title, to: :content_item
-  delegate :summary, :tags, :govdelivery_title, to: :"content_item.details"
+  delegate :title, to: :signup_page
+  delegate :summary, :tags, :govdelivery_title, to: :"signup_page.details"
 
   attr_reader :subscription_url
 
-  def initialize(content_item)
-    @content_item = content_item
-    @base_path = content_item.base_path if content_item
+  def initialize(signup_page)
+    @signup_page = signup_page
+    @base_path = signup_page.base_path if signup_page
   end
 
   def save
@@ -46,18 +46,25 @@ class EmailAlertSignup
   end
 
 private
-  attr_reader :content_item, :base_path
+  attr_reader :signup_page, :base_path
 
   def subscription_params
     {
       title: govdelivery_title.present? ? govdelivery_title : title,
-      tags: openstruct_to_hash(tags)
+      tags: openstruct_to_hash(tags),
+      links: construct_links_payload_for_alert_api,
     }.deep_stringify_keys
   end
 
+  def construct_links_payload_for_alert_api
+    email_alert_type = signup_page.details.email_alert_type
+    parent_id = signup_page.links.parent.first.content_id
+    { email_alert_type => [parent_id] }
+  end
+
   def raw_breadcrumbs
-    if content_item.details.breadcrumbs
-      content_item.details.breadcrumbs.map(&method(:openstruct_to_hash))
+    if signup_page.details.breadcrumbs
+      signup_page.details.breadcrumbs.map(&method(:openstruct_to_hash))
     end
   end
 
