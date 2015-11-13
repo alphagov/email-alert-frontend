@@ -6,7 +6,7 @@ class EmailAlertSignup
   validates_presence_of :signup_page
 
   delegate :title, to: :signup_page
-  delegate :summary, :tags, :govdelivery_title, to: :"signup_page.details"
+  delegate :summary, :govdelivery_title, to: :"signup_page.details"
 
   attr_reader :subscription_url
 
@@ -51,9 +51,20 @@ private
   def subscription_params
     {
       title: govdelivery_title.present? ? govdelivery_title : title,
-      tags: openstruct_to_hash(tags),
+      tags: construct_tags_payload_for_alert_api,
       links: construct_links_payload_for_alert_api,
     }.deep_stringify_keys
+  end
+
+  def construct_tags_payload_for_alert_api
+    # FIXME: a (very) temporary conditional check - once govuk-schema changes
+    # are deployed for email_alert_signup content items, change the below to
+    # safely rely on signup_tags being present.
+    if signup_page.details.signup_tags.present?
+      signup_page.details.signup_tags.to_h
+    else
+      signup_page.details.tags.to_h
+    end
   end
 
   def construct_links_payload_for_alert_api
