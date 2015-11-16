@@ -51,7 +51,7 @@ private
   def subscription_params
     {
       title: govdelivery_title.present? ? govdelivery_title : title,
-      tags: construct_tags_payload_for_alert_api,
+      signup_tags: construct_tags_payload_for_alert_api,
       links: construct_links_payload_for_alert_api,
     }.deep_stringify_keys
   end
