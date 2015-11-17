@@ -1,7 +1,7 @@
 Given(/^a content item exists for an email alert signup page$/) do
   content_item = govuk_content_schema_example("email_alert_signup")
   @base_path = content_item["base_path"]
-  @tags = content_item["details"]["tags"]
+  @tags = content_item["details"]["signup_tags"]
   @alert_type = content_item["details"]["email_alert_type"]
   @parent_id = content_item["links"]["parent"].first["content_id"]
   content_store_has_item(@base_path, content_item.to_json)
