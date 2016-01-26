@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.3'
-gem 'slimmer', '9.0.0'
+gem 'rails', '4.2.5.1'
+gem 'slimmer', '9.0.1'
 
 gem 'govuk_frontend_toolkit', '~> 3.1.0'
 
 gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '>= 2.7.2'
 gem 'unicorn'
 gem 'quiet_assets', '~> 1.1.0'
 
