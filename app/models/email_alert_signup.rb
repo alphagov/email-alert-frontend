@@ -49,28 +49,25 @@ private
   attr_reader :signup_page, :base_path
 
   def subscription_params
-    {
-      title: govdelivery_title.present? ? govdelivery_title : title,
-      tags: construct_tags_payload_for_alert_api,
-      links: construct_links_payload_for_alert_api,
-    }.deep_stringify_keys
-  end
+    subscriber_list = signup_page.details.subscriber_list
 
-  def construct_tags_payload_for_alert_api
-    # FIXME: a (very) temporary conditional check - once govuk-schema changes
-    # are deployed for email_alert_signup content items, change the below to
-    # safely rely on signup_tags being present.
-    if signup_page.details.signup_tags.present?
-      signup_page.details.signup_tags.to_h
-    else
-      signup_page.details.tags.to_h
+    subscription_params = {
+      title: govdelivery_title.present? ? govdelivery_title : title
+    }
+
+    if subscriber_list.document_type.present?
+      subscription_params[:document_type] = subscriber_list.document_type
     end
-  end
 
-  def construct_links_payload_for_alert_api
-    email_alert_type = signup_page.details.email_alert_type
-    parent_id = signup_page.links.parent.first.content_id
-    { email_alert_type => [parent_id] }
+    if subscriber_list.tags.present?
+      subscription_params[:tags] = subscriber_list.tags.to_h
+    end
+
+    if subscriber_list.links.present?
+      subscription_params[:links] = subscriber_list.links.to_h
+    end
+
+    subscription_params.deep_stringify_keys
   end
 
   def raw_breadcrumbs

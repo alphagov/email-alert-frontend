@@ -8,23 +8,19 @@ describe EmailAlertSignup do
   let(:base_url)      { "http://some-domain" }
   let(:api_client)    { GdsApi::EmailAlertApi.new(base_url) }
 
-  let(:signup_page) {
-    dummy_http_response = double("net http response",
-      code: 200,
-      body: govuk_content_schema_example('email_alert_signup').except('govdelivery_title').to_json,
-      headers: {}
-    )
-    GdsApi::Response.new(dummy_http_response).to_ostruct
-  }
+  let(:policy_item) { govuk_content_schema_example('policy_email_alert_signup') }
+  let(:travel_index_item) { govuk_content_schema_example('travel_advice_index_email_alert_signup') }
+  let(:travel_country_item) { govuk_content_schema_example('travel_advice_country_email_alert_signup') }
 
-  let(:signup_page_with_govdelivery_title) {
-    dummy_http_response = double("net http response",
+  let(:mock_subscriber_list) { double(subscriber_list: double(subscription_url: 'http://foo')) }
+
+  def mock_response(body)
+    GdsApi::Response.new(double("net http response",
       code: 200,
-      body: govuk_content_schema_example('email_alert_signup').to_json,
-      headers: {}
-    )
-    GdsApi::Response.new(dummy_http_response).to_ostruct
-  }
+      body: body.to_json,
+      headers: {},
+    )).to_ostruct
+  end
 
   before do
     EmailAlertFrontend.register_service(:email_alert_api, api_client)
@@ -41,33 +37,87 @@ describe EmailAlertSignup do
   end
 
   describe "#save" do
-    it "sends the correct subscription params to the email alert api" do
-      expect(api_client).to receive(:find_or_create_subscriber_list)
-        .with(
-          {
-           "title" => "Employment policy",
-           "tags"  => {"policies"=>["employment"]},
-           "links" => {"policies"=>["f8c3682c-3a88-4f35-afba-3607384e39e6"]}
-          }
-        )
-        .and_return(double(subscriber_list: double(subscription_url: 'http://foo')))
+    context "when the signup page is for a travel advice country" do
+      let(:signup_page) { mock_response(travel_country_item) }
 
-      email_signup = EmailAlertSignup.new(signup_page)
-      email_signup.save
+      it "sends the correct subscription params to the email alert api" do
+        expect(api_client).to receive(:find_or_create_subscriber_list)
+          .with(
+            {
+             "title" => "Afghanistan travel advice",
+             "links" => { "countries" => ["5a292f20-a9b6-46ea-b35f-584f8b3d7392"] },
+             "document_type" => "travel_advice",
+            }
+          )
+          .and_return(mock_subscriber_list)
+
+        email_signup = EmailAlertSignup.new(signup_page)
+        email_signup.save
+      end
+    end
+
+    context "when the signup page is for the travel advice index" do
+      let(:signup_page) { mock_response(travel_index_item) }
+
+      it "sends the correct subscription params to the email alert api" do
+        expect(api_client).to receive(:find_or_create_subscriber_list)
+          .with(
+            {
+             "title" => "Foreign travel advice",
+             "document_type" => "travel_advice",
+            }
+          )
+          .and_return(mock_subscriber_list)
+
+        email_signup = EmailAlertSignup.new(signup_page)
+        email_signup.save
+      end
+    end
+
+    context "when the signup page is for a policy" do
+      let(:signup_page) { mock_response(policy_item) }
+
+      it "sends the correct subscription params to the email alert api" do
+        expect(api_client).to receive(:find_or_create_subscriber_list)
+          .with(
+            {
+             "title" => "Employment policy",
+             "tags" => {"policies"=>["employment"]}
+            }
+          )
+          .and_return(mock_subscriber_list)
+
+        email_signup = EmailAlertSignup.new(signup_page)
+        email_signup.save
+      end
+    end
+
+    context "when the signup page doesn't have a govdelivery_title" do
+      let(:item_without_govdelivery_title) do
+        travel_index_item["title"] = "Some Title"
+        travel_index_item["details"]["govdelivery_title"] = ""
+        travel_index_item
+      end
+
+      let(:signup_page) { mock_response(item_without_govdelivery_title) }
+
+      it "falls back to using the content item's title" do
+        expect(api_client).to receive(:find_or_create_subscriber_list)
+          .with(hash_including("title" => "Some Title"))
+          .and_return(mock_subscriber_list)
+
+        email_signup = EmailAlertSignup.new(signup_page)
+        email_signup.save
+      end
     end
   end
 
   describe "#subscription_url" do
+    let(:signup_page) { mock_response(policy_item) }
+
     it "is the subscription_url returned by the API" do
       expect(api_client).to receive(:find_or_create_subscriber_list)
-        .with(
-          {
-           "title" => "Employment policy",
-           "tags"  => {"policies"=>["employment"]},
-           "links" => {"policies"=>["f8c3682c-3a88-4f35-afba-3607384e39e6"]}
-          }
-        )
-        .and_return(double(subscriber_list: double(subscription_url: 'http://foo')))
+        .and_return(mock_subscriber_list)
 
       email_signup = EmailAlertSignup.new(signup_page)
       email_signup.save
@@ -77,6 +127,8 @@ describe EmailAlertSignup do
   end
 
   describe "#breadcrumbs" do
+    let(:signup_page) { mock_response(policy_item) }
+
     it "returns a nested hash of the breadcrumbs" do
       email_signup = EmailAlertSignup.new(signup_page)
       expected_breadcrumbs = {
