@@ -4,6 +4,9 @@
     <title><%= yield :title %> - GOV.UK</title>
     <%= stylesheet_link_tag "application" %>
     <%= csrf_meta_tags %>
+    <% if content_for(:meta_description).present? %>
+      <meta name="description" content="<%= content_for(:meta_description) %>" />
+    <% end %>
     <%= yield :head %>
   </head>
 

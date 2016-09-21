@@ -1,4 +1,5 @@
 <% content_for :title, email_alert_signup.title %>
+<% content_for :meta_description, email_alert_signup.summary %>
 
 <% if email_alert_signup.government? %>
   <%= render partial: 'govuk_component/government_navigation', locals: { active: email_alert_signup.government_content_section } %>
