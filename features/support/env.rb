@@ -32,5 +32,9 @@ require 'slimmer/test'
 ActionController::Base.allow_rescue = false
 
 require_relative '../../lib/govuk_content_schema_examples'
-require 'slimmer/test_helpers/shared_templates'
-include Slimmer::TestHelpers::SharedTemplates
+require 'slimmer/test_helpers/govuk_components'
+include Slimmer::TestHelpers::GovukComponents
+
+Before do
+  stub_shared_component_locales
+end
