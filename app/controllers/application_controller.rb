@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  include Slimmer::Headers
   include Slimmer::SharedTemplates
 
   # Prevent CSRF attacks by raising an exception.

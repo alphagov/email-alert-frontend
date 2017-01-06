@@ -29,14 +29,6 @@ class EmailAlertSignup
       .find_or_create_subscriber_list(subscription_params)
   end
 
-  def breadcrumbs
-    return {} if raw_breadcrumbs.blank?
-
-    raw_breadcrumbs.reverse.reduce { |memo, crumb|
-      crumb.merge(parent: memo)
-    }
-  end
-
   def government?
     base_path.starts_with?("/government")
   end
@@ -68,12 +60,6 @@ private
     end
 
     subscription_params.deep_stringify_keys
-  end
-
-  def raw_breadcrumbs
-    if signup_page.details.breadcrumbs
-      signup_page.details.breadcrumbs.map(&method(:openstruct_to_hash))
-    end
   end
 
   def openstruct_to_hash(openstruct)

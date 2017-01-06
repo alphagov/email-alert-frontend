@@ -14,7 +14,6 @@ A consistent frontend for displaying email alert signup pages.
 
 - Email Alert Signup: a page displaying the title of what the User is signing up to
 - Tags: A key and array value pair which when are used by the [Email Alert API](https://github.com/alphagov/email-alert-api) to forward the user onto the govdelivery signup URL
-- Breadcrumbs: array of hashes containing a `link` and `title` used to generate breadcrumb navigation for the Email Alert Signup page's parent page(s).
 
 ## Dependences
 
