@@ -19,7 +19,7 @@ private
   end
 
   def email_alert_signup
-    @email_alert_signup ||= EmailAlertSignup.new(content_store.content_item!("/#{params[:base_path]}"))
+    @email_alert_signup ||= EmailAlertSignup.new(content_store.content_item("/#{params[:base_path]}"))
   end
   helper_method :email_alert_signup
 end
