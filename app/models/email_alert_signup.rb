@@ -5,19 +5,16 @@ class EmailAlertSignup
 
   validates_presence_of :signup_page
 
-  delegate :title, to: :signup_page
-  delegate :summary, :govdelivery_title, to: :"signup_page.details"
-
   attr_reader :subscription_url
 
   def initialize(signup_page)
     @signup_page = signup_page
-    @base_path = signup_page.base_path if signup_page
+    @base_path = signup_page['base_path'] if signup_page
   end
 
   def save
     if valid?
-      @subscription_url = find_or_create_subscription.subscriber_list.subscription_url
+      @subscription_url = find_or_create_subscription.dig("subscriber_list" , "subscription_url")
       true
     else
       false
@@ -37,32 +34,45 @@ class EmailAlertSignup
     base_path.split('/')[2]
   end
 
+  def details
+    signup_page['details']
+  end
+
+  def title
+    signup_page['title']
+  end
+
+  def govdelivery_title
+    details['govdelivery_title']
+  end
+
+  def summary
+    details['summary']
+  end
+
 private
+
   attr_reader :signup_page, :base_path
 
   def subscription_params
-    subscriber_list = signup_page.details.subscriber_list
+    subscriber_list = details['subscriber_list']
 
     subscription_params = {
       title: govdelivery_title.present? ? govdelivery_title : title
     }
 
-    if subscriber_list.document_type.present?
-      subscription_params[:document_type] = subscriber_list.document_type
+    if subscriber_list['document_type'].present?
+      subscription_params[:document_type] = subscriber_list['document_type']
     end
 
-    if subscriber_list.tags.present?
-      subscription_params[:tags] = subscriber_list.tags.to_h
+    if subscriber_list['tags'].present?
+      subscription_params[:tags] = subscriber_list['tags'].to_h
     end
 
-    if subscriber_list.links.present?
-      subscription_params[:links] = subscriber_list.links.to_h
+    if subscriber_list['links'].present?
+      subscription_params[:links] = subscriber_list['links'].to_h
     end
 
     subscription_params.deep_stringify_keys
-  end
-
-  def openstruct_to_hash(openstruct)
-    openstruct.marshal_dump
   end
 end
