@@ -3,19 +3,18 @@
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
 <div class="govuk-title length-long">
-  <h1>Get email alerts</h1>
+  <h1>What do you want to get alerts about?</h1>
 </div>
 
-  <p class='taxonomy-signup-prompt'>What do you want to subscribe to?</p>
-
-  <div class='taxonomy-signup-taxon'>
+  <div class='email-signup-taxon'>
+  <p class="email-option">Everything published to GOV.UK about:</p>
     <%= render partial: 'taxon', locals: { taxon: @taxon, is_parent: true } %>
   </div>
 
-  <p class='taxonomy-signup-prompt'>or only</p>
+  <p class='email-option description-block'>or one of the following</p>
 
-  <% @taxon.dig('links', 'child_taxons').each_with_index do |taxon, index| %>
-    <div class='taxonomy-signup-taxon'>
-      <%= render partial: 'taxon', locals: { taxon: taxon } %>
+  <% @taxon.dig('links', 'child_taxons').each_with_index do |taxon, taxon_index| %>
+    <div class='email-signup-taxon'>
+      <%= render partial: 'taxon', locals: { taxon: taxon, taxon_index: taxon_index + 1 } %>
     </div>
   <% end %>

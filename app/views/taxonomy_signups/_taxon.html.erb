@@ -1,18 +1,20 @@
 <% is_parent ||= false %>
 
-<div class=multiple-choice>
+<div class='multiple-choice'>
   <input type='radio' name='taxon-list' id='<%= taxon['title'] %>' value='<%= taxon['base_path'] %>' <%= 'checked' if is_parent %>>
   <label for="<%= taxon['title'] %>">
     <%= taxon['title'] %>
   </label>
 </div>
 
-<% if is_parent %>
-  <p> including alerts about all the topics below </p>
-<% else %>
-  <p> this will include alerts about <%= taxon['description'] %> </p>
-<% end %>
+<div class='description-block'>
+  <% if is_parent %>
+    <p> This will include alerts about all the topics below </p>
+  <% else %>
+    <p> This will include: <%= taxon['description'] %> </p>
+  <% end %>
 
-<a class='taxonomy-signup-button' href="<%= confirm_taxonomy_signup_path(paths: [taxon['base_path']]) %>">
-  Continue
-</a>
+  <a class='button' role='button' href="<%= confirm_taxonomy_signup_path(paths: [taxon['base_path']]) %>">
+    Continue
+  </a>
+</div>

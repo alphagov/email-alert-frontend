@@ -2,23 +2,28 @@
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
-<div class='taxonomy-signup'>
-  <h1>Get email alerts</h1>
+<div class='email-signup'>
+<div class="govuk-title length-long">
+  <h1>What you'll get</h1>
+</div>
 
   <p>
-    You'll get alerts when the government publishes or updates anything on
-    GOV.UK about Further and higher education, skills and vocational training.
+    You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @taxon['title'] %>.
+  </p>
+
+  <p>
+    This might be from [number] updates a week.
   </p>
 
   <p>
     You can choose to receive email alerts:
   </p>
 
-  <ul>
+  <ol class="list list-bullet">
     <li>instantly (default)</li>
-    <li>daily</li>
-    <li>weekly</li>
-  </ul>
+    <li>once a day, with all updates made that day</li>
+    <li>once a week, with all updates made that week</li>
+  </ol>
 
   <p>
     You can set your preferences once you've signed up.
