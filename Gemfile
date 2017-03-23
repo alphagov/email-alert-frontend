@@ -15,6 +15,7 @@ gem 'airbrake', '~> 4.1.0'
 gem 'decent_exposure', '~> 2.3.2'
 
 gem 'gds-api-adapters', '~> 40.1'
+gem 'govuk_navigation_helpers', '~> 4.0'
 
 group :development, :test do
   gem 'pry-byebug'

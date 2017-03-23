@@ -1,0 +1,23 @@
+.taxonomy-signup {
+  h1 {
+    @include bold-36;
+    margin: 1.25em 0;
+  }
+
+  .taxonomy-signup-prompt {
+    @include core-24;
+    margin-bottom: 1.25em;
+  }
+
+  .taxonomy-signup-button {
+    @include button;
+    font-size: 20px;
+  }
+
+  .taxonomy-signup-taxon {
+    margin-bottom: 1.5em;
+    h3 {
+      display: inline-block;
+    }
+  }
+}

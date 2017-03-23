@@ -1,0 +1,38 @@
+<% content_for :title, @taxon['title'] %>
+
+<%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+<div class='taxonomy-signup'>
+  <h1>Get email alerts</h1>
+
+  <p>
+    You'll get alerts when the government publishes or updates anything on
+    GOV.UK about Further and higher education, skills and vocational training.
+  </p>
+
+  <p>
+    You can choose to receive email alerts:
+  </p>
+
+  <ul>
+    <li>instantly (default)</li>
+    <li>daily</li>
+    <li>weekly</li>
+  </ul>
+
+  <p>
+    You can set your preferences once you've signed up.
+  </p>
+
+  <div class="panel panel-border-narrow">
+    <p>
+      The preferences you set will apply to all of your email alerts from GOV.UK.
+    </p>
+
+    <%= form_tag(:action => :create) do %>
+      <%= hidden_field_tag 'taxon_path', @taxon['base_path'] %>
+      <%= submit_tag('Sign up now', class: 'button') %>
+    <% end %>
+  </div>
+</div>
+

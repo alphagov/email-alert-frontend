@@ -1,0 +1,21 @@
+<% content_for :title, @taxon['title'] %>
+
+<%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+<div class='taxonomy-signup'>
+  <h1>Get email alerts</h1>
+
+  <p class='taxonomy-signup-prompt'>What do you want to subscribe to?</p>
+
+  <div class='taxonomy-signup-taxon'>
+    <%= render partial: 'taxon', locals: { taxon: @taxon, is_parent: true } %>
+  </div>
+
+  <p class='taxonomy-signup-prompt'>or only</p>
+
+  <% @taxon.dig('links', 'child_taxons').each_with_index do |taxon, index| %>
+    <div class='taxonomy-signup-taxon'>
+      <%= render partial: 'taxon', locals: { taxon: taxon } %>
+    </div>
+  <% end %>
+</div>
