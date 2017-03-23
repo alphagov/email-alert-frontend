@@ -2,8 +2,9 @@
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
-<div class='taxonomy-signup'>
+<div class="govuk-title length-long">
   <h1>Get email alerts</h1>
+</div>
 
   <p class='taxonomy-signup-prompt'>What do you want to subscribe to?</p>
 
@@ -18,4 +19,3 @@
       <%= render partial: 'taxon', locals: { taxon: taxon } %>
     </div>
   <% end %>
-</div>
