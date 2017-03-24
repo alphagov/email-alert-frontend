@@ -23,7 +23,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec-rails', '~> 3.2.1'
+  gem 'rspec-rails', '~> 3.2'
   gem 'cucumber-rails', '~> 1.4.2', require: false
   gem 'launchy'
   gem 'webmock', '~> 1.20.4'
