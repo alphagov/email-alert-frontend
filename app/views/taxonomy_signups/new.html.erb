@@ -1,20 +1,40 @@
 <% content_for :title, @taxon['title'] %>
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+<div class='column-two-thirds'>
 
-<div class="govuk-title length-long">
-  <h1>What do you want to get alerts about?</h1>
-</div>
-
-  <div class='email-signup-taxon'>
-  <p class="email-option">Everything published to GOV.UK about:</p>
-    <%= render partial: 'taxon', locals: { taxon: @taxon, is_parent: true } %>
+<% if @taxon.dig('links', 'child_taxons').present?%>
+  <div class="govuk-title length-long">
+   <h1>What do you want to get alerts about?</h1>
   </div>
 
-  <p class='email-option description-block'>or one of the following</p>
+  <%= form_tag({action: "confirm"}, method: "get") do %>
+    <fieldset>
+      <legend id="alerts" class="visually-hidden">What do you want to get alerts about?</legend>
+      <div class='email-signup-taxons' role='radiogroup' aria-labelledby='alerts'>
+        <p class="email-option">Everything published to GOV.UK about:</p>
 
-  <% @taxon.dig('links', 'child_taxons').each_with_index do |taxon, taxon_index| %>
-    <div class='email-signup-taxon'>
-      <%= render partial: 'taxon', locals: { taxon: taxon, taxon_index: taxon_index + 1 } %>
-    </div>
+        <%= render partial: 'taxon', locals: { taxon: @taxon, is_parent: true } %>
+
+        <p class='email-option form-block'>or only one of the following</p>
+
+        <% @taxon.dig('links', 'child_taxons').each_with_index do |taxon, taxon_index| %>
+          <%= render partial: 'taxon', locals: { taxon: taxon, taxon_index: taxon_index + 1 } %>
+        <% end %>
+      </div>
+
+      <input class="button no-js-hidden-submit" type="submit" value="Continue">
+    </fieldset>
   <% end %>
+
+<% else %>
+  <div class="govuk-title length-long">
+    <h1>Get email alerts</h1>
+  </div>
+  <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
+  <p>This will include: <%= @taxon['description']%></p>
+  <a class='button' role='button' href="<%= confirm_taxonomy_signup_path('taxon-list': @taxon['base_path']) %>">
+    Continue
+  </a>
+<% end %>
+</div>

@@ -2,7 +2,7 @@
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
-<div class='email-signup'>
+<div class='email-signup column-two-thirds'>
 <div class="govuk-title length-long">
   <h1>What you'll get</h1>
 </div>
@@ -29,15 +29,13 @@
     You can set your preferences once you've signed up.
   </p>
 
-  <div class="panel panel-border-narrow">
-    <p>
-      The preferences you set will apply to all of your email alerts from GOV.UK.
-    </p>
+  <p class="panel panel-border-narrow">
+    The preferences you set will apply to all of your email alerts from GOV.UK.
+  </p>
 
-    <%= form_tag(:action => :create) do %>
-      <%= hidden_field_tag 'taxon_path', @taxon['base_path'] %>
-      <%= submit_tag('Sign up now', class: 'button') %>
-    <% end %>
-  </div>
+  <%= form_tag(:action => :create) do %>
+    <%= hidden_field_tag 'taxon_path', @taxon['base_path'] %>
+    <%= submit_tag('Sign up now', class: 'button') %>
+  <% end %>
 </div>
 

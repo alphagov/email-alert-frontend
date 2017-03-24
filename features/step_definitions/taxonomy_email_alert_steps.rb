@@ -41,15 +41,14 @@ When(/^i visit its signup page$/) do
 end
 
 Then(/^i can subscribe to the taxon or one of its children$/) do
-  taxon_path = @taxon[:base_path]
-  child_taxon_path = @taxon.dig(:links, :child_taxons).first[:base_path]
-
-  expect(page).to have_link(href: confirm_taxonomy_signup_path(paths: [taxon_path]))
-  expect(page).to have_link(href: confirm_taxonomy_signup_path(paths: [child_taxon_path]))
+  expect(page).to have_content(@taxon[:title])
+  expect(page).to have_content(@taxon.dig(:links, :child_taxons).first[:title])
 end
 
 When(/^i choose to subscribe to the taxon$/) do
-  click_link(href: confirm_taxonomy_signup_path(paths: [@taxon[:base_path]]))
+  within('form') do
+    all('input[value="Continue"]').last.click
+  end
 end
 
 Then(/^i see a confirmation page$/) do

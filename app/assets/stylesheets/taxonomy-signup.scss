@@ -1,10 +1,22 @@
 #email-alert-frontend{
 
-  .description-block {
-    float: left;
-    width: 100%;
-    margin-bottom: $gutter;
+  .hidden-submit {
     margin-left: 16px;
+    padding-left: 28px;
+    padding-top: 0;
+  }
+
+  .js-hidden-submit {
+    display: none;
+  }
+
+  .no-js-panel {
+    border-left-style: none;
+    padding-left: 33px;
+  }
+
+  .no-js-hidden-submit{
+    margin-top: $gutter;
   }
 
   .multiple-choice {
@@ -14,6 +26,14 @@
 
   .email-option {
     @include core-24;
+    margin-left: 0;
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
+  }
+
+  .button {
+    clear: both;
+    float: left;
   }
 
 }
