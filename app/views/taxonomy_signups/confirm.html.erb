@@ -34,7 +34,7 @@
   </p>
 
   <%= form_tag(:action => :create) do %>
-    <%= hidden_field_tag 'taxon_path', @taxon['base_path'] %>
+    <%= hidden_field_tag 'topic', @taxon['base_path'] %>
     <%= submit_tag('Sign up now', class: 'button') %>
   <% end %>
 </div>

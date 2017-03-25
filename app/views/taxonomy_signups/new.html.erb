@@ -33,7 +33,7 @@
   </div>
   <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
   <p>This will include: <%= @taxon['description']%></p>
-  <a class='button' role='button' href="<%= confirm_taxonomy_signup_path('taxon-list': @taxon['base_path']) %>">
+  <a class='button' role='button' href="<%= confirm_taxonomy_signup_path(topic: @taxon['base_path']) %>">
     Continue
   </a>
 <% end %>

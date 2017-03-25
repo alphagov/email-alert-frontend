@@ -1,35 +1,43 @@
 class TaxonomySignupsController < ApplicationController
   def new
-    redirect_to '/' and return unless params[:paths].present?
+    redirect_to '/' and return unless valid_query_param?
 
-    taxon_path = params[:paths].first
-    load_taxon(taxon_path)
+    load_taxon
     load_breadcrumbs
   end
 
   def confirm
-    redirect_to '/' and return unless params[:'taxon-list'].present?
+    redirect_to '/' and return unless valid_query_param?
 
-    taxon_path = params[:'taxon-list']
-    load_taxon(taxon_path)
+    load_taxon
     load_breadcrumbs
   end
 
   def create
-    load_taxon(params[:taxon_path])
+    load_taxon
     signup = TaxonomySignup.new(@taxon.to_h)
 
     if signup.save
       redirect_to signup.subscription_management_url
     else
-      redirect_to confirm_taxonomy_signup_path(paths: [params[:taxon_path]])
+      redirect_to confirm_taxonomy_signup_path(topic: taxon_path)
     end
   end
 
 private
 
-  def load_taxon(taxon_path)
-    @taxon = EmailAlertFrontend
+  def valid_query_param?
+    taxon_path.present?
+  end
+
+  def taxon_path
+    # Topic is the user-facing terminology for taxons. Expect the taxon base
+    # path to be provided in a param of this name.
+    params[:topic]
+  end
+
+  def load_taxon
+    @taxon ||= EmailAlertFrontend
       .services(:content_store)
       .content_item(taxon_path)
   end

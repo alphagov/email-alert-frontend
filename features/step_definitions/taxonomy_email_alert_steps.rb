@@ -37,7 +37,7 @@ Given(/^a taxon in the middle of the taxonomy$/) do
 end
 
 When(/^i visit its signup page$/) do
-  visit new_taxonomy_signup_path(paths: [@taxon[:base_path]] )
+  visit new_taxonomy_signup_path(topic: @taxon[:base_path] )
 end
 
 Then(/^i can subscribe to the taxon or one of its children$/) do
@@ -59,7 +59,7 @@ end
 When(/^i confirm$/) do
   @subscription_params = {
     'title' => @taxon[:title],
-    'links' => { 'taxons' => [ @taxon[:content_id] ] },
+    'links' => { 'taxon_tree' => [@taxon[:content_id]] },
   }
 
   @subscriber_list = {

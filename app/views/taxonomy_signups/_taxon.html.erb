@@ -1,9 +1,10 @@
-<% is_parent ||= false%>
+<% is_parent ||= false %>
 <% taxon_index ||= 0 %>
+
 <div class='multiple-choice' data-target='radio<%= taxon_index %>'>
   <input
     type='radio'
-    name='taxon-list'
+    name='topic'
     id='<%= taxon['base_path'] %>'
     value='<%= taxon['base_path'] %>'
     <%= 'checked' if is_parent %>>
