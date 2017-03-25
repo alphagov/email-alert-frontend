@@ -1,12 +1,15 @@
 <% content_for :title, @taxon['title'] %>
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+<div class='grid-row'>
 <div class='column-two-thirds'>
 
 <% if @taxon.dig('links', 'child_taxons').present?%>
-  <div class="govuk-title length-long">
-   <h1>What do you want to get alerts about?</h1>
-  </div>
+  <%= render partial: 'govuk_component/title', locals: {
+    average_title_length: "long",
+    title: "What do you want to get alerts about?"
+  } %>
 
   <%= form_tag({action: "confirm"}, method: "get") do %>
     <fieldset>
@@ -28,13 +31,17 @@
   <% end %>
 
 <% else %>
-  <div class="govuk-title length-long">
-    <h1>Get email alerts</h1>
-  </div>
+  <%= render partial: 'govuk_component/title', locals: {
+    average_title_length: "long",
+    title: "Get email alerts"
+  } %>
+
   <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
   <p>This will include: <%= @taxon['description']%></p>
   <a class='button' role='button' href="<%= confirm_taxonomy_signup_path(topic: @taxon['base_path']) %>">
     Continue
   </a>
 <% end %>
+
+</div>
 </div>

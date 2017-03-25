@@ -2,10 +2,13 @@
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
+<div class='grid-row'>
 <div class='email-signup column-two-thirds'>
-<div class="govuk-title length-long">
-  <h1>What you'll get</h1>
-</div>
+
+  <%= render partial: 'govuk_component/title', locals: {
+    average_title_length: "long",
+    title: "What you'll get"
+  } %>
 
   <p>
     You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @taxon['title'] %>.
@@ -37,5 +40,6 @@
     <%= hidden_field_tag 'topic', @taxon['base_path'] %>
     <%= submit_tag('Sign up now', class: 'button') %>
   <% end %>
-</div>
 
+</div>
+</div>
