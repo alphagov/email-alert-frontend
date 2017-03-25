@@ -24,7 +24,7 @@ RSpec.describe TaxonomySignup do
       expect(signup.save).to be
       expect(mock_email_alert_api)
         .to have_received(:find_or_create_subscriber_list)
-        .with('title' => 'Foo', 'links' => { 'taxons' => ['foo-id'] })
+        .with('title' => 'Foo', 'links' => { 'taxon_tree' => ['foo-id'] })
     end
 
     it 'sets the subscription management url' do

@@ -24,7 +24,9 @@ private
     {
       'title' => taxon['title'],
       'links' => {
-        'taxons' => [taxon['content_id']]
+        # 'taxon_tree' is the key used in email-alert-service for
+        # notifications, so create a subscriber list with this key.
+        'taxon_tree' => [taxon['content_id']]
       }
     }
   end
