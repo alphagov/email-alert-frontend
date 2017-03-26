@@ -28,7 +28,7 @@
         <% end %>
       </div>
 
-      <input class="button no-js-hidden-submit" type="submit" value="Continue">
+      <input class="button no-js-hidden-submit" type="submit" value="Selected">
     </fieldset>
   <% end %>
 
@@ -46,7 +46,7 @@
     <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
     <p>This will include: <%= @taxon['description']%></p>
 
-    <%= link_to 'Continue', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
+    <%= link_to 'Selected', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
   </div>
 
   <br />
