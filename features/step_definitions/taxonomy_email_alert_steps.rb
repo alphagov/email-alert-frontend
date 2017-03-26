@@ -52,7 +52,7 @@ end
 When(/^i choose to subscribe to the taxon$/) do
   choose @taxon[:title]
   within('form') do
-    all('input[value="Selected"]').last.click
+    all('input[value="Select"]').last.click
   end
 end
 
