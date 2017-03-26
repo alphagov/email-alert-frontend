@@ -34,6 +34,10 @@ Given(/^a taxon in the middle of the taxonomy$/) do
   }
 
   content_store_has_item(@taxon[:base_path], @taxon)
+  content_store_has_item(
+    @taxon.dig(:links, :parent_taxons).first[:base_path],
+    @taxon.dig(:links, :parent_taxons).first
+  )
 end
 
 When(/^i visit its signup page$/) do
@@ -53,6 +57,8 @@ end
 
 Then(/^i see a confirmation page$/) do
   expect(page).to have_content("You can set your preferences once you've signed up.")
+  # Based on the position of this taxon in the taxonomy:
+  expect(page).to have_content("This might be from 0-20 updates a week")
   expect(page).to have_button('Sign up now')
 end
 

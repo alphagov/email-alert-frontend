@@ -10,6 +10,7 @@ class TaxonomySignupsController < ApplicationController
     redirect_to '/' and return unless valid_query_param?
 
     load_taxon
+    load_estimated_email_frequency
     load_breadcrumbs
   end
 
@@ -47,5 +48,9 @@ private
       .taxon_breadcrumbs[:breadcrumbs]
     @breadcrumbs.last.merge!(is_current_page: false, url: @taxon['base_path'])
     @breadcrumbs << { title: 'Get email alerts', is_current_page: true }
+  end
+
+  def load_estimated_email_frequency
+    @estimated_email_frequency = WeeklyEmailVolume.new(@taxon).estimate
   end
 end
