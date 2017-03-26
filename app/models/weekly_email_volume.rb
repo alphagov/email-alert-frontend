@@ -1,7 +1,7 @@
 class WeeklyEmailVolume
-  HIGH = '40-60'.freeze
-  MEDIUM = '0-20'.freeze
-  LOW = '0-5'.freeze
+  HIGH = '40 - 60'.freeze
+  MEDIUM = '0 - 20'.freeze
+  LOW = '0 - 5'.freeze
 
   def initialize(taxon)
     @taxon = taxon

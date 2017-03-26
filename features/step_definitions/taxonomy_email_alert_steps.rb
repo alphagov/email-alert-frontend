@@ -59,7 +59,7 @@ end
 Then(/^i see a confirmation page$/) do
   expect(page).to have_content("You can set your preferences once you've signed up.")
   # Based on the position of this taxon in the taxonomy:
-  expect(page).to have_content("This might be from 0-20 updates a week")
+  expect(page).to have_content("This might be between 0 - 20 updates a week")
   expect(page).to have_button('Sign up now')
 end
 
