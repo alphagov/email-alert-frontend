@@ -50,8 +50,9 @@ Then(/^i can subscribe to the taxon or one of its children$/) do
 end
 
 When(/^i choose to subscribe to the taxon$/) do
+  choose @taxon[:title]
   within('form') do
-    all('input[value="Continue"]').last.click
+    all('input[value="Selected"]').last.click
   end
 end
 
