@@ -7,7 +7,6 @@
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'webmock/cucumber'
-require 'slimmer/test'
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
@@ -31,10 +30,4 @@ require 'slimmer/test'
 #
 ActionController::Base.allow_rescue = false
 
-require_relative '../../lib/govuk_content_schema_examples'
-require 'slimmer/test_helpers/govuk_components'
-include Slimmer::TestHelpers::GovukComponents
 
-Before do
-  stub_shared_component_locales
-end

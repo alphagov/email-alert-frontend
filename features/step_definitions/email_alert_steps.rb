@@ -19,21 +19,25 @@ end
 
 When(/^I sign up to the email alerts$/) do
   @subscription_params = {
-    "title" => "Employment policy",
-    "tags" => @tags,
+    'title' => 'Employment policy',
+    'tags' => @tags,
   }
-  allow(EmailAlertFrontend.services(:email_alert_api)).
-    to receive(:find_or_create_subscriber_list).
-    with(@subscription_params).
-    and_return(OpenStruct.new("subscriber_list" => OpenStruct.new("subscription_url" => @base_path)))
+
+  @subscriber_list = {
+    'subscription_url' => '/govdelivery-redirect',
+  }
+
+  allow(@mock_email_alert_api).to receive(:find_or_create_subscriber_list)
+    .with(@subscription_params)
+    .and_return('subscriber_list' => @subscriber_list)
 
   click_on "Create subscription"
 end
 
 Then(/^my subscription should be registered$/) do
-  expect(EmailAlertFrontend.services(:email_alert_api))
-    .to have_received(:find_or_create_subscriber_list)
+  expect(@mock_email_alert_api).to have_received(:find_or_create_subscriber_list)
     .with(@subscription_params)
+  expect(current_path).to eq '/govdelivery-redirect'
 end
 
 Given(/^a government email alert page exists$/) do

@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'webmock/rspec'
+require 'slimmer/rspec'
 require_relative '../lib/govuk_content_schema_examples'
 
 # Requires supporting ruby files with custom matchers and macros, etc,

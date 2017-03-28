@@ -1,0 +1,24 @@
+<% is_parent ||= false %>
+<% taxon_index ||= 0 %>
+
+<div class='multiple-choice' data-target='radio<%= taxon_index %>'>
+  <input
+    type='radio'
+    name='topic'
+    id='<%= taxon['base_path'] %>'
+    value='<%= taxon['base_path'] %>'
+    <%= 'checked' if is_parent %>>
+  <label for="<%= taxon['base_path'] %>">
+    <%= taxon['title'] %>
+  </label>
+</div>
+
+<div id='radio<%= taxon_index %>' class='form-block hidden-submit panel no-js-panel panel-border-narrow js-hidden' aria-hidden="true">
+  <% if is_parent %>
+    <p> This will include alerts about all the topics below </p>
+  <% else %>
+    <p> This will include: <%= taxon['description'] %> </p>
+  <% end %>
+
+  <input class="button js-hidden-submit" type="submit" value="Continue">
+</div>
