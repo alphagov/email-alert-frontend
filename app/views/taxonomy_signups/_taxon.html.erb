@@ -6,8 +6,7 @@
     type='radio'
     name='topic'
     id='<%= taxon['base_path'] %>'
-    value='<%= taxon['base_path'] %>'
-    <%= 'checked' if is_parent %>>
+    value='<%= taxon['base_path'] %>'>
   <label for="<%= taxon['base_path'] %>">
     <%= taxon['title'] %>
   </label>
@@ -20,5 +19,5 @@
     <p> This will include: <%= taxon['description'] %> </p>
   <% end %>
 
-  <input class="button js-hidden-submit" type="submit" value="Continue">
+  <input class="button js-hidden-submit" type="submit" value="Selected">
 </div>

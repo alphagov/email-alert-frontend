@@ -5,7 +5,9 @@
 <div class='grid-row'>
 <div class='column-two-thirds'>
 
-<% if @taxon.dig('links', 'child_taxons').present?%>
+<% child_taxons = @taxon.dig('links', 'child_taxons') %>
+
+<% if child_taxons.present?%>
   <%= render partial: 'govuk_component/title', locals: {
     average_title_length: "long",
     title: "What do you want to get alerts about?"
@@ -19,14 +21,14 @@
 
         <%= render partial: 'taxon', locals: { taxon: @taxon, is_parent: true } %>
 
-        <p class='email-option form-block'>or only one of the following</p>
+        <p class='email-option form-block'>or only one of the following <%= child_taxons.count %> topics</p>
 
-        <% @taxon.dig('links', 'child_taxons').each_with_index do |taxon, taxon_index| %>
+        <% child_taxons.each_with_index do |taxon, taxon_index| %>
           <%= render partial: 'taxon', locals: { taxon: taxon, taxon_index: taxon_index + 1 } %>
         <% end %>
       </div>
 
-      <input class="button no-js-hidden-submit" type="submit" value="Continue">
+      <input class="button no-js-hidden-submit" type="submit" value="Selected">
     </fieldset>
   <% end %>
 
@@ -44,7 +46,7 @@
     <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
     <p>This will include: <%= @taxon['description']%></p>
 
-    <%= link_to 'Continue', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
+    <%= link_to 'Selected', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
   </div>
 
   <br />
