@@ -1,4 +1,6 @@
 class TaxonomySignupsController < ApplicationController
+  protect_from_forgery except: [:create]
+
   def new
     redirect_to '/' and return unless valid_query_param?
 
