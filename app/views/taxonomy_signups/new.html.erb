@@ -32,9 +32,6 @@
     </fieldset>
   <% end %>
 
-  <br />
-  <%= link_to 'Back to select a different topic', @taxon['base_path'] %>
-
 <% else %>
 
   <%= render partial: 'govuk_component/title', locals: {
@@ -49,10 +46,10 @@
     <%= link_to 'Select', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
   </div>
 
-  <br />
-  <%= link_to 'Or go back to GOV.UK to select a different topic', @taxon['base_path'] %>
-
 <% end %>
+
+<br />
+<%= link_to 'Back to select a different topic', @taxon['base_path'] %>
 
 </div>
 </div>
