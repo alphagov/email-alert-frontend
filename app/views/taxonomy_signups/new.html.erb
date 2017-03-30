@@ -17,7 +17,7 @@
     <fieldset>
       <legend id="alerts" class="visually-hidden">What do you want to get alerts about?</legend>
       <div class='email-signup-taxons' role='radiogroup' aria-labelledby='alerts'>
-        <p class="email-option">Everything published to GOV.UK about:</p>
+        <p class="email-option">Everything published to GOV.UK about</p>
 
         <%= render partial: 'taxon', locals: { taxon: @taxon, is_parent: true } %>
 
@@ -28,7 +28,7 @@
         <% end %>
       </div>
 
-      <input class="button no-js-hidden-submit" type="submit" value="Selected">
+      <input class="button no-js-hidden-submit" type="submit" value="Select">
     </fieldset>
   <% end %>
 
@@ -46,7 +46,7 @@
     <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
     <p>This will include: <%= @taxon['description']%></p>
 
-    <%= link_to 'Selected', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
+    <%= link_to 'Select', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
   </div>
 
   <br />
