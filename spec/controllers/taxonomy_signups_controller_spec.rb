@@ -11,6 +11,20 @@ RSpec.describe TaxonomySignupsController do
       expect(response.location).to eq 'http://test.host/'
     end
 
+    it "redirects to root if topic param isn't a valid path" do
+      get :new, topic: '/with unencoded spaces'
+
+      expect(response.status).to eq 302
+      expect(response.location).to eq 'http://test.host/'
+    end
+
+    it "redirects to root if topic param isn't interpreted as a string" do
+      get :new, topic: ['/a']
+
+      expect(response.status).to eq 302
+      expect(response.location).to eq 'http://test.host/'
+    end
+
     it 'errors if no taxon found' do
       content_store_does_not_have_item('/education/some-rando-item')
       make_request(topic: '/education/some-rando-item')

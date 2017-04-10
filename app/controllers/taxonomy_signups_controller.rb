@@ -29,7 +29,9 @@ private
   end
 
   def valid_taxon_param?
-    taxon_path.present?
+    taxon_path.to_s.starts_with?('/') && URI.parse(taxon_path).relative?
+  rescue URI::InvalidURIError
+    false
   end
 
   def taxon_path
