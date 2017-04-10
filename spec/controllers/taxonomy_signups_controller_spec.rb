@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe TaxonomySignupsController do
   include GdsApi::TestHelpers::ContentStore
 
-  describe "GET new" do
-    it 'redirects to root unless valid query param provided' do
-      get :new, bad_param: '/education/some-rando-item'
+  shared_examples 'handles bad input data correctly' do
+    it 'redirects to root if topic param is missing' do
+      make_request(bad_param: '/education/some-rando-item')
 
       expect(response.status).to eq 302
       expect(response.location).to eq 'http://test.host/'
@@ -13,9 +13,33 @@ RSpec.describe TaxonomySignupsController do
 
     it 'errors if no taxon found' do
       content_store_does_not_have_item('/education/some-rando-item')
-      get :new, topic: '/education/some-rando-item'
+      make_request(topic: '/education/some-rando-item')
 
       expect(response.status).to eq 404
     end
+  end
+
+  describe "#new" do
+    def make_request(params)
+      get :new, params
+    end
+
+    it_behaves_like 'handles bad input data correctly'
+  end
+
+  describe "#confirm" do
+    def make_request(params)
+      get :confirm, params
+    end
+
+    it_behaves_like 'handles bad input data correctly'
+  end
+
+  describe "#create" do
+    def make_request(params)
+      post :create, params
+    end
+
+    it_behaves_like 'handles bad input data correctly'
   end
 end

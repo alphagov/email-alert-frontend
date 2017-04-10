@@ -1,23 +1,18 @@
 class TaxonomySignupsController < ApplicationController
   protect_from_forgery except: [:create]
+  before_action :require_taxon_param
+  before_action :load_taxon
 
   def new
-    redirect_to '/' and return unless valid_query_param?
-
-    load_taxon
     load_breadcrumbs
   end
 
   def confirm
-    redirect_to '/' and return unless valid_query_param?
-
-    load_taxon
     load_estimated_email_frequency
     load_breadcrumbs
   end
 
   def create
-    load_taxon
     signup = TaxonomySignup.new(@taxon.to_h)
 
     if signup.save
@@ -29,7 +24,11 @@ class TaxonomySignupsController < ApplicationController
 
 private
 
-  def valid_query_param?
+  def require_taxon_param
+    redirect_to '/' and return unless valid_taxon_param?
+  end
+
+  def valid_taxon_param?
     taxon_path.present?
   end
 
