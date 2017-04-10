@@ -2,6 +2,7 @@ class TaxonomySignupsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :require_taxon_param
   before_action :load_taxon
+  before_action :validate_taxon_document_type
 
   def new
     load_breadcrumbs
@@ -44,6 +45,10 @@ private
     @taxon ||= EmailAlertFrontend
       .services(:content_store)
       .content_item(taxon_path)
+  end
+
+  def validate_taxon_document_type
+    redirect_to '/' and return unless @taxon['document_type'] == 'taxon'
   end
 
   def load_breadcrumbs

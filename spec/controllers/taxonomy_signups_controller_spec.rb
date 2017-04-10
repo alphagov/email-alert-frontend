@@ -31,6 +31,14 @@ RSpec.describe TaxonomySignupsController do
 
       expect(response.status).to eq 404
     end
+
+    it 'redirects to root unless the content item is a taxon' do
+      content_store_has_item('/cma-cases', document_type: 'finder')
+      make_request(topic: '/cma-cases')
+
+      expect(response.status).to eq 302
+      expect(response.location).to eq 'http://test.host/'
+    end
   end
 
   describe "#new" do
