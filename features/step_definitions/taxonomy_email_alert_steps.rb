@@ -4,6 +4,7 @@ Given(/^a taxon in the middle of the taxonomy$/) do
     base_path: '/education/further-education',
     title: 'Further education',
     description: 'Further education content',
+    document_type: 'taxon',
     links: {
       parent_taxons: [
         {
