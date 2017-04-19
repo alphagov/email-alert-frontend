@@ -1,0 +1,48 @@
+<% content_for :title, @taxon['title'] %>
+
+<%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+<div class='grid-row'>
+<div class='email-signup column-two-thirds'>
+
+  <%= render partial: 'govuk_component/title', locals: {
+    average_title_length: "long",
+    title: "What you'll get"
+  } %>
+
+  <p>
+    You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @taxon['title'] %>.
+  </p>
+
+  <p>
+    This might be between <%= @estimated_email_frequency %> updates a week.
+  </p>
+
+  <p>
+    You can choose to receive email alerts:
+  </p>
+
+  <ol class="list list-bullet">
+    <li>instantly (default)</li>
+    <li>once a day, with all updates made that day</li>
+    <li>once a week, with all updates made that week</li>
+  </ol>
+
+  <p>
+    You can set your preferences once you've signed up.
+  </p>
+
+  <p class="panel panel-border-narrow">
+    The preferences you set will apply to all of your email alerts from GOV.UK.
+  </p>
+
+  <%= form_tag(:action => :create) do %>
+    <%= hidden_field_tag 'topic', @taxon['base_path'] %>
+    <%= submit_tag('Sign up now', class: 'button') %>
+  <% end %>
+
+  <br />
+  <%= link_to 'Back', :back %>
+
+</div>
+</div>

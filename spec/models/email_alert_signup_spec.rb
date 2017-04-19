@@ -1,7 +1,7 @@
 require "spec_helper"
 require 'gds_api/test_helpers/email_alert_api'
 
-describe EmailAlertSignup do
+RSpec.describe EmailAlertSignup do
   include GovukContentSchemaExamples
   include GdsApi::TestHelpers::EmailAlertApi
 
@@ -12,14 +12,16 @@ describe EmailAlertSignup do
   let(:travel_index_item) { govuk_content_schema_example('travel_advice_index_email_alert_signup') }
   let(:travel_country_item) { govuk_content_schema_example('travel_advice_country_email_alert_signup') }
 
-  let(:mock_subscriber_list) { double(subscriber_list: double(subscription_url: 'http://foo')) }
+  let(:mock_subscriber_list) do
+    mock_response(subscriber_list: { subscription_url: "http://foo" })
+  end
 
   def mock_response(body)
     GdsApi::Response.new(double("net http response",
       code: 200,
       body: body.to_json,
       headers: {},
-    )).to_ostruct
+    ))
   end
 
   before do

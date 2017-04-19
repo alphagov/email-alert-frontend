@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Slimmer::Template
   include Slimmer::GovukComponents
 
   # Prevent CSRF attacks by raising an exception.

@@ -3,7 +3,6 @@ Feature: Email alert signup
   In order to get up to date notifications about content on GOV.UK
   I want to be able to sign up for email alerts for relevant content
 
-  @mock-email-alert-api
   Scenario: signing up for email alerts for a page
     Given a content item exists for an email alert signup page
     When I access the email signup page
