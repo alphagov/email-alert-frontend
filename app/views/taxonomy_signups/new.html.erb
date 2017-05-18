@@ -1,5 +1,7 @@
 <% content_for :title, @taxon['title'] %>
-
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
 <div class='grid-row'>
