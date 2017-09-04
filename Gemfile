@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.5.2'
-gem 'slimmer', '10.0.0'
+gem 'slimmer', '~> 11.0.0'
 
 gem 'govuk_elements_rails', '~> 3.0.1'
 gem 'govuk_frontend_toolkit', '~> 5.1.2'
@@ -12,11 +12,11 @@ gem 'unicorn'
 gem 'quiet_assets', '~> 1.1.0'
 
 gem 'plek', '~> 1.11.0'
-gem 'airbrake', '~> 4.1.0'
+gem 'govuk_app_config', '~> 0.2.0'
 gem 'decent_exposure', '~> 2.3.2'
 
-gem 'gds-api-adapters', '~> 40.1'
-gem 'govuk_navigation_helpers', '~> 4.0'
+gem 'gds-api-adapters', '~> 47.9'
+gem 'govuk_navigation_helpers', '~> 6.3'
 
 group :development, :test do
   gem 'pry-byebug'
