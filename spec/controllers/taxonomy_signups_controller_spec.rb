@@ -12,14 +12,14 @@ RSpec.describe TaxonomySignupsController do
     end
 
     it "redirects to root if topic param isn't a valid path" do
-      get :new, topic: '/with unencoded spaces'
+      get :new, params: { topic: '/with unencoded spaces' }
 
       expect(response.status).to eq 302
       expect(response.location).to eq 'http://test.host/'
     end
 
     it "redirects to root if topic param isn't interpreted as a string" do
-      get :new, topic: ['/a']
+      get :new, params: { topic: ['/a'] }
 
       expect(response.status).to eq 302
       expect(response.location).to eq 'http://test.host/'
@@ -43,7 +43,7 @@ RSpec.describe TaxonomySignupsController do
 
   describe "#new" do
     def make_request(params)
-      get :new, params
+      get :new, params: params
     end
 
     it_behaves_like 'handles bad input data correctly'
@@ -51,7 +51,7 @@ RSpec.describe TaxonomySignupsController do
 
   describe "#confirm" do
     def make_request(params)
-      get :confirm, params
+      get :confirm, params: params
     end
 
     it_behaves_like 'handles bad input data correctly'
@@ -59,7 +59,7 @@ RSpec.describe TaxonomySignupsController do
 
   describe "#create" do
     def make_request(params)
-      post :create, params
+      post :create, params: params
     end
 
     it_behaves_like 'handles bad input data correctly'
