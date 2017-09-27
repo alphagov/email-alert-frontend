@@ -1,4 +1,4 @@
-//= require show-hide-content.js
+//=require govuk/show-hide-content.js
 ;(function () {
   $('.js-hidden-submit').removeClass('js-hidden-submit')
   $('.no-js-panel').removeClass('no-js-panel')
