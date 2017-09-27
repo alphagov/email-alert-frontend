@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby File.read(".ruby-version").strip
+
 gem 'rails', '5.1.3'
 gem 'slimmer', '~> 11.0'
 
