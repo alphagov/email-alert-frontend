@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'gds_api/test_helpers/content_store'
-include GdsApi::TestHelpers::ContentStore
-include FixturesHelper
 
 describe EmailAlertSubscriptionsController, type: :controller do
   include GovukContentSchemaExamples
+  include GdsApi::TestHelpers::ContentStore
+  include FixturesHelper
 
   describe 'GET #new' do
     describe "finder email signup item doesn't exist" do
