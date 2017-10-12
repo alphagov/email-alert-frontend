@@ -33,6 +33,10 @@ private
     @signup_content_item ||= content_store.content_item(request.path)
   end
 
+  def details
+    signup_content_item[:details] || {}
+  end
+
   def finder_content_item
     @finder_content_item ||= content_store.content_item(finder_base_path)
   end
@@ -42,20 +46,20 @@ private
   end
 
   def finder_format
-    finder.filter.document_type
+    finder_content_item.dig(:filter, :document_type)
   end
 
   def available_choices
-    signup_content_item.details.email_signup_choice
+    details[:email_signup_choice]
   end
 
   def email_alert_signup_api
     EmailAlertSignupAPI.new(
       email_alert_api: email_alert_api,
       attributes: email_signup_attributes,
-      subscription_list_title_prefix: signup_content_item.details.subscription_list_title_prefix,
+      subscription_list_title_prefix: details[:subscription_list_title_prefix],
       available_choices: available_choices,
-      filter_key: signup_content_item.details.email_filter_by,
+      filter_key: details[:email_filter_by],
     )
   end
 
