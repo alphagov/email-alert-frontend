@@ -10,15 +10,15 @@ class SignupPresenter
   end
 
   def name
-    content_item.title
+    content_item[:title]
   end
 
   def body
-    content_item.description
+    content_item[:description]
   end
 
   def beta?
-    content_item.details.beta
+    content_item.dig(:details, :beta)
   end
 
   def choices?
@@ -30,11 +30,11 @@ class SignupPresenter
   end
 
   def choice_name(choice)
-    choice_data.copy[choice]["radio_button_name"]
+    choice_data.clone.dig(choice, :radio_button_name)
   end
 
   def choice_body(choice)
-    choice_data.copy[choice]["body"]
+    choice_data.clone.dig(choice, :body)
   end
 
   def target
@@ -44,6 +44,6 @@ class SignupPresenter
 private
 
   def choice_data
-    content_item.details["email_signup_choice"]
+    content_item.dig(:details, :email_signup_choice)
   end
 end
