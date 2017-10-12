@@ -31,5 +31,5 @@ group :test do
   gem 'launchy'
   gem 'webmock', '~> 3.0'
   gem 'timecop', '~> 0.9.1'
-  gem 'govuk-content-schema-test-helpers', '~> 1.4'
+  gem 'govuk-content-schema-test-helpers', '~> 1.5'
 end

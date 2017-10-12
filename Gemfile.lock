@@ -270,7 +270,7 @@ DEPENDENCIES
   cucumber-rails (~> 1.5)
   decent_exposure (~> 3.0)
   gds-api-adapters (~> 47.9)
-  govuk-content-schema-test-helpers (~> 1.4)
+  govuk-content-schema-test-helpers (~> 1.5)
   govuk_app_config (~> 0.2.0)
   govuk_elements_rails (~> 3.1)
   govuk_frontend_toolkit (~> 7.0)
