@@ -32,6 +32,13 @@ RSpec.describe TaxonomySignupsController do
       expect(response.status).to eq 404
     end
 
+    it 'returns a 410 if taxon is gone' do
+      content_store_has_gone_item('/taxon-is-gone')
+      make_request(topic: '/taxon-is-gone')
+
+      expect(response.status).to eq 410
+    end
+
     it 'redirects to root unless the content item is a taxon' do
       content_store_has_item('/cma-cases', document_type: 'finder')
       make_request(topic: '/cma-cases')
