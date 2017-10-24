@@ -7,10 +7,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from GdsApi::HTTPNotFound, with: :error_not_found
+  rescue_from GdsApi::HTTPGone, with: :gone
 
 private
 
   def error_not_found
     render status: :not_found, plain: "404 error not found"
+  end
+
+  def gone
+    render status: :gone, plain: "410 gone"
   end
 end
