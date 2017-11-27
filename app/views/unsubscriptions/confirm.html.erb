@@ -5,9 +5,11 @@
 <% else %>
   <p>Confirm your unsubscription</p>
 <% end %>
+
 <div class="grid-row">
   <div class="email-signup columnt-two-thirds">
-    <%= form_tag(:action => :confirmed) do %>
+    <%= form_tag(action: :confirmed) do %>
+      <%= hidden_field_tag(:title, @title) %>
       <%= submit_tag('Confirm', class: 'button') %>
     <% end %>
   </div>
