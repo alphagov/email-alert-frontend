@@ -1,0 +1,15 @@
+<% content_for :title, "Confirm unsubscription" %>
+
+<% if @title %>
+  <p>You are unsubscribing from <%= @title %></p>
+<% else %>
+  <p>Confirm your unsubscription</p>
+<% end %>
+<div class="grid-row">
+  <div class="email-signup columnt-two-thirds">
+    <%= form_tag(:action => :confirmed) do %>
+      <%= submit_tag('Confirm', class: 'button') %>
+    <% end %>
+  </div>
+</div>
+
