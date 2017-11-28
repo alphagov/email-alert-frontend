@@ -16,7 +16,7 @@ gem 'plek', '~> 2.0'
 gem 'govuk_app_config', '~> 0.2.0'
 gem 'decent_exposure', '~> 3.0'
 
-gem 'gds-api-adapters', '~> 47.9'
+gem 'gds-api-adapters', '~> 50.1'
 gem 'govuk_navigation_helpers', '~> 6.3'
 
 group :development, :test do

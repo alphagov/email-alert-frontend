@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get '/email-signup/confirm' => 'taxonomy_signups#confirm', as: :confirm_taxonomy_signup
   post '/email-signup' => 'taxonomy_signups#create'
 
+  get '/email/unsubscribe/:uuid' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
+  post '/email/unsubscribe/:uuid' => 'unsubscriptions#confirmed', as: :unsubscribe
+
   if Rails.env.test?
     get '/govdelivery-redirect', to: proc { [200, {}, ['']] }
   end

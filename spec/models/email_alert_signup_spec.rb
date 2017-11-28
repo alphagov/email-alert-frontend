@@ -5,8 +5,7 @@ RSpec.describe EmailAlertSignup do
   include GovukContentSchemaExamples
   include GdsApi::TestHelpers::EmailAlertApi
 
-  let(:base_url)      { "http://some-domain" }
-  let(:api_client)    { GdsApi::EmailAlertApi.new(base_url) }
+  let(:api_client)    { EmailAlertFrontend.services(:email_alert_api) }
 
   let(:policy_item) { govuk_content_schema_example('policy_email_alert_signup') }
   let(:travel_index_item) { govuk_content_schema_example('travel_advice_index_email_alert_signup') }
@@ -22,10 +21,6 @@ RSpec.describe EmailAlertSignup do
       body: body.to_json,
       headers: {},
     ))
-  end
-
-  before do
-    EmailAlertFrontend.register_service(:email_alert_api, api_client)
   end
 
   it "is invalid with no signup page" do
