@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   get '/email/unsubscribe/:uuid' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
   post '/email/unsubscribe/:uuid' => 'unsubscriptions#confirmed', as: :unsubscribe
 
+  scope '/email' do
+    resources :subscriptions, only: %i[create new]
+    get '/subscriptions/complete' => 'subscriptions#show', as: :subscription
+  end
+
   if Rails.env.test?
     get '/govdelivery-redirect', to: proc { [200, {}, ['']] }
   end

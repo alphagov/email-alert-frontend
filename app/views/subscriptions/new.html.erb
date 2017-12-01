@@ -1,0 +1,19 @@
+<% content_for :title, "Email - create subscription"%>
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+<%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+<div class='grid-row'>
+  <div class='column-two-thirds'>
+    <%= render partial: 'govuk_component/title', locals: {
+      average_title_length: "long",
+      title: "Subscribe to email alerts for: #{@subscribable_id}"
+    } %>
+  <%= form_tag "/email/subscriptions",  method: :post do %>
+    <label for="address">Address</label>
+    <input type="text" id="address"/>
+    <button>Subscribe</button>
+  <%- end -%>
+  </div>
+</div>
