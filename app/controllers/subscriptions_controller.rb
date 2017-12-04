@@ -1,6 +1,12 @@
 class SubscriptionsController < ApplicationController
   def new
-    @subscribable_id = params[:subscribable_id]
+    @topic_id = params[:topic_id]
+
+    api_response = api.get_subscribable(reference: @topic_id).to_h
+    subscribable = api_response["subscribable"]
+
+    @title = subscribable["title"]
+    @subscribable_id = subscribable["id"]
   end
 
   def create
@@ -8,4 +14,10 @@ class SubscriptionsController < ApplicationController
   end
 
   def show; end
+
+private
+
+  def api
+    EmailAlertFrontend.services(:email_alert_api)
+  end
 end
