@@ -10,6 +10,10 @@ class SubscriptionsController < ApplicationController
   end
 
   def create
+    api.subscribe(
+      subscribable_id: params[:subscribable_id],
+      address: params[:address]
+    )
     redirect_to subscription_path
   end
 
