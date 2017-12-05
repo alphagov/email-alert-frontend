@@ -1,10 +1,7 @@
 <% content_for :title, "Confirm unsubscription" %>
-<header>
-  <%= render partial: 'govuk_component/title', locals: {
-    title: @title,
-    context: "Confirm your unsubscription"
-  } %>
-</header>
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag "unsubscriptions" %>
+<% end %>
 
 <% if @title %>
   <p>You are unsubscribing from <%= @title %></p>
