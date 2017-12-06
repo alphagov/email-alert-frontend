@@ -14,7 +14,7 @@ class EmailAlertSignup
 
   def save
     if valid?
-      @subscription_url = find_or_create_subscription.dig("subscriber_list" , "subscription_url")
+      @subscription_url = find_or_create_subscription.dig("subscriber_list", "subscription_url")
       true
     else
       false

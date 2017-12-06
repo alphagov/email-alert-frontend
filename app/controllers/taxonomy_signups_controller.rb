@@ -26,7 +26,10 @@ class TaxonomySignupsController < ApplicationController
 private
 
   def require_taxon_param
-    redirect_to '/' and return unless valid_taxon_param?
+    unless valid_taxon_param?
+      redirect_to '/'
+      false
+    end
   end
 
   def valid_taxon_param?
@@ -48,7 +51,10 @@ private
   end
 
   def validate_taxon_document_type
-    redirect_to '/' and return unless @taxon['document_type'] == 'taxon'
+    unless @taxon['document_type'] == 'taxon'
+      redirect_to '/'
+      false
+    end
   end
 
   def load_breadcrumbs

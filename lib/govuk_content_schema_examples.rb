@@ -21,7 +21,7 @@ module GovukContentSchemaExamples
     include GdsApi::TestHelpers::ContentStore
 
     # Returns a hash representing an email_alert_signup content item from govuk-content-schemas
-    def govuk_content_schema_example(name, format='email_alert_signup')
+    def govuk_content_schema_example(name, format = 'email_alert_signup')
       string = GovukContentSchemaTestHelpers::Examples.new.get(format, name)
       JSON.parse(string)
     end

@@ -9,10 +9,8 @@ module EmailAlertFrontend
   end
 
   def self.services(name)
-    @services[name] or raise ServiceNotRegisteredException.new(name)
+    @services.fetch(name)
   end
-
-  class ServiceNotRegisteredException < Exception; end
 end
 
 EmailAlertFrontend.register_service(:email_alert_api, GdsApi::EmailAlertApi.new(Plek.new.find('email-alert-api')))

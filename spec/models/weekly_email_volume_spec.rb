@@ -10,7 +10,7 @@ RSpec.describe WeeklyEmailVolume do
 
     let(:second_taxon) do
       {
-        base_path: '/second', links: { parent_taxons: [ { base_path: '/top' } ] }
+        base_path: '/second', links: { parent_taxons: [{ base_path: '/top' }] }
       }.deep_stringify_keys
     end
 
@@ -21,7 +21,6 @@ RSpec.describe WeeklyEmailVolume do
     end
 
     context 'given a 2nd level taxon' do
-
       before do
         content_store_has_item(top_taxon['base_path'], top_taxon)
       end
@@ -34,7 +33,7 @@ RSpec.describe WeeklyEmailVolume do
     context 'given a 3rd level taxon' do
       let(:third_taxon) do
         {
-          base_path: '/third', links: { parent_taxons: [ { base_path: '/second' } ] }
+          base_path: '/third', links: { parent_taxons: [{ base_path: '/second' }] }
         }.deep_stringify_keys
       end
 

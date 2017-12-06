@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 Given(/^a taxon in the middle of the taxonomy$/) do
   @taxon = {
     content_id: 'taxon-uuid',
@@ -42,7 +43,7 @@ Given(/^a taxon in the middle of the taxonomy$/) do
 end
 
 When(/^i visit its signup page$/) do
-  visit new_taxonomy_signup_path(topic: @taxon[:base_path] )
+  visit new_taxonomy_signup_path(topic: @taxon[:base_path])
 end
 
 Then(/^i can subscribe to the taxon or one of its children$/) do
@@ -89,4 +90,4 @@ end
 Then(/^i am redirected to manage my subscriptions off of govuk$/) do
   expect(current_path).to eq '/govdelivery-redirect'
 end
-
+# rubocop:enable Metrics/BlockLength

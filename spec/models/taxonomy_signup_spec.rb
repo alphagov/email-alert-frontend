@@ -45,7 +45,7 @@ RSpec.describe TaxonomySignup do
     end
 
     context 'when the taxon has an internal_name' do
-      let(:fake_taxon){
+      let(:fake_taxon) {
         {
           'title' => 'Birth, death and marriage abroad',
           'content_id' => 'foo-id',
@@ -69,4 +69,3 @@ RSpec.describe TaxonomySignup do
     end
   end
 end
-
