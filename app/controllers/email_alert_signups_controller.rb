@@ -1,8 +1,7 @@
 class EmailAlertSignupsController < ApplicationController
   protect_from_forgery except: [:create]
 
-  def new
-  end
+  def new; end
 
   def create
     if email_alert_signup.save

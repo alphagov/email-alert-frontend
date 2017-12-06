@@ -20,7 +20,7 @@ class WeeklyEmailVolume
     return MEDIUM if grandparent_taxon.blank?
 
     # Is a 3rd level taxon or below
-    return LOW
+    LOW
   end
 
 private

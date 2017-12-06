@@ -35,4 +35,3 @@ private
     taxon['details'] && taxon['details']['internal_name'] || taxon['title']
   end
 end
-

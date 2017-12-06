@@ -16,11 +16,14 @@ RSpec.describe EmailAlertSignup do
   end
 
   def mock_response(body)
-    GdsApi::Response.new(double("net http response",
-      code: 200,
-      body: body.to_json,
-      headers: {},
-    ))
+    GdsApi::Response.new(
+      double(
+        "net http response",
+        code: 200,
+        body: body.to_json,
+        headers: {},
+      )
+    )
   end
 
   it "is invalid with no signup page" do
@@ -40,11 +43,9 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
-            {
-             "title" => "Afghanistan travel advice",
-             "links" => { "countries" => ["5a292f20-a9b6-46ea-b35f-584f8b3d7392"] },
-             "document_type" => "travel_advice",
-            }
+            "title" => "Afghanistan travel advice",
+            "links" => { "countries" => ["5a292f20-a9b6-46ea-b35f-584f8b3d7392"] },
+            "document_type" => "travel_advice",
           )
           .and_return(mock_subscriber_list)
 
@@ -59,10 +60,8 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
-            {
-             "title" => "Foreign travel advice",
-             "document_type" => "travel_advice",
-            }
+            "title" => "Foreign travel advice",
+            "document_type" => "travel_advice",
           )
           .and_return(mock_subscriber_list)
 
@@ -77,10 +76,8 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
-            {
-             "title" => "Employment policy",
-             "tags" => {"policies"=>["employment"]}
-            }
+            "title" => "Employment policy",
+            "tags" => { "policies" => ["employment"] }
           )
           .and_return(mock_subscriber_list)
 

@@ -23,7 +23,7 @@ RSpec.describe UnsubscriptionsController do
     it "renders a form" do
       get :confirm, params: { uuid: uuid, title: title }
 
-      expect(response.body).to include(%Q(action="/email/unsubscribe/#{uuid}"))
+      expect(response.body).to include(%(action="/email/unsubscribe/#{uuid}"))
     end
 
     it "renders the title on the page" do
@@ -35,7 +35,7 @@ RSpec.describe UnsubscriptionsController do
     it "passes the title through to the 'confirmed' action" do
       get :confirm, params: { uuid: uuid, title: title }
 
-      expect(response.body).to include(%Q(value="#{title}"))
+      expect(response.body).to include(%(value="#{title}"))
     end
 
     context "when no title is provided" do
