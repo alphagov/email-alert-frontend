@@ -1,18 +1,24 @@
 <% content_for :title, "Confirm unsubscription" %>
-<header>
-  <%= render partial: 'govuk_component/title', locals: {
-    title: @title,
-    context: "Confirm your unsubscription"
-  } %>
-</header>
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag "unsubscriptions" %>
+<% end %>
 
-<% if @title %>
-  <p>You are unsubscribing from <%= @title %></p>
-<% else %>
-  <p>Confirm your unsubscription</p>
+<%= render 'govuk_component/title', title: "Confirm your unsubscription" %>
+
+<% lead_paragraph_text = capture do %>
+  <% if @title %>
+    You are unsubscribing from <%= @title %>
+  <% else %>
+    Confirm your unsubscription
+  <% end %>
 <% end %>
 
 <%= form_tag(action: :confirmed) do %>
-  <%= hidden_field_tag(:title, @title) %>
-  <%= button_tag 'Unsubscribe' %>
+  <fieldset>
+    <legend>
+      <%= render "govuk_component/lead_paragraph", text: lead_paragraph_text, margin_bottom: true %>
+    </legend>
+    <%= hidden_field_tag(:title, @title) %>
+    <%= render 'govuk_component/button', text: "Unsubscribe" %>
+  </fieldset>
 <% end %>
