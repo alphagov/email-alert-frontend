@@ -2,19 +2,6 @@ require 'gds_api/publishing_api_v2'
 require 'gds_api/publishing_api/special_route_publisher'
 
 namespace :publishing_api do
-  desc "Force claim the email-signup route"
-  task publish_email_signup_routes_with_override: :environment do
-    logger = Logger.new(STDOUT)
-
-    publishing_api = GdsApi::PublishingApiV2.new(
-      Plek.new.find('publishing-api'),
-      bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
-    )
-
-    endpoint = publishing_api.options[:endpoint_url]
-    publishing_api.put_json("#{endpoint}/paths/email-signup", publishing_app: "email-alert-frontend", override_existing: true)
-  end
-
   desc "Publish email signup page for taxonomy"
   task publish_email_signup_page: :environment do
     logger = Logger.new(STDOUT)
