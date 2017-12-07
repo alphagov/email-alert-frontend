@@ -1,4 +1,6 @@
 class SubscriptionsController < ApplicationController
+  protect_from_forgery except: [:create]
+
   def new
     @topic_id = params[:topic_id]
 
