@@ -61,4 +61,29 @@ namespace :publishing_api do
       rendering_app: "email-alert-frontend"
     )
   end
+
+  desc "Publish /email/subscriptions prefix route"
+  task publish_email_subscriptions_prefix: :environment do
+    logger = Logger.new(STDOUT)
+
+    publishing_api = GdsApi::PublishingApiV2.new(
+      Plek.new.find('publishing-api'),
+      bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
+    )
+
+    special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
+      logger: logger,
+      publishing_api: publishing_api
+    )
+
+    special_route_publisher.publish(
+      content_id: "1773511a-b3c9-4f37-8692-91a718d5b6ae",
+      title: "Email - create subscription",
+      description: "Prefix route to allow users to create email subscriptions",
+      base_path: "/email/subscriptions",
+      type: "prefix",
+      publishing_app: "email-alert-frontend",
+      rendering_app: "email-alert-frontend"
+    )
+  end
 end
