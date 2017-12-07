@@ -11,11 +11,9 @@ Rails.application.routes.draw do
   get '/email/unsubscribe/:uuid' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
   post '/email/unsubscribe/:uuid' => 'unsubscriptions#confirmed', as: :unsubscribe
 
-  if Rails.env != "production" || ENV["GOVUK_APP_DOMAIN"] =~ /integration/
-    scope '/email' do
-      resources :subscriptions, only: %i[create new]
-      get '/subscriptions/complete' => 'subscriptions#show', as: :subscription
-    end
+  scope '/email' do
+    resources :subscriptions, only: %i[create new]
+    get '/subscriptions/complete' => 'subscriptions#show', as: :subscription
   end
 
   if Rails.env.test?
