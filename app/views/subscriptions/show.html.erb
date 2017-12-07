@@ -1,0 +1,14 @@
+<% content_for :title, "Email - subscribed" %>
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+<%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+
+<div class='grid-row'>
+  <div class='column-two-thirds'>
+    <%= render partial: 'govuk_component/title', locals: {
+      average_title_length: "long",
+      title: "Subscription successfully created"
+    } %>
+  </div>
+</div>
