@@ -1,4 +1,5 @@
 class UnsubscriptionsController < ApplicationController
+  protect_from_forgery except: [:confirmed]
   before_action :set_title, :set_uuid
 
   def confirm; end
