@@ -10,13 +10,15 @@
       average_title_length: "long",
       title: "Subscribe to email alerts for: #{@title}"
     } %>
-  <%= form_tag "/email/subscriptions",  method: :post do %>
+
+  <%= flash[:error] %>
+
+  <%= form_tag "/email/subscriptions", method: :post do %>
+    <%= hidden_field_tag :topic_id, @topic_id %>
+
     <label for="address">Address</label>
-    <input type="text" id="address" name="address"/>
-    <input type="hidden" 
-           id="subscribable_id" 
-           name="subscribable_id" 
-           value="<%= @subscribable_id%>"/>
+    <%= text_field_tag :address, @address %>
+
     <button>Subscribe</button>
   <%- end -%>
   </div>
