@@ -49,3 +49,7 @@ The [schema](https://github.com/alphagov/govuk-content-schemas/tree/master/forma
 ```
 
 Your email alert signup page can then be visited at `http://email-alert-frontend.dev.gov.uk/#{base_path}`
+
+## Licence
+
+[MIT License](LICENCE)
