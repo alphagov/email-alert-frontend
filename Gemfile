@@ -4,7 +4,7 @@ ruby File.read(".ruby-version").strip
 
 gem 'decent_exposure', '~> 3.0'
 gem 'gds-api-adapters', '~> 50.5'
-gem 'govuk_app_config', '~> 0.2.0'
+gem 'govuk_app_config', '~> 1.1.0'
 gem 'govuk_elements_rails', '~> 3.1'
 gem 'govuk_frontend_toolkit', '~> 7.0'
 gem 'govuk_navigation_helpers', '~> 6.3'
