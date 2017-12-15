@@ -24,7 +24,7 @@ end
 
 group :test do
   gem 'cucumber-rails', '~> 1.5', require: false
-  gem 'govuk-content-schema-test-helpers', '~> 1.4'
+  gem 'govuk-content-schema-test-helpers', '~> 1.6'
   gem 'launchy'
   gem 'rspec-rails', '~> 3.6'
   gem 'timecop', '~> 0.9.1'
