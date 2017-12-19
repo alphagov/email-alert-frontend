@@ -1,4 +1,4 @@
-<div class="app-c-text-input">
+<div class="app-c-text-input <%= "error" if error.present? %>">
   <label for="<%= name %>"><%= label %></label>
   <input
     type="text"
@@ -7,4 +7,5 @@
     value="<%= value %>"
     placeholder="<%= placeholder %>"
    />
+   <p class="error"><%= error %></p>
 </div>

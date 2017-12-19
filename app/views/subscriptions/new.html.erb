@@ -13,8 +13,6 @@
 
     <p>You'll get an email each time '<%= @title %>' is updated.<p>
 
-    <%= flash[:error] %>
-
     <%= form_tag "/email/subscriptions", method: :post do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
@@ -23,6 +21,7 @@
         name: :address,
         value: @address,
         placeholder: "someone@example.com",
+        error: flash[:error],
       } %>
 
       <button>Subscribe</button>
