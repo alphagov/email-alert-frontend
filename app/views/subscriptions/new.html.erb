@@ -16,8 +16,12 @@
   <%= form_tag "/email/subscriptions", method: :post do %>
     <%= hidden_field_tag :topic_id, @topic_id %>
 
-    <label for="address">Address</label>
-    <%= text_field_tag :address, @address %>
+    <%= render "components/text-input", {
+      label: "What is your email address?",
+      name: :address,
+      value: @address,
+      placeholder: "someone@example.com",
+    } %>
 
     <button>Subscribe</button>
   <%- end -%>

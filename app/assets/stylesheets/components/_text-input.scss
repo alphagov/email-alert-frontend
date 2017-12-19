@@ -1,3 +1,11 @@
 .app-c-text-input {
+  label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
 
+  input {
+    min-width: 16em;
+  }
 }
