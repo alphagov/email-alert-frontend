@@ -1,4 +1,4 @@
-<% content_for :title, "Email - create subscription"%>
+<% content_for :title, "Subscribe to updates" %>
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
 <% end %>
@@ -8,18 +8,23 @@
   <div class='column-two-thirds'>
     <%= render partial: 'govuk_component/title', locals: {
       average_title_length: "long",
-      title: "Subscribe to email alerts for: #{@title}"
+      title: "Subscribe to updates",
     } %>
 
-  <%= flash[:error] %>
+    <p>You'll get an email each time '<%= @title %>' is updated.<p>
 
-  <%= form_tag "/email/subscriptions", method: :post do %>
-    <%= hidden_field_tag :topic_id, @topic_id %>
+    <%= form_tag "/email/subscriptions", method: :post do %>
+      <%= hidden_field_tag :topic_id, @topic_id %>
 
-    <label for="address">Address</label>
-    <%= text_field_tag :address, @address %>
+      <%= render "components/input", {
+        label_text: "What is your email address?",
+        name: :address,
+        value: @address,
+        placeholder: "someone@example.com",
+        error: flash[:error],
+      } %>
 
-    <button>Subscribe</button>
-  <%- end -%>
+      <button>Subscribe</button>
+    <%- end -%>
   </div>
 </div>

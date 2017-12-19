@@ -1,4 +1,4 @@
-<% content_for :title, "Email - subscribed" %>
+<% content_for :title, "Subscribe to updates" %>
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
 <% end %>
@@ -8,7 +8,11 @@
   <div class='column-two-thirds'>
     <%= render partial: 'govuk_component/title', locals: {
       average_title_length: "long",
-      title: "Subscription successfully created"
+      title: "Subscribe to updates",
     } %>
+
+    <p>Subscription created successfully.</p>
+
+    <p>You'll get an email each time '<%= @title %>' is updated.<p>
   </div>
 </div>

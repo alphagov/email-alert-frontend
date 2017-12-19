@@ -1,0 +1,24 @@
+<%
+  id ||= "input#{SecureRandom.hex(4)}"
+  value ||= false
+  error_message ||= false
+  label ||= {}
+%>
+<label
+  class="app-c-label"
+  for="<%= id %>"
+>
+  <%= label[:text] %>
+  <% if error_message %>
+    <%= error_message %>
+  <% end %>
+</label>
+<input
+  class="app-c-input <%= "app-c-input--error" if error_message %>"
+  id="<%= id %>"
+  name="<%= name %>"
+  type="text"
+  <% if value %>
+    value="<%= value %>"
+  <% end %>
+>
