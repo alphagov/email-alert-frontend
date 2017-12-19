@@ -1,0 +1,30 @@
+.app-c-text-input {
+  margin: 2em 0;
+
+  label {
+    display: block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+
+  input {
+    min-width: 16em;
+  }
+
+  .error {
+    display: none;
+    color: #c44;
+    margin-top: 0.5em;
+  }
+}
+
+.app-c-text-input.error {
+  .error {
+    display: block;
+  }
+
+  input {
+    border: 1px solid #c44;
+    padding: 0.2em;
+  }
+}

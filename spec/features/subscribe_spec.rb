@@ -31,7 +31,7 @@ RSpec.describe "subscribing", type: :feature do
       fill_in :address, with: address
       expect(page).to have_content("Test Subscriber List")
       click_button "Subscribe"
-      expect(page).to have_content("Subscription successfully created")
+      expect(page).to have_content("Subscription created successfully.")
     end
   end
 end

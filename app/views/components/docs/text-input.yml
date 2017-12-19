@@ -1,0 +1,12 @@
+name: text-input
+description: Short description of component
+body: |
+  Optional markdown providing further detail about the component
+accessibility_criteria: |
+  Markdown listing what this component must do to be accessible. For example:
+
+  The link must:
+
+  * be keyboard focusable
+examples:
+  default: {}
