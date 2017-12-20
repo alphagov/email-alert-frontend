@@ -16,8 +16,8 @@
     <%= form_tag "/email/subscriptions", method: :post do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
-      <%= render "components/text-input", {
-        label: "What is your email address?",
+      <%= render "components/input", {
+        label_text: "What is your email address?",
         name: :address,
         value: @address,
         placeholder: "someone@example.com",

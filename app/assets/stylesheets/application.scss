@@ -3,7 +3,7 @@
 @import "design-patterns/buttons";
 @import "govuk-elements";
 @import "taxonomy-signup";
-@import "components/_text-input";
+@import "components/*";
 
 #wrapper {
   padding-bottom: $gutter;
