@@ -1,16 +1,14 @@
 class SubscriptionsController < ApplicationController
   protect_from_forgery except: [:create]
 
-  with_options only: %i(new create) do
-    before_action :assign_topic_id
-    before_action :assign_address
-    before_action :assign_subscribable
-    before_action :assign_title
-  end
+  before_action :assign_topic_id
+  before_action :assign_address
+  before_action :assign_subscribable
+  before_action :assign_title
 
   def create
     if @address.present? && subscribe
-      redirect_to subscription_path
+      redirect_to subscription_path(topic_id: @topic_id)
     else
       flash.now[:error] = "Please enter a valid email address."
       render :new
