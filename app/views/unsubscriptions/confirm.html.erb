@@ -1,6 +1,6 @@
 <% content_for :title, "Confirm unsubscription" %>
 <% content_for :head_css do %>
-  <%= stylesheet_link_tag "unsubscriptions" %>
+  <%= stylesheet_link_tag "application-without-elements" %>
 <% end %>
 
 <%= render 'govuk_component/title', title: "Confirm your unsubscription" %>
@@ -16,9 +16,9 @@
 <%= form_tag(action: :confirmed) do %>
   <fieldset>
     <legend>
-      <%= render "govuk_component/lead_paragraph", text: lead_paragraph_text, margin_bottom: true %>
+      <%= render "govuk_component/lead_paragraph", text: lead_paragraph_text %>
     </legend>
     <%= hidden_field_tag(:title, @title) %>
-    <%= render 'govuk_component/button', text: "Unsubscribe" %>
+    <%= render 'govuk_component/button', text: "Unsubscribe", margin_bottom: true %>
   </fieldset>
 <% end %>
