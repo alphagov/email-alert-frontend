@@ -30,8 +30,13 @@ RSpec.describe "subscribing", type: :feature do
       visit "/email/subscriptions/new?topic_id=#{topic_id}"
       fill_in :address, with: address
       expect(page).to have_content("Test Subscriber List")
-      click_button "Subscribe"
-      expect(page).to have_content("Subscription created successfully.")
+
+      # We submit the form with JavaScript because the component doesn't render
+      # in the test environment, it looks like this:
+      #
+      # <test-govuk-component data-template="govuk_component-button">{"text":"Subscribe","margin_bottom":true}</test-govuk-component>
+      page.execute_script("document.querySelector('form').submit()")
+      expect(page).to have_content("Subscription created successfully")
     end
   end
 end

@@ -27,6 +27,8 @@ group :test do
   gem 'cucumber-rails', '~> 1.5', require: false
   gem 'govuk-content-schema-test-helpers', '~> 1.6'
   gem 'launchy'
+  gem 'phantomjs', '~> 2.1'
+  gem 'poltergeist', require: false
   gem 'rspec-rails', '~> 3.6'
   gem 'timecop', '~> 0.9.1'
   gem 'webmock', '~> 3.0'
