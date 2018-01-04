@@ -1,18 +1,24 @@
-<% content_for :title, "Subscribe to updates" %>
+<% content_for :title, "Subscription created successfully" %>
+
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
 <% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag "application-without-elements" %>
+<% end %>
+
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
 <div class='grid-row'>
   <div class='column-two-thirds'>
     <%= render partial: 'govuk_component/title', locals: {
       average_title_length: "long",
-      title: "Subscribe to updates",
+      title: "Subscription created successfully",
     } %>
 
-    <p>Subscription created successfully.</p>
-
-    <p>You'll get an email each time '<%= @title %>' is updated.<p>
+    <%= render "govuk_component/govspeak", {
+      content: "<p>You'll get an email each time '#{@title}' is updated.<p>",
+    } %>
   </div>
 </div>

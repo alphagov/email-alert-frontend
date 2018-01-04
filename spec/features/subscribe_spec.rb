@@ -30,8 +30,9 @@ RSpec.describe "subscribing", type: :feature do
       visit "/email/subscriptions/new?topic_id=#{topic_id}"
       fill_in :address, with: address
       expect(page).to have_content("Test Subscriber List")
-      click_button "Subscribe"
-      expect(page).to have_content("Subscription created successfully.")
+
+      page.execute_script("document.querySelector('form').submit()")
+      expect(page).to have_content("Subscription created successfully")
     end
   end
 end

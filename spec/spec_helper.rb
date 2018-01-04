@@ -7,6 +7,9 @@ require 'webmock/rspec'
 require 'slimmer/rspec'
 require_relative '../lib/govuk_content_schema_examples'
 
+# Allow poltergeist to communicate with phantomjs on localhost.
+WebMock.disable_net_connect!(allow_localhost: true)
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }

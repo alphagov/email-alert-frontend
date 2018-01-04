@@ -1,7 +1,13 @@
 <% content_for :title, "Subscribe to updates" %>
+
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
 <% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag "application-without-elements" %>
+<% end %>
+
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
 <div class='grid-row'>
@@ -11,20 +17,24 @@
       title: "Subscribe to updates",
     } %>
 
-    <p>You'll get an email each time '<%= @title %>' is updated.<p>
+    <%= render "govuk_component/govspeak", {
+      content: "<p>You'll get an email each time '#{@title}' is updated.</p>",
+    } %>
 
     <%= form_tag "/email/subscriptions", method: :post do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
       <%= render "components/input", {
-        label_text: "What is your email address?",
+        label: { text: "What is your email address?" },
         name: :address,
         value: @address,
-        placeholder: "someone@example.com",
         error: flash[:error],
       } %>
 
-      <button>Subscribe</button>
+      <%= render "govuk_component/button", {
+        text: "Subscribe",
+        margin_bottom: true,
+      } %>
     <%- end -%>
   </div>
 </div>

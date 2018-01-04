@@ -1,18 +1,19 @@
 <%
-  id ||= "input#{SecureRandom.hex(4)}"
+  id ||= "input-#{SecureRandom.hex(4)}"
   value ||= false
   error_message ||= false
   label ||= {}
 %>
-<label
-  class="app-c-label"
-  for="<%= id %>"
->
-  <%= label[:text] %>
-  <% if error_message %>
-    <%= error_message %>
-  <% end %>
-</label>
+
+<%= render "components/label", {
+  text: label[:text],
+  html_for: id,
+} %>
+
+<% if error_message %>
+  <%= error_message %>
+<% end %>
+
 <input
   class="app-c-input <%= "app-c-input--error" if error_message %>"
   id="<%= id %>"
