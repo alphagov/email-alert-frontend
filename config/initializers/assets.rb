@@ -17,5 +17,5 @@ Rails.application.config.assets.digest = true
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w(
-  unsubscriptions.css
+  application-without-elements.css
 )
