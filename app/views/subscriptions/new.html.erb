@@ -28,7 +28,7 @@
         label: { text: "What is your email address?" },
         name: :address,
         value: @address,
-        error: flash[:error],
+        error_message: flash[:error],
       } %>
 
       <%= render "govuk_component/button", {
