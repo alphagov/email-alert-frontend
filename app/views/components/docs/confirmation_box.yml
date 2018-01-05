@@ -1,0 +1,12 @@
+name: Confirmation box
+description: Indicates a completed transaction.
+body: |
+  [Follows guidance from service manual](https://www.gov.uk/service-manual/design/confirmation-pages)
+
+  This is based on the [GOV.UK Elements example](https://govuk-elements.herokuapp.com/colour#examples).
+accessibility_criteria: |
+  - ensure the minimum text size is 24px normal weight, or 19px bold. This is to meet colour contrast ratio requirements.
+examples:
+  default:
+    data:
+      heading: "Application complete"
