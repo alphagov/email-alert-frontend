@@ -52,3 +52,10 @@ $app-border-width-error: 4px;
 .app-c-input--error {
   border: $app-border-width-error solid $app-error-colour;
 }
+
+// Replace this with the error message component.
+.app-c-input__label-error {
+  font-weight: bold;
+  color: $app-error-colour;
+  padding-top: 4px;
+}

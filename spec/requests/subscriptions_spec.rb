@@ -61,7 +61,6 @@ RSpec.describe "subscriptions", type: :request do
       let(:address) { nil }
 
       it "shows an error message on the form" do
-        pending "we need to add the confirmation component before this test will work"
         post "/email/subscriptions", params: { topic_id: topic_id, address: address }
 
         expect(response.status).to eq(200)
