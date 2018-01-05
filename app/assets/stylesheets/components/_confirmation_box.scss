@@ -1,0 +1,13 @@
+// This implements the pattern on the service manual page:
+// https://www.gov.uk/service-manual/design/confirmation-pages
+.app-c-confirmation-box {
+  margin: 1em 0;
+  padding: 2em 1em;
+  color: $white;
+  background: $turquoise;
+  text-align: center;
+}
+
+.app-c-confirmation-box__heading {
+  @include bold-36;
+}

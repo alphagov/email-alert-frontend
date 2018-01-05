@@ -12,9 +12,9 @@
 
 <div class='grid-row'>
   <div class='column-two-thirds'>
-    <%= render partial: 'govuk_component/title', locals: {
-      average_title_length: "long",
-      title: "Subscription created successfully",
+    <%= render 'components/confirmation_box', {
+      heading: "Subscription created successfully",
+      subtext: "something",
     } %>
 
     <%= render "govuk_component/govspeak", {
