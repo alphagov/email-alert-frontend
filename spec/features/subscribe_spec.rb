@@ -36,7 +36,7 @@ RSpec.describe "subscribing", type: :feature do
       #
       # <test-govuk-component data-template="govuk_component-button">{"text":"Subscribe","margin_bottom":true}</test-govuk-component>
       page.execute_script("document.querySelector('form').submit()")
-      expect(page).to have_content("Subscription created successfully")
+      expect(page).to have_content("Subscribed successfully")
     end
   end
 end

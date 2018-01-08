@@ -64,7 +64,7 @@ RSpec.describe "subscriptions", type: :request do
         post "/email/subscriptions", params: { topic_id: topic_id, address: address }
 
         expect(response.status).to eq(200)
-        expect(response.body).to include("Please enter a valid email address")
+        expect(response.body).to include("This isn’t a valid email address")
       end
     end
   end
