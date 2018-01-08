@@ -32,7 +32,7 @@ RSpec.describe "subscribing", type: :feature do
       expect(page).to have_content("Test Subscriber List")
 
       page.execute_script("document.querySelector('form').submit()")
-      expect(page).to have_content("Subscription created successfully")
+      expect(page).to have_content("You have subscribed")
     end
   end
 end

@@ -10,7 +10,7 @@ class SubscriptionsController < ApplicationController
     if @address.present? && subscribe
       redirect_to subscription_path(topic_id: @topic_id)
     else
-      flash.now[:error] = "Please enter a valid email address"
+      flash.now[:error] = "This isn’t a valid email address. Check you’ve entered it correctly."
       render :new
     end
   end
