@@ -1,25 +1,43 @@
-<% content_for :title, "Email - create subscription"%>
+<% content_for :title, "Subscribe to updates" %>
+
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
 <% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag "application-without-elements" %>
+<% end %>
+
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
 <div class='grid-row'>
   <div class='column-two-thirds'>
     <%= render partial: 'govuk_component/title', locals: {
       average_title_length: "long",
-      title: "Subscribe to email alerts for: #{@title}"
+      title: "Subscribe to updates",
     } %>
 
-  <%= flash[:error] %>
+    <%= render "govuk_component/govspeak", {
+      content: [
+        "<p>You're subscribing to get email notifications about ‘#{@title}’.</p>",
+        "<p>You'll get an email as soon as something changes.</p>",
+      ].join
+    } %>
 
-  <%= form_tag "/email/subscriptions", method: :post do %>
-    <%= hidden_field_tag :topic_id, @topic_id %>
+    <%= form_tag "/email/subscriptions", method: :post do %>
+      <%= hidden_field_tag :topic_id, @topic_id %>
 
-    <label for="address">Address</label>
-    <%= text_field_tag :address, @address %>
+      <%= render "components/input", {
+        label: { text: "What is your email address?" },
+        name: :address,
+        value: @address,
+        error_message: flash[:error],
+      } %>
 
-    <button>Subscribe</button>
-  <%- end -%>
+      <%= render "govuk_component/button", {
+        text: "Subscribe",
+        margin_bottom: true,
+      } %>
+    <%- end -%>
   </div>
 </div>

@@ -8,6 +8,7 @@ gem 'govuk_app_config', '~> 1.1.0'
 gem 'govuk_elements_rails', '~> 3.1'
 gem 'govuk_frontend_toolkit', '~> 7.0'
 gem 'govuk_navigation_helpers', '~> 8.1'
+gem 'govuk_publishing_components', '~> 3.0'
 gem 'plek', '~> 2.0'
 gem 'rails', '5.1.4'
 gem 'sass-rails', '~> 5.0'
@@ -26,6 +27,8 @@ group :test do
   gem 'cucumber-rails', '~> 1.5', require: false
   gem 'govuk-content-schema-test-helpers', '~> 1.6'
   gem 'launchy'
+  gem 'phantomjs', '~> 2.1'
+  gem 'poltergeist', require: false
   gem 'rspec-rails', '~> 3.6'
   gem 'timecop', '~> 0.9.1'
   gem 'webmock', '~> 3.0'

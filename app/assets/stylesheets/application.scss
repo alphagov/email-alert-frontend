@@ -3,6 +3,7 @@
 @import "design-patterns/buttons";
 @import "govuk-elements";
 @import "taxonomy-signup";
+@import "components/*";
 
 #wrapper {
   padding-bottom: $gutter;
@@ -13,7 +14,6 @@
 
   button {
     @include button;
-    @include bold-24;
     margin: 20px 0;
   }
 }
