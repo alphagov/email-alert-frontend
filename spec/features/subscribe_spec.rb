@@ -38,5 +38,30 @@ RSpec.describe "subscribing", type: :feature do
       page.execute_script("document.querySelector('form').submit()")
       expect(page).to have_content("Subscribed successfully")
     end
+
+    it "lets the user go back" do
+      page.driver.add_header("Referer", "http://example.com", permanent: false)
+
+      visit "/email/subscriptions/new?topic_id=#{topic_id}"
+      expect(back_link_href).to eq("http://example.com/")
+
+      fill_in :address, with: address
+      page.execute_script("document.querySelector('form').submit()")
+      expect(page).to have_content("Subscribed successfully")
+
+      expect(back_link_href).to include(
+        "/email/subscriptions/new?topic_id=GOVUK_123"
+      )
+
+      click_link "Back"
+
+      # The referer points back to the confirmation page, which probably isn't
+      # helpful if they're on the form, so fallback to somewhere sensible.
+      expect(back_link_href).to eq("https://www.gov.uk/")
+    end
+  end
+
+  def back_link_href
+    page.find("a", text: "Back")[:href]
   end
 end
