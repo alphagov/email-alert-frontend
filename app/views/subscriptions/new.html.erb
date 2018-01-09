@@ -10,6 +10,10 @@
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
+<%= render "components/back_link", {
+  href: @back_url,
+} %>
+
 <div class='grid-row'>
   <div class='column-two-thirds'>
     <%= render partial: 'govuk_component/title', locals: {

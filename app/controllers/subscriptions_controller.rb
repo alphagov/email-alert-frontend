@@ -5,6 +5,7 @@ class SubscriptionsController < ApplicationController
   before_action :assign_address
   before_action :assign_subscribable
   before_action :assign_title
+  before_action :assign_back_url
 
   def create
     if @address.present? && subscribe
@@ -31,6 +32,21 @@ private
 
   def assign_title
     @title = @subscribable["title"]
+  end
+
+  def assign_back_url
+    @back_url = url_for(action: :new, topic_id: @topic_id)
+    @back_url = govuk_url if params[:action] == "new"
+  end
+
+  def govuk_url
+    referer = request.referer
+
+    if referer && referer.exclude?("/email/subscriptions")
+      referer
+    else
+      "https://www.gov.uk/"
+    end
   end
 
   def subscribe
