@@ -31,5 +31,5 @@ group :test do
   gem 'poltergeist', require: false
   gem 'rspec-rails', '~> 3.6'
   gem 'timecop', '~> 0.9.1'
-  gem 'webmock', '~> 3.0'
+  gem 'webmock', '~> 3.2'
 end
