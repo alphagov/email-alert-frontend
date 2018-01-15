@@ -10,12 +10,24 @@
 
 <%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
 
-<%= render "components/back_link", {
+<%= render "govuk_publishing_components/components/back_link", {
   href: @back_url,
 } %>
 
 <div class='grid-row'>
   <div class='column-two-thirds'>
+    <% if flash[:error] %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        title: "This isn’t a valid email address",
+        items: [
+          {
+            text: "Check you’ve entered it correctly",
+            href: "#email-address-input",
+          }
+        ]
+      } %>
+    <% end %>
+
     <%= render partial: 'govuk_component/title', locals: {
       average_title_length: "long",
       title: "Subscribe to updates",
@@ -32,6 +44,7 @@
       <%= hidden_field_tag :topic_id, @topic_id %>
 
       <%= render "components/input", {
+        id: "email-address-input",
         label: { text: "What is your email address?" },
         name: :address,
         value: @address,

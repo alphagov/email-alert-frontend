@@ -1,3 +1,4 @@
+//=require govuk_publishing_components/components/error-summary
 //=require govuk/show-hide-content.js
 ;(function () {
   $('.js-hidden-submit').removeClass('js-hidden-submit')
