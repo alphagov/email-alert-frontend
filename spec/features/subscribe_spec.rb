@@ -22,6 +22,7 @@ RSpec.describe "subscribing", type: :feature do
       email_alert_api_creates_a_subscription(
         subscribable_id,
         address,
+        "immediately",
         returned_subscription_id
       )
     end
