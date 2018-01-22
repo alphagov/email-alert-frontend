@@ -48,7 +48,7 @@ RSpec.describe "subscriptions", type: :request do
     before do
       returned_subscription_id = 50
       email_alert_api_creates_a_subscription(
-        subscribable_id, address, returned_subscription_id
+        subscribable_id, address, "immediately", returned_subscription_id
       )
     end
 
