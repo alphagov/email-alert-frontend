@@ -10,12 +10,16 @@ Rails.application.routes.draw do
   get '/email-signup/confirm' => 'taxonomy_signups#confirm', as: :confirm_taxonomy_signup
   post '/email-signup' => 'taxonomy_signups#create'
 
-  get '/email/unsubscribe/:uuid' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
-  post '/email/unsubscribe/:uuid' => 'unsubscriptions#confirmed', as: :unsubscribe
-
   scope '/email' do
-    resources :subscriptions, only: %i[create new]
-    get '/subscriptions/complete' => 'subscriptions#show', as: :subscription
+    get '/unsubscribe/:uuid' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
+    post '/unsubscribe/:uuid' => 'unsubscriptions#confirmed', as: :unsubscribe
+
+    scope '/subscriptions' do
+      get '/new' => 'subscriptions#new', as: :new_subscription
+      post '/frequency' => 'subscriptions#frequency', as: :subscription_frequency
+      post '/create' => 'subscriptions#create', as: :create_subscription
+      get '/complete' => 'subscriptions#complete', as: :subscription
+    end
   end
 
   if Rails.env.test?
