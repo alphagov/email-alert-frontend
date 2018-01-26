@@ -8,20 +8,20 @@
   <%= stylesheet_link_tag "application-without-elements" %>
 <% end %>
 
-<%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+<%= render "govuk_component/breadcrumbs", breadcrumbs: @breadcrumbs %>
 
 <%= render "govuk_publishing_components/components/back_link", {
   href: @back_url,
 } %>
 
-<div class='grid-row'>
-  <div class='column-two-thirds'>
-    <%= render 'components/confirmation_box', {
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render "components/confirmation_box", {
       heading: "Subscribed successfully",
     } %>
 
     <%= render "govuk_component/govspeak", {
-      content: "<p>You'll get an email each time there’s an update to ‘#{@title}’.</p>",
+      content: "<p>You’ll get an email each time there’s an update to ‘#{@title}’.</p>",
     } %>
   </div>
 </div>

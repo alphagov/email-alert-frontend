@@ -1,0 +1,61 @@
+<% content_for :title, "How often do you want to get updates?" %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag "application-without-elements" %>
+<% end %>
+
+<%= render "govuk_component/breadcrumbs", breadcrumbs: @breadcrumbs %>
+
+<%= render "govuk_publishing_components/components/back_link", {
+  href: @back_url,
+} %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+
+    <%= render partial: "govuk_component/title", locals: {
+      average_title_length: "long",
+      title: "How often do you want to get updates?",
+    } %>
+
+    <%= form_tag subscription_frequency_path, method: :post do %>
+      <%= hidden_field_tag :topic_id, @topic_id %>
+
+      <div class="form-group">
+        <p><strong>You can get updates about changes:</strong>
+
+        <fieldset>
+          <%= render "govuk_publishing_components/components/radio", {
+            name: "frequency",
+            items: [
+              {
+                value: "immediately",
+                text: "As soon as they happen",
+                checked: true,
+              },
+              {
+                value: "daily",
+                text: "No more than once a day",
+              },
+              {
+                value: "weekly",
+                text: "No more than once a week",
+              }
+            ]
+          } %>
+        </fieldset>
+      </div>
+
+      <div class="form-group">
+        <%= render "govuk_component/button", {
+          text: "Next",
+          margin_bottom: true,
+        } %>
+      </div>
+    <%- end -%>
+  </div>
+</div>
