@@ -1,42 +1,71 @@
 class SubscriptionsController < ApplicationController
-  protect_from_forgery except: [:create]
+  protect_from_forgery except: %i[create frequency]
 
-  before_action :assign_topic_id
-  before_action :assign_address
-  before_action :assign_subscribable
-  before_action :assign_title
+  before_action :assign_attributes
   before_action :assign_back_url
 
-  def create
-    if @address.present? && subscribe
-      redirect_to subscription_path(topic_id: @topic_id)
+  MISSING_EMAIL_ERROR = "Please include your email address".freeze
+  INVALID_EMAIL_ERROR = "This isn’t a valid email address. Check you’ve entered it correctly.".freeze
+
+  def new
+    if @frequency.present?
+      return frequency_form_redirect unless valid_frequency
+      render :new_address
     else
-      flash.now[:error] = "This isn’t a valid email address. Check you’ve entered it correctly."
-      render :new
+      render :new_frequency
     end
   end
 
+  def frequency
+    return frequency_form_redirect unless valid_frequency
+
+    redirect_to new_subscription_path(
+      topic_id: @topic_id,
+      frequency: @frequency,
+    )
+  end
+
+  def create
+    return frequency_form_redirect unless valid_frequency
+
+    if @address.present? && subscribe
+      redirect_to subscription_path(topic_id: @topic_id, frequency: @frequency)
+    else
+      flash.now[:error] = @address.present? ? INVALID_EMAIL_ERROR : MISSING_EMAIL_ERROR
+
+      render :new_address
+    end
+  end
+
+  def complete; end
+
 private
 
-  def assign_topic_id
-    @topic_id = params.fetch(:topic_id)
-  end
-
-  def assign_address
-    @address = params[:address]
-  end
-
-  def assign_subscribable
-    @subscribable = api.get_subscribable(reference: @topic_id).to_h.fetch("subscribable")
-  end
-
-  def assign_title
+  def assign_attributes
+    @topic_id = subscription_params.require(:topic_id)
+    @subscribable = email_alert_api
+      .get_subscribable(reference: @topic_id)
+      .to_h.fetch("subscribable")
+    @frequency = subscription_params[:frequency]
+    @address = subscription_params[:address]
     @title = @subscribable["title"]
   end
 
   def assign_back_url
     @back_url = url_for(action: :new, topic_id: @topic_id)
-    @back_url = govuk_url if params[:action] == "new"
+    @back_url = govuk_url if params[:action] == "new" && !@frequency.present?
+  end
+
+  def subscription_params
+    params.permit(:topic_id, :address, :frequency)
+  end
+
+  def valid_frequency
+    %w[immediately daily weekly].include?(@frequency)
+  end
+
+  def frequency_form_redirect
+    redirect_to new_subscription_path(topic_id: @topic_id)
   end
 
   def govuk_url
@@ -45,17 +74,21 @@ private
     if referer && referer.exclude?("/email/subscriptions")
       referer
     else
-      "https://www.gov.uk/"
+      Plek.new.website_root
     end
   end
 
   def subscribe
-    api.subscribe(subscribable_id: @subscribable["id"], address: @address)
+    email_alert_api.subscribe(
+      subscribable_id: @subscribable["id"],
+      address: @address,
+      frequency: @frequency,
+    )
   rescue GdsApi::HTTPUnprocessableEntity
     false
   end
 
-  def api
+  def email_alert_api
     EmailAlertFrontend.services(:email_alert_api)
   end
 end
