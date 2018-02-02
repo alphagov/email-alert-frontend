@@ -5,6 +5,9 @@
     "GOVUK_APP_DOMAIN": {
       "value": "www.gov.uk"
     },
+    "GOVUK_APP_DOMAIN_EXTERNAL": {
+      "value": "www.gov.uk"
+    },
     "GOVUK_ASSET_ROOT": {
       "value": "https://email-alert-frontend.herokuapp.com"
     },
