@@ -17,4 +17,4 @@ RUN bundle install
 
 ADD . $APP_HOME
 
-CMD bash -c "bundle exec rails s -p $PORT -b '0.0.0.0'"
+CMD bundle exec foreman run web
