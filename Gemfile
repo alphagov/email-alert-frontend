@@ -16,7 +16,7 @@ gem 'govuk_elements_rails', '~> 3.1'
 gem 'govuk_frontend_toolkit', '~> 7.0'
 gem 'govuk_navigation_helpers', '~> 8.2'
 gem 'govuk_publishing_components', '~> 4.1'
-gem 'plek', '~> 2.0'
+gem 'plek', '~> 2.1'
 
 group :development, :test do
   gem 'better_errors'
