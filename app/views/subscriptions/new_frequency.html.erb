@@ -26,9 +26,7 @@
       <%= hidden_field_tag :topic_id, @topic_id %>
 
       <div class="form-group">
-        <p><strong>You can get updates about changes:</strong>
-
-        <fieldset>
+        <%= render "govuk_publishing_components/components/fieldset", legend_text: "You can get updates about changes:" do %>
           <%= render "govuk_publishing_components/components/radio", {
             name: "frequency",
             items: [
@@ -47,7 +45,7 @@
               }
             ]
           } %>
-        </fieldset>
+        <% end %>
       </div>
 
       <div class="form-group">
