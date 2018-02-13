@@ -44,7 +44,7 @@
       <%= hidden_field_tag :topic_id, @topic_id %>
       <%= hidden_field_tag :frequency, @frequency %>
 
-      <%= render "components/input", {
+      <%= render "govuk_publishing_components/components/input", {
         id: "email-address-input",
         label: { text: "What is your email address?" },
         name: :address,
