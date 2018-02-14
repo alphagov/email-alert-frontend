@@ -2,12 +2,7 @@
 @import "design-patterns/buttons";
 
 // Components from govuk_publishing_components:
-@import "govuk_publishing_components/components/back-link";
-@import "govuk_publishing_components/components/error-summary";
-@import "govuk_publishing_components/components/label";
-@import "govuk_publishing_components/components/radio";
-@import "govuk_publishing_components/components/fieldset";
+@import "govuk_publishing_components/all_components";
 
 // Components from this application:
 @import "components/confirmation_box";
-@import "components/input";
