@@ -1,4 +1,4 @@
-<% content_for :title, "Subscribe to updates" %>
+<% content_for :title, "Enter your email address" %>
 
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
@@ -30,13 +30,13 @@
 
     <%= render partial: "govuk_component/title", locals: {
       average_title_length: "long",
-      title: "Subscribe to updates",
+      title: "Enter your email address",
     } %>
 
     <%= render "govuk_component/govspeak", {
       content: [
-        "<p>You’re subscribing to get email notifications about ‘#{@title}’.</p>",
-        "<p>You’ll get an email as soon as something changes.</p>",
+        "<p>You’re subscribing to get email notifications about: <br/>‘<strong>#{@title}</strong>’.</p>",
+        "<p>You’ll get an email every time a page is added or changed.</p>",
       ].join
     } %>
 
@@ -47,7 +47,7 @@
       <%= render "govuk_publishing_components/components/input", {
         error_message: flash[:error],
         id: "email-address-input",
-        label: { text: "What is your email address?" },
+        label: { text: "What's your email address?" },
         name: :address,
         type: "email",
         value: @address,
@@ -58,5 +58,8 @@
         margin_bottom: true,
       } %>
     <%- end -%>
+    <%= render "govuk_component/govspeak", {
+      content: "<p>We won't share your email address with anyone. Read our <a href="https://www.gov.uk/help/privacy-policy" target="_blank">privacy policy (opens in new tab)</a>.</p>"
+    } %>
   </div>
 </div>

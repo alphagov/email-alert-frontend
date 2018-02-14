@@ -1,4 +1,4 @@
-<% content_for :title, "How often do you want to get updates?" %>
+<% content_for :title, "Get emails when pages are added or updated" %>
 
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
@@ -19,33 +19,37 @@
 
     <%= render partial: "govuk_component/title", locals: {
       average_title_length: "long",
-      title: "How often do you want to get updates?",
+      title: "Get emails when pages are added or updated",
     } %>
 
     <%= form_tag subscription_frequency_path, method: :post do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
       <div class="form-group">
-        <%= render "govuk_publishing_components/components/fieldset", legend_text: "You can get updates about changes:" do %>
-          <%= render "govuk_publishing_components/components/radio", {
-            name: "frequency",
-            items: [
-              {
-                value: "immediately",
-                text: "As soon as they happen",
-                checked: true,
-              },
-              {
-                value: "daily",
-                text: "No more than once a day",
-              },
-              {
-                value: "weekly",
-                text: "No more than once a week",
-              }
-            ]
-          } %>
-        <% end %>
+        <%= render "govuk_component/govspeak", {
+          content: "<h2>How often do you want to get updates?</h2>"
+          "<p>You can get updates about changes:</p>"
+        } %>
+          <%= render "govuk_publishing_components/components/fieldset" do %>
+            <%= render "govuk_publishing_components/components/radio", {
+              name: "frequency",
+              items: [
+                {
+                  value: "immediately",
+                  text: "As soon as they happen",
+                  checked: true,
+                },
+                {
+                  value: "daily",
+                  text: "No more than once a day",
+                },
+                {
+                  value: "weekly",
+                  text: "No more than once a week",
+                }
+              ]
+            } %>
+          <% end %>
       </div>
 
       <div class="form-group">
