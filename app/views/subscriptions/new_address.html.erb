@@ -46,7 +46,10 @@
       <p><%= frequency_variations[@frequency] %></p>
     <% end %>
 
-    <%= render "govuk_component/govspeak", content: subscription_info %>
+    <%= render "govuk_component/govspeak", {
+      content: subscription_info,
+      rich_govspeak: true
+    } %>
 
     <%= form_tag create_subscription_path, method: :post do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
