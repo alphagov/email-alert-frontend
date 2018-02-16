@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby File.read(".ruby-version").strip
 
-gem 'rails', '5.1.4'
+gem 'rails', '5.1.5'
 
 gem 'decent_exposure', '~> 3.0'
 gem 'foreman', '~> 0.84.0'
