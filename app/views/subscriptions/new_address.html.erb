@@ -21,7 +21,7 @@
         title: "We weren’t able to process your subscription",
         items: [
           {
-            text: "There is a problem with your email address",
+            text: "There’s a problem with your email address",
             href: "#email-address-input",
           }
         ]
@@ -47,7 +47,7 @@
       <%= render "govuk_publishing_components/components/input", {
         error_message: flash[:error],
         id: "email-address-input",
-        label: { text: "What's your email address?" },
+        label: { text: "What’s your email address?" },
         name: :address,
         type: "email",
         value: @address,
@@ -59,7 +59,7 @@
       } %>
     <%- end -%>
     <%= render "govuk_component/govspeak", {
-      content: '<p>We won't share your email address with anyone. Read our <a href="https://www.gov.uk/help/privacy-policy" target="_blank">privacy policy (opens in new tab)</a>.</p>'
+      content: '<p>We won’t share your email address with anyone. Read our <a href="https://www.gov.uk/help/privacy-policy" target="_blank">privacy policy (opens in new tab)</a>.</p>'
     } %>
   </div>
 </div>
