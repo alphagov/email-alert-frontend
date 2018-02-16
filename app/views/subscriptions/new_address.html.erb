@@ -45,11 +45,12 @@
       <%= hidden_field_tag :frequency, @frequency %>
 
       <%= render "govuk_publishing_components/components/input", {
+        error_message: flash[:error],
         id: "email-address-input",
         label: { text: "What is your email address?" },
         name: :address,
+        type: "email",
         value: @address,
-        error_message: flash[:error],
       } %>
 
       <%= render "govuk_component/button", {
