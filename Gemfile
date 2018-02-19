@@ -18,6 +18,10 @@ gem 'govuk_navigation_helpers', '~> 9.0'
 gem 'govuk_publishing_components', '~> 5.1'
 gem 'plek', '~> 2.1'
 
+# Currently we can't install the latest version of this on GOV.UK
+# infrastructure due to a lack of libffi-dev
+gem 'ffi', '1.9.18'
+
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
