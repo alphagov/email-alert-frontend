@@ -7,7 +7,7 @@ gem 'rails', '5.1.5'
 gem 'decent_exposure', '~> 3.0'
 gem 'foreman', '~> 0.84.0'
 gem 'sass-rails', '~> 5.0'
-gem 'slimmer', '~> 12.0'
+gem 'slimmer', '~> 11.0'
 gem 'uglifier', '~> 4.1'
 
 gem 'gds-api-adapters', '~> 51.1'
