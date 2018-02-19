@@ -17,11 +17,17 @@
 <div class="grid-row">
   <div class="column-two-thirds">
     <%= render "components/confirmation_box", {
-      heading: "Subscribed successfully",
+      heading: "You’ve subscribed successfully",
+    } %>
+
+    <% frequency_variations = {
+      "immediately" => "You’ll get an email each time there’s an update to ‘#{@title}’",
+      "daily" => "You’ll get an email each day there’s been an update to ‘#{@title}’.",
+      "weekly" => "You’ll get one email per week if there’s been an update to ‘#{@title}’.",
     } %>
 
     <%= render "govuk_component/govspeak", {
-      content: "<p>You’ll get an email each time there’s an update to ‘#{@title}’.</p>",
+      content: "<p>#{frequency_variations[@frequency]}</p>"
     } %>
   </div>
 </div>

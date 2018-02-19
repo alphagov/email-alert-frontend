@@ -35,11 +35,11 @@ RSpec.describe "subscribing", type: :feature do
       choose "frequency", option: frequency, visible: false
       submit_form
 
-      expect(page).to have_content("What is your email address?")
+      expect(page).to have_content("What’s your email address?")
       fill_in :address, with: address
       submit_form
 
-      expect(page).to have_content("Subscribed successfully")
+      expect(page).to have_content("You’ve subscribed successfully")
       expect(page).to have_content("Test Subscriber List")
     end
   end

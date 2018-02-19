@@ -4,8 +4,8 @@ class SubscriptionsController < ApplicationController
   before_action :assign_attributes
   before_action :assign_back_url
 
-  MISSING_EMAIL_ERROR = "Please include your email address".freeze
-  INVALID_EMAIL_ERROR = "This isn’t a valid email address. Check you’ve entered it correctly.".freeze
+  MISSING_EMAIL_ERROR = "Please enter your email address.".freeze
+  INVALID_EMAIL_ERROR = "This doesn’t look like a valid email address – check you’ve entered it correctly.".freeze
 
   def new
     if @frequency.present?
