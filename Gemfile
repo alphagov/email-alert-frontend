@@ -20,7 +20,7 @@ gem 'plek', '~> 2.1'
 
 # Currently we can't install the latest version of this on GOV.UK
 # infrastructure due to a lack of libffi-dev
-gem 'ffi', '1.9.18'
+gem 'ffi', '1.9.21'
 
 group :development, :test do
   gem 'better_errors'
