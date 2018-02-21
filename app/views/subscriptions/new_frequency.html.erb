@@ -29,27 +29,35 @@
           <h2>How often do you want to get updates?</h2>
           <p>You can get updates about changes:</p>
         <% end %>
-        <%= render "govuk_component/govspeak", {
-          content: intro
-        } %>
-        <%= render "govuk_publishing_components/components/radio", {
-          name: "frequency",
-          items: [
-            {
-              value: "immediately",
-              text: "As soon as they happen",
-              checked: true,
-            },
-            {
-              value: "daily",
-              text: "No more than once a day",
-            },
-            {
-              value: "weekly",
-              text: "No more than once a week",
-            }
-          ]
-        } %>
+        <% radio = capture do %>
+          <%= render "govuk_publishing_components/components/radio", {
+            name: "frequency",
+            items: [
+              {
+                value: "immediately",
+                text: "As soon as they happen",
+                checked: true,
+              },
+              {
+                value: "daily",
+                text: "No more than once a day",
+              },
+              {
+                value: "weekly",
+                text: "No more than once a week",
+              }
+            ]
+          } %>
+        <% end %>
+
+        <%# Note govspeak component is not used as it won't render a form and
+            is thus not easy to test %>
+        <div class="govuk-govspeak">
+          <%= render "govuk_publishing_components/components/fieldset", {
+            legend_text: intro,
+            text: radio,
+          } %>
+        </div>
       </div>
 
       <div class="form-group">
