@@ -5,15 +5,24 @@
 @import "taxonomy-signup";
 @import "components/*";
 
+// Components from govuk_publishing_components:
+@import "govuk_publishing_components/all_components";
+
 #wrapper {
-  padding-bottom: $gutter;
-
-  @include media(desktop) {
-    padding-bottom: $gutter * 2;
-  }
-
   button {
     @include button;
     margin: 20px 0;
   }
+}
+
+// Reset govuk-elements' #content to make sure the feedback component
+// touches the footer.
+#content {
+  padding-bottom: 0;
+}
+
+// Move the margin that used to be on #content to a wrapper to provide some
+// space between the button and feedback component.
+#email-alert-frontend {
+  margin-bottom: 90px;
 }
