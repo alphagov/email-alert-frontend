@@ -6,3 +6,10 @@
 
 // Components from this application:
 @import "components/confirmation_box";
+
+.app-legend-title {
+  margin: 0 0 $gem-spacing-scale-4;
+  @include media(tablet) {
+    margin-bottom: $gem-spacing-scale-5;
+  }
+}
