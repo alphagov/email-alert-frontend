@@ -72,7 +72,12 @@ private
     referer = request.referer
 
     if referer && referer.exclude?("/email/subscriptions")
-      referer
+      referer_uri = URI(referer)
+      sanitised_referer_uri = Plek.new.website_uri
+      sanitised_referer_uri.path = referer_uri.path
+      sanitised_referer_uri.query = referer_uri.query
+      sanitised_referer_uri.fragment = referer_uri.fragment
+      sanitised_referer_uri.to_s
     else
       Plek.new.website_root
     end
