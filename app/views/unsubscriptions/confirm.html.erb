@@ -1,24 +1,21 @@
 <% content_for :title, "Confirm unsubscription" %>
 <% content_for :head_css do %>
-  <%= stylesheet_link_tag "application-without-elements" %>
+ <%= stylesheet_link_tag "application-without-elements" %>
 <% end %>
-
-<%= render 'govuk_component/title', title: "Confirm your unsubscription" %>
-
+<%= render 'govuk_component/title', title: "Are you sure you want to unsubscribe?" %>
 <% lead_paragraph_text = capture do %>
-  <% if @title %>
-    You are unsubscribing from <%= @title %>
-  <% else %>
-    Confirm your unsubscription
-  <% end %>
+ <% if @title %>
+You won't get any more updates about <%= @title %>.
+ <% else %>
+You won't get any more updates about this topic.
+ <% end %>
 <% end %>
-
 <%= form_tag(action: :confirmed) do %>
-  <fieldset>
-    <legend>
-      <%= render "govuk_component/lead_paragraph", text: lead_paragraph_text %>
-    </legend>
-    <%= hidden_field_tag(:title, @title) %>
-    <%= render 'govuk_component/button', text: "Unsubscribe", margin_bottom: true %>
-  </fieldset>
+ <fieldset>
+   <legend>
+     <%= render "govuk_component/lead_paragraph", text: lead_paragraph_text %>
+   </legend>
+   <%= hidden_field_tag(:title, @title) %>
+   <%= render 'govuk_component/button', text: "Unsubscribe", margin_bottom: true %>
+ </fieldset>
 <% end %>
