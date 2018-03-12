@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  mount GovukPublishingComponents::Engine, at: "/component-guide" if defined?(GovukPublishingComponents)
+  mount GovukPublishingComponents::Engine, at: "/component-guide"
 
   get '/*base_path' => 'email_alert_signups#new', as: :email_alert_signup, constraints: { base_path: %r|.*/email-signup| }
   post '/*base_path' => 'email_alert_signups#create', as: :email_alert_signups, constraints: { base_path: %r|.*/email-signup| }
