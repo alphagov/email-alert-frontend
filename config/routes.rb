@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   post '/email-signup' => 'taxonomy_signups#create'
 
   scope '/email' do
-    get '/unsubscribe/:uuid' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
-    post '/unsubscribe/:uuid' => 'unsubscriptions#confirmed', as: :unsubscribe
+    get '/unsubscribe/:id' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
+    post '/unsubscribe/:id' => 'unsubscriptions#confirmed', as: :unsubscribe
 
     scope '/manage' do
       get '/' => 'subscriptions_management#index', as: :list_subscriptions
