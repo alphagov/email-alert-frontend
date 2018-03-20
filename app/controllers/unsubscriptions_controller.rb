@@ -1,5 +1,5 @@
 class UnsubscriptionsController < ApplicationController
-  before_action :set_title, :set_id, :set_back_url, :set_from
+  before_action :set_id, :set_title, :set_back_url, :set_from
 
   def confirm; end
 
