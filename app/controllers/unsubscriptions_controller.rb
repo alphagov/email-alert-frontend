@@ -13,7 +13,7 @@ class UnsubscriptionsController < ApplicationController
 private
 
   def set_title
-    @title = params[:title].presence
+    @title = api.get_subscription(@id).dig("subscription", "subscriber_list", "title").presence
   end
 
   def set_id
