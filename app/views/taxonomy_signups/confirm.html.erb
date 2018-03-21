@@ -1,6 +1,8 @@
 <% content_for :title, @taxon['title'] %>
 
-<%= render 'govuk_component/breadcrumbs', breadcrumbs: @breadcrumbs %>
+<%= render "govuk_publishing_components/components/back_link", {
+  href: @taxon['base_path']
+} %>
 
 <div class='grid-row'>
 <div class='email-signup column-two-thirds'>

@@ -4,13 +4,10 @@ class TaxonomySignupsController < ApplicationController
   before_action :load_taxon
   before_action :validate_taxon_document_type
 
-  def new
-    load_breadcrumbs
-  end
+  def new; end
 
   def confirm
     load_estimated_email_frequency
-    load_breadcrumbs
   end
 
   def create
@@ -55,13 +52,6 @@ private
       redirect_to '/'
       false
     end
-  end
-
-  def load_breadcrumbs
-    @breadcrumbs = GovukNavigationHelpers::NavigationHelper.new(@taxon)
-      .taxon_breadcrumbs[:breadcrumbs]
-    @breadcrumbs.last.merge!(is_current_page: false, url: @taxon['base_path'])
-    @breadcrumbs << { title: 'Get email alerts', is_current_page: true }
   end
 
   def load_estimated_email_frequency
