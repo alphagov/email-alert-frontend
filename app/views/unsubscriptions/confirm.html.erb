@@ -5,9 +5,9 @@
 <%= render 'govuk_component/title', title: "Are you sure you want to unsubscribe?" %>
 <% lead_paragraph_text = capture do %>
  <% if @title %>
-You won't get any more updates about <%= @title %>.
+You won’t get any more updates about <%= @title %>.
  <% else %>
-You won't get any more updates about this topic.
+You won’t get any more updates about this topic.
  <% end %>
 <% end %>
 <%= form_tag(action: :confirmed) do %>
