@@ -1,5 +1,5 @@
 class UnsubscriptionsController < ApplicationController
-  protect_from_forgery except: [:confirmed]
+  before_action :set_cache_control_header
   before_action :set_title, :set_uuid
 
   def confirm; end
@@ -12,6 +12,10 @@ class UnsubscriptionsController < ApplicationController
   end
 
 private
+
+  def set_cache_control_header
+    headers["Cache-Control"] = "private"
+  end
 
   def set_title
     @title = params[:title].presence

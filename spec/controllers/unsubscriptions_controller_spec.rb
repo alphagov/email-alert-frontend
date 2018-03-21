@@ -20,6 +20,12 @@ RSpec.describe UnsubscriptionsController do
       expect(response.status).to eq(200)
     end
 
+    it "sets the Cache-Control header to 'private'" do
+      get :confirm, params: { uuid: uuid, title: title }
+
+      expect(response.headers["Cache-Control"]).to eq("private")
+    end
+
     it "renders a form" do
       get :confirm, params: { uuid: uuid, title: title }
 
@@ -60,6 +66,12 @@ RSpec.describe UnsubscriptionsController do
       post :confirmed, params: { uuid: uuid, title: title }
 
       expect(response.status).to eq(200)
+    end
+
+    it "sets the Cache-Control header to 'private'" do
+      post :confirmed, params: { uuid: uuid, title: title }
+
+      expect(response.headers["Cache-Control"]).to eq("private")
     end
 
     it "renders a confirmation page" do

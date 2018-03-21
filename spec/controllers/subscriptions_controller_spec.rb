@@ -47,6 +47,11 @@ RSpec.describe SubscriptionsController do
         get :new, params: { topic_id: topic_id }
         expect(response).to have_http_status(:ok)
       end
+
+      it "sets the Cache-Control header to 'private'" do
+        get :new, params: { topic_id: topic_id }
+        expect(response.headers["Cache-Control"]).to eq("private")
+      end
     end
 
     context "when a topic and frequency are provided" do
@@ -90,6 +95,11 @@ RSpec.describe SubscriptionsController do
           topic_id: topic_id, frequency: frequency
         )
         expect(response).to redirect_to(destination)
+      end
+
+      it "sets the Cache-Control header to 'private'" do
+        post :frequency, params: { topic_id: topic_id, frequency: frequency }
+        expect(response.headers["Cache-Control"]).to eq("private")
       end
     end
   end
@@ -154,6 +164,11 @@ RSpec.describe SubscriptionsController do
       it "sends a request to email-alert-api" do
         post :create, params: params
         assert_subscribed(subscribable_id, address, frequency)
+      end
+
+      it "sets the Cache-Control header to 'private'" do
+        post :create, params: params
+        expect(response.headers["Cache-Control"]).to eq("private")
       end
     end
   end
