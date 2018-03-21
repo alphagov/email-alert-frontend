@@ -11,4 +11,4 @@ Feature: Email alert signup
     Then i see a confirmation page
     When i confirm
     Then my subscription is created
-    And i am redirected to manage my subscriptions off of govuk
+    And i am redirected to manage my subscriptions

@@ -15,7 +15,7 @@ RSpec.describe TaxonomySignup do
         .and_return(mock_email_alert_api)
       allow(mock_email_alert_api)
         .to receive(:find_or_create_subscriber_list)
-        .and_return('subscriber_list' => { 'subscription_url' => '/govdelivery' })
+        .and_return('subscriber_list' => { 'subscription_url' => '/something' })
     end
 
     it 'asks email-alert-api to find or create a subscriber list' do
@@ -31,7 +31,7 @@ RSpec.describe TaxonomySignup do
       signup = TaxonomySignup.new(fake_taxon)
 
       expect(signup.save).to be
-      expect(signup.subscription_management_url).to eq '/govdelivery'
+      expect(signup.subscription_management_url).to eq '/something'
     end
 
     context 'when no taxon present' do

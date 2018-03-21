@@ -72,7 +72,7 @@ When(/^i confirm$/) do
   }
 
   @subscriber_list = {
-    'subscription_url' => '/govdelivery-redirect',
+    'subscription_url' => "/email/subscriptions/new?topic_id=#{@taxon[:title].parameterize}",
   }
 
   allow(@mock_email_alert_api).to receive(:find_or_create_subscriber_list)
@@ -87,7 +87,7 @@ Then(/^my subscription is created$/) do
     .with(@subscription_params)
 end
 
-Then(/^i am redirected to manage my subscriptions off of govuk$/) do
-  expect(current_path).to eq '/govdelivery-redirect'
+Then(/^i am redirected to manage my subscriptions$/) do
+  expect(page).to have_current_path("/email/subscriptions/new?topic_id=#{@taxon[:title].parameterize}")
 end
 # rubocop:enable Metrics/BlockLength

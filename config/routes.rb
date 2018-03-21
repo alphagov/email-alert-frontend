@@ -19,8 +19,4 @@ Rails.application.routes.draw do
       get '/complete' => 'subscriptions#complete', as: :subscription
     end
   end
-
-  if Rails.env.test?
-    get '/govdelivery-redirect', to: proc { [200, {}, ['']] }
-  end
 end
