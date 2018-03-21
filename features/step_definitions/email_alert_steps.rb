@@ -24,7 +24,7 @@ When(/^I sign up to the email alerts$/) do
   }
 
   @subscriber_list = {
-    'subscription_url' => '/govdelivery-redirect',
+    'subscription_url' => '/email/subscriptions/new?topic_id=employment-policy',
   }
 
   allow(@mock_email_alert_api).to receive(:find_or_create_subscriber_list)
@@ -37,7 +37,7 @@ end
 Then(/^my subscription should be registered$/) do
   expect(@mock_email_alert_api).to have_received(:find_or_create_subscriber_list)
     .with(@subscription_params)
-  expect(current_path).to eq '/govdelivery-redirect'
+  expect(page).to have_current_path('/email/subscriptions/new?topic_id=employment-policy')
 end
 
 Given(/^a government email alert page exists$/) do
