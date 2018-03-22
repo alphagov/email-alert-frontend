@@ -1,7 +1,7 @@
 <% content_for :title, "You have successfully unsubscribed" %>
 <%= render 'govuk_component/title', title: @title %>
 <% if @title %>
- <p>You have successfully unsubscribed from <%= @title %>.</p>
+ <p>You won’t get any more updates about <%= @title %>.</p>
 <% else %>
- <p>You have successfully unsubscribed.</p>
+ <p>You won’t get any more updates about this topic.</p>
 <% end %>

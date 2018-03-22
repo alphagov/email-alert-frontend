@@ -35,7 +35,7 @@ RSpec.describe UnsubscriptionsController do
     it "renders the title on the page" do
       get :confirm, params: { uuid: uuid, title: title }
 
-      expect(response.body).to include("You won&#39;t get any more updates about #{title}")
+      expect(response.body).to include("You won’t get any more updates about #{title}")
     end
 
     it "passes the title through to the 'confirmed' action" do
@@ -48,7 +48,7 @@ RSpec.describe UnsubscriptionsController do
       it "shows a different message" do
         get :confirm, params: { uuid: uuid }
 
-        expect(response.body).to include("You won&#39;t get any more updates about this topic.")
+        expect(response.body).to include("You won’t get any more updates about this topic.")
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe UnsubscriptionsController do
       it "shows a different message" do
         get :confirm, params: { uuid: uuid, title: " " }
 
-        expect(response.body).to include("You won&#39;t get any more updates about this topic.")
+        expect(response.body).to include("You won’t get any more updates about this topic.")
       end
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe UnsubscriptionsController do
     it "renders a confirmation page" do
       post :confirmed, params: { uuid: uuid, title: title }
 
-      expect(response.body).to include("You have successfully unsubscribed from #{title}")
+      expect(response.body).to include("You won’t get any more updates about #{title}")
     end
 
     it "sends an unsubscribe request to email-alert-api" do
@@ -94,7 +94,7 @@ RSpec.describe UnsubscriptionsController do
       it "renders the same confirmation page" do
         post :confirmed, params: { uuid: uuid, title: title }
 
-        expect(response.body).to include("You have successfully unsubscribed from #{title}")
+        expect(response.body).to include("You won’t get any more updates about #{title}")
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe UnsubscriptionsController do
       it "shows a different message" do
         post :confirmed, params: { uuid: uuid }
 
-        expect(response.body).to include("You have successfully unsubscribed.")
+        expect(response.body).to include("You won’t get any more updates about this topic.")
       end
     end
 
@@ -110,7 +110,7 @@ RSpec.describe UnsubscriptionsController do
       it "shows a different message" do
         post :confirmed, params: { uuid: uuid, title: " " }
 
-        expect(response.body).to include("You have successfully unsubscribed.")
+        expect(response.body).to include("You won’t get any more updates about this topic.")
       end
     end
   end
