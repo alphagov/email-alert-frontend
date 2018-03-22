@@ -12,10 +12,18 @@ class ApplicationController < ActionController::Base
 private
 
   def error_not_found
-    render status: :not_found, plain: "404 error not found"
+    render status: :not_found, plain: "404 not found"
   end
 
   def gone
     render status: :gone, plain: "410 gone"
+  end
+
+  def require_authentication
+    redirect_to :sign_in unless authenticated?
+  end
+
+  def authenticated?
+    session["authentication"].present?
   end
 end

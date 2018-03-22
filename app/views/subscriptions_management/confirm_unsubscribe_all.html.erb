@@ -1,0 +1,37 @@
+<% content_for :title, 'Are you sure you want to unsubscribe from everything?' %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag 'application-without-elements' %>
+<% end %>
+
+<%= render 'govuk_publishing_components/components/back_link', {
+  href: @back_url,
+} %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/title', title: 'Are you sure you want to unsubscribe from everything?' %>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/govspeak', {
+      content: %{<p>You won’t get any more automated emails from GOV.UK.</p>}
+    } %>
+    <%= form_tag(action: :confirmed_unsubscribe_all) do %>
+      <%= hidden_field_tag(:from, @from) %>
+      <%= render 'govuk_component/button', {
+       text: 'Unsubscribe',
+       margin_bottom: true,
+      } %>
+    <% end %>
+    <%= render 'govuk_component/govspeak', {
+      content: %{<p><a href="#{@back_url}">Cancel</a></p>}
+    } %>
+  </div>
+</div>
