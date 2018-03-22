@@ -18,4 +18,5 @@ Rails.application.config.assets.digest = true
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w(
   application-without-elements.css
+  print.css
 )
