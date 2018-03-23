@@ -1,21 +1,49 @@
-<% content_for :title, "Confirm unsubscription" %>
+<% content_for :title, 'Are you sure you want to unsubscribe?' %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
 <% content_for :head_css do %>
- <%= stylesheet_link_tag "application-without-elements" %>
+  <%= stylesheet_link_tag 'application-without-elements' %>
 <% end %>
-<%= render 'govuk_component/title', title: "Are you sure you want to unsubscribe?" %>
-<% lead_paragraph_text = capture do %>
- <% if @title %>
-You won’t get any more updates about <%= @title %>.
- <% else %>
-You won’t get any more updates about this topic.
- <% end %>
+
+<% if @from_subscription_management %>
+  <%= render 'govuk_publishing_components/components/back_link', {
+    href: @back_url,
+  } %>
 <% end %>
-<%= form_tag(action: :confirmed) do %>
- <fieldset>
-   <legend>
-     <%= render "govuk_component/lead_paragraph", text: lead_paragraph_text %>
-   </legend>
-   <%= hidden_field_tag(:title, @title) %>
-   <%= render 'govuk_component/button', text: "Unsubscribe", margin_bottom: true %>
- </fieldset>
-<% end %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/title', title: 'Are you sure you want to unsubscribe?' %>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <% paragraph_text = capture do %>
+      <% if @title %>
+        <p>You won’t get any more updates about <%= @title %>.</p>
+      <% else %>
+        <p>You won’t get any more updates about this topic.</p>
+      <% end %>
+    <% end %>
+    <%= render 'govuk_component/govspeak', {
+      content: paragraph_text
+    } %>
+    <%= form_tag(action: :confirmed) do %>
+      <%= hidden_field_tag(:title, @title) %>
+      <%= hidden_field_tag(:from, @from) %>
+      <%= render 'govuk_component/button', {
+       text: 'Unsubscribe',
+       margin_bottom: true,
+      } %>
+    <% end %>
+    <% if @from_subscription_management %>
+      <%= render 'govuk_component/govspeak', {
+        content: %{<p><a href="#{@back_url}">Cancel</a></p>}
+      } %>
+    <% end %>
+  </div>
+</div>
