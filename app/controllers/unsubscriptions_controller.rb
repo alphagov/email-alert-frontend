@@ -1,5 +1,4 @@
 class UnsubscriptionsController < ApplicationController
-  before_action :set_cache_control_header
   before_action :set_title, :set_uuid, :set_back_url, :set_from
 
   def confirm; end
@@ -12,10 +11,6 @@ class UnsubscriptionsController < ApplicationController
   end
 
 private
-
-  def set_cache_control_header
-    headers["Cache-Control"] = "private"
-  end
 
   def set_title
     @title = params[:title].presence
