@@ -56,6 +56,11 @@
       <%= render 'govuk_component/button', {
         text: 'Save',
         margin_bottom: true,
+        data_attributes: {
+          module: 'auto-track-event',
+          track_category: 'email',
+          track_action: 'update_address',
+        },
       } %>
     <%- end -%>
     <%= render 'govuk_component/govspeak', {
