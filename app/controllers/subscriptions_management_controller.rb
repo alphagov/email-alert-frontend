@@ -17,10 +17,15 @@ class SubscriptionsManagementController < ApplicationController
   end
 
   def change_frequency
+    id = params.require(:id)
+
     email_alert_api.change_subscription(
-      id: params.require(:id),
+      id: id,
       frequency: params.require(:new_frequency)
     )
+
+    subscription_title = @subscriptions[id]['subscriber_list']['title']
+    flash[:success] = "Your subscription to ‘#{subscription_title}’ has been updated"
 
     redirect_to list_subscriptions_path
   end
