@@ -267,9 +267,14 @@ RSpec.describe SubscriptionsManagementController do
 
   describe "POST /email/manage/unsubscribe-all" do
     context "when the subscriber is unsubscribed" do
-      it "renders a message" do
+      it "redirects to subscription management" do
         post :confirmed_unsubscribe_all, session: session_data
-        expect(response.body).to include("You won’t get any more emails from GOV.UK.")
+        expect(response).to redirect_to(list_subscriptions_path)
+      end
+
+      it "sets a flash about the success" do
+        post :confirmed_unsubscribe_all, session: session_data
+        expect(flash[:success]).to match(/unsubscribed from all your subscriptions/)
       end
     end
   end

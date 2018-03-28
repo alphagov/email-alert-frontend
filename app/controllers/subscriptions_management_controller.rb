@@ -63,10 +63,12 @@ class SubscriptionsManagementController < ApplicationController
   def confirmed_unsubscribe_all
     begin
       email_alert_api.unsubscribe_subscriber(subscriber_id)
+      flash[:success] = 'You have been unsubscribed from all your subscriptions'
     rescue GdsApi::HTTPNotFound
       # The user has already unsubscribed.
       nil
     end
+    redirect_to list_subscriptions_path
   end
 
 private
