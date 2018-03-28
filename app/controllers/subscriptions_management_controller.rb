@@ -49,6 +49,8 @@ class SubscriptionsManagementController < ApplicationController
       new_address: new_address
     )
 
+    flash[:success] = 'Your email address has been updated'
+
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnprocessableEntity
     @new_address = new_address
