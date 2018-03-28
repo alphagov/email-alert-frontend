@@ -123,9 +123,14 @@ RSpec.describe AuthenticationController do
     end
 
     context "when an expired token is provided" do
-      it "renders an error message" do
+      it "redirects to sign in" do
         get :process_sign_in_token, params: { token: expired_jwt_token }
-        expect(response.body).to include("That link has expired")
+        expect(response).to redirect_to(sign_in_path)
+      end
+
+      it "sets a bad_token flash" do
+        get :process_sign_in_token, params: { token: expired_jwt_token }
+        expect(flash[:error_summary]).to eq("bad_token")
       end
     end
 
