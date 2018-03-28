@@ -6,16 +6,13 @@
     <% if content_for(:meta_description).present? %>
       <meta name="description" content="<%= content_for(:meta_description) %>" />
     <% end %>
-
-    <%if content_for?(:head_css) %>
+    <% if content_for?(:head_css) %>
       <%= yield :head_css %>
     <% else %>
       <%= stylesheet_link_tag "application" %>
     <% end %>
-
     <%= yield :head %>
   </head>
-
   <body>
     <div id="wrapper">
       <main id="content" role="main">
@@ -25,7 +22,6 @@
         <%= render 'govuk_publishing_components/components/feedback' %>
       </main>
     </div>
-
     <%= javascript_include_tag 'application' %>
   </body>
 </html>

@@ -1,0 +1,25 @@
+<% content_for :title, 'Manage your subscriptions' %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag 'application-without-elements' %>
+<% end %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/title', title: 'That link has expired' %>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/govspeak', {
+      content: %{
+        <p><a href="#{@sign_in_link}">Enter your email address again</a> to change your email subscriptions.</p>
+      }
+    } %>
+  </div>
+</div>

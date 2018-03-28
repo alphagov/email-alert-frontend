@@ -86,4 +86,54 @@ namespace :publishing_api do
       rendering_app: "email-alert-frontend"
     )
   end
+
+  desc "Publish /email/authenticate prefix route"
+  task publish_email_authenticate_prefix: :environment do
+    logger = Logger.new(STDOUT)
+
+    publishing_api = GdsApi::PublishingApiV2.new(
+      Plek.new.find('publishing-api'),
+      bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
+    )
+
+    special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
+      logger: logger,
+      publishing_api: publishing_api
+    )
+
+    special_route_publisher.publish(
+      content_id: "889e5a6f-d63b-4e10-8ffb-8d3959453285",
+      title: "Email - authenticate",
+      description: "Prefix route to allow authentication for email subscription management",
+      base_path: "/email/authenticate",
+      type: "prefix",
+      publishing_app: "email-alert-frontend",
+      rendering_app: "email-alert-frontend"
+    )
+  end
+
+  desc "Publish /email/manage prefix route"
+  task publish_email_manage_prefix: :environment do
+    logger = Logger.new(STDOUT)
+
+    publishing_api = GdsApi::PublishingApiV2.new(
+      Plek.new.find('publishing-api'),
+      bearer_token: ENV['PUBLISHING_API_BEARER_TOKEN'] || 'example'
+    )
+
+    special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
+      logger: logger,
+      publishing_api: publishing_api
+    )
+
+    special_route_publisher.publish(
+      content_id: "fb2f116f-09d2-4861-99d7-b6ea8168fe5d",
+      title: "Email - manage",
+      description: "Prefix route to allow email subscription management",
+      base_path: "/email/manage",
+      type: "prefix",
+      publishing_app: "email-alert-frontend",
+      rendering_app: "email-alert-frontend"
+    )
+  end
 end

@@ -48,9 +48,9 @@ RSpec.describe SubscriptionsController do
         expect(response).to have_http_status(:ok)
       end
 
-      it "sets the Cache-Control header to 'private'" do
+      it "sets the Cache-Control header to 'private, no-cache'" do
         get :new, params: { topic_id: topic_id }
-        expect(response.headers["Cache-Control"]).to eq("private")
+        expect(response.headers["Cache-Control"]).to eq("private, no-cache")
       end
     end
 
@@ -97,9 +97,9 @@ RSpec.describe SubscriptionsController do
         expect(response).to redirect_to(destination)
       end
 
-      it "sets the Cache-Control header to 'private'" do
+      it "sets the Cache-Control header to 'private, no-cache'" do
         post :frequency, params: { topic_id: topic_id, frequency: frequency }
-        expect(response.headers["Cache-Control"]).to eq("private")
+        expect(response.headers["Cache-Control"]).to eq("private, no-cache")
       end
     end
   end
@@ -166,9 +166,9 @@ RSpec.describe SubscriptionsController do
         assert_subscribed(subscribable_id, address, frequency)
       end
 
-      it "sets the Cache-Control header to 'private'" do
+      it "sets the Cache-Control header to 'private, no-cache'" do
         post :create, params: params
-        expect(response.headers["Cache-Control"]).to eq("private")
+        expect(response.headers["Cache-Control"]).to eq("private, no-cache")
       end
     end
   end

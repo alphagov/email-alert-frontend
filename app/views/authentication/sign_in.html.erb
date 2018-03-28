@@ -1,0 +1,60 @@
+<% content_for :title, 'Manage your subscriptions' %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag 'application-without-elements' %>
+<% end %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/title', title: 'Manage your subscriptions' %>
+  </div>
+</div>
+
+<% if flash[:error] %>
+  <div class="grid-row responsive-bottom-margin">
+    <div class="column-two-thirds">
+      <%= render 'govuk_publishing_components/components/error_summary', {
+        title: 'We weren’t able to sign you in',
+        items: [
+          {
+            text: 'There’s a problem with your email address',
+            href: '#email-address-input',
+          }
+        ]
+      } %>
+    </div>
+  </div>
+<% end %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= form_tag sign_in_path, method: :post do %>
+      <%= render 'govuk_publishing_components/components/input', {
+        error_message: flash[:error],
+        id: 'email-address-input',
+        label: { text: 'What’s your email address?' },
+        name: :address,
+        type: 'email',
+        value: @address,
+      } %>
+      <%= render 'govuk_component/govspeak', {
+        content: %{
+          <p>We’ll send you a link to confirm your email address.</p>
+        }
+      } %>
+      <%= render 'govuk_component/button', {
+        text: 'Continue',
+        margin_bottom: true,
+        data_attributes: {
+          module: 'auto-track-event',
+          track_category: 'email_subscriptions',
+          track_action: 'authenticate',
+        },
+      } %>
+    <%- end -%>
+  </div>
+</div>

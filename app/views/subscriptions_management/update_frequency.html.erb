@@ -1,0 +1,68 @@
+<% content_for :title, 'Manage your subscriptions' %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag 'application-without-elements' %>
+<% end %>
+
+<%= render 'govuk_publishing_components/components/back_link', {
+  href: @back_url,
+} %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/title', title: 'Manage your subscriptions' %>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= form_tag change_frequency_path, method: :post do %>
+      <%= hidden_field_tag :id, @subscription_id %>
+      <div class="form-group">
+        <%= render 'govuk_publishing_components/components/fieldset', {
+          legend_text: render('govuk_component/govspeak', content: %{<h2 class="app-legend-title">How often do you want to get updates?</h2>}),
+        } do %>
+          <%= render 'govuk_publishing_components/components/radio', {
+            name: 'new_frequency',
+            items: [
+              {
+                value: 'immediately',
+                text: 'As soon as they happen',
+                checked: (@current_frequency == 'immediately'),
+              },
+              {
+                value: 'daily',
+                text: 'No more than once a day',
+                checked: (@current_frequency == 'daily'),
+              },
+              {
+                value: 'weekly',
+                text: 'No more than once a week',
+                checked: (@current_frequency == 'weekly'),
+              }
+            ]
+          } %>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <%= render 'govuk_component/button', {
+          text: 'Save',
+          margin_bottom: true,
+          data_attributes: {
+            module: 'auto-track-event',
+            track_category: 'email_subscriptions',
+            track_action: 'update_frequency',
+            track_label: @current_frequency,
+          }
+        } %>
+      </div>
+    <%- end -%>
+    <%= render 'govuk_component/govspeak', {
+      content: %{<p><a href="#{@back_url}">Cancel</a></p>}
+    } %>
+  </div>
+</div>

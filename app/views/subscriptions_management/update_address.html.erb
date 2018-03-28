@@ -1,0 +1,70 @@
+<% content_for :title, 'Change your email address' %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
+<% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag 'application-without-elements' %>
+<% end %>
+
+<%= render 'govuk_publishing_components/components/back_link', {
+  href: @back_url,
+} %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/title', title: 'Change your email address' %>
+  </div>
+</div>
+
+<% if flash[:error] %>
+  <div class="grid-row responsive-bottom-margin">
+    <div class="column-two-thirds">
+      <%= render 'govuk_publishing_components/components/error_summary', {
+        title: 'We weren’t able to change your email address',
+        items: [
+          {
+            text: 'There’s a problem with your email address',
+            href: '#email-address-input',
+          }
+        ]
+      } %>
+    </div>
+  </div>
+<% end %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/govspeak', {
+      content: %{<p>Your current email address is #{@address}</p>}
+    } %>
+    <%= form_tag change_address_path, method: :post do %>
+      <%= render 'govuk_publishing_components/components/input', {
+        error_message: flash[:error],
+        id: 'email-address-input',
+        label: { text: 'What’s your new email address?' },
+        name: :new_address,
+        type: 'email',
+        value: @new_address,
+      } %>
+      <% unless @new_address.nil? %>
+        <%= render 'govuk_component/govspeak', {
+          content: %{<p>If you want to transfer your subscription to #{@new_address}, you’ll need to subscribe to the same topics again, using the new email address. Or you can <a href="/contact/govuk">contact us</a>.</p>}
+        } %>
+      <% end %>
+      <%= render 'govuk_component/button', {
+        text: 'Save',
+        margin_bottom: true,
+        data_attributes: {
+          module: 'auto-track-event',
+          track_category: 'email_subscriptions',
+          track_action: 'update_address',
+        },
+      } %>
+    <%- end -%>
+    <%= render 'govuk_component/govspeak', {
+      content: %{<p><a href="#{@back_url}">Cancel</a></p>}
+    } %>
+  </div>
+</div>

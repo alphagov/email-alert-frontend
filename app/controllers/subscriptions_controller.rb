@@ -1,5 +1,4 @@
 class SubscriptionsController < ApplicationController
-  before_action :set_cache_control_header
   before_action :assign_attributes
   before_action :assign_back_url
 
@@ -39,10 +38,6 @@ class SubscriptionsController < ApplicationController
   def complete; end
 
 private
-
-  def set_cache_control_header
-    headers["Cache-Control"] = "private"
-  end
 
   def assign_attributes
     @topic_id = subscription_params.require(:topic_id)

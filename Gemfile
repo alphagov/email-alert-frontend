@@ -5,6 +5,7 @@ ruby File.read(".ruby-version").strip
 gem 'rails', '5.1.5'
 
 gem 'decent_exposure', '~> 3.0'
+gem 'jwt', '~> 2.1'
 gem 'sass-rails', '~> 5.0'
 gem 'slimmer', '~> 12.0'
 gem 'uglifier', '~> 4.1'

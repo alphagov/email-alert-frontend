@@ -12,11 +12,25 @@ Rails.application.routes.draw do
     get '/unsubscribe/:uuid' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
     post '/unsubscribe/:uuid' => 'unsubscriptions#confirmed', as: :unsubscribe
 
+    scope '/manage' do
+      get '/' => 'subscriptions_management#index', as: :list_subscriptions
+      get '/frequency/:id' => 'subscriptions_management#update_frequency', as: :update_frequency
+      post '/frequency/:id/change' => 'subscriptions_management#change_frequency', as: :change_frequency
+      get '/address' => 'subscriptions_management#update_address', as: :update_address
+      post '/address/change' => 'subscriptions_management#change_address', as: :change_address
+      get '/unsubscribe-all' => 'subscriptions_management#confirm_unsubscribe_all', as: :confirm_unsubscribe_all
+      post '/unsubscribe-all' => 'subscriptions_management#confirmed_unsubscribe_all', as: :unsubscribe_all
+    end
+
     scope '/subscriptions' do
       get '/new' => 'subscriptions#new', as: :new_subscription
       post '/frequency' => 'subscriptions#frequency', as: :subscription_frequency
       post '/create' => 'subscriptions#create', as: :create_subscription
       get '/complete' => 'subscriptions#complete', as: :subscription
     end
+
+    get '/authenticate' => 'authentication#sign_in', as: :sign_in
+    post '/authenticate' => 'authentication#request_sign_in_token', as: :request_sign_in_token
+    get '/authenticate/process' => 'authentication#process_sign_in_token', as: :process_sign_in_token
   end
 end

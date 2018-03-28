@@ -1,7 +1,39 @@
-<% content_for :title, "You have successfully unsubscribed" %>
-<%= render 'govuk_component/title', title: @title %>
-<% if @title %>
- <p>You won’t get any more updates about <%= @title %>.</p>
-<% else %>
- <p>You won’t get any more updates about this topic.</p>
+<% content_for :title, 'You’ve successfully unsubscribed' %>
+
+<% content_for :head do %>
+  <meta name="robots" content="noindex, nofollow">
 <% end %>
+
+<% content_for :head_css do %>
+  <%= stylesheet_link_tag 'application-without-elements' %>
+<% end %>
+
+<% if @from_subscription_management %>
+  <%= render 'govuk_publishing_components/components/back_link', {
+    href: @back_url,
+  } %>
+<% end %>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <%= render 'govuk_component/title', title: 'You’ve successfully unsubscribed' %>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="column-two-thirds">
+    <% paragraph_text = capture do %>
+      <% if @title %>
+        <p>You won’t get any more updates about <%= @title %>.</p>
+      <% else %>
+        <p>You won’t get any more updates about this topic.</p>
+      <% end %>
+      <% if @from_subscription_management %>
+        <p><a href="<%= @back_url %>">Back to manage your subscriptions</a>.</p>
+      <% end %>
+    <% end %>
+    <%= render 'govuk_component/govspeak', {
+      content: paragraph_text
+    } %>
+  </div>
+</div>
