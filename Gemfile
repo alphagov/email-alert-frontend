@@ -13,7 +13,7 @@ gem 'gds-api-adapters', '~> 52.1'
 gem 'govuk_app_config', '~> 1.4'
 gem 'govuk_elements_rails', '~> 3.1'
 gem 'govuk_frontend_toolkit', '~> 7.4'
-gem 'govuk_publishing_components', '~> 5.6.0'
+gem 'govuk_publishing_components', '~> 6.0.0'
 gem 'plek', '~> 2.1'
 
 group :development, :test do
