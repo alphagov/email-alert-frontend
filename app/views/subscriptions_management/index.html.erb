@@ -12,6 +12,14 @@
   <div class="column-two-thirds">
     <%= render 'govuk_component/title', title: 'Manage your subscriptions' %>
 
+    <% if flash[:success] %>
+      <div class="responsive-bottom-margin">
+        <%= render 'govuk_publishing_components/components/success_alert', {
+          message: flash[:success]
+        } %>
+      </div>
+    <% end %>
+
     <%= render 'components/heading', {
       text: "Subscriptions for #{@subscriber['address']}",
       heading_level: 2
