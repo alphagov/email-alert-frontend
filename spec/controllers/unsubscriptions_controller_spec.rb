@@ -7,10 +7,13 @@ RSpec.describe UnsubscriptionsController do
   render_views
 
   let(:id) { SecureRandom.uuid }
+  let(:subscriber_id) { 1 }
   let(:title) { "title" }
 
   before do
-    email_alert_api_has_subscription(id, "immediately", title: title)
+    email_alert_api_has_subscription(
+      id, "immediately", title: title, subscriber_id: subscriber_id
+    )
     email_alert_api_unsubscribes_a_subscription(id)
   end
 
@@ -99,6 +102,33 @@ RSpec.describe UnsubscriptionsController do
         post :confirmed, params: { id: id }
 
         expect(response.body).to include("You won’t get any more updates about #{title}")
+      end
+    end
+
+    context "when a user is authenticated" do
+      let(:session) do
+        { "authentication" => { "subscriber_id" => subscriber_id } }
+      end
+
+      it "redirects to subscription management" do
+        post :confirmed, params: { id: id }, session: session
+        expect(response).to redirect_to(list_subscriptions_path)
+      end
+
+      it "sets a flash to confirm" do
+        post :confirmed, params: { id: id }, session: session
+        expect(flash[:success]).to eq("You have been unsubscribed from ‘#{title}’")
+      end
+    end
+
+    context "when a user is authenticated but not to the list this is from" do
+      let(:session) do
+        { "authenticated" => { "subscriber_id" => subscriber_id + 1 } }
+      end
+
+      it "doesn't redirect" do
+        post :confirmed, params: { id: id }, session: session
+        expect(response.status).to eq(200)
       end
     end
   end
