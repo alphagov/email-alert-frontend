@@ -1,5 +1,5 @@
 class UnsubscriptionsController < ApplicationController
-  before_action :set_id, :set_title, :set_authenticated
+  before_action :set_attributes
 
   def confirm; end
 
@@ -12,16 +12,20 @@ class UnsubscriptionsController < ApplicationController
 
 private
 
-  def set_title
-    @title = api.get_subscription(@id).dig("subscription", "subscriber_list", "title").presence
+  def set_attributes
+    @id = params.require(:id)
+    @subscription = api.get_subscription(@id)
+    @title = @subscription.dig("subscription", "subscriber_list", "title").presence
+    @authenticated_for_subscription = check_authenticated(@subscription)
   end
 
-  def set_id
-    @id = params[:id].presence
-  end
-
-  def set_authenticated
-    @authenticated = authenticated?
+  def check_authenticated(subscription)
+    if authenticated?
+      subscriber_id = subscription.dig("subscription", "subscriber_id")
+      subscriber_id == authenticated_subscriber_id
+    else
+      false
+    end
   end
 
   def api

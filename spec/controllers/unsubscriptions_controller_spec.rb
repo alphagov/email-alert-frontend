@@ -6,7 +6,7 @@ RSpec.describe UnsubscriptionsController do
 
   render_views
 
-  let(:id) { "A-UUID" }
+  let(:id) { SecureRandom.uuid }
   let(:title) { "title" }
 
   before do
@@ -39,10 +39,29 @@ RSpec.describe UnsubscriptionsController do
       expect(response.body).to include("You won’t get any more updates about #{title}")
     end
 
-    it "passes the title through to the 'confirmed' action" do
-      get :confirm, params: { id: id }
+    context "when a user is authenticated" do
+      let(:session) do
+        { "authentication" => { "subscriber_id" => 1 } }
+      end
 
-      expect(response.body).to include(%(value="#{title}"))
+      it "shows a cancel button" do
+        get :confirm, params: { id: id }, session: session
+        # Because of static components we can't do a `expect(body).to have_link`
+        expect(response.body).to include(
+          CGI.escapeHTML(%{<a href=\\"#{list_subscriptions_path}\\">Cancel</a>})
+        )
+      end
+    end
+
+    context "when a user is authenticated but not to the list this is from" do
+      let(:session) do
+        { "authenticated" => { "subscriber_id" => 2 } }
+      end
+
+      it "doesn't show a cancel button" do
+        get :confirm, params: { id: id }, session: session
+        expect(response.body).not_to include("Cancel")
+      end
     end
   end
 

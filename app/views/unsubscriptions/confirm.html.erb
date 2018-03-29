@@ -8,7 +8,7 @@
   <%= stylesheet_link_tag 'application-without-elements' %>
 <% end %>
 
-<% if @authenticated %>
+<% if @authenticated_for_subscription %>
   <%= render 'govuk_publishing_components/components/back_link', {
     href: list_subscriptions_path,
   } %>
@@ -44,7 +44,7 @@
         },
       } %>
     <% end %>
-    <% if @authenticated %>
+    <% if @authenticated_for_subscription %>
       <%= render 'govuk_component/govspeak', {
         content: %{<p><a href="#{list_subscriptions_path}">Cancel</a></p>}
       } %>
