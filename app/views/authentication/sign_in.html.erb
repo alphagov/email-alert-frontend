@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<% if flash[:error] %>
+<% if flash[:error_summary] == "email" %>
   <div class="grid-row responsive-bottom-margin">
     <div class="column-two-thirds">
       <%= render 'govuk_publishing_components/components/error_summary', {
@@ -25,6 +25,15 @@
             href: '#email-address-input',
           }
         ]
+      } %>
+    </div>
+  </div>
+<% elsif flash[:error_summary] == "bad_token" %>
+  <div class="grid-row responsive-bottom-margin">
+    <div class="column-two-thirds">
+      <%= render 'govuk_publishing_components/components/error_summary', {
+        title: 'That link has expired',
+        description: 'Enter your email address again to change your subscription',
       } %>
     </div>
   </div>

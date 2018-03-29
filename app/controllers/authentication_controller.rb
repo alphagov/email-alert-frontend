@@ -11,6 +11,7 @@ class AuthenticationController < ApplicationController
   def request_sign_in_token
     unless params[:address].present?
       flash.now[:error] = MISSING_EMAIL_ERROR
+      flash.now[:error_summary] = "email"
       return render :sign_in
     end
 
@@ -22,6 +23,7 @@ class AuthenticationController < ApplicationController
     )
   rescue GdsApi::HTTPUnprocessableEntity
     flash.now[:error] = INVALID_EMAIL_ERROR
+    flash.now[:error_summary] = "email"
     render :sign_in
   rescue GdsApi::HTTPNotFound
     # User isn't subscribed, but we carry on as if they were so we
@@ -33,8 +35,9 @@ class AuthenticationController < ApplicationController
     subscriber_id, redirect = read_token(params.require(:token))
 
     if subscriber_id.nil?
-      @sign_in_link = sign_in_path
-      return render :expired_link
+      deauthenticate_subscriber
+      flash[:error_summary] = "bad_token"
+      return redirect_to :sign_in
     end
 
     authenticate_subscriber(subscriber_id)
@@ -56,13 +59,17 @@ private
     redirect = data.fetch('redirect')
     [subscriber_id, redirect]
   rescue JWT::ExpiredSignature, KeyError
-    return []
+    []
   end
 
   def authenticate_subscriber(subscriber_id)
     session['authentication'] = {
       'subscriber_id' => subscriber_id
     }
+  end
+
+  def deauthenticate_subscriber
+    session['authentication'] = nil
   end
 
   def safe_redirect_destination(redirect)
