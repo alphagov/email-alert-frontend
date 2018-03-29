@@ -1,5 +1,4 @@
 class SubscriptionsManagementController < ApplicationController
-  before_action :check_if_enabled
   before_action :require_authentication
   before_action :get_subscription_details
   before_action :set_back_url
@@ -64,10 +63,6 @@ class SubscriptionsManagementController < ApplicationController
   end
 
 private
-
-  def check_if_enabled
-    render plain: '404 not found', status: :not_found unless ENV['SUBSCRIPTION_MANAGEMENT_ENABLED']
-  end
 
   def subscriber_id
     session['authentication']['subscriber_id']

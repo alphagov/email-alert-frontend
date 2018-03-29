@@ -19,8 +19,6 @@ RSpec.describe SubscriptionsManagementController do
   render_views
 
   before do
-    ENV['SUBSCRIPTION_MANAGEMENT_ENABLED'] = 'yes'
-
     stub_request(:get, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}/subscriptions")
       .to_return(
         status: 200,
@@ -76,10 +74,6 @@ RSpec.describe SubscriptionsManagementController do
 
     stub_request(:delete, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}")
       .to_return(status: 200)
-  end
-
-  after do
-    ENV.delete('SUBSCRIPTION_MANAGEMENT_ENABLED')
   end
 
   describe "GET /email/manage" do
