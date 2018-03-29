@@ -21,7 +21,7 @@ private
 
   def check_authenticated(subscription)
     if authenticated?
-      subscriber_id = subscription.dig("subscription", "subscriber_id")
+      subscriber_id = subscription.dig("subscription", "subscriber", "id")
       subscriber_id == authenticated_subscriber_id
     else
       false
