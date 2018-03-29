@@ -45,14 +45,14 @@ RSpec.describe UnsubscriptionsController do
     context "when the subscription has already ended" do
       before do
         email_alert_api_has_subscription(
-          id, "immediately", ended: true
+          id, "immediately", ended: true, title: "VAT Rates"
         )
       end
 
       it "show a message saying subscription has ended" do
         get :confirm, params: { id: id }
 
-        expect(response.body).to include("This subscription has ended")
+        expect(response.body).to include("You’ve already unsubscribed from VAT Rates")
       end
     end
 

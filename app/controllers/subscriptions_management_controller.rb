@@ -18,14 +18,19 @@ class SubscriptionsManagementController < ApplicationController
 
   def change_frequency
     id = params.require(:id)
+    new_frequency = params.require(:new_frequency)
 
-    email_alert_api.change_subscription(
-      id: id,
-      frequency: params.require(:new_frequency)
-    )
+    email_alert_api.change_subscription(id: id, frequency: new_frequency)
 
     subscription_title = @subscriptions[id]['subscriber_list']['title']
-    flash[:success] = "Your subscription to ‘#{subscription_title}’ has been updated"
+
+    frequency_text = if new_frequency == 'immediately'
+                       "as soon as they happen"
+                     else
+                       new_frequency
+                     end
+
+    flash[:success] = "You’ll now get updates about ‘#{subscription_title}’ #{frequency_text}"
 
     redirect_to list_subscriptions_path
   end
@@ -49,7 +54,7 @@ class SubscriptionsManagementController < ApplicationController
       new_address: new_address
     )
 
-    flash[:success] = 'Your email address has been updated'
+    flash[:success] = "Your email address has been changed to #{new_address}"
 
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnprocessableEntity
