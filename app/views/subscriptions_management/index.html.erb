@@ -50,7 +50,7 @@
               <% end %>
               <br><a href="<%= update_frequency_path(id: subscription['id']) %>">Change how often you get updates</a>
             </p>
-            <p><a href="<%= confirm_unsubscribe_path(uuid: subscription['id'], title: subscription['subscriber_list']['title'], from: 'subscription-management') %>">Unsubscribe</a></p>
+            <p><a href="<%= confirm_unsubscribe_path(id: subscription['id'], from: 'subscription-management') %>">Unsubscribe</a></p>
           <% end %>
           <%= render 'govuk_component/govspeak', {
             content: subscription_info

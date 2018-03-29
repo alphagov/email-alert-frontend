@@ -1,10 +1,10 @@
 class UnsubscriptionsController < ApplicationController
-  before_action :set_title, :set_uuid, :set_back_url, :set_from
+  before_action :set_id, :set_title, :set_back_url, :set_from
 
   def confirm; end
 
   def confirmed
-    api.unsubscribe(@uuid)
+    api.unsubscribe(@id)
   rescue GdsApi::HTTPNotFound
     # The user has already unsubscribed.
     nil
@@ -13,11 +13,11 @@ class UnsubscriptionsController < ApplicationController
 private
 
   def set_title
-    @title = params[:title].presence
+    @title = api.get_subscription(@id).dig("subscription", "subscriber_list", "title").presence
   end
 
-  def set_uuid
-    @uuid = params[:uuid].presence
+  def set_id
+    @id = params[:id].presence
   end
 
   def set_back_url
