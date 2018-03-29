@@ -46,7 +46,7 @@
               <% elsif subscription['frequency'] == "weekly" %>
                 You chose to get weekly updates.
               <% else %>
-                You chose to get updates immediately.
+                You chose to get updates as soon as they happen.
               <% end %>
               <br><a href="<%= update_frequency_path(id: subscription['id']) %>">Change how often you get updates</a>
             </p>
