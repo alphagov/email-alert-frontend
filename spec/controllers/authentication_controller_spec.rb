@@ -33,8 +33,6 @@ RSpec.describe AuthenticationController do
   render_views
 
   before do
-    ENV['SUBSCRIPTION_MANAGEMENT_ENABLED'] = 'yes'
-
     stub_request(:post, EMAIL_ALERT_API_ENDPOINT + "/subscribers/auth-token")
       .to_return(
         status: 200,
@@ -45,10 +43,6 @@ RSpec.describe AuthenticationController do
           }
         }.to_json
       )
-  end
-
-  after do
-    ENV.delete('SUBSCRIPTION_MANAGEMENT_ENABLED')
   end
 
   describe "GET /email/authenticate" do

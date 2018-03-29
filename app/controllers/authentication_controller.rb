@@ -1,6 +1,4 @@
 class AuthenticationController < ApplicationController
-  before_action :check_if_enabled
-
   MISSING_EMAIL_ERROR = 'Please enter your email address.'.freeze
   INVALID_EMAIL_ERROR = 'This doesn’t look like a valid email address – check you’ve entered it correctly.'.freeze
 
@@ -47,10 +45,6 @@ class AuthenticationController < ApplicationController
   end
 
 private
-
-  def check_if_enabled
-    render plain: '404 not found', status: :not_found unless ENV['SUBSCRIPTION_MANAGEMENT_ENABLED']
-  end
 
   def read_token(token)
     payload, = JWT.decode(token, secret, true, algorithm: 'HS256')
