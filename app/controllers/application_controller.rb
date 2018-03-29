@@ -32,4 +32,9 @@ private
   def authenticated?
     session["authentication"].present?
   end
+
+  def authenticated_subscriber_id
+    # session isn't a real hash and doesn't respond to dig
+    session["authentication"]&.fetch("subscriber_id", nil)
+  end
 end

@@ -45,7 +45,7 @@ class SubscriptionsManagementController < ApplicationController
     new_address = params.require(:new_address)
 
     email_alert_api.change_subscriber(
-      id: subscriber_id,
+      id: authenticated_subscriber_id,
       new_address: new_address
     )
 
@@ -62,8 +62,8 @@ class SubscriptionsManagementController < ApplicationController
 
   def confirmed_unsubscribe_all
     begin
-      email_alert_api.unsubscribe_subscriber(subscriber_id)
-      flash[:success] = 'You have been unsubscribed from all your subscriptions'
+      email_alert_api.unsubscribe_subscriber(authenticated_subscriber_id)
+      flash[:success] = "You have been unsubscribed from all your subscriptions"
     rescue GdsApi::HTTPNotFound
       # The user has already unsubscribed.
       nil
@@ -73,13 +73,9 @@ class SubscriptionsManagementController < ApplicationController
 
 private
 
-  def subscriber_id
-    session['authentication']['subscriber_id']
-  end
-
   def get_subscription_details
     subscription_details = email_alert_api.get_subscriptions(
-      id: subscriber_id
+      id: authenticated_subscriber_id
     )
 
     @subscriber = subscription_details['subscriber']
