@@ -1,7 +1,9 @@
 class UnsubscriptionsController < ApplicationController
   before_action :set_attributes
 
-  def confirm; end
+  def confirm
+    return render :confirm_already_unsubscribed if subscription_ended?
+  end
 
   def confirmed
     unsubscribed = begin
@@ -29,6 +31,10 @@ private
     @subscription = api.get_subscription(@id)
     @title = @subscription.dig("subscription", "subscriber_list", "title").presence
     @authenticated_for_subscription = check_authenticated(@subscription)
+  end
+
+  def subscription_ended?
+    @subscription.dig("subscription", "ended_at").present?
   end
 
   def check_authenticated(subscription)

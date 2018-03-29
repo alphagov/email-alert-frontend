@@ -42,6 +42,20 @@ RSpec.describe UnsubscriptionsController do
       expect(response.body).to include("You won’t get any more updates about #{title}")
     end
 
+    context "when the subscription has already ended" do
+      before do
+        email_alert_api_has_subscription(
+          id, "immediately", ended: true
+        )
+      end
+
+      it "show a message saying subscription has ended" do
+        get :confirm, params: { id: id }
+
+        expect(response.body).to include("This subscription has ended")
+      end
+    end
+
     context "when a user is authenticated" do
       let(:session) do
         { "authentication" => { "subscriber_id" => 1 } }
@@ -98,7 +112,7 @@ RSpec.describe UnsubscriptionsController do
         email_alert_api_has_no_subscription_for_uuid(id)
       end
 
-      it "renders the same confirmation page" do
+      it "renders a page informing them the subscription has already ended" do
         post :confirmed, params: { id: id }
 
         expect(response.body).to include("You won’t get any more updates about #{title}")
