@@ -8,9 +8,9 @@
   <%= stylesheet_link_tag 'application-without-elements' %>
 <% end %>
 
-<% if @from_subscription_management %>
+<% if @authenticated %>
   <%= render 'govuk_publishing_components/components/back_link', {
-    href: @back_url,
+    href: list_subscriptions_path,
   } %>
 <% end %>
 
@@ -33,8 +33,6 @@
       content: paragraph_text
     } %>
     <%= form_tag(action: :confirmed) do %>
-      <%= hidden_field_tag(:title, @title) %>
-      <%= hidden_field_tag(:from, @from) %>
       <%= render 'govuk_component/button', {
         text: 'Unsubscribe',
         margin_bottom: true,
@@ -46,9 +44,9 @@
         },
       } %>
     <% end %>
-    <% if @from_subscription_management %>
+    <% if @authenticated %>
       <%= render 'govuk_component/govspeak', {
-        content: %{<p><a href="#{@back_url}">Cancel</a></p>}
+        content: %{<p><a href="#{list_subscriptions_path}">Cancel</a></p>}
       } %>
     <% end %>
   </div>

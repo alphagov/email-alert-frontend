@@ -1,5 +1,5 @@
 class UnsubscriptionsController < ApplicationController
-  before_action :set_id, :set_title, :set_back_url, :set_from
+  before_action :set_id, :set_title, :set_authenticated
 
   def confirm; end
 
@@ -20,21 +20,8 @@ private
     @id = params[:id].presence
   end
 
-  def set_back_url
-    @back_url = list_subscriptions_path
-  end
-
-  def set_from
-    @from = from
-    @from_subscription_management = from_subscription_management?
-  end
-
-  def from
-    params.permit(:from).fetch(:from, "")
-  end
-
-  def from_subscription_management?
-    from == "subscription-management"
+  def set_authenticated
+    @authenticated = authenticated?
   end
 
   def api
