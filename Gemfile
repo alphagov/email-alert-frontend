@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby File.read(".ruby-version").strip
 
-gem 'rails', '5.1.5'
+gem 'rails', '5.1.6'
 
 gem 'decent_exposure', '~> 3.0'
 gem 'jwt', '~> 2.1'
