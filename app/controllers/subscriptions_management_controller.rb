@@ -17,10 +17,20 @@ class SubscriptionsManagementController < ApplicationController
   end
 
   def change_frequency
-    email_alert_api.change_subscription(
-      id: params.require(:id),
-      frequency: params.require(:new_frequency)
-    )
+    id = params.require(:id)
+    new_frequency = params.require(:new_frequency)
+
+    email_alert_api.change_subscription(id: id, frequency: new_frequency)
+
+    subscription_title = @subscriptions[id]['subscriber_list']['title']
+
+    frequency_text = if new_frequency == 'immediately'
+                       "as soon as they happen"
+                     else
+                       new_frequency
+                     end
+
+    flash[:success] = "You’ll now get updates about ‘#{subscription_title}’ #{frequency_text}"
 
     redirect_to list_subscriptions_path
   end
@@ -40,9 +50,11 @@ class SubscriptionsManagementController < ApplicationController
     new_address = params.require(:new_address)
 
     email_alert_api.change_subscriber(
-      id: subscriber_id,
+      id: authenticated_subscriber_id,
       new_address: new_address
     )
+
+    flash[:success] = "Your email address has been changed to #{new_address}"
 
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnprocessableEntity
@@ -55,22 +67,20 @@ class SubscriptionsManagementController < ApplicationController
 
   def confirmed_unsubscribe_all
     begin
-      email_alert_api.unsubscribe_subscriber(subscriber_id)
+      email_alert_api.unsubscribe_subscriber(authenticated_subscriber_id)
+      flash[:success] = "You have been unsubscribed from all your subscriptions"
     rescue GdsApi::HTTPNotFound
       # The user has already unsubscribed.
       nil
     end
+    redirect_to list_subscriptions_path
   end
 
 private
 
-  def subscriber_id
-    session['authentication']['subscriber_id']
-  end
-
   def get_subscription_details
     subscription_details = email_alert_api.get_subscriptions(
-      id: subscriber_id
+      id: authenticated_subscriber_id
     )
 
     @subscriber = subscription_details['subscriber']

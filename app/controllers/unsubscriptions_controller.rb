@@ -1,40 +1,49 @@
 class UnsubscriptionsController < ApplicationController
-  before_action :set_id, :set_title, :set_back_url, :set_from
+  before_action :set_attributes
 
-  def confirm; end
+  def confirm
+    return render :confirm_already_unsubscribed if subscription_ended?
+  end
 
   def confirmed
-    api.unsubscribe(@id)
-  rescue GdsApi::HTTPNotFound
-    # The user has already unsubscribed.
-    nil
+    unsubscribed = begin
+                    api.unsubscribe(@id)
+                  rescue GdsApi::HTTPNotFound
+                    # The user has already unsubscribed.
+                    nil
+                  end
+
+    if @authenticated_for_subscription
+      message = if @title
+                  "You have been unsubscribed from ‘#{@title}’"
+                else
+                  "You have been unsubscribed"
+                end
+      flash[:success] = message if unsubscribed
+      return redirect_to list_subscriptions_path
+    end
   end
 
 private
 
-  def set_title
-    @title = api.get_subscription(@id).dig("subscription", "subscriber_list", "title").presence
+  def set_attributes
+    @id = params.require(:id)
+    @subscription = api.get_subscription(@id)
+    @title = @subscription.dig("subscription", "subscriber_list", "title").presence
+    @authenticated_for_subscription = check_authenticated(@subscription)
   end
 
-  def set_id
-    @id = params[:id].presence
+  def subscription_ended?
+    @subscription.dig("subscription", "ended_at").present?
   end
 
-  def set_back_url
-    @back_url = list_subscriptions_path
-  end
-
-  def set_from
-    @from = from
-    @from_subscription_management = from_subscription_management?
-  end
-
-  def from
-    params.permit(:from).fetch(:from, "")
-  end
-
-  def from_subscription_management?
-    from == "subscription-management"
+  def check_authenticated(subscription)
+    if authenticated?
+      subscriber_id = subscription.dig("subscription", "subscriber", "id")
+      subscriber_id == authenticated_subscriber_id
+    else
+      false
+    end
   end
 
   def api

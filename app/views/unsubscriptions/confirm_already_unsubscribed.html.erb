@@ -1,4 +1,8 @@
-<% content_for :title, 'Are you sure you want to unsubscribe?' %>
+<%
+page_title = "You’ve already unsubscribed"
+page_title += " from #{@title}" if @title
+content_for :title, page_title
+%>
 
 <% content_for :head do %>
   <meta name="robots" content="noindex, nofollow">
@@ -16,7 +20,7 @@
 
 <div class="grid-row">
   <div class="column-two-thirds">
-    <%= render 'govuk_component/title', title: 'Are you sure you want to unsubscribe?' %>
+    <%= render 'govuk_component/title', title: page_title %>
   </div>
 </div>
 
@@ -32,22 +36,5 @@
     <%= render 'govuk_component/govspeak', {
       content: paragraph_text
     } %>
-    <%= form_tag(action: :confirmed) do %>
-      <%= render 'govuk_component/button', {
-        text: 'Unsubscribe',
-        margin_bottom: true,
-        data_attributes: {
-          module: 'auto-track-event',
-          track_category: 'email_subscriptions',
-          track_action: 'unsubscribe_list',
-          track_label: @title,
-        },
-      } %>
-    <% end %>
-    <% if @authenticated_for_subscription %>
-      <%= render 'govuk_component/govspeak', {
-        content: %{<p><a href="#{list_subscriptions_path}">Cancel</a></p>}
-      } %>
-    <% end %>
   </div>
 </div>
