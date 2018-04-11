@@ -43,29 +43,5 @@ RSpec.describe TaxonomySignup do
         expect(signup.subscription_management_url).to eq nil
       end
     end
-
-    context 'when the taxon has an internal_name' do
-      let(:fake_taxon) {
-        {
-          'title' => 'Birth, death and marriage abroad',
-          'content_id' => 'foo-id',
-          'details' => {
-            'internal_name' => 'Birth, death and marriage abroad (India)'
-          }
-        }
-      }
-
-      it 'creates the subscription using the internal name' do
-        signup = TaxonomySignup.new(fake_taxon)
-
-        expect(signup.save).to be
-        expect(mock_email_alert_api)
-          .to have_received(:find_or_create_subscriber_list)
-          .with(
-            'title' => 'Birth, death and marriage abroad (India)',
-            'links' => { 'taxon_tree' => ['foo-id'] }
-          )
-      end
-    end
   end
 end
