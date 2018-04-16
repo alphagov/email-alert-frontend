@@ -22,16 +22,12 @@ private
 
   def subscription_params
     {
-      'title' => title,
+      'title' => taxon['title'],
       'links' => {
         # 'taxon_tree' is the key used in email-alert-service for
         # notifications, so create a subscriber list with this key.
         'taxon_tree' => [taxon['content_id']]
       }
     }
-  end
-
-  def title
-    taxon['details'] && taxon['details']['internal_name'] || taxon['title']
   end
 end
