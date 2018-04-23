@@ -26,7 +26,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'cucumber-rails', '~> 1.5', require: false
+  gem 'cucumber-rails', '~> 1.6', require: false
   gem 'launchy'
   gem 'phantomjs', '~> 2.1'
   gem 'poltergeist', require: false
