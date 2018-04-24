@@ -4,10 +4,6 @@ page_title += " from #{@title}" if @title
 content_for :title, page_title
 %>
 
-<% content_for :head do %>
-  <meta name="robots" content="noindex, nofollow">
-<% end %>
-
 <% content_for :head_css do %>
   <%= stylesheet_link_tag 'application-without-elements' %>
 <% end %>
