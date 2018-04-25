@@ -14,7 +14,8 @@ class ApplicationController < ActionController::Base
 private
 
   def set_cache_control_header
-    headers["Cache-Control"] = "private, no-cache"
+    response.cache_control[:private] = true
+    response.cache_control[:extras] = ['no-cache']
   end
 
   def error_not_found
