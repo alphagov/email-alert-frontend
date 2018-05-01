@@ -33,4 +33,6 @@ Rails.application.routes.draw do
     post '/authenticate' => 'authentication#request_sign_in_token', as: :request_sign_in_token
     get '/authenticate/process' => 'authentication#process_sign_in_token', as: :process_sign_in_token
   end
+
+  get "/healthcheck", to: GovukHealthcheck.rack_response
 end
