@@ -11,6 +11,7 @@ require 'phantomjs/poltergeist'
 
 Capybara.default_driver = :poltergeist
 Capybara.javascript_driver = :poltergeist
+Capybara.server = :webric
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
