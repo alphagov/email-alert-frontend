@@ -21,7 +21,7 @@
     } %>
     <%= form_tag(action: :confirmed_unsubscribe_all) do %>
       <%= hidden_field_tag(:from, @from) %>
-      <%= render 'govuk_component/button', {
+      <%= render 'govuk_publishing_components/components/button', {
         text: 'Unsubscribe',
         margin_bottom: true,
         data_attributes: {
