@@ -46,11 +46,11 @@
         type: 'email',
         value: @address,
       } %>
-      <%= render 'govuk_component/govspeak', {
-        content: %{
-          <p>We’ll send you a link to confirm your email address.</p>
-        }
-      } %>
+
+      <%= govspeak do %>
+        <p>We’ll send you a link to confirm your email address.</p>
+      <% end %>
+
       <%= render 'govuk_publishing_components/components/button', {
         text: 'Continue',
         margin_bottom: true,

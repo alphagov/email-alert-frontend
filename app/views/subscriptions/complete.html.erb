@@ -20,8 +20,8 @@
       "weekly" => "You’ll get one email per week if there’s been an update to ‘#{@title}’.",
     } %>
 
-    <%= render "govuk_component/govspeak", {
-      content: "<p>#{frequency_variations[@frequency]}</p>"
-    } %>
+    <%= govspeak do %>
+      <p><%= frequency_variations[@frequency] %></p>
+    <% end %>
   </div>
 </div>

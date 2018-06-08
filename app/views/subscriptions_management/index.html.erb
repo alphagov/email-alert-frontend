@@ -20,18 +20,22 @@
       text: "Subscriptions for #{@subscriber['address']}",
       heading_level: 2
     } %>
-    <%= render 'govuk_component/govspeak', {
-      content: %{<p><a href="#{update_address_path}">Change email address</a></p>}
-    } %>
+
+    <%= govspeak do %>
+      <p><%= link_to "Change email address", update_address_path %></p>
+    <% end %>
   </div>
 </div>
 
 <div class="grid-row">
   <div class="column-two-thirds add-title-margin">
     <% if @subscriptions.empty? %>
-      <%= render 'govuk_component/govspeak', {
-        content: %{<p>You aren’t subscribed to any topics on GOV.UK. <a href="/help/update-email-notifications#how-to-subscribe">Find out how to subscribe</a>.</p>}
-      } %>
+      <%= govspeak do %>
+        <p>
+          You aren’t subscribed to any topics on GOV.UK.
+          <a href="/help/update-email-notifications#how-to-subscribe">Find out how to subscribe</a>.
+        </p>
+      <% end %>
     <% else %>
       <% @subscriptions.each do |_key, subscription| %>
         <div class="responsive-bottom-margin">
@@ -39,7 +43,7 @@
             text: subscription['subscriber_list']['title'],
             heading_level: 3
           } %>
-          <% subscription_info = capture do %>
+          <%= govspeak do %>
             <p>
               <% if subscription['frequency'] == "daily" %>
                 You chose to get daily updates.
@@ -52,14 +56,14 @@
             </p>
             <p><a href="<%= confirm_unsubscribe_path(id: subscription['id']) %>">Unsubscribe</a></p>
           <% end %>
-          <%= render 'govuk_component/govspeak', {
-            content: subscription_info
-          } %>
         </div>
       <% end %>
-      <%= render 'govuk_component/govspeak', {
-        content: %{<div class="info-notice"><p><a href="#{confirm_unsubscribe_all_path}">Unsubscribe from everything</a></p></div>}
-      } %>
+
+      <%= govspeak do %>
+        <div class="info-notice">
+          <p><%= link_to "Unsubscribe from everything", confirm_unsubscribe_all_path %></p>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

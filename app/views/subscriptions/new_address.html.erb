@@ -30,18 +30,13 @@
       "weekly" => "You'll get one email per week if a page is added or changed.",
     } %>
 
-    <% subscription_info = capture do %>
+    <%= govspeak do %>
       <p>
         You’re subscribing to get email notifications about: <br/>
         ‘<strong><%= @title %></strong>’.
       </p>
       <p><%= frequency_variations[@frequency] %></p>
     <% end %>
-
-    <%= render "govuk_component/govspeak", {
-      content: subscription_info,
-      rich_govspeak: true
-    } %>
 
     <%= form_tag create_subscription_path, method: :post do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
@@ -67,8 +62,9 @@
         },
       } %>
     <%- end -%>
-    <%= render "govuk_component/govspeak", {
-      content: '<p>We won’t share your email address with anyone. Read our <a href="https://www.gov.uk/help/privacy-policy" target="_blank">privacy policy (opens in new tab)</a>.</p>'
-    } %>
+
+    <%= govspeak do %>
+      <p>We won’t share your email address with anyone. Read our <a href="https://www.gov.uk/help/privacy-policy" target="_blank">privacy policy (opens in new tab)</a>.</p>
+    <% end %>
   </div>
 </div>

@@ -32,9 +32,10 @@
 
 <div class="grid-row">
   <div class="column-two-thirds">
-    <%= render 'govuk_component/govspeak', {
-      content: %{<p>Your current email address is #{@address}</p>}
-    } %>
+    <%= govspeak do %>
+      <p>Your current email address is <%= @address %></p>
+    <% end %>
+
     <%= form_tag change_address_path, method: :post do %>
       <%= render 'govuk_publishing_components/components/input', {
         error_message: flash[:error],
@@ -45,9 +46,12 @@
         value: @new_address,
       } %>
       <% unless @new_address.nil? %>
-        <%= render 'govuk_component/govspeak', {
-          content: %{<p>If you want to transfer your subscription to #{@new_address}, you’ll need to subscribe to the same topics again, using the new email address. Or you can <a href="/contact/govuk">contact us</a>.</p>}
-        } %>
+        <%= govspeak do %>
+          <p>If you want to transfer your subscription to <%= @new_address %>,
+            you’ll need to subscribe to the same topics again, using the new
+            email address. Or you can <a href="/contact/govuk">contact us</a>.
+          </p>
+        <% end %>
       <% end %>
       <%= render 'govuk_publishing_components/components/button', {
         text: 'Save',
@@ -59,8 +63,8 @@
         },
       } %>
     <%- end -%>
-    <%= render 'govuk_component/govspeak', {
-      content: %{<p><a href="#{@back_url}">Cancel</a></p>}
-    } %>
+    <%= govspeak do %>
+      <p><%= link_to "Cancel", @back_url %></p>
+    <% end %>
   </div>
 </div>

@@ -16,9 +16,10 @@
 
 <div class="grid-row">
   <div class="column-two-thirds">
-    <%= render 'govuk_component/govspeak', {
-      content: %{<p>You won’t get any more automated emails from GOV.UK.</p>}
-    } %>
+    <%= govspeak do %>
+      <p>You won’t get any more automated emails from GOV.UK.</p>
+    <% end %>
+
     <%= form_tag(action: :confirmed_unsubscribe_all) do %>
       <%= hidden_field_tag(:from, @from) %>
       <%= render 'govuk_publishing_components/components/button', {
@@ -31,8 +32,8 @@
         },
       } %>
     <% end %>
-    <%= render 'govuk_component/govspeak', {
-      content: %{<p><a href="#{@back_url}">Cancel</a></p>}
-    } %>
+    <%= govspeak do %>
+      <p><%= link_to "Cancel", @back_url %></p>
+    <% end %>
   </div>
 </div>

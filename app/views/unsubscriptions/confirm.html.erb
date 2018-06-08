@@ -18,16 +18,14 @@
 
 <div class="grid-row">
   <div class="column-two-thirds">
-    <% paragraph_text = capture do %>
+    <%= govspeak do %>
       <% if @title %>
         <p>You won’t get any more updates about <%= @title %>.</p>
       <% else %>
         <p>You won’t get any more updates about this topic.</p>
       <% end %>
     <% end %>
-    <%= render 'govuk_component/govspeak', {
-      content: paragraph_text
-    } %>
+
     <%= form_tag(action: :confirmed) do %>
       <%= render 'govuk_publishing_components/components/button', {
         text: 'Unsubscribe',
@@ -41,9 +39,9 @@
       } %>
     <% end %>
     <% if @authenticated_for_subscription %>
-      <%= render 'govuk_component/govspeak', {
-        content: %{<p><a href="#{list_subscriptions_path}">Cancel</a></p>}
-      } %>
+      <%= govspeak do %>
+        <p><%= link_to "Cancel", list_subscriptions_path %></p>
+      <% end %>
     <% end %>
   </div>
 </div>
