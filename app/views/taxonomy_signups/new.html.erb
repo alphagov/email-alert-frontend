@@ -10,10 +10,7 @@
 <% child_taxons = @taxon.dig('links', 'child_taxons') %>
 
 <% if child_taxons.present?%>
-  <%= render partial: 'govuk_component/title', locals: {
-    average_title_length: "long",
-    title: "What do you want to get alerts about?"
-  } %>
+  <%= title "What do you want to get alerts about?", average_title_length: "long" %>
 
   <%= form_tag({action: "confirm"}, method: "get") do %>
     <fieldset>

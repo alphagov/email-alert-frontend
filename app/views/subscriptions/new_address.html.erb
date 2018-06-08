@@ -22,9 +22,7 @@
       } %>
     <% end %>
 
-    <%= render partial: "govuk_component/title", locals: {
-      title: "Enter your email address",
-    } %>
+    <%= title "Enter your email address" %>
 
     <% frequency_variations = {
       "immediately" => "You’ll get an email every time a page is added or changed.",
