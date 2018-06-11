@@ -6,10 +6,7 @@
 <% end %>
 
 <header>
-  <%= render partial: 'govuk_component/title', locals: {
-    title: email_alert_signup.title,
-    context: "Email alert subscription"
-  } %>
+  <%= title email_alert_signup.title, context: "Email alert subscription" %>
 </header>
 
 <%= form_for email_alert_signup, html: { class: "signup-form" } do |form| %>

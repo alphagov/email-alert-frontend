@@ -7,10 +7,7 @@
 <div class='grid-row'>
 <div class='email-signup column-two-thirds'>
 
-  <%= render partial: 'govuk_component/title', locals: {
-    average_title_length: "long",
-    title: "What you'll get"
-  } %>
+  <%= title "What you’ll get", average_title_length: "long" %>
 
   <p>
     You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @taxon['title'] %>.

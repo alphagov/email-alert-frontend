@@ -12,9 +12,7 @@ When(/^I access the email signup page$/) do
 end
 
 Then(/^I see the email signup page$/) do
-  within(shared_component_selector("title")) do
-    expect(page).to have_content("Employment")
-  end
+  expect(page).to have_content("Employment")
 end
 
 When(/^I sign up to the email alerts$/) do
