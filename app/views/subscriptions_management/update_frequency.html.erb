@@ -20,7 +20,7 @@
       <%= hidden_field_tag :id, @subscription_id %>
       <div class="form-group">
         <%= render 'govuk_publishing_components/components/fieldset', {
-          legend_text: render('govuk_component/govspeak', content: %{<h2 class="app-legend-title">How often do you want to get updates?</h2>}),
+          legend_text: render('govuk_publishing_components/components/govspeak', content: %{<h2 class="app-legend-title">How often do you want to get updates?</h2>}.html_safe),
         } do %>
           <%= render 'govuk_publishing_components/components/radio', {
             name: 'new_frequency',
@@ -57,8 +57,8 @@
         } %>
       </div>
     <%- end -%>
-    <%= render 'govuk_component/govspeak', {
-      content: %{<p><a href="#{@back_url}">Cancel</a></p>}
-    } %>
+    <%= govspeak do %>
+      <p><%= link_to "Cancel", @back_url %></p>
+    <% end %>
   </div>
 </div>

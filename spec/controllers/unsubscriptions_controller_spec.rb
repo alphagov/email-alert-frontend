@@ -63,10 +63,8 @@ RSpec.describe UnsubscriptionsController do
 
       it "shows a cancel button" do
         get :confirm, params: { id: id }, session: session
-        # Because of static components we can't do a `expect(body).to have_link`
-        expect(response.body).to include(
-          CGI.escapeHTML(%{<a href=\\"#{list_subscriptions_path}\\">Cancel</a>})
-        )
+
+        expect(response.body).to have_link("Cancel", href: list_subscriptions_path)
       end
     end
 

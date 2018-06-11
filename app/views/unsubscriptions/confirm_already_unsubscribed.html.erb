@@ -22,15 +22,12 @@ content_for :title, page_title
 
 <div class="grid-row">
   <div class="column-two-thirds">
-    <% paragraph_text = capture do %>
+    <%= govspeak do %>
       <% if @title %>
         <p>You won’t get any more updates about <%= @title %>.</p>
       <% else %>
         <p>You won’t get any more updates about this topic.</p>
       <% end %>
     <% end %>
-    <%= render 'govuk_component/govspeak', {
-      content: paragraph_text
-    } %>
   </div>
 </div>
