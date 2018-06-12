@@ -33,10 +33,7 @@
 
 <% else %>
 
-  <%= render partial: 'govuk_component/title', locals: {
-    average_title_length: "long",
-    title: "Get email alerts"
-  } %>
+  <%= title "Get email alerts", average_title_length: "long" %>
 
   <div>
     <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
