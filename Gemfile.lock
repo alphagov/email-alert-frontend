@@ -309,7 +309,7 @@ GEM
       sass (~> 3.5.5)
     sentry-raven (2.7.3)
       faraday (>= 0.7.6, < 1.0)
-    slimmer (12.1.0)
+    slimmer (13.0.0)
       activesupport
       json
       nokogiri (~> 1.7)
@@ -374,7 +374,7 @@ DEPENDENCIES
   rails (= 5.2.0)
   rspec-rails (~> 3.6)
   sass-rails (~> 5.0)
-  slimmer (~> 12.1)
+  slimmer (~> 13.0)
   timecop (~> 0.9.1)
   uglifier (~> 4.1)
   webmock (~> 3.4)

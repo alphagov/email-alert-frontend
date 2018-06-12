@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include Slimmer::Template
-  include Slimmer::GovukComponents
 
   before_action :set_cache_control_header
 

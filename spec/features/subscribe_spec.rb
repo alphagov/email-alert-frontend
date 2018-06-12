@@ -33,11 +33,13 @@ RSpec.describe "subscribing", type: :feature do
 
       expect(page).to have_content("How often do you want to get updates?")
       choose "frequency", option: frequency, visible: false
-      submit_form
+
+      click_on "Next"
 
       expect(page).to have_content("What’s your email address?")
       fill_in :address, with: address
-      submit_form
+
+      click_on "Subscribe"
 
       expect(page).to have_content("You’ve subscribed successfully")
       expect(page).to have_content("Test Subscriber List")
@@ -81,14 +83,6 @@ RSpec.describe "subscribing", type: :feature do
         expect(back_link_href).to match(new_subscription_path_regex)
       end
     end
-  end
-
-  def submit_form
-    # We submit the form with JavaScript because the component doesn't render
-    # in the test environment, it looks like this:
-    #
-    # <test-govuk-component data-template="govuk_component-button">{"text":"Subscribe","margin_bottom":true}</test-govuk-component>
-    page.execute_script("document.querySelector('form').submit()")
   end
 
   def back_link_href

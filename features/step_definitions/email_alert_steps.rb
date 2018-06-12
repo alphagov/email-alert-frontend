@@ -44,5 +44,5 @@ end
 
 Then(/^I can see the government header$/) do
   visit email_alert_signup_path('government/policies/employment/email-signup')
-  expect(page).to have_css(shared_component_selector('government_navigation'))
+  expect(page).to have_css('#proposition-menu')
 end
