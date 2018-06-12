@@ -2,7 +2,7 @@
 <% content_for :meta_description, email_alert_signup.summary %>
 
 <% if email_alert_signup.government? %>
-  <%= render partial: 'govuk_component/government_navigation', locals: { active: email_alert_signup.government_content_section } %>
+  <%= render 'govuk_publishing_components/components/government_navigation', active: email_alert_signup.government_content_section %>
 <% end %>
 
 <header>
