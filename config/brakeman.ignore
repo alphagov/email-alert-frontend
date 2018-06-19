@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "5d437b79cadf3c7bcdd77273a7cfa2dd8e893179191484e5e9a751cdf53c6163",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/taxonomy_signups_controller.rb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(TaxonomySignup.new(EmailAlertFrontend.services(:content_store).content_item(taxon_path).to_h).subscription_management_url)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TaxonomySignupsController",
+        "method": "create"
+      },
+      "user_input": "TaxonomySignup.new(EmailAlertFrontend.services(:content_store).content_item(taxon_path).to_h).subscription_management_url",
+      "confidence": "High",
+      "note": "The URI is assured through the PublicUrlService module. Theis effectively mitigates the unvalidated redirect risk reported by Brakeman"
+    }
+  ],
+  "updated": "2018-06-19 13:12:36 +0100",
+  "brakeman_version": "4.3.1"
+}
