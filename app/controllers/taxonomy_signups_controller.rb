@@ -14,7 +14,7 @@ class TaxonomySignupsController < ApplicationController
     signup = TaxonomySignup.new(@taxon.to_h)
 
     if signup.save
-      redirect_to signup.subscription_management_url
+      redirect_to URI.parse(signup.subscription_management_url).path
     else
       redirect_to confirm_taxonomy_signup_path(topic: taxon_path)
     end
