@@ -35,10 +35,6 @@ If you are using the GDS development virtual machine then the application will b
 $ bundle exec rake
 ```
 
-## Brakeman
-Running the Brakeman gem against this app produces an 'unvalidated redirect' warning in the TaxonomySignupsController class. This risk is mitigated
-through use of the PublicUrlService module in the email-alert-api service. For this reason, the warning has been added to a brakeman.ignore file.
-
 ## Content Item
 
 The [schema](https://github.com/alphagov/govuk-content-schemas/tree/master/formats/email_alert_signup) sets out the fields required for the Content Item. The only two fields required in the details hash are `summary` and `tags`:

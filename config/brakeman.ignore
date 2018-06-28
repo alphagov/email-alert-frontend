@@ -18,7 +18,7 @@
       },
       "user_input": "TaxonomySignup.new(EmailAlertFrontend.services(:content_store).content_item(taxon_path).to_h).subscription_management_url",
       "confidence": "High",
-      "note": "The URI is assured through the PublicUrlService module. Theis effectively mitigates the unvalidated redirect risk reported by Brakeman"
+      "note": "The URI is assured through the PublicUrlService module. This effectively mitigates the unvalidated redirect risk reported by Brakeman"
     }
   ],
   "updated": "2018-06-19 13:12:36 +0100",
