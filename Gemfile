@@ -11,7 +11,7 @@ gem 'slimmer', '~> 13.0'
 gem 'uglifier', '~> 4.1'
 
 gem 'gds-api-adapters', '~> 52.6'
-gem 'govuk_app_config', '~> 1.5'
+gem 'govuk_app_config', '~> 1.6'
 gem 'govuk_elements_rails', '~> 3.1'
 gem 'govuk_frontend_toolkit', '~> 7.4'
 gem 'govuk_publishing_components', '~> 9.3'
