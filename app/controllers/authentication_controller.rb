@@ -52,7 +52,7 @@ private
     subscriber_id = data.fetch('subscriber_id')
     redirect = data.fetch('redirect')
     [subscriber_id, redirect]
-  rescue JWT::ExpiredSignature, KeyError
+  rescue JWT::ExpiredSignature, JWT::VerificationError, KeyError
     []
   end
 
