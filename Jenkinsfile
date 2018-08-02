@@ -5,6 +5,7 @@ library("govuk")
 node {
   govuk.buildProject(
     sassLint: false,
-    rubyLintDiff: false
+    rubyLintDiff: false,
+    brakeman: true,
   )
 }
