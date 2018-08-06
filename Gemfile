@@ -30,7 +30,7 @@ group :test do
   gem 'launchy'
   gem 'phantomjs', '~> 2.1'
   gem 'poltergeist', require: false
-  gem 'rspec-rails', '~> 3.6'
+  gem 'rspec-rails', '~> 3.8'
   gem 'timecop', '~> 0.9.1'
   gem 'webmock', '~> 3.4'
 
