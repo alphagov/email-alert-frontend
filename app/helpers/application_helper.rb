@@ -1,6 +1,6 @@
 module ApplicationHelper
   def govspeak
-    render "govuk_publishing_components/components/govspeak", rich_govspeak: true do
+    render "govuk_publishing_components/components/govspeak" do
       yield
     end
   end
