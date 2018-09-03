@@ -56,7 +56,7 @@ RSpec.describe "subscribing", type: :feature do
 
     context "arrived at form with referer" do
       it "has a link to the referer forced onto the gov.uk domain" do
-        page.driver.add_header("Referer", "http://example.com/some/page?query=string", permanent: false)
+        page.driver.header("Referer", "http://example.com/some/page?query=string")
         visit new_subscription_path
         expect(back_link_href).to match(%r{gov.uk/some/page\?query=string$})
       end
@@ -65,8 +65,7 @@ RSpec.describe "subscribing", type: :feature do
     context "arrived at form without referer" do
       it "links to govuk website root" do
         visit new_subscription_path
-        page.save_screenshot('screenshot.png')
-        expect(back_link_href).to match(%r{gov.uk/$})
+        expect(back_link_href).to match(%r{gov.uk$})
       end
     end
 
