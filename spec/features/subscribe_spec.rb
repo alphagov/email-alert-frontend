@@ -65,7 +65,6 @@ RSpec.describe "subscribing", type: :feature do
     context "arrived at form without referer" do
       it "links to govuk website root" do
         visit new_subscription_path
-        page.save_screenshot('screenshot.png')
         expect(back_link_href).to match(%r{gov.uk$})
       end
     end
