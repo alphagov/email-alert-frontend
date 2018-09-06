@@ -37,7 +37,9 @@
 
   <div>
     <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
-    <p>This will include: <%= @taxon['description']%></p>
+    <% if @taxon['description'].present? %>
+      <p>This will include: <%= @taxon['description'] %></p>
+    <% end %>
 
     <%= link_to 'Select', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
   </div>
