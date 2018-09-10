@@ -15,7 +15,7 @@
 <div id='radio<%= taxon_index %>' class='form-block hidden-submit panel no-js-panel panel-border-narrow js-hidden' aria-hidden="true">
   <% if is_parent %>
     <p> This will include alerts about all the topics below </p>
-  <% else %>
+  <% elsif taxon['description'].present? %>
     <p> This will include: <%= taxon['description'] %> </p>
   <% end %>
 
