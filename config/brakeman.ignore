@@ -3,24 +3,24 @@
     {
       "warning_type": "Redirect",
       "warning_code": 18,
-      "fingerprint": "5d437b79cadf3c7bcdd77273a7cfa2dd8e893179191484e5e9a751cdf53c6163",
+      "fingerprint": "8d684e0fecc43a48c8920e6b7855c91953ffffbc571fb73de4e02aaf6c889b7a",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/taxonomy_signups_controller.rb",
-      "line": 17,
+      "line": 16,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(TaxonomySignup.new(EmailAlertFrontend.services(:content_store).content_item(taxon_path).to_h).subscription_management_url)",
+      "code": "redirect_to(TaxonomySignup.new(taxon.to_h).subscription_management_url)",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "TaxonomySignupsController",
         "method": "create"
       },
-      "user_input": "TaxonomySignup.new(EmailAlertFrontend.services(:content_store).content_item(taxon_path).to_h).subscription_management_url",
+      "user_input": "TaxonomySignup.new(taxon.to_h).subscription_management_url",
       "confidence": "High",
       "note": "This URL comes from the Content Store and we trust all the data in the Content Store."
     }
   ],
-  "updated": "2018-08-02 08:34:22 +0100",
+  "updated": "2018-09-11 12:08:33 +0100",
   "brakeman_version": "4.3.1"
 }
