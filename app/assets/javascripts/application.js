@@ -3,8 +3,7 @@
 //=require govuk/show-hide-content.js
 //
 // from govuk_publishing_components
-//=require govuk_publishing_components/components/error-summary
-//=require govuk_publishing_components/components/success-alert
+//=require govuk_publishing_components/all_components
 ;(function () {
   $('.js-hidden-submit').removeClass('js-hidden-submit')
   $('.no-js-panel').removeClass('no-js-panel')
