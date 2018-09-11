@@ -1,7 +1,6 @@
 class TaxonomySignupsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :require_taxon_param
-  before_action :load_taxon
   before_action :validate_taxon_document_type
 
   def new; end
@@ -11,7 +10,7 @@ class TaxonomySignupsController < ApplicationController
   end
 
   def create
-    signup = TaxonomySignup.new(@taxon.to_h)
+    signup = TaxonomySignup.new(taxon.to_h)
 
     if signup.save
       redirect_to signup.subscription_management_url
@@ -41,20 +40,20 @@ private
     params[:topic]
   end
 
-  def load_taxon
+  def taxon
     @taxon ||= EmailAlertFrontend
       .services(:content_store)
       .content_item(taxon_path)
   end
 
   def validate_taxon_document_type
-    unless @taxon['document_type'] == 'taxon'
+    unless taxon['document_type'] == 'taxon'
       redirect_to '/'
       false
     end
   end
 
   def load_estimated_email_frequency
-    @estimated_email_frequency = WeeklyEmailVolume.new(@taxon).estimate
+    @estimated_email_frequency = WeeklyEmailVolume.new(taxon).estimate
   end
 end
