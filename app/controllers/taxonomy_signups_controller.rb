@@ -2,6 +2,7 @@ class TaxonomySignupsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :require_taxon_param
   before_action :validate_taxon_document_type
+  helper_method :child_taxons
 
   def new; end
 
@@ -17,6 +18,12 @@ class TaxonomySignupsController < ApplicationController
     else
       redirect_to confirm_taxonomy_signup_path(topic: taxon_path)
     end
+  end
+
+  def child_taxons
+    taxon['links']
+      .fetch('child_taxons', [])
+      .reject { |taxon| taxon['phase'] == 'alpha' }
   end
 
 private

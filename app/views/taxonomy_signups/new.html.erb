@@ -7,8 +7,6 @@
 <div class='grid-row'>
 <div class='column-two-thirds'>
 
-<% child_taxons = @taxon.dig('links', 'child_taxons') %>
-
 <% if child_taxons.present?%>
   <%= title "What do you want to get alerts about?", average_title_length: "long" %>
 
