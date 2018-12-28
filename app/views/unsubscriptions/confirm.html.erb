@@ -1,23 +1,15 @@
 <% content_for :title, 'Are you sure you want to unsubscribe?' %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag 'application-without-elements' %>
-<% end %>
-
 <% if @authenticated_for_subscription %>
   <%= render 'govuk_publishing_components/components/back_link', {
     href: list_subscriptions_path,
   } %>
 <% end %>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
-    <%= title 'Are you sure you want to unsubscribe?' %>
-  </div>
-</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Are you sure you want to unsubscribe?</h1>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
     <%= govspeak do %>
       <% if @title %>
         <p>You won’t get any more updates about <%= @title %>.</p>

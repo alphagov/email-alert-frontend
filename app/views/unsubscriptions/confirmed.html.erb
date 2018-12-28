@@ -1,23 +1,17 @@
 <% content_for :title, 'You’ve successfully unsubscribed' %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag 'application-without-elements' %>
-<% end %>
-
 <% if @from_subscription_management %>
-  <%= render 'govuk_publishing_components/components/back_link', {
-    href: @back_url,
-  } %>
+  <% content_for :back_link do %>
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: @back_url
+    } %>
+  <% end %>
 <% end %>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
-    <%= title 'You’ve successfully unsubscribed' %>
-  </div>
-</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">You’ve successfully unsubscribed</h1>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
     <%= govspeak do %>
       <% if @title %>
         <p>You won’t get any more updates about <%= @title %>.</p>
