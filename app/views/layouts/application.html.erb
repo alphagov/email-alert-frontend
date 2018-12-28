@@ -6,23 +6,20 @@
     <% if content_for(:meta_description).present? %>
       <meta name="description" content="<%= content_for(:meta_description) %>" />
     <% end %>
-    <% if content_for?(:head_css) %>
-      <%= yield :head_css %>
-    <% else %>
-      <%= stylesheet_link_tag "application" %>
-    <% end %>
-    <%= stylesheet_link_tag "print.css", media: "screen" %>
+    <%= stylesheet_link_tag "application" %>
+    <%= stylesheet_link_tag "print.css", media: "print" %>
     <%= yield :head %>
     <meta name="robots" content="noindex, nofollow">
   </head>
-  <body>
-    <div id="wrapper">
-      <main id="content" role="main">
+  <body class="govuk-template__body">
+    <div class="govuk-width-container" id="wrapper">
+      <%= yield :back_link %>
+      <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main">
         <div id="email-alert-frontend">
           <%= yield %>
         </div>
-        <%= render 'govuk_publishing_components/components/feedback' %>
       </main>
+      <%= render 'govuk_publishing_components/components/feedback' %>
     </div>
     <%= javascript_include_tag 'application' %>
   </body>
