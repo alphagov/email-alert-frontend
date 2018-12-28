@@ -12,8 +12,6 @@ gem 'uglifier', '~> 4.1'
 
 gem 'gds-api-adapters', '~> 55.0'
 gem 'govuk_app_config', '~> 1.10'
-gem 'govuk_elements_rails', '~> 3.1'
-gem 'govuk_frontend_toolkit', '~> 8.1'
 gem 'govuk_publishing_components', '~> 13.5'
 gem 'plek', '~> 2.1'
 
