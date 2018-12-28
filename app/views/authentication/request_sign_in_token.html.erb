@@ -1,17 +1,9 @@
 <% content_for :title, 'Manage your subscriptions' %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag 'application-without-elements' %>
-<% end %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Manage your subscriptions</h1>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
-    <%= title 'Manage your subscriptions' %>
-  </div>
-</div>
-
-<div class="grid-row">
-  <div class="column-two-thirds">
     <%= govspeak do %>
       <p>If you’re subscribed to emails from GOV.UK, we’ll send a link to <%= @address %>.</p>
       <p>Use the link in the email to confirm your email address.</p>
