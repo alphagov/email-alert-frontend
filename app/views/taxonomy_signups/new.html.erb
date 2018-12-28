@@ -1,51 +1,67 @@
 <% content_for :title, @taxon['title'] %>
 
-<%= render "govuk_publishing_components/components/back_link", {
-  href: @taxon['base_path']
-} %>
-
-<div class='grid-row'>
-<div class='column-two-thirds'>
-
-<% if child_taxons.present?%>
-  <%= title "What do you want to get alerts about?", average_title_length: "long" %>
-
-  <%= form_tag({action: "confirm"}, method: "get") do %>
-    <fieldset>
-      <legend id="alerts" class="visually-hidden">What do you want to get alerts about?</legend>
-      <div class='email-signup-taxons' role='radiogroup' aria-labelledby='alerts'>
-        <p class="email-option">Everything published to GOV.UK about</p>
-
-        <%= render partial: 'taxon', locals: { taxon: @taxon, is_parent: true } %>
-
-        <p class='email-option form-block'>or only one of the following <%= child_taxons.count %> topics</p>
-
-        <% child_taxons.each_with_index do |taxon, taxon_index| %>
-          <%= render partial: 'taxon', locals: { taxon: taxon, taxon_index: taxon_index + 1 } %>
-        <% end %>
-      </div>
-
-      <input class="button no-js-hidden-submit" type="submit" value="Select">
-    </fieldset>
-  <% end %>
-
-<% else %>
-
-  <%= title "Get email alerts", average_title_length: "long" %>
-
-  <div>
-    <p>You are signing up for email alerts about: <%= @taxon['title']%></p>
-    <% if @taxon['description'].present? %>
-      <p>This will include: <%= @taxon['description'] %></p>
-    <% end %>
-
-    <%= link_to 'Select', confirm_taxonomy_signup_path(topic: @taxon['base_path']), class: 'button' %>
-  </div>
-
+<% content_for :back_link do %>
+  <%= render "govuk_publishing_components/components/back_link", {
+    href: @taxon['base_path']
+  } %>
 <% end %>
 
-<br />
-<%= link_to 'Back to select a different topic', @taxon['base_path'] %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-</div>
+  <% if child_taxons.present?%>
+    <h1 class="govuk-heading-l">What do you want to get alerts about?</h1>
+
+    <%= form_tag({action: "confirm"}, method: "get") do %>
+
+      <p class="app-email-option">Everything published to GOV.UK about</p>
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "topic",
+        id_prefix: "all",
+        items: [{
+          value: @taxon['base_path'],
+          text: @taxon['title'],
+          conditional: '<p class="govuk-body">This will include alerts about all the topics below</p>'.html_safe
+        }]
+      } %>
+
+      <p class='app-email-option'>or only one of the following <%= child_taxons.count %> topics</p>
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "topic",
+        id_prefix: "topics",
+        items: child_taxons.each.map { |taxon| {
+          :value => taxon['base_path'],
+          :text => taxon['title'],
+          :conditional => ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe
+        } }
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Select",
+        margin_bottom: true
+      } %>
+    <% end %>
+
+  <% else %>
+
+    <h1 class="govuk-heading-l">Get email alerts</h1>
+
+    <p class="govuk-body">You are signing up for email alerts about: <%= @taxon['title']%></p>
+    <% if @taxon['description'].present? %>
+      <p class="govuk-body">This will include: <%= @taxon['description'] %></p>
+    <% end %>
+
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Select",
+      href: confirm_taxonomy_signup_path(topic: @taxon['base_path']),
+      margin_bottom: true
+    } %>
+
+  <% end %>
+
+  <p class="govuk-body">
+    <%= link_to 'Back to select a different topic', @taxon['base_path'], class: 'govuk-link' %>
+  </p>
+
+  </div>
 </div>

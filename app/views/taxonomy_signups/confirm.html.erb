@@ -1,47 +1,50 @@
 <% content_for :title, @taxon['title'] %>
 
-<%= render "govuk_publishing_components/components/back_link", {
-  href: @taxon['base_path']
-} %>
+<% content_for :back_link do %>
+  <%= render "govuk_publishing_components/components/back_link", {
+    href: @taxon['base_path']
+  } %>
+<% end %>
 
-<div class='grid-row'>
-<div class='email-signup column-two-thirds'>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-  <%= title "What you’ll get", average_title_length: "long" %>
+    <h1 class="govuk-heading-l">What you’ll get</h1>
 
-  <p>
-    You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @taxon['title'] %>.
-  </p>
+    <p class="govuk-body">
+      You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @taxon['title'] %>.
+    </p>
 
-  <p>
-    This might be between <%= @estimated_email_frequency %> updates a week.
-  </p>
+    <p class="govuk-body">
+      This might be between <%= @estimated_email_frequency %> updates a week.
+    </p>
 
-  <p>
-    You can choose to receive email alerts:
-  </p>
+    <p class="govuk-body">
+      You can choose to receive email alerts:
+    </p>
 
-  <ol class="list list-bullet">
-    <li>instantly (default)</li>
-    <li>once a day, with all updates made that day</li>
-    <li>once a week, with all updates made that week</li>
-  </ol>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>instantly (default)</li>
+      <li>once a day, with all updates made that day</li>
+      <li>once a week, with all updates made that week</li>
+    </ul>
 
-  <p>
-    You can set your preferences once you've signed up.
-  </p>
+    <p class="govuk-body">
+      You can set your preferences once you've signed up.
+    </p>
 
-  <p class="panel panel-border-narrow">
-    The preferences you set will apply to all of your email alerts from GOV.UK.
-  </p>
+    <%= render "govuk_publishing_components/components/inset_text", {
+      text: "The preferences you set will apply to all of your email alerts from GOV.UK."
+    } %>
 
-  <%= form_tag(:action => :create) do %>
-    <%= hidden_field_tag 'topic', @taxon['base_path'] %>
-    <%= submit_tag('Sign up now', class: 'button') %>
-  <% end %>
+    <%= form_tag(:action => :create) do %>
+      <%= hidden_field_tag 'topic', @taxon['base_path'] %>
+      <%= submit_tag('Sign up now', class: 'govuk-button') %>
+    <% end %>
 
-  <br />
-  <%= link_to 'Back', :back %>
+    <p class="govuk-body">
+      <%= link_to 'Back', :back %>
+    </p>
 
-</div>
+  </div>
 </div>
