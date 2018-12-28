@@ -16,11 +16,9 @@
       </div>
     <% end %>
 
-    <%= render 'components/heading', {
-      text: "Subscriptions for #{@subscriber['address']}",
-      heading_level: 2
-    } %>
-
+    <h2 class="govuk-heading-m">
+      <%= "Subscriptions for #{@subscriber['address']}" %>
+    </h2>
     <%= govspeak do %>
       <p><%= link_to "Change email address", update_address_path %></p>
     <% end %>
@@ -39,10 +37,9 @@
     <% else %>
       <% @subscriptions.each do |_key, subscription| %>
         <div class="responsive-bottom-margin">
-          <%= render 'components/heading', {
-            text: subscription['subscriber_list']['title'],
-            heading_level: 3
-          } %>
+          <h3 class="govuk-heading-s">
+            <%= subscription['subscriber_list']['title'] %>
+          </h3>
           <%= govspeak do %>
             <p>
               <% if subscription['frequency'] == "daily" %>

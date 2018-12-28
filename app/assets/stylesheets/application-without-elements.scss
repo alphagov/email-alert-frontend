@@ -11,9 +11,6 @@
 // Components from govuk_publishing_components:
 @import "govuk_publishing_components/all_components";
 
-// Components from this application:
-@import "components/heading";
-
 @include add-title-margin;
 
 .app-legend-title {
