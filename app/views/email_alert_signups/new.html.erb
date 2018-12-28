@@ -12,5 +12,7 @@
 <%= form_for email_alert_signup, html: { class: "signup-form" } do |form| %>
   <p><%= email_alert_signup.summary %></p>
 
-  <%= button_tag 'Create subscription' %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Create subscription"
+  } %>
 <% end %>
