@@ -1,37 +1,29 @@
 <% content_for :title, 'Change your email address' %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag 'application-without-elements' %>
+<% content_for :back_link do %>
+  <%= render "govuk_publishing_components/components/back_link", {
+    href: @back_url
+  } %>
 <% end %>
 
-<%= render 'govuk_publishing_components/components/back_link', {
-  href: @back_url,
-} %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Change your email address</h1>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
-    <%= title 'Change your email address' %>
-  </div>
-</div>
+    <% if flash[:error] %>
+      <div class="column-two-thirds">
+        <%= render 'govuk_publishing_components/components/error_summary', {
+          title: 'We weren’t able to change your email address',
+          items: [
+            {
+              text: 'There’s a problem with your email address',
+              href: '#email-address-input',
+            }
+          ]
+        } %>
+      </div>
+    <% end %>
 
-<% if flash[:error] %>
-  <div class="grid-row responsive-bottom-margin">
-    <div class="column-two-thirds">
-      <%= render 'govuk_publishing_components/components/error_summary', {
-        title: 'We weren’t able to change your email address',
-        items: [
-          {
-            text: 'There’s a problem with your email address',
-            href: '#email-address-input',
-          }
-        ]
-      } %>
-    </div>
-  </div>
-<% end %>
-
-<div class="grid-row">
-  <div class="column-two-thirds">
     <%= govspeak do %>
       <p>Your current email address is <%= @address %></p>
     <% end %>

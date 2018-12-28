@@ -1,26 +1,19 @@
 <% content_for :title, 'Manage your subscriptions' %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag 'application-without-elements' %>
+<% content_for :back_link do %>
+  <%= render "govuk_publishing_components/components/back_link", {
+    href: @back_url
+  } %>
 <% end %>
 
-<%= render 'govuk_publishing_components/components/back_link', {
-  href: @back_url,
-} %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Manage your subscriptions</h1>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
-    <%= title 'Manage your subscriptions' %>
-  </div>
-</div>
-
-<div class="grid-row">
-  <div class="column-two-thirds">
     <%= form_tag change_frequency_path, method: :post do %>
       <%= hidden_field_tag :id, @subscription_id %>
-      <div class="form-group">
         <%= render 'govuk_publishing_components/components/fieldset', {
-          legend_text: render('govuk_publishing_components/components/govspeak', content: %{<h2 class="app-legend-title">How often do you want to get updates?</h2>}.html_safe),
+          legend_text: '<h2 class="govuk-heading-m">How often do you want to get updates?</h2>'.html_safe,
         } do %>
           <%= render 'govuk_publishing_components/components/radio', {
             name: 'new_frequency',
@@ -43,8 +36,7 @@
             ]
           } %>
         <% end %>
-      </div>
-      <div class="form-group">
+
         <%= render 'govuk_publishing_components/components/button', {
           text: 'Save',
           margin_bottom: true,
@@ -55,7 +47,6 @@
             track_label: @current_frequency,
           }
         } %>
-      </div>
     <%- end -%>
     <%= govspeak do %>
       <p><%= link_to "Cancel", @back_url %></p>
