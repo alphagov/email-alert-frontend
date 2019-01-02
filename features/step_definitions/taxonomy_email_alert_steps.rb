@@ -53,9 +53,7 @@ end
 
 When(/^i choose to subscribe to the taxon$/) do
   choose @taxon[:title]
-  within('#email-alert-frontend form') do
-    all('input[value="Select"]').last.click
-  end
+  click_button 'Select'
 end
 
 Then(/^i see a confirmation page$/) do

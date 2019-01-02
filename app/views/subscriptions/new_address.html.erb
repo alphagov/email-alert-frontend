@@ -1,15 +1,14 @@
 <% content_for :title, "Enter your email address" %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag "application-without-elements" %>
+<% content_for :back_link do %>
+  <%= render "govuk_publishing_components/components/back_link", {
+    href: @back_url
+  } %>
 <% end %>
 
-<%= render "govuk_publishing_components/components/back_link", {
-  href: @back_url,
-} %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<div class="grid-row">
-  <div class="column-two-thirds">
     <% if flash[:error] %>
       <%= render "govuk_publishing_components/components/error_summary", {
         title: "We weren’t able to process your subscription",
@@ -22,7 +21,7 @@
       } %>
     <% end %>
 
-    <%= title "Enter your email address" %>
+    <h1 class="govuk-heading-l">Enter your email address</h1>
 
     <% frequency_variations = {
       "immediately" => "You’ll get an email every time a page is added or changed.",

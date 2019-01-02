@@ -1,34 +1,24 @@
 <% content_for :title, 'Manage your subscriptions' %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag 'application-without-elements' %>
-<% end %>
-
-<div class="grid-row">
-  <div class="column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
     <%= title 'Manage your subscriptions' %>
 
     <% if flash[:success] %>
-      <div class="responsive-bottom-margin">
-        <%= render 'govuk_publishing_components/components/success_alert', {
-          message: flash[:success]
-        } %>
-      </div>
+      <%= render 'govuk_publishing_components/components/success_alert', {
+        message: flash[:success]
+      } %>
     <% end %>
 
-    <%= render 'components/heading', {
-      text: "Subscriptions for #{@subscriber['address']}",
-      heading_level: 2
-    } %>
-
+    <h2 class="govuk-heading-m">
+      <%= "Subscriptions for #{@subscriber['address']}" %>
+    </h2>
     <%= govspeak do %>
       <p><%= link_to "Change email address", update_address_path %></p>
     <% end %>
-  </div>
-</div>
 
-<div class="grid-row">
-  <div class="column-two-thirds add-title-margin">
+    <hr class="govuk-section-break govuk-section-break--l">
+
     <% if @subscriptions.empty? %>
       <%= govspeak do %>
         <p>
@@ -38,32 +28,32 @@
       <% end %>
     <% else %>
       <% @subscriptions.each do |_key, subscription| %>
-        <div class="responsive-bottom-margin">
-          <%= render 'components/heading', {
-            text: subscription['subscriber_list']['title'],
-            heading_level: 3
-          } %>
-          <%= govspeak do %>
-            <p>
-              <% if subscription['frequency'] == "daily" %>
-                You chose to get daily updates.
-              <% elsif subscription['frequency'] == "weekly" %>
-                You chose to get weekly updates.
-              <% else %>
-                You chose to get updates as soon as they happen.
-              <% end %>
-              <br><a href="<%= update_frequency_path(id: subscription['id']) %>">Change how often you get updates</a>
-            </p>
-            <p><a href="<%= confirm_unsubscribe_path(id: subscription['id']) %>">Unsubscribe</a></p>
-          <% end %>
-        </div>
+        <h3 class="govuk-heading-s">
+          <%= subscription['subscriber_list']['title'] %>
+        </h3>
+        <%= govspeak do %>
+          <p>
+            <% if subscription['frequency'] == "daily" %>
+              You chose to get daily updates.
+            <% elsif subscription['frequency'] == "weekly" %>
+              You chose to get weekly updates.
+            <% else %>
+              You chose to get updates as soon as they happen.
+            <% end %>
+            <br><a href="<%= update_frequency_path(id: subscription['id']) %>">Change how often you get updates</a>
+          </p>
+          <p><a href="<%= confirm_unsubscribe_path(id: subscription['id']) %>">Unsubscribe</a></p>
+        <% end %>
+        <hr class="govuk-section-break govuk-section-break--m">
       <% end %>
 
-      <%= govspeak do %>
-        <div class="info-notice">
-          <p><%= link_to "Unsubscribe from everything", confirm_unsubscribe_all_path %></p>
-        </div>
+      <%= unsubscribe_all_text = capture do %>
+        <p class="govuk-body"><%= link_to "Unsubscribe from everything", confirm_unsubscribe_all_path %></p>
       <% end %>
+
+      <%= render "govuk_publishing_components/components/inset_text", {
+        text: unsubscribe_all_text
+      } %>
     <% end %>
   </div>
 </div>

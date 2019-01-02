@@ -1,18 +1,11 @@
 <% content_for :title, 'Manage your subscriptions' %>
 
-<% content_for :head_css do %>
-  <%= stylesheet_link_tag 'application-without-elements' %>
-<% end %>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
-    <%= title 'Manage your subscriptions' %>
-  </div>
-</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Manage your subscriptions</h1>
 
-<% if flash[:error_summary] == "email" %>
-  <div class="grid-row responsive-bottom-margin">
-    <div class="column-two-thirds">
+    <% if flash[:error_summary] == "email" %>
       <%= render 'govuk_publishing_components/components/error_summary', {
         title: 'We weren’t able to sign you in',
         items: [
@@ -22,21 +15,13 @@
           }
         ]
       } %>
-    </div>
-  </div>
-<% elsif flash[:error_summary] == "bad_token" %>
-  <div class="grid-row responsive-bottom-margin">
-    <div class="column-two-thirds">
+    <% elsif flash[:error_summary] == "bad_token" %>
       <%= render 'govuk_publishing_components/components/error_summary', {
         title: 'That link has expired',
         description: 'Enter your email address again to change your subscription',
       } %>
-    </div>
-  </div>
-<% end %>
+    <% end %>
 
-<div class="grid-row">
-  <div class="column-two-thirds">
     <%= form_tag sign_in_path, method: :post do %>
       <%= render 'govuk_publishing_components/components/input', {
         error_message: flash[:error],
