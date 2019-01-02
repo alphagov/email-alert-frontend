@@ -1,9 +1,11 @@
 <% content_for :title, 'Are you sure you want to unsubscribe?' %>
 
 <% if @authenticated_for_subscription %>
-  <%= render 'govuk_publishing_components/components/back_link', {
-    href: list_subscriptions_path,
-  } %>
+  <% content_for :back_link do %>
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: list_subscriptions_path
+    } %>
+  <% end %>
 <% end %>
 
 <div class="govuk-grid-row">
