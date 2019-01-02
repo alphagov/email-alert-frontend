@@ -2,7 +2,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= title 'Manage your subscriptions' %>
+    <h1 class="govuk-heading-l"> Manage your subscriptions</h1>
 
     <% if flash[:success] %>
       <%= render 'govuk_publishing_components/components/success_alert', {
@@ -47,7 +47,7 @@
         <hr class="govuk-section-break govuk-section-break--m">
       <% end %>
 
-      <%= unsubscribe_all_text = capture do %>
+      <% unsubscribe_all_text = capture do %>
         <p class="govuk-body"><%= link_to "Unsubscribe from everything", confirm_unsubscribe_all_path %></p>
       <% end %>
 
