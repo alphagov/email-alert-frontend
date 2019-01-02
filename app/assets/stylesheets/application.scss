@@ -6,3 +6,12 @@
   margin-bottom: $govuk-gutter-half;
   line-height: 1.5;
 }
+
+// TODO: remove these overwrites after the title component is updated to work
+// nicely with govuk-frontend layout
+.app-title {
+  .gem-c-title {
+    margin-top: $govuk-gutter-half;
+    margin-bottom: $govuk-gutter-half;
+  }
+}
