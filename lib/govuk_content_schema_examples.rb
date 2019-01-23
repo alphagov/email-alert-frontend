@@ -9,11 +9,6 @@
 #
 require 'gds_api/test_helpers/content_store'
 
-GovukContentSchemaTestHelpers.configure do |config|
-  config.schema_type = 'frontend'
-  config.project_root = Rails.root
-end
-
 module GovukContentSchemaExamples
   extend ActiveSupport::Concern
 
@@ -22,8 +17,7 @@ module GovukContentSchemaExamples
 
     # Returns a hash representing an email_alert_signup content item from govuk-content-schemas
     def govuk_content_schema_example(name, format = 'email_alert_signup')
-      string = GovukContentSchemaTestHelpers::Examples.new.get(format, name)
-      JSON.parse(string)
+      GovukSchemas::Example.find(format, example_name: name)
     end
   end
 end
