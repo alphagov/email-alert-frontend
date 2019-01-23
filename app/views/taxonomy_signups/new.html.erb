@@ -32,7 +32,7 @@
         items: child_taxons.each.map { |taxon| {
           :value => taxon['base_path'],
           :text => taxon['title'],
-          :conditional => ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe
+          :conditional => taxon['description'].present? ? ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe : ''
         } }
       } %>
 
