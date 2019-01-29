@@ -8,6 +8,7 @@ class SubscriptionsController < ApplicationController
   def new
     if @frequency.present?
       return frequency_form_redirect unless valid_frequency
+
       render :new_address
     else
       render :new_frequency

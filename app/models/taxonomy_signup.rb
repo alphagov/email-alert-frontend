@@ -7,6 +7,7 @@ class TaxonomySignup
 
   def save
     return false unless taxon.present?
+
     self.subscription_management_url = update_subscription.dig(
       'subscriber_list', 'subscription_url'
     )
