@@ -68,6 +68,7 @@ private
 
   def safe_redirect_destination(redirect)
     return nil unless redirect
+
     parsed = URI.parse(redirect)
     redirect if parsed.relative? && redirect[0] == '/'
   rescue URI::InvalidURIError
