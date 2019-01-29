@@ -30,6 +30,6 @@ group :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'timecop', '~> 0.9.1'
   gem 'webmock', '~> 3.4'
-
+  gem 'govuk_schemas'
   gem 'govuk-content-schema-test-helpers', '~> 1.6'
 end
