@@ -5,21 +5,21 @@ RSpec.describe SubscriptionsController do
   include GdsApi::TestHelpers::EmailAlertApi
 
   let(:topic_id) { "GOVUK123" }
-  let(:subscribable_title) { "My exciting list" }
-  let(:subscribable_id) { 10 }
-  let(:subscribable_attributes) do
+  let(:subscriber_list_title) { "My exciting list" }
+  let(:subscriber_list_id) { 10 }
+  let(:subscriber_list_attributes) do
     {
-      id: subscribable_id,
-      title: subscribable_title,
+      id: subscriber_list_id,
+      title: subscriber_list_title,
     }
   end
 
   render_views
 
   before do
-    email_alert_api_has_subscribable(
-      reference: topic_id,
-      returned_attributes: subscribable_attributes
+    stub_email_alert_api_has_subscriber_list_by_slug(
+      slug: topic_id,
+      returned_attributes: subscriber_list_attributes
     )
   end
 
@@ -33,7 +33,7 @@ RSpec.describe SubscriptionsController do
 
     context "when a topic that doesn't exist in Email Alert API is provided" do
       before do
-        email_alert_api_does_not_have_subscribable(reference: topic_id)
+        stub_email_alert_api_does_not_have_subscriber_list_by_slug(slug: topic_id)
       end
 
       it "returns 404" do
@@ -133,7 +133,7 @@ RSpec.describe SubscriptionsController do
       end
 
       before do
-        email_alert_api_refuses_to_create_subscription(subscribable_id, address, frequency)
+        email_alert_api_refuses_to_create_subscription(subscriber_list_id, address, frequency)
       end
 
       it "renders an error" do
@@ -152,7 +152,7 @@ RSpec.describe SubscriptionsController do
       end
 
       before do
-        email_alert_api_creates_a_subscription(subscribable_id, address, frequency, 1)
+        email_alert_api_creates_a_subscription(subscriber_list_id, address, frequency, 1)
       end
 
       it "returns a redirect to subscription page" do
@@ -163,7 +163,7 @@ RSpec.describe SubscriptionsController do
 
       it "sends a request to email-alert-api" do
         post :create, params: params
-        assert_subscribed(subscribable_id, address, frequency)
+        assert_subscribed(subscriber_list_id, address, frequency)
       end
 
       it "sets the Cache-Control header to 'private, no-cache'" do

@@ -5,22 +5,22 @@ RSpec.describe "subscribing", type: :feature do
   include GdsApi::TestHelpers::EmailAlertApi
 
   let(:topic_id) { "GOVUK_123" }
-  let(:subscribable_id) { 10 }
+  let(:subscriber_list_id) { 10 }
   let(:address) { "test@test.com" }
   let(:frequency) { "weekly" }
 
   before do
-    email_alert_api_has_subscribable(
-      reference: topic_id,
+    stub_email_alert_api_has_subscriber_list_by_slug(
+      slug: topic_id,
       returned_attributes: {
-        id: subscribable_id,
+        id: subscriber_list_id,
         title: "Test Subscriber List"
       }
     )
 
     returned_subscription_id = 50
     email_alert_api_creates_a_subscription(
-      subscribable_id,
+      subscriber_list_id,
       address,
       frequency,
       returned_subscription_id
