@@ -42,12 +42,12 @@ private
 
   def assign_attributes
     @topic_id = subscription_params.require(:topic_id)
-    @subscribable = email_alert_api
-      .get_subscribable(reference: @topic_id)
-      .to_h.fetch("subscribable")
+    @subscriber_list = email_alert_api
+      .get_subscriber_list(slug: @topic_id)
+      .to_h.fetch("subscriber_list")
     @frequency = subscription_params[:frequency]
     @address = subscription_params[:address]
-    @title = @subscribable["title"]
+    @title = @subscriber_list["title"]
   end
 
   def assign_back_url
@@ -84,7 +84,7 @@ private
 
   def subscribe
     email_alert_api.subscribe(
-      subscribable_id: @subscribable["id"],
+      subscriber_list_id: @subscriber_list["id"],
       address: @address,
       frequency: @frequency,
     )
