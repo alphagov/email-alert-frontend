@@ -10,9 +10,9 @@ class TaxonomySignupsController < ApplicationController
   def confirm; end
 
   def create
-    signup = TaxonomySignup.new(taxon.to_h)
+    signup = ContentItemSubscriberList.new(taxon.to_h)
 
-    if signup.save
+    if signup.has_content_item?
       redirect_to signup.subscription_management_url
     else
       redirect_to confirm_taxonomy_signup_path(topic: taxon_path)
