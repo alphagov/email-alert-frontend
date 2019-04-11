@@ -1,22 +1,22 @@
 require 'rails_helper'
 
-RSpec.describe WeeklyEmailVolume do
+RSpec.describe EmailVolume::WeeklyEmailVolume do
   include GdsApi::TestHelpers::ContentStore
 
   describe "#estimate" do
     let(:top_taxon) do
-      { base_path: '/top', links: { parent_taxons: [] } }.deep_stringify_keys
+      { document_type: 'taxon', base_path: '/top', links: { parent_taxons: [] } }.deep_stringify_keys
     end
 
     let(:second_taxon) do
       {
-        base_path: '/second', links: { parent_taxons: [{ base_path: '/top' }] }
+        document_type: 'taxon', base_path: '/second', links: { parent_taxons: [{ base_path: '/top' }] }
       }.deep_stringify_keys
     end
 
     context 'given a top level taxon' do
       it 'returns a HIGH range' do
-        expect(WeeklyEmailVolume.new(top_taxon).estimate).to eq WeeklyEmailVolume::HIGH
+        expect(described_class.new(top_taxon).estimate).to eq EmailVolume::TaxonWeeklyEmailVolume::HIGH
       end
     end
 
@@ -26,14 +26,14 @@ RSpec.describe WeeklyEmailVolume do
       end
 
       it 'returns a MEDIUM range' do
-        expect(WeeklyEmailVolume.new(second_taxon).estimate).to eq WeeklyEmailVolume::MEDIUM
+        expect(described_class.new(second_taxon).estimate).to eq EmailVolume::TaxonWeeklyEmailVolume::MEDIUM
       end
     end
 
     context 'given a 3rd level taxon' do
       let(:third_taxon) do
         {
-          base_path: '/third', links: { parent_taxons: [{ base_path: '/second' }] }
+          document_type: 'taxon', base_path: '/third', links: { parent_taxons: [{ base_path: '/second' }] }
         }.deep_stringify_keys
       end
 
@@ -42,7 +42,7 @@ RSpec.describe WeeklyEmailVolume do
       end
 
       it 'returns a LOW range' do
-        expect(WeeklyEmailVolume.new(third_taxon).estimate).to eq WeeklyEmailVolume::LOW
+        expect(described_class.new(third_taxon).estimate).to eq EmailVolume::TaxonWeeklyEmailVolume::LOW
       end
     end
   end

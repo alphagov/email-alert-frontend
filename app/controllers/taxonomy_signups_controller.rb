@@ -3,12 +3,11 @@ class TaxonomySignupsController < ApplicationController
   before_action :require_taxon_param
   before_action :validate_taxon_document_type
   helper_method :child_taxons
+  helper_method :estimated_email_frequency
 
   def new; end
 
-  def confirm
-    load_estimated_email_frequency
-  end
+  def confirm; end
 
   def create
     signup = TaxonomySignup.new(taxon.to_h)
@@ -60,7 +59,7 @@ private
     end
   end
 
-  def load_estimated_email_frequency
-    @estimated_email_frequency = WeeklyEmailVolume.new(taxon).estimate
+  def estimated_email_frequency
+    EmailVolume::WeeklyEmailVolume.new(taxon).estimate
   end
 end
