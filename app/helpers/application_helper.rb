@@ -9,7 +9,7 @@ module ApplicationHelper
     render 'govuk_publishing_components/components/title', { title: text }.merge(params)
   end
 
-  def live_taxon?(taxon)
-    taxon['phase'] == 'live'
+  def live_content_item?(content_item)
+    content_item['phase'] == 'live'
   end
 end

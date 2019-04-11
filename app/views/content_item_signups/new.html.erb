@@ -1,9 +1,9 @@
-<% content_for :title, @taxon['title'] %>
+<% content_for :title, @content_item['title'] %>
 
-<% if live_taxon?(@taxon) %>
+<% if live_content_item?(@content_item) %>
   <% content_for :back_link do %>
     <%= render "govuk_publishing_components/components/back_link", {
-      href: @taxon['base_path']
+      href: @content_item['base_path']
     } %>
   <% end %>
 <% end %>
@@ -21,8 +21,8 @@
         name: "topic",
         id_prefix: "all",
         items: [{
-          value: @taxon['base_path'],
-          text: @taxon['title'],
+          value: @content_item['base_path'],
+          text: @content_item['title'],
           conditional: '<p class="govuk-body">This will include alerts about all the topics below</p>'.html_safe
         }]
       } %>
@@ -48,22 +48,22 @@
 
     <h1 class="govuk-heading-l">Get email alerts</h1>
 
-    <p class="govuk-body">You are signing up for email alerts about: <%= @taxon['title']%></p>
-    <% if @taxon['description'].present? %>
-      <p class="govuk-body">This will include: <%= @taxon['description'] %></p>
+    <p class="govuk-body">You are signing up for email alerts about: <%= @content_item['title']%></p>
+    <% if @content_item['description'].present? %>
+      <p class="govuk-body">This will include: <%= @content_item['description'] %></p>
     <% end %>
 
     <%= render "govuk_publishing_components/components/button", {
       text: "Select",
-      href: confirm_taxonomy_signup_path(topic: @taxon['base_path']),
+      href: confirm_content_item_signup_path(link: @content_item['base_path']),
       margin_bottom: true
     } %>
 
   <% end %>
 
-  <% if live_taxon?(@taxon) %>
+  <% if live_content_item?(@content_item) %>
   <p class="govuk-body">
-    <%= link_to 'Back to select a different topic', @taxon['base_path'], class: 'govuk-link' %>
+    <%= link_to 'Back to select a different topic', @content_item['base_path'], class: 'govuk-link' %>
   </p>
   <% end %>
 

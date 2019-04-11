@@ -43,7 +43,7 @@ Given(/^a taxon in the middle of the taxonomy$/) do
 end
 
 When(/^i visit its signup page$/) do
-  visit new_taxonomy_signup_path(topic: @taxon[:base_path])
+  visit new_content_item_signup_path(topic: @taxon[:base_path])
 end
 
 Then(/^i can subscribe to the taxon or one of its children$/) do

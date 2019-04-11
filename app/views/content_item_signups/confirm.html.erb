@@ -1,8 +1,8 @@
-<% content_for :title, @taxon['title'] %>
+<% content_for :title, @content_item['title'] %>
 
 <% content_for :back_link do %>
   <%= render "govuk_publishing_components/components/back_link", {
-    href: @taxon['base_path']
+    href: @content_item['base_path']
   } %>
 <% end %>
 
@@ -12,7 +12,7 @@
     <h1 class="govuk-heading-l">What you’ll get</h1>
 
     <p class="govuk-body">
-      You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @taxon['title'] %>.
+      You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @content_item['title'] %>.
     </p>
 
     <p class="govuk-body">
@@ -38,7 +38,7 @@
     } %>
 
     <%= form_tag(:action => :create) do %>
-      <%= hidden_field_tag 'topic', @taxon['base_path'] %>
+      <%= hidden_field_tag 'topic', @content_item['base_path'] %>
       <%= submit_tag('Sign up now', class: 'govuk-button') %>
     <% end %>
 

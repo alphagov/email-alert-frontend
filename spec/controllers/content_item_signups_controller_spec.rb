@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TaxonomySignupsController do
+RSpec.describe ContentItemSignupsController do
   include GdsApi::TestHelpers::ContentStore
 
   shared_examples 'handles bad input data correctly' do
