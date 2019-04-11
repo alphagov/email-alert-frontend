@@ -33,6 +33,8 @@ private
     case content_item_type
     when 'taxon'
       taxon_links
+    when 'organisation'
+      organisation_links
     else
       message = "No link hash available for content items of type #{content_item_type}!"
       raise UnsupportedContentItemError, message
@@ -44,6 +46,12 @@ private
       # 'taxon_tree' is the key used in email-alert-service for
       # notifications, so create a subscriber list with this key.
       'taxon_tree' => [content_item['content_id']]
+    }
+  end
+
+  def organisation_links
+    {
+      'organisations' => [content_item['content_id']]
     }
   end
 

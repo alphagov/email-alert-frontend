@@ -45,5 +45,39 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
         expect(described_class.new(third_taxon).estimate).to eq EmailVolume::TaxonWeeklyEmailVolume::LOW
       end
     end
+
+    context 'given a top-level organisation' do
+      let(:top_organisation) do
+        { document_type: 'organisation', base_path: '/ministry-of-funny-walks', links: { ordered_parent_organisations: [] } }.deep_stringify_keys
+      end
+      let(:second_organisation) do
+        { document_type: 'organisation', base_path: '/ministry-of-quite-funny-walks', links: { ordered_parent_organisations: [{ base_path: '/ministry-of-funny-walks' }] } }.deep_stringify_keys
+      end
+      let(:third_organisation) do
+        { document_type: 'organisation', base_path: '/ministry-of-normal-walks', links: { ordered_parent_organisations: [{ base_path: '/ministry-of-quite-funny-walks' }] } }.deep_stringify_keys
+      end
+
+      context 'given a top level organisation' do
+        it 'returns a HIGH range' do
+          expect(described_class.new(top_organisation).estimate).to eq EmailVolume::OrganisationWeeklyEmailVolume::HIGH
+        end
+      end
+      context 'given a 2nd level organisation' do
+        before do
+          content_store_has_item(top_organisation['base_path'], top_organisation)
+        end
+        it 'returns a MEDIUM range' do
+          expect(described_class.new(second_organisation).estimate).to eq EmailVolume::OrganisationWeeklyEmailVolume::MEDIUM
+        end
+      end
+      context 'given a 3rd level organisation' do
+        before do
+          content_store_has_item(second_organisation['base_path'], second_organisation)
+        end
+        it 'returns a LOW range' do
+          expect(described_class.new(third_organisation).estimate).to eq EmailVolume::OrganisationWeeklyEmailVolume::LOW
+        end
+      end
+    end
   end
 end

@@ -11,7 +11,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-  <% if child_taxons.present?%>
+  <% if @subscription.child_taxons.present?%>
     <h1 class="govuk-heading-l">What do you want to get alerts about?</h1>
 
     <%= form_tag({action: "confirm"}, method: "get") do %>
@@ -27,11 +27,11 @@
         }]
       } %>
 
-      <p class='app-email-option'>or only one of the following <%= child_taxons.count %> topics</p>
+      <p class='app-email-option'>or only one of the following <%= @subscription.child_taxons.count %> topics</p>
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
         id_prefix: "topics",
-        items: child_taxons.each.map { |taxon| {
+        items: @subscription.child_taxons.each.map { |taxon| {
           :value => taxon['base_path'],
           :text => taxon['title'],
           :conditional => taxon['description'].present? ? ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe : nil
@@ -50,7 +50,7 @@
 
     <p class="govuk-body">You are signing up for email alerts about: <%= @content_item['title']%></p>
     <% if @content_item['description'].present? %>
-      <p class="govuk-body">This will include: <%= @content_item['description'] %></p>
+      <p class="govuk-body"><%= @subscription.description %></p>
     <% end %>
 
     <%= render "govuk_publishing_components/components/button", {

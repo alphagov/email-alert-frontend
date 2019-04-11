@@ -16,6 +16,8 @@ module EmailVolume
       case content_item_type
       when 'taxon'
         TaxonWeeklyEmailVolume.new(@content_item)
+      when 'organisation'
+        OrganisationWeeklyEmailVolume.new(@content_item)
       else
         error_message = "Volume estimate not possible for content items of type #{content_item_type}!"
         raise ContentItemNotEstimatableError, error_message
