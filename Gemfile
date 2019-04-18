@@ -24,7 +24,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'cucumber-rails', '~> 1.6', require: false
+  gem 'cucumber-rails', '~> 1.7', require: false
   gem 'govuk_schemas'
   gem 'launchy'
   gem 'phantomjs', '~> 2.1'
