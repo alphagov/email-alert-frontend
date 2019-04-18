@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   get '/*base_path' => 'email_alert_signups#new', as: :email_alert_signup, constraints: { base_path: %r|.*/email-signup| }
   post '/*base_path' => 'email_alert_signups#create', as: :email_alert_signups, constraints: { base_path: %r|.*/email-signup| }
 
-  get '/email-signup' => 'taxonomy_signups#new', as: :new_taxonomy_signup
-  get '/email-signup/confirm' => 'taxonomy_signups#confirm', as: :confirm_taxonomy_signup
-  post '/email-signup' => 'taxonomy_signups#create'
+  get '/email-signup' => 'content_item_signups#new', as: :new_content_item_signup
+  get '/email-signup/confirm' => 'content_item_signups#confirm', as: :confirm_content_item_signup
+  post '/email-signup' => 'content_item_signups#create'
 
   scope '/email' do
     get '/unsubscribe/:id' => 'unsubscriptions#confirm', as: :confirm_unsubscribe
