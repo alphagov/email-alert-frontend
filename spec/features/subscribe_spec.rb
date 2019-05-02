@@ -46,6 +46,20 @@ RSpec.describe "subscribing", type: :feature do
     end
   end
 
+  feature "signing up for a subscription without default frequency parameter" do
+    it "should default to immediately" do
+      visit "/email/subscriptions/new?topic_id=#{topic_id}"
+      expect(find_field(name: "frequency", checked: true).value).to eq 'immediately'
+    end
+  end
+
+  feature "signing up for a subscription with a default frequency specified" do
+    it "should change the pre-selected option based on `default_frequency` parameter" do
+      visit "/email/subscriptions/new?topic_id=#{topic_id}&default_frequency=daily"
+      expect(find_field(name: "frequency", checked: true).value).to eq 'daily'
+    end
+  end
+
   feature "back link navigation" do
     let(:new_subscription_path) { "/email/subscriptions/new?topic_id=#{topic_id}" }
     let(:new_subscription_path_regex) do
