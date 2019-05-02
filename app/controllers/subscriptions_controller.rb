@@ -46,6 +46,7 @@ private
       .get_subscriber_list(slug: @topic_id)
       .to_h.fetch("subscriber_list")
     @frequency = subscription_params[:frequency]
+    @default_frequency = subscription_params[:default_frequency] || "immediately"
     @address = subscription_params[:address]
     @title = @subscriber_list["title"]
   end
@@ -56,7 +57,7 @@ private
   end
 
   def subscription_params
-    params.permit(:topic_id, :address, :frequency)
+    params.permit(:topic_id, :address, :frequency, :default_frequency)
   end
 
   def valid_frequency
