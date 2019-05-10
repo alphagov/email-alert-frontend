@@ -25,7 +25,7 @@ class SubscriptionsManagementController < ApplicationController
     subscription_title = @subscriptions[id]['subscriber_list']['title']
 
     frequency_text = if new_frequency == 'immediately'
-                       "as soon as they happen"
+                       I18n.t('.immediately')[:short_desc].downcase
                      else
                        new_frequency
                      end

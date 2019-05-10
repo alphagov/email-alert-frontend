@@ -13,14 +13,12 @@
       title: "You’ve subscribed successfully"
     } %>
 
-    <% frequency_variations = {
-      "immediately" => "You’ll get an email each time there’s an update to ‘#{@title}’",
-      "daily" => "You’ll get an email each day there’s been an update to ‘#{@title}’.",
-      "weekly" => "You’ll get one email per week if there’s been an update to ‘#{@title}’.",
-    } %>
+    <% frequency_variations = t('frequencies').map { |frequency, config|
+        [frequency, config[:subscribed_to_topic].sub('@title', @title) ]
+    }.to_h %>
 
     <%= govspeak do %>
-      <p><%= frequency_variations[@frequency] %></p>
+      <p><%= frequency_variations[@frequency.to_sym] %></p>
     <% end %>
   </div>
 </div>

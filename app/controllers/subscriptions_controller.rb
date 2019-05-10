@@ -61,7 +61,8 @@ private
   end
 
   def valid_frequency
-    %w[immediately daily weekly].include?(@frequency)
+    frequencies = I18n.t('frequencies').map { |frequency, _config| frequency.to_s }
+    frequencies.include?(@frequency)
   end
 
   def frequency_form_redirect
