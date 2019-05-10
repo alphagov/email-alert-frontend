@@ -1,4 +1,5 @@
 class SubscriptionsController < ApplicationController
+  include FrequenciesHelper
   before_action :assign_attributes
   before_action :assign_back_url
 
@@ -61,8 +62,7 @@ private
   end
 
   def valid_frequency
-    frequencies = I18n.t('frequencies').map { |frequency, _config| frequency.to_s }
-    frequencies.include?(@frequency)
+    valid_frequencies.include?(@frequency)
   end
 
   def frequency_form_redirect
