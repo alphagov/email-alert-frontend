@@ -19,13 +19,7 @@
       } do %>
         <%= render "govuk_publishing_components/components/radio", {
           name: "frequency",
-          items: t('frequencies').map { |frequency, config|
-            {
-              value: frequency,
-              text: config[:short_desc],
-              checked: (@default_frequency == frequency.to_s),
-            }
-          }
+          items: frequencies(:checked_frequency => @default_frequency)
         } %>
       <% end %>
 
