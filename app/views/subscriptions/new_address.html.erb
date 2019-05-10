@@ -23,16 +23,14 @@
 
     <h1 class="govuk-heading-l">Enter your email address</h1>
 
-    <% frequency_variations = t('frequencies').map { |frequency, config|
-        [frequency, config[:subscribing_to_topic] ]
-    }.to_h %>
-
     <%= govspeak do %>
       <p>
         You’re subscribing to get email notifications about: <br/>
         ‘<strong><%= @title %></strong>’.
       </p>
-      <p><%= frequency_variations[@frequency.to_sym] %></p>
+      <p>
+        <%= frequency_summary(message: :subscribing_to_topic, frequency: @frequency) %>
+      </p>
     <% end %>
 
     <%= form_tag create_subscription_path, method: :post do %>

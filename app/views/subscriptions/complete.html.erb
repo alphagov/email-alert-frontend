@@ -13,12 +13,10 @@
       title: "You’ve subscribed successfully"
     } %>
 
-    <% frequency_variations = t('frequencies').map { |frequency, config|
-        [frequency, config[:subscribed_to_topic].sub('@title', @title) ]
-    }.to_h %>
-
     <%= govspeak do %>
-      <p><%= frequency_variations[@frequency.to_sym] %></p>
+      <p>
+        <%= frequency_summary(message: :subscribed_to_topic, frequency: @frequency, title: @title) %>
+      </p>
     <% end %>
   </div>
 </div>
