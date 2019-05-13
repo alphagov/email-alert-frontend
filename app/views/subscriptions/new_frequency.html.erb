@@ -19,23 +19,7 @@
       } do %>
         <%= render "govuk_publishing_components/components/radio", {
           name: "frequency",
-          items: [
-            {
-              value: "immediately",
-              text: "As soon as they happen",
-              checked: (@default_frequency == "immediately"),
-            },
-            {
-              value: "daily",
-              text: "No more than once a day",
-              checked: (@default_frequency == "daily"),
-            },
-            {
-              value: "weekly",
-              text: "No more than once a week",
-              checked: (@default_frequency == "weekly"),
-            }
-          ]
+          items: frequencies(:checked_frequency => @default_frequency)
         } %>
       <% end %>
 

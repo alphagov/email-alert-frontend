@@ -33,13 +33,7 @@
         </h3>
         <%= govspeak do %>
           <p>
-            <% if subscription['frequency'] == "daily" %>
-              You chose to get daily updates.
-            <% elsif subscription['frequency'] == "weekly" %>
-              You chose to get weekly updates.
-            <% else %>
-              You chose to get updates as soon as they happen.
-            <% end %>
+            <% frequency_summary(message: :subscribed_summary, frequency: subscription['frequency']) %>
             <br><a href="<%= update_frequency_path(id: subscription['id']) %>">Change how often you get updates</a>
           </p>
           <p><a href="<%= confirm_unsubscribe_path(id: subscription['id']) %>">Unsubscribe</a></p>

@@ -13,14 +13,10 @@
       title: "You’ve subscribed successfully"
     } %>
 
-    <% frequency_variations = {
-      "immediately" => "You’ll get an email each time there’s an update to ‘#{@title}’",
-      "daily" => "You’ll get an email each day there’s been an update to ‘#{@title}’.",
-      "weekly" => "You’ll get one email per week if there’s been an update to ‘#{@title}’.",
-    } %>
-
     <%= govspeak do %>
-      <p><%= frequency_variations[@frequency] %></p>
+      <p>
+        <%= frequency_summary(message: :subscribed_to_topic, frequency: @frequency, title: @title) %>
+      </p>
     <% end %>
   </div>
 </div>
