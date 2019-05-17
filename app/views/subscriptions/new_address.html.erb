@@ -29,7 +29,7 @@
         ‘<strong><%= @title %></strong>’.
       </p>
       <p>
-        <%= frequency_summary(message: :subscribing_to_topic, frequency: @frequency) %>
+        <%= I18n.t("frequencies.#{@frequency}.subscribing_to_topic") %>
       </p>
     <% end %>
 
