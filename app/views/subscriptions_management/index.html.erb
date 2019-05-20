@@ -33,7 +33,7 @@
         </h3>
         <%= govspeak do %>
           <p>
-            <%= I18n.t("frequencies.#{@frequency}.subscribed_summary") %>
+            <%= I18n.t("frequencies.#{subscription['frequency']}.subscribed_summary") %>
             <br><a href="<%= update_frequency_path(id: subscription['id']) %>">Change how often you get updates</a>
           </p>
           <p><a href="<%= confirm_unsubscribe_path(id: subscription['id']) %>">Unsubscribe</a></p>
