@@ -56,6 +56,60 @@ RSpec.describe UnsubscriptionsController do
       end
     end
 
+    context "when the user has unsubscribed and resubscribed, then clicked 'Unsubscribe' from their previous subscription" do
+      let(:original_subscription_id) { SecureRandom.uuid }
+      let(:latest_subscription_id) { SecureRandom.uuid }
+
+      before do
+        email_alert_api_has_subscriptions([
+          {
+            id: original_subscription_id,
+            frequency: "immediately",
+            ended: true,
+          },
+          {
+            id: latest_subscription_id,
+            frequency: "immediately",
+            ended: false,
+          }
+        ])
+      end
+
+      it "redirects to the latest subscription" do
+        get :confirm, params: { id: original_subscription_id }
+
+        expect(response.status).to eq(302)
+        expect(response.headers['Location']).to end_with("/email/unsubscribe/#{latest_subscription_id}")
+      end
+    end
+
+    context "when the user has changed their frequency, then clicked 'Unsubscribe' from their previous subscription" do
+      let(:original_subscription_id) { SecureRandom.uuid }
+      let(:latest_subscription_id) { SecureRandom.uuid }
+
+      before do
+        email_alert_api_has_subscriptions([
+          {
+            id: original_subscription_id,
+            frequency: "immediately",
+            ended: true,
+          },
+          {
+            id: latest_subscription_id,
+            frequency: "daily",
+            ended: false,
+          },
+        ])
+      end
+
+      it "redirects the user to manage their subscriptions" do
+        get :confirm, params: { id: original_subscription_id }
+
+        expect(response.status).to eq(302)
+        expect(response.headers['Location']).to end_with("/email/authenticate")
+      end
+    end
+
     context "when a user is authenticated" do
       let(:session) do
         { "authentication" => { "subscriber_id" => 1 } }
