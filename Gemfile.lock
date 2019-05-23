@@ -147,7 +147,7 @@ GEM
     json (2.1.0)
     json-schema (2.8.1)
       addressable (>= 2.4)
-    jwt (2.1.0)
+    jwt (2.2.0)
     kgio (2.11.2)
     kramdown (2.1.0)
     launchy (2.4.3)
@@ -344,7 +344,7 @@ DEPENDENCIES
   govuk_app_config (~> 1.16)
   govuk_publishing_components (~> 16.20)
   govuk_schemas
-  jwt (~> 2.1)
+  jwt (~> 2.2)
   launchy
   phantomjs (~> 2.1)
   plek (~> 2.1)
