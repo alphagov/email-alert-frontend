@@ -43,6 +43,7 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
+            "combine_mode" => nil,
             "title" => "Afghanistan travel advice",
             "links" => { "countries" => ["5a292f20-a9b6-46ea-b35f-584f8b3d7392"] },
             "document_type" => "travel_advice",
@@ -60,6 +61,7 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
+            "combine_mode" => nil,
             "title" => "Foreign travel advice",
             "document_type" => "travel_advice",
           )
@@ -76,6 +78,7 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
+            "combine_mode" => nil,
             "title" => "Employment policy",
             "tags" => { "policies" => %w(employment) }
           )
@@ -99,6 +102,28 @@ RSpec.describe EmailAlertSignup do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(hash_including("title" => "Some Title"))
           .and_return(mock_subscriber_list)
+
+        email_signup = EmailAlertSignup.new(signup_page)
+        email_signup.save
+      end
+    end
+
+    context "when the signup page has combine_mode set" do
+      let(:signup_content_item) do
+        travel_index_item["details"]["combine_mode"] = "or"
+        travel_index_item
+      end
+
+      let(:signup_page) { mock_response(signup_content_item) }
+
+      it "sends the combine_mode" do
+        expect(api_client).to receive(:find_or_create_subscriber_list)
+                                  .with(
+                                    "combine_mode" => "or",
+                                    "document_type" => "travel_advice",
+                                    "title" => "Foreign travel advice"
+                                  )
+                                  .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
         email_signup.save

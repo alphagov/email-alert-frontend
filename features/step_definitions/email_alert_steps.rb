@@ -17,6 +17,7 @@ end
 
 When(/^I sign up to the email alerts$/) do
   @subscription_params = {
+    'combine_mode' => nil,
     'title' => 'Employment policy',
     'tags' => @tags,
   }

@@ -73,6 +73,8 @@ private
       subscription_params[:links] = subscriber_list['links'].to_h
     end
 
+    subscription_params[:combine_mode] = details['combine_mode']
+
     subscription_params.deep_stringify_keys
   end
 end
