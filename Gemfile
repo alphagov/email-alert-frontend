@@ -30,5 +30,5 @@ group :test do
   gem 'phantomjs', '~> 2.1'
   gem 'rspec-rails', '~> 3.8'
   gem 'timecop', '~> 0.9.1'
-  gem 'webmock', '~> 3.4'
+  gem 'webmock', '~> 3.6'
 end
