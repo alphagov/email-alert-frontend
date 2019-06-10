@@ -96,14 +96,14 @@ RSpec.describe AuthenticationController do
 
       it "renders a message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include("If you’re subscribed to emails from GOV.UK, we’ll send a link to #{subscriber_address}")
+        expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
       end
     end
 
     context "when a valid address is provided and the subscriber exists" do
       it "renders a message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include("If you’re subscribed to emails from GOV.UK, we’ll send a link to #{subscriber_address}")
+        expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
       end
     end
   end
