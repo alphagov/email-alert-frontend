@@ -37,12 +37,12 @@ en:
       subscribed_to_topic: "You’ll get an email each time there’s an update to ‘%{title}’"
       subscribed_summary: "You chose to get updates as soon as they happen."
     daily:
-      short_desc: No more than once a day
+      short_desc: Once a day
       subscribing_to_topic: "You'll get an email each day if a page is added or changed."
       subscribed_to_topic: "You’ll get an email each day there’s been an update to ‘%{title}’"
       subscribed_summary: "You chose to get daily updates."
     weekly:
-      short_desc: No more than once a week
+      short_desc: Once a week
       subscribing_to_topic: "You'll get one email per week if a page is added or changed."
       subscribed_to_topic: "You’ll get one email per week if there’s been an update to ‘%{title}’"
       subscribed_summary: "You chose to get weekly updates."
