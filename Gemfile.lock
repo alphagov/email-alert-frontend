@@ -185,7 +185,6 @@ GEM
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
-    phantomjs (2.1.1.0)
     plek (3.0.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -346,7 +345,6 @@ DEPENDENCIES
   govuk_schemas
   jwt (~> 2.2)
   launchy
-  phantomjs (~> 2.1)
   plek (~> 3.0)
   pry-byebug
   rails (= 5.2.3)
@@ -361,4 +359,4 @@ RUBY VERSION
    ruby 2.6.3p62
 
 BUNDLED WITH
-   1.17.0
+   1.17.2
