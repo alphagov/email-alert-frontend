@@ -26,7 +26,7 @@ RSpec.describe ContentItemSubscriberList do
         expect(signup.subscription_management_url).to eq '/something'
         expect(mock_email_alert_api)
           .to have_received(:find_or_create_subscriber_list)
-          .with('title' => 'Foo', 'links' => { 'taxon_tree' => ['foo-id'] })
+          .with('title' => 'Foo', 'links' => { 'taxon_tree' => %w[foo-id] })
       end
     end
 
@@ -46,7 +46,7 @@ RSpec.describe ContentItemSubscriberList do
         expect(signup.subscription_management_url).to eq '/something'
         expect(mock_email_alert_api)
           .to have_received(:find_or_create_subscriber_list)
-          .with('title' => 'Org', 'links' => { 'organisations' => ['org-id'] })
+          .with('title' => 'Org', 'links' => { 'organisations' => %w[org-id] })
       end
     end
   end
