@@ -14,7 +14,7 @@ private
 
   def set_cache_control_header
     response.cache_control[:private] = true
-    response.cache_control[:extras] = ['no-cache']
+    response.cache_control[:extras] = %w[no-cache]
   end
 
   def error_not_found

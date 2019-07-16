@@ -44,7 +44,7 @@ RSpec.describe EmailAlertSignup do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
             "title" => "Afghanistan travel advice",
-            "links" => { "countries" => ["5a292f20-a9b6-46ea-b35f-584f8b3d7392"] },
+            "links" => { "countries" => %w[5a292f20-a9b6-46ea-b35f-584f8b3d7392] },
             "document_type" => "travel_advice",
           )
           .and_return(mock_subscriber_list)
