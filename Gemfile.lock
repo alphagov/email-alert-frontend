@@ -137,7 +137,7 @@ GEM
       rake
       rouge
       sassc-rails (>= 2.0.1)
-    govuk_schemas (3.3.0)
+    govuk_schemas (4.0.0)
       json-schema (~> 2.8.0)
     hashdiff (0.4.0)
     http-cookie (1.0.3)
