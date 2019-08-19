@@ -15,9 +15,11 @@
       You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @content_item['title'] %>.
     </p>
 
-    <p class="govuk-body">
-      This might be between <%= estimated_email_frequency %> updates a week.
-    </p>
+    <% if estimated_email_frequency %>
+      <p class="govuk-body">
+        This might be between <%= estimated_email_frequency %> updates a week.
+      </p>
+    <% end %>
 
     <p class="govuk-body">
       You can choose to receive email alerts:
