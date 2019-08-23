@@ -2,7 +2,7 @@
 
 <% content_for :back_link do %>
   <%= render "govuk_publishing_components/components/back_link", {
-    href: @content_item['base_path']
+    href: :back
   } %>
 <% end %>
 
@@ -15,9 +15,11 @@
       You'll get alerts when the government publishes or changes anything on GOV.UK about: <%= @content_item['title'] %>.
     </p>
 
-    <p class="govuk-body">
-      This might be between <%= estimated_email_frequency %> updates a week.
-    </p>
+    <% if estimated_email_frequency %>
+      <p class="govuk-body">
+        This might be between <%= estimated_email_frequency %> updates a week.
+      </p>
+  <% end %>
 
     <p class="govuk-body">
       You can choose to receive email alerts:
@@ -41,10 +43,6 @@
       <%= hidden_field_tag 'link', @content_item['base_path'] %>
       <%= submit_tag('Sign up now', class: 'govuk-button') %>
     <% end %>
-
-    <p class="govuk-body">
-      <%= link_to 'Back', :back %>
-    </p>
 
   </div>
 </div>

@@ -79,5 +79,12 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
         end
       end
     end
+
+    context 'given a person' do
+      it 'returns nil as no estimate for a person' do
+        person = { document_type: 'person', base_path: '/people/big-boris' }.deep_stringify_keys
+        expect(described_class.new(person).estimate).to be_nil
+      end
+    end
   end
 end
