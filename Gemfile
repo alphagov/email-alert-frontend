@@ -29,5 +29,5 @@ group :test do
   gem 'launchy'
   gem 'rspec-rails', '~> 3.8'
   gem 'timecop', '~> 0.9.1'
-  gem 'webmock', '~> 3.6'
+  gem 'webmock', '~> 3.7'
 end
