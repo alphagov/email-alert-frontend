@@ -79,6 +79,8 @@ private
       sanitised_referer_uri.query = referer_uri.query
       sanitised_referer_uri.fragment = referer_uri.fragment
       sanitised_referer_uri.to_s
+    elsif @subscriber_list["url"]&.match?(%r{^/get-ready-brexit-check/results})
+      (Plek.new.website_root + @subscriber_list['url']).to_s
     else
       Plek.new.website_root
     end
