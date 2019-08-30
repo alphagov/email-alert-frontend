@@ -29,6 +29,11 @@ private
   PERMITTED_CONTENT_ITEMS = %w(taxon organisation ministerial_role person topical_event world_location).freeze
 
   def require_content_item_param
+    if content_item_path.to_s == '/government/brexit'
+      redirect_to new_content_item_signup_path(topic: '/brexit')
+      return false
+    end
+
     unless valid_content_item_param?
       redirect_to '/'
       false
