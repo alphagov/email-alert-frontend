@@ -4,6 +4,13 @@ RSpec.describe ContentItemSignupsController do
   include GdsApi::TestHelpers::ContentStore
 
   shared_examples 'handles bad input data correctly' do
+    it "redirects to topic=/brexit if topic param is /government/brexit" do
+      get :new, params: { topic: '/government/brexit' }
+
+      expect(response.status).to eq 302
+      expect(response.location).to eq 'http://test.host/email-signup?topic=%2Fbrexit'
+    end
+
     it 'redirects to root if topic param is missing' do
       make_request(bad_param: '/education/some-rando-item')
 
