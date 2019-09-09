@@ -12,7 +12,7 @@ gem 'uglifier', '~> 4.1'
 
 gem 'gds-api-adapters', '~> 60.0'
 gem 'govuk_app_config', '~> 2.0'
-gem 'govuk_publishing_components', '~> 17.21'
+gem 'govuk_publishing_components', '~> 20.3'
 gem 'plek', '~> 3.0'
 
 group :development, :test do
