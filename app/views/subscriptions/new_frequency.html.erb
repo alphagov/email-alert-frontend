@@ -11,7 +11,7 @@
 
     <h1 class="govuk-heading-l">Get emails when pages are added or updated</h1>
 
-    <%= form_tag subscription_frequency_path, method: :post do %>
+    <%= form_tag subscription_frequency_path, method: :post, class: "checklist-email-signup" do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
       <%= render "govuk_publishing_components/components/fieldset", {
