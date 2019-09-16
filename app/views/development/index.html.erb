@@ -1,0 +1,54 @@
+<% content_for :title, "Email Alert Frontend" %>
+
+<%= render "govuk_publishing_components/components/title", title: "Email Alert Frontend" %>
+
+<p class="govuk-body">
+  This page is intended to only be shown in development and on Heroku review
+  apps. It won't be shown on GOV.UK as there are no routes to it.
+</p>
+
+<p class="govuk-body">
+  <%= link_to "Email Alert Frontend",
+              "https://github.com/alphagov/email-alert-frontend",
+              class: "govuk-link" %>
+  provides means to sign-up for GOV.UK mailing lists and manage
+  subscriptions.
+</p>
+
+<h2 class="govuk-heading-l">Component Guide</h2>
+
+<p class="govuk-body">
+  To see the available components, take a look at the
+  <%= link_to "Component Guide",
+              govuk_publishing_components.component_guide_path,
+              class: "govuk-link" %>
+</p>
+
+<h2 class="govuk-heading-l">Example sign-up pages</h2>
+
+<p class="govuk-body">
+  Note: these links depend on the appropriate pages being published to the
+  <%= link_to "Content store",
+              "https://github.com/alphagov/content-store",
+              class: "govuk-link" %>
+  that is being used and to proceed with any sign-up requires an
+  instance of
+  <%= link_to "Email Alert API",
+              "https://github.com/alphagov/email-alert-api",
+              class: "govuk-link" %>
+  to be available.
+</p>
+
+<ul class="govuk-list govuk-list--bullet">
+  <li>
+    <%= link_to "Foreign Travel Advice",
+                "/foreign-travel-advice/email-signup",
+                class: "govuk-link" %>
+  </li>
+  <li>
+    <%= link_to "Government Digital Service",
+                new_content_item_signup_path(link: "/government/organisations/government-digital-service"),
+                class: "govuk-link" %>
+  </li>
+</ul>
+
