@@ -33,10 +33,12 @@ RSpec.describe SubscriptionsManagementController do
               "subscriber_list_id" => 1000,
               "frequency" => "daily",
               "id" => subscription_id,
+              "created_at" => "2019-09-16 02:08:08 01:00",
               "subscriber_list" => {
                 "id" => 1000,
                 "slug" => "some-thing",
-                "title" => "Some thing"
+                "title" => "Some thing",
+                "description" => "[You can view a copy of your results on GOV.UK.](https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive)"
               }
             }
           ]
@@ -98,6 +100,10 @@ RSpec.describe SubscriptionsManagementController do
       it "renders the subscriber's subscriptions" do
         get :index, session: session_data
         expect(response.body).to include("Some thing")
+        expect(response.body).to include("Created on 16 September 2019 at 2:08am")
+        expect(response.body).to include(
+          "<p><a href=\"https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive\">You can view a copy of your results on GOV.UK.</a></p>"
+        )
       end
     end
 
