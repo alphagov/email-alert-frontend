@@ -12,12 +12,10 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">Are you sure you want to unsubscribe?</h1>
 
-    <%= govspeak do %>
-      <% if @title %>
-        <p>You won’t get any more updates about <%= @title %>.</p>
-      <% else %>
-        <p>You won’t get any more updates about this topic.</p>
-      <% end %>
+    <% if @title %>
+      <p class="govuk-body">You won’t get any more updates about <%= @title %>.</p>
+    <% else %>
+      <p class="govuk-body">You won’t get any more updates about this topic.</p>
     <% end %>
 
     <%= form_tag(action: :confirmed) do %>
@@ -33,9 +31,11 @@
       } %>
     <% end %>
     <% if @authenticated_for_subscription %>
-      <%= govspeak do %>
-        <p><%= link_to "Cancel", list_subscriptions_path %></p>
-      <% end %>
+      <p class="govuk-body">
+        <%= link_to "Cancel",
+                    list_subscriptions_path,
+                    class: %w[govuk-link govuk-link--no-visited-state] %>
+      </p>
     <% end %>
   </div>
 </div>

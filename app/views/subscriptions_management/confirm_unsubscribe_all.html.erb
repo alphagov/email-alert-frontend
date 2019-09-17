@@ -10,9 +10,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">Are you sure you want to unsubscribe from everything?</h1>
 
-    <%= govspeak do %>
-      <p>You won’t get any more automated emails from GOV.UK.</p>
-    <% end %>
+    <p class="govuk-body">You won’t get any more automated emails from GOV.UK.</p>
 
     <%= form_tag(action: :confirmed_unsubscribe_all) do %>
       <%= hidden_field_tag(:from, @from) %>
@@ -26,8 +24,8 @@
         },
       } %>
     <% end %>
-    <%= govspeak do %>
-      <p><%= link_to "Cancel", @back_url %></p>
-    <% end %>
+    <p class="govuk-body">
+      <%= link_to "Cancel", @back_url, class: %w[govuk-link govuk-link--no-visited-state] %>
+    </p>
   </div>
 </div>

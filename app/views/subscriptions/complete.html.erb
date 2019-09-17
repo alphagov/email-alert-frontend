@@ -13,10 +13,8 @@
       title: "You’ve subscribed successfully"
     } %>
 
-    <%= govspeak do %>
-      <p>
-        <%= I18n.t("frequencies.#{@frequency}.subscribed_to_topic", title: @title) %>
-      </p>
-    <% end %>
+    <p class="govuk-body">
+      <%= I18n.t("frequencies.#{@frequency}.subscribed_to_topic", title: @title) %>
+    </p>
   </div>
 </div>

@@ -24,9 +24,7 @@
       </div>
     <% end %>
 
-    <%= govspeak do %>
-      <p>Your current email address is <%= @address %></p>
-    <% end %>
+    <p class="govuk-body">Your current email address is <%= @address %></p>
 
     <%= form_tag change_address_path, method: :post do %>
       <%= render 'govuk_publishing_components/components/input', {
@@ -38,12 +36,14 @@
         value: @new_address,
       } %>
       <% unless @new_address.nil? %>
-        <%= govspeak do %>
-          <p>If you want to transfer your subscription to <%= @new_address %>,
-            you’ll need to subscribe to the same topics again, using the new
-            email address. Or you can <a href="/contact/govuk">contact us</a>.
-          </p>
-        <% end %>
+        <p class="govuk-body">
+          If you want to transfer your subscription to <%= @new_address %>,
+          you’ll need to subscribe to the same topics again, using the new
+          email address. Or you can
+          <%= link_to "contact us",
+                      "/contact/govuk",
+                      class: %w[govuk-link govuk-link--no-visited-state] %>.
+        </p>
       <% end %>
       <%= render 'govuk_publishing_components/components/button', {
         text: 'Save',
@@ -55,8 +55,10 @@
         },
       } %>
     <%- end -%>
-    <%= govspeak do %>
-      <p><%= link_to "Cancel", @back_url %></p>
-    <% end %>
+    <p class="govuk-body">
+      <%= link_to "Cancel",
+                  @back_url,
+                  class: %w[govuk-link govuk-link--no-visited-state] %>
+    </p>
   </div>
 </div>
