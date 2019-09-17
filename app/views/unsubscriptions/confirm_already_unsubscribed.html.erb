@@ -16,12 +16,10 @@ content_for :title, page_title
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= page_title %></h1>
 
-    <%= govspeak do %>
-      <% if @title %>
-        <p>You won’t get any more updates about <%= @title %>.</p>
-      <% else %>
-        <p>You won’t get any more updates about this topic.</p>
-      <% end %>
+    <% if @title %>
+      <p class="govuk-body">You won’t get any more updates about <%= @title %>.</p>
+    <% else %>
+      <p class="govuk-body">You won’t get any more updates about this topic.</p>
     <% end %>
   </div>
 </div>

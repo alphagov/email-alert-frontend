@@ -23,15 +23,13 @@
 
     <h1 class="govuk-heading-l">Enter your email address</h1>
 
-    <%= govspeak do %>
-      <p>
-        You’re subscribing to get email notifications about: <br/>
-        ‘<strong><%= @title %></strong>’.
-      </p>
-      <p>
-        <%= I18n.t("frequencies.#{@frequency}.subscribing_to_topic") %>
-      </p>
-    <% end %>
+    <p class="govuk-body">
+      You’re subscribing to get email notifications about: <br/>
+      ‘<strong><%= @title %></strong>’.
+    </p>
+    <p class="govuk-body">
+      <%= I18n.t("frequencies.#{@frequency}.subscribing_to_topic") %>
+    </p>
 
     <%= form_tag create_subscription_path, method: :post, class: "checklist-email-signup" do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
@@ -58,8 +56,12 @@
       } %>
     <%- end -%>
 
-    <%= govspeak do %>
-      <p>We won’t share your email address with anyone. Read our <a href="https://www.gov.uk/help/privacy-policy" target="_blank">privacy policy (opens in new tab)</a>.</p>
-    <% end %>
+    <p class="govuk-body">
+      We won’t share your email address with anyone. Read our
+      <%= link_to "privacy policy (opens in a new tab)",
+                  "/help/privacy-policy",
+                  target: "_blank",
+                  class: "govuk-link" %>.
+    </p>
   </div>
 </div>

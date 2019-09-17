@@ -31,9 +31,9 @@
             track_label: @current_frequency,
           }
         } %>
-    <%- end -%>
-    <%= govspeak do %>
-      <p><%= link_to "Cancel", @back_url %></p>
     <% end %>
+    <p class="govuk-body">
+      <%= link_to "Cancel", @back_url, class: %w[govuk-link govuk-link--no-visited-state] %>
+    </p>
   </div>
 </div>

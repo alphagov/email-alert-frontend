@@ -13,36 +13,47 @@
     <h2 class="govuk-heading-m">
       <%= "Subscriptions for #{@subscriber['address']}" %>
     </h2>
-    <%= govspeak do %>
-      <p><%= link_to "Change email address", update_address_path %></p>
-    <% end %>
+    <p class="govuk-body">
+      <%= link_to "Change email address",
+                  update_address_path,
+                  class: %w[govuk-link govuk-link--no-visited-state] %>
+    </p>
 
     <hr class="govuk-section-break govuk-section-break--l">
 
     <% if @subscriptions.empty? %>
-      <%= govspeak do %>
-        <p>
-          You aren’t subscribed to any topics on GOV.UK.
-          <a href="/help/update-email-notifications#how-to-subscribe">Find out how to subscribe</a>.
-        </p>
-      <% end %>
+      <p class="govuk-body">
+        You aren’t subscribed to any topics on GOV.UK.
+        <%= link_to "Find out how to subscribe",
+                    "/help/update-email-notifications#how-to-subscribe",
+                    class: "govuk-link" %>.
+      </p>
     <% else %>
       <% @subscriptions.each do |_key, subscription| %>
         <h3 class="govuk-heading-s">
           <%= subscription['subscriber_list']['title'] %>
         </h3>
-        <%= govspeak do %>
-          <p>
-            <%= I18n.t("frequencies.#{subscription['frequency']}.subscribed_summary") %>
-            <br><a href="<%= update_frequency_path(id: subscription['id']) %>">Change how often you get updates</a>
-          </p>
-          <p><a href="<%= confirm_unsubscribe_path(id: subscription['id']) %>">Unsubscribe</a></p>
-        <% end %>
+        <p class="govuk-body">
+          <%= I18n.t("frequencies.#{subscription['frequency']}.subscribed_summary") %>
+          <br>
+          <%= link_to "Change how often you get updates",
+                      update_frequency_path(id: subscription['id']),
+                      class: %w[govuk-link govuk-link--no-visited-state] %>
+        </p>
+        <p class="govuk-body">
+          <%= link_to "Unsubscribe",
+                      confirm_unsubscribe_path(id: subscription['id']),
+                      class: %w[govuk-link govuk-link--no-visited-state] %>
+        </p>
         <hr class="govuk-section-break govuk-section-break--m">
       <% end %>
 
       <% unsubscribe_all_text = capture do %>
-        <p class="govuk-body"><%= link_to "Unsubscribe from everything", confirm_unsubscribe_all_path %></p>
+        <p class="govuk-body">
+          <%= link_to "Unsubscribe from everything",
+                      confirm_unsubscribe_all_path,
+                      class: %w[govuk-link govuk-link--no-visited-state] %>
+        </p>
       <% end %>
 
       <%= render "govuk_publishing_components/components/inset_text", {
