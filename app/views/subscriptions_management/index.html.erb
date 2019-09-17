@@ -33,6 +33,14 @@
         <h3 class="govuk-heading-s">
           <%= subscription['subscriber_list']['title'] %>
         </h3>
+        <p class='govuk-body'>
+          <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
+        </p>
+        <% if subscription['subscriber_list']['description'].present? %>
+          <%= render "govuk_publishing_components/components/govspeak", {
+            content: raw(Kramdown::Document.new(subscription['subscriber_list']['description']).to_html)
+          } %>
+        <% end %>
         <p class="govuk-body">
           <%= I18n.t("frequencies.#{subscription['frequency']}.subscribed_summary") %>
           <br>
