@@ -10,7 +10,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'slimmer', '~> 13.0'
 gem 'uglifier', '~> 4.1'
 
-gem 'gds-api-adapters', '~> 60.0'
+gem 'gds-api-adapters', '~> 60.1'
 gem 'govuk_app_config', '~> 2.0'
 gem 'govuk_publishing_components', '~> 17.21'
 gem 'plek', '~> 3.0'
