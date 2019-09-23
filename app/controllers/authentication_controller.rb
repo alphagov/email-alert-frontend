@@ -1,6 +1,6 @@
 class AuthenticationController < ApplicationController
-  MISSING_EMAIL_ERROR = 'Please enter your email address.'.freeze
-  INVALID_EMAIL_ERROR = 'This doesn’t look like a valid email address – check you’ve entered it correctly.'.freeze
+  MISSING_EMAIL_ERROR = "Please enter your email address.".freeze
+  INVALID_EMAIL_ERROR = "This doesn’t look like a valid email address – check you’ve entered it correctly.".freeze
 
   def sign_in
     @address = params[:address]
@@ -17,7 +17,7 @@ class AuthenticationController < ApplicationController
 
     email_alert_api.create_auth_token(
       address: @address,
-      destination: process_sign_in_token_path
+      destination: process_sign_in_token_path,
     )
   rescue GdsApi::HTTPUnprocessableEntity
     flash.now[:error] = INVALID_EMAIL_ERROR
@@ -47,30 +47,30 @@ class AuthenticationController < ApplicationController
 private
 
   def read_token(token)
-    payload, = JWT.decode(token, secret, true, algorithm: 'HS256')
-    data = payload.fetch('data')
-    subscriber_id = data.fetch('subscriber_id')
-    redirect = data.fetch('redirect')
+    payload, = JWT.decode(token, secret, true, algorithm: "HS256")
+    data = payload.fetch("data")
+    subscriber_id = data.fetch("subscriber_id")
+    redirect = data.fetch("redirect")
     [subscriber_id, redirect]
   rescue JWT::ExpiredSignature, JWT::VerificationError, KeyError
     []
   end
 
   def authenticate_subscriber(subscriber_id)
-    session['authentication'] = {
-      'subscriber_id' => subscriber_id
+    session["authentication"] = {
+      "subscriber_id" => subscriber_id,
     }
   end
 
   def deauthenticate_subscriber
-    session['authentication'] = nil
+    session["authentication"] = nil
   end
 
   def safe_redirect_destination(redirect)
     return nil unless redirect
 
     parsed = URI.parse(redirect)
-    redirect if parsed.relative? && redirect[0] == '/'
+    redirect if parsed.relative? && redirect[0] == "/"
   rescue URI::InvalidURIError
     nil
   end

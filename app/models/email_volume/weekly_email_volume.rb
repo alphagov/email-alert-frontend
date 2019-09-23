@@ -14,15 +14,15 @@ module EmailVolume
 
     def volume_estimator
       case content_item_type
-      when 'taxon'
+      when "taxon"
         TaxonWeeklyEmailVolume.new(@content_item)
-      when 'organisation'
+      when "organisation"
         OrganisationWeeklyEmailVolume.new(@content_item)
       end
     end
 
     def content_item_type
-      @content_item.dig('document_type')
+      @content_item.dig("document_type")
     end
   end
 end

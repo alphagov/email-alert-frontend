@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe SubscriptionsManagementController do
   EMAIL_ALERT_API_ENDPOINT = Plek.find("email-alert-api")
@@ -11,8 +11,8 @@ RSpec.describe SubscriptionsManagementController do
     {
       "authentication": {
         "subscriber_id": subscriber_id,
-        "redirect": "/email/manage"
-      }
+        "redirect": "/email/manage",
+      },
     }.with_indifferent_access
   end
 
@@ -25,7 +25,7 @@ RSpec.describe SubscriptionsManagementController do
         body: {
           "subscriber" => {
             "id" => subscriber_id,
-            "address" => subscriber_address
+            "address" => subscriber_address,
           },
           "subscriptions" => [
             {
@@ -38,11 +38,11 @@ RSpec.describe SubscriptionsManagementController do
                 "id" => 1000,
                 "slug" => "some-thing",
                 "title" => "Some thing",
-                "description" => "[You can view a copy of your results on GOV.UK.](https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive)"
-              }
-            }
-          ]
-        }.to_json
+                "description" => "[You can view a copy of your results on GOV.UK.](https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive)",
+              },
+            },
+          ],
+        }.to_json,
       )
 
     stub_request(:patch, EMAIL_ALERT_API_ENDPOINT + "/subscriptions/#{subscription_id}")
@@ -57,10 +57,10 @@ RSpec.describe SubscriptionsManagementController do
             "subscriber_list" => {
               "id" => 1000,
               "slug" => "some-thing",
-              "title" => "Some thing"
-            }
-          }
-        }.to_json
+              "title" => "Some thing",
+            },
+          },
+        }.to_json,
       )
 
     stub_request(:patch, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}")
@@ -69,9 +69,9 @@ RSpec.describe SubscriptionsManagementController do
         body: {
           "subscriber" => {
             "id" => subscriber_id,
-            "address" => subscriber_address
-          }
-        }.to_json
+            "address" => subscriber_address,
+          },
+        }.to_json,
       )
 
     stub_request(:delete, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}")
@@ -102,7 +102,7 @@ RSpec.describe SubscriptionsManagementController do
         expect(response.body).to include("Some thing")
         expect(response.body).to include("Created on 16 September 2019 at 2:08am")
         expect(response.body).to include(
-          "<p><a href=\"https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive\">You can view a copy of your results on GOV.UK.</a></p>"
+          "<p><a href=\"https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive\">You can view a copy of your results on GOV.UK.</a></p>",
         )
       end
     end
@@ -114,8 +114,8 @@ RSpec.describe SubscriptionsManagementController do
         {
           "authentication": {
             "subscriber_id": subscriber_id_with_no_subscriptions,
-            "redirect": "/email/manage"
-          }
+            "redirect": "/email/manage",
+          },
         }.with_indifferent_access
       end
 
@@ -126,10 +126,10 @@ RSpec.describe SubscriptionsManagementController do
             body: {
               "subscriber" => {
                 "id" => subscriber_id_with_no_subscriptions,
-                "address" => subscriber_address_with_no_subscriptions
+                "address" => subscriber_address_with_no_subscriptions,
               },
-              "subscriptions" => []
-            }.to_json
+              "subscriptions" => [],
+            }.to_json,
           )
       end
 

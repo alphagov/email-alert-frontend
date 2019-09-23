@@ -7,7 +7,7 @@
 #
 #   $ GOVUK_CONTENT_SCHEMAS_PATH=/some/dir/govuk-content-schemas bundle exec rake
 #
-require 'gds_api/test_helpers/content_store'
+require "gds_api/test_helpers/content_store"
 
 module GovukContentSchemaExamples
   extend ActiveSupport::Concern
@@ -16,7 +16,7 @@ module GovukContentSchemaExamples
     include GdsApi::TestHelpers::ContentStore
 
     # Returns a hash representing an email_alert_signup content item from govuk-content-schemas
-    def govuk_content_schema_example(name, format = 'email_alert_signup')
+    def govuk_content_schema_example(name, format = "email_alert_signup")
       GovukSchemas::Example.find(format, example_name: name)
     end
   end

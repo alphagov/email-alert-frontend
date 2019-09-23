@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'gds_api/test_helpers/email_alert_api'
+require "rails_helper"
+require "gds_api/test_helpers/email_alert_api"
 
 RSpec.describe UnsubscriptionsController do
   include GdsApi::TestHelpers::EmailAlertApi
@@ -71,7 +71,7 @@ RSpec.describe UnsubscriptionsController do
             id: latest_subscription_id,
             frequency: "immediately",
             ended: false,
-          }
+          },
         ])
       end
 
@@ -79,7 +79,7 @@ RSpec.describe UnsubscriptionsController do
         get :confirm, params: { id: original_subscription_id }
 
         expect(response.status).to eq(302)
-        expect(response.headers['Location']).to end_with("/email/unsubscribe/#{latest_subscription_id}")
+        expect(response.headers["Location"]).to end_with("/email/unsubscribe/#{latest_subscription_id}")
       end
     end
 
@@ -106,7 +106,7 @@ RSpec.describe UnsubscriptionsController do
         get :confirm, params: { id: original_subscription_id }
 
         expect(response.status).to eq(302)
-        expect(response.headers['Location']).to end_with("/email/authenticate")
+        expect(response.headers["Location"]).to end_with("/email/authenticate")
       end
     end
 

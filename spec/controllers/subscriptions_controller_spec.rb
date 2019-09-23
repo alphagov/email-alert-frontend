@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'gds_api/test_helpers/email_alert_api'
+require "rails_helper"
+require "gds_api/test_helpers/email_alert_api"
 
 RSpec.describe SubscriptionsController do
   include GdsApi::TestHelpers::EmailAlertApi
@@ -19,7 +19,7 @@ RSpec.describe SubscriptionsController do
   before do
     stub_email_alert_api_has_subscriber_list_by_slug(
       slug: topic_id,
-      returned_attributes: subscriber_list_attributes
+      returned_attributes: subscriber_list_attributes,
     )
   end
 
@@ -92,7 +92,7 @@ RSpec.describe SubscriptionsController do
       it "redirects to new with frequency" do
         post :frequency, params: { topic_id: topic_id, frequency: frequency }
         destination = new_subscription_url(
-          topic_id: topic_id, frequency: frequency
+          topic_id: topic_id, frequency: frequency,
         )
         expect(response).to redirect_to(destination)
       end

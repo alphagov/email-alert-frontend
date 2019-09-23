@@ -17,17 +17,17 @@ end
 
 When(/^I sign up to the email alerts$/) do
   @subscription_params = {
-    'title' => 'Employment policy',
-    'tags' => @tags,
+    "title" => "Employment policy",
+    "tags" => @tags,
   }
 
   @subscriber_list = {
-    'subscription_url' => '/email/subscriptions/new?topic_id=employment-policy',
+    "subscription_url" => "/email/subscriptions/new?topic_id=employment-policy",
   }
 
   allow(@mock_email_alert_api).to receive(:find_or_create_subscriber_list)
     .with(@subscription_params)
-    .and_return('subscriber_list' => @subscriber_list)
+    .and_return("subscriber_list" => @subscriber_list)
 
   click_on "Create subscription"
 end
@@ -35,7 +35,7 @@ end
 Then(/^my subscription should be registered$/) do
   expect(@mock_email_alert_api).to have_received(:find_or_create_subscriber_list)
     .with(@subscription_params)
-  expect(page).to have_current_path('/email/subscriptions/new?topic_id=employment-policy')
+  expect(page).to have_current_path("/email/subscriptions/new?topic_id=employment-policy")
 end
 
 Given(/^a government email alert page exists$/) do
@@ -43,6 +43,6 @@ Given(/^a government email alert page exists$/) do
 end
 
 Then(/^I can see the government header$/) do
-  visit email_alert_signup_path('government/policies/employment/email-signup')
-  expect(page).to have_css('#proposition-menu')
+  visit email_alert_signup_path("government/policies/employment/email-signup")
+  expect(page).to have_css("#proposition-menu")
 end

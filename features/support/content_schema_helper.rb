@@ -1,4 +1,4 @@
-require_relative '../../lib/govuk_content_schema_examples'
+require_relative "../../lib/govuk_content_schema_examples"
 
 module ContentSchemaHelper
   include GovukContentSchemaExamples

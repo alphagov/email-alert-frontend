@@ -85,6 +85,6 @@ private
     # if user A forwards an email to user B, then subsequently changes their
     # frequency, user B could click on the old unsubscribe link and view user A's
     # subscriptions. So DON'T change this line:
-    redirect_to '/email/authenticate'
+    redirect_to "/email/authenticate"
   end
 end

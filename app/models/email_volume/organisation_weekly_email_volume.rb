@@ -1,8 +1,8 @@
 module EmailVolume
   class OrganisationWeeklyEmailVolume
-    HIGH = '40 - 60'.freeze
-    MEDIUM = '0 - 20'.freeze
-    LOW = '0 - 5'.freeze
+    HIGH = "40 - 60".freeze
+    MEDIUM = "0 - 20".freeze
+    LOW = "0 - 5".freeze
 
     def initialize(organisation)
       @organisation = organisation
@@ -16,7 +16,7 @@ module EmailVolume
 
       # Is a 2nd level organisation like UK Debt Management Office
       grandparent_organisation = extract_parent_from(
-        fetch_content_item(parent_organisation.fetch('base_path'))
+        fetch_content_item(parent_organisation.fetch("base_path")),
       )
       return MEDIUM if grandparent_organisation.blank?
 
@@ -27,7 +27,7 @@ module EmailVolume
   private
 
     def extract_parent_from(content_item)
-      Array(content_item.dig('links', 'ordered_parent_organisations')).first
+      Array(content_item.dig("links", "ordered_parent_organisations")).first
     end
 
     def fetch_content_item(base_path)

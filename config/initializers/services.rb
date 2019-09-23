@@ -1,5 +1,5 @@
-require 'gds_api/email_alert_api'
-require 'gds_api/content_store'
+require "gds_api/email_alert_api"
+require "gds_api/content_store"
 
 module EmailAlertFrontend
   def self.register_service(name, service)
@@ -16,21 +16,21 @@ end
 EmailAlertFrontend.register_service(
   :email_alert_api,
   GdsApi::EmailAlertApi.new(
-    Plek.new.find('email-alert-api'),
-    bearer_token: ENV.fetch("EMAIL_ALERT_API_BEARER_TOKEN", "bearer_token")
-  )
+    Plek.new.find("email-alert-api"),
+    bearer_token: ENV.fetch("EMAIL_ALERT_API_BEARER_TOKEN", "bearer_token"),
+  ),
 )
 EmailAlertFrontend.register_service(
   :email_alert_api_with_no_caching,
   GdsApi::EmailAlertApi.new(
-    Plek.new.find('email-alert-api'),
+    Plek.new.find("email-alert-api"),
     disable_cache: true,
-    bearer_token: ENV.fetch("EMAIL_ALERT_API_BEARER_TOKEN", "bearer_token")
-  )
+    bearer_token: ENV.fetch("EMAIL_ALERT_API_BEARER_TOKEN", "bearer_token"),
+  ),
 )
 EmailAlertFrontend.register_service(
   :content_store,
   GdsApi::ContentStore.new(
-    Plek.new.find('content-store')
-  )
+    Plek.new.find("content-store"),
+  ),
 )
