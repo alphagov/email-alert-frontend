@@ -7,7 +7,7 @@ class EmailAlertSignupsController < ApplicationController
     if email_alert_signup.save
       redirect_to email_alert_signup.subscription_url
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 

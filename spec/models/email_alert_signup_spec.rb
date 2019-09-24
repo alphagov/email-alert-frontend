@@ -1,5 +1,5 @@
 require "spec_helper"
-require 'gds_api/test_helpers/email_alert_api'
+require "gds_api/test_helpers/email_alert_api"
 
 RSpec.describe EmailAlertSignup do
   include GovukContentSchemaExamples
@@ -7,9 +7,9 @@ RSpec.describe EmailAlertSignup do
 
   let(:api_client)    { EmailAlertFrontend.services(:email_alert_api) }
 
-  let(:policy_item) { govuk_content_schema_example('policy_email_alert_signup') }
-  let(:travel_index_item) { govuk_content_schema_example('travel_advice_index_email_alert_signup') }
-  let(:travel_country_item) { govuk_content_schema_example('travel_advice_country_email_alert_signup') }
+  let(:policy_item) { govuk_content_schema_example("policy_email_alert_signup") }
+  let(:travel_index_item) { govuk_content_schema_example("travel_advice_index_email_alert_signup") }
+  let(:travel_country_item) { govuk_content_schema_example("travel_advice_country_email_alert_signup") }
 
   let(:mock_subscriber_list) do
     mock_response(subscriber_list: { subscription_url: "http://foo" })
@@ -22,7 +22,7 @@ RSpec.describe EmailAlertSignup do
         code: 200,
         body: body.to_json,
         headers: {},
-      )
+      ),
     )
   end
 
@@ -77,7 +77,7 @@ RSpec.describe EmailAlertSignup do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
             "title" => "Employment policy",
-            "tags" => { "policies" => %w(employment) }
+            "tags" => { "policies" => %w(employment) },
           )
           .and_return(mock_subscriber_list)
 

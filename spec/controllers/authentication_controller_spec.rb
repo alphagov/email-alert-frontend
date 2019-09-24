@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe AuthenticationController do
   EMAIL_ALERT_API_ENDPOINT = Plek.find("email-alert-api")
@@ -39,9 +39,9 @@ RSpec.describe AuthenticationController do
         body: {
           "subscriber" => {
             "id" => subscriber_id,
-            "address" => subscriber_address
-          }
-        }.to_json
+            "address" => subscriber_address,
+          },
+        }.to_json,
       )
   end
 

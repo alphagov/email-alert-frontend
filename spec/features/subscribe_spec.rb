@@ -1,5 +1,5 @@
-require 'rails_helper'
-require 'gds_api/test_helpers/email_alert_api'
+require "rails_helper"
+require "gds_api/test_helpers/email_alert_api"
 
 RSpec.describe "subscribing", type: :feature do
   include GdsApi::TestHelpers::EmailAlertApi
@@ -14,8 +14,8 @@ RSpec.describe "subscribing", type: :feature do
       slug: topic_id,
       returned_attributes: {
         id: subscriber_list_id,
-        title: "Test Subscriber List"
-      }
+        title: "Test Subscriber List",
+      },
     )
 
     returned_subscription_id = 50
@@ -23,7 +23,7 @@ RSpec.describe "subscribing", type: :feature do
       subscriber_list_id,
       address,
       frequency,
-      returned_subscription_id
+      returned_subscription_id,
     )
   end
 
@@ -49,14 +49,14 @@ RSpec.describe "subscribing", type: :feature do
   feature "signing up for a subscription without default frequency parameter" do
     it "should default to immediately" do
       visit "/email/subscriptions/new?topic_id=#{topic_id}"
-      expect(find_field(name: "frequency", checked: true).value).to eq 'immediately'
+      expect(find_field(name: "frequency", checked: true).value).to eq "immediately"
     end
   end
 
   feature "signing up for a subscription with a default frequency specified" do
     it "should change the pre-selected option based on `default_frequency` parameter" do
       visit "/email/subscriptions/new?topic_id=#{topic_id}&default_frequency=daily"
-      expect(find_field(name: "frequency", checked: true).value).to eq 'daily'
+      expect(find_field(name: "frequency", checked: true).value).to eq "daily"
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe "subscribing", type: :feature do
     let(:new_subscription_path) { "/email/subscriptions/new?topic_id=#{topic_id}" }
     let(:new_subscription_path_regex) do
       Regexp.new(
-        Regexp.escape(new_subscription_path)
+        Regexp.escape(new_subscription_path),
       )
     end
 

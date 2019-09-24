@@ -29,19 +29,19 @@ private
   PERMITTED_CONTENT_ITEMS = %w(taxon organisation ministerial_role person topical_event world_location).freeze
 
   def require_content_item_param
-    if content_item_path.to_s == '/government/brexit'
-      redirect_to new_content_item_signup_path(topic: '/brexit')
+    if content_item_path.to_s == "/government/brexit"
+      redirect_to new_content_item_signup_path(topic: "/brexit")
       return false
     end
 
     unless valid_content_item_param?
-      redirect_to '/'
+      redirect_to "/"
       false
     end
   end
 
   def valid_content_item_param?
-    content_item_path.to_s.starts_with?('/') && URI.parse(content_item_path).relative?
+    content_item_path.to_s.starts_with?("/") && URI.parse(content_item_path).relative?
   rescue URI::InvalidURIError
     false
   end
@@ -60,8 +60,8 @@ private
   end
 
   def validate_document_type
-    unless PERMITTED_CONTENT_ITEMS.include?(content_item['document_type'])
-      redirect_to '/'
+    unless PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
+      redirect_to "/"
       false
     end
   end

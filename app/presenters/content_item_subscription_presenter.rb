@@ -6,15 +6,15 @@ class ContentItemSubscriptionPresenter
   def description
     return "This will include: #{content_item['description']}" if is_taxon?
 
-    content_item['description']
+    content_item["description"]
   end
 
   def child_taxons
     return unless is_taxon?
 
-    content_item['links']
-      .fetch('child_taxons', [])
-      .reject { |taxon| taxon['phase'] == 'alpha' }
+    content_item["links"]
+      .fetch("child_taxons", [])
+      .reject { |taxon| taxon["phase"] == "alpha" }
   end
 
 private
@@ -22,6 +22,6 @@ private
   attr_accessor :content_item
 
   def is_taxon?
-    content_item['document_type'] == 'taxon'
+    content_item["document_type"] == "taxon"
   end
 end

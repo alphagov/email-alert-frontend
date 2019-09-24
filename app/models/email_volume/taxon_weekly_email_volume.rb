@@ -1,8 +1,8 @@
 module EmailVolume
   class TaxonWeeklyEmailVolume
-    HIGH = '40 - 60'.freeze
-    MEDIUM = '0 - 20'.freeze
-    LOW = '0 - 5'.freeze
+    HIGH = "40 - 60".freeze
+    MEDIUM = "0 - 20".freeze
+    LOW = "0 - 5".freeze
 
     def initialize(taxon)
       @taxon = taxon
@@ -16,7 +16,7 @@ module EmailVolume
 
       # Is a 2nd level taxon
       grandparent_taxon = extract_parent_from(
-        fetch_content_item(parent_taxon.fetch('base_path'))
+        fetch_content_item(parent_taxon.fetch("base_path")),
       )
       return MEDIUM if grandparent_taxon.blank?
 
@@ -27,7 +27,7 @@ module EmailVolume
   private
 
     def extract_parent_from(content_item)
-      Array(content_item.dig('links', 'parent_taxons')).first
+      Array(content_item.dig("links", "parent_taxons")).first
     end
 
     def fetch_content_item(base_path)
