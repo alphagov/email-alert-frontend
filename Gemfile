@@ -5,22 +5,20 @@ ruby File.read(".ruby-version").strip
 gem "rails", "5.2.3"
 
 gem "decent_exposure", "~> 3.0"
+gem "gds-api-adapters", "~> 60.1"
+gem "govuk_app_config", "~> 2.0"
+gem "govuk_publishing_components", "~> 21.0.0"
 gem "jwt", "~> 2.2"
+gem "plek", "~> 3.0"
 gem "sass-rails", "~> 5.0"
 gem "slimmer", "~> 13.0"
 gem "uglifier", "~> 4.1"
 
-gem "gds-api-adapters", "~> 60.1"
-gem "govuk_app_config", "~> 2.0"
-gem "govuk_publishing_components", "~> 17.21"
-gem "plek", "~> 3.0"
-
 group :development, :test do
   gem "better_errors"
   gem "binding_of_caller"
-  gem "pry-byebug"
-
   gem "govuk-lint"
+  gem "pry-byebug"
 end
 
 group :test do

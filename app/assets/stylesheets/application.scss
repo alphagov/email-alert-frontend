@@ -1,17 +1,17 @@
+$govuk-use-legacy-palette: true;
+$govuk-typography-use-rem: false;
+
 @import "govuk_publishing_components/all_components";
 
 .app-email-option {
-  @include core-24;
-  margin-top: $govuk-gutter-half;
-  margin-bottom: $govuk-gutter-half;
-  line-height: 1.5;
+  @include govuk-font(24, $line-height: 1.5);
+  margin-top: govuk-spacing(3);
+  margin-bottom: govuk-spacing(3);
 }
 
-// TODO: remove these overwrites after the title component is updated to work
-// nicely with govuk-frontend layout
-.app-title {
-  .gem-c-title {
-    margin-top: $govuk-gutter-half;
-    margin-bottom: $govuk-gutter-half;
+.govuk-link,
+.govuk-back-link {
+  &:focus {
+    @include govuk-template-link-focus-override;
   }
 }
