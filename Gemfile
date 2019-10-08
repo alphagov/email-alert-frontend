@@ -25,7 +25,7 @@ group :test do
   gem "cucumber-rails", "~> 1.8", require: false
   gem "govuk_schemas"
   gem "launchy"
-  gem "rspec-rails", "~> 3.8"
+  gem "rspec-rails", "~> 3.9"
   gem "timecop", "~> 0.9.1"
   gem "webmock", "~> 3.7"
 end
