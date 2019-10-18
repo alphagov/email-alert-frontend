@@ -32,6 +32,16 @@ RSpec.describe ContentItemSignupsController do
       expect(response.location).to eq "http://test.host/"
     end
 
+    it "returns a 403 when the user is not authorised" do
+      base_path = "/#{SecureRandom.hex}"
+      url = content_store_endpoint + "/content#{base_path}"
+      stub_request(:get, url).to_return(status: 403, headers: {})
+
+      get :new, params: { topic: base_path }
+
+      expect(response.status).to eq 403
+    end
+
     it "errors if no taxon found" do
       content_store_does_not_have_item("/education/some-rando-item")
       make_request(topic: "/education/some-rando-item")
