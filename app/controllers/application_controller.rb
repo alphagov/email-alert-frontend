@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from GdsApi::HTTPNotFound, with: :error_not_found
+  rescue_from GdsApi::HTTPForbidden, with: :forbidden
   rescue_from GdsApi::HTTPGone, with: :gone
 
   if ENV["BASIC_AUTH_USERNAME"]
@@ -26,6 +27,10 @@ private
 
   def error_not_found
     render status: :not_found, plain: "404 not found"
+  end
+
+  def forbidden
+    render status: :forbidden, plain: "403 forbidden"
   end
 
   def gone
