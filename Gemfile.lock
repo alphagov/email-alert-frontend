@@ -121,7 +121,7 @@ GEM
       sentry-raven (>= 2.7.1, < 2.12.0)
       statsd-ruby (~> 1.4.0)
       unicorn (>= 5.4, < 5.6)
-    govuk_publishing_components (21.7.0)
+    govuk_publishing_components (21.8.0)
       gds-api-adapters
       govuk_app_config
       kramdown
@@ -168,7 +168,7 @@ GEM
     mimemagic (0.3.3)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.12.2)
+    minitest (5.13.0)
     multi_json (1.13.1)
     multi_test (0.1.2)
     multipart-post (2.1.1)
@@ -338,7 +338,7 @@ DEPENDENCIES
   gds-api-adapters (~> 60.1)
   govuk-lint
   govuk_app_config (~> 2.0)
-  govuk_publishing_components (~> 21.7.0)
+  govuk_publishing_components (~> 21.8.0)
   govuk_schemas
   jwt (~> 2.2)
   launchy
