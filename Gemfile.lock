@@ -82,7 +82,7 @@ GEM
       cucumber-tag_expressions (~> 1.1.0)
       gherkin (~> 5.0)
     cucumber-expressions (6.0.1)
-    cucumber-rails (1.8.0)
+    cucumber-rails (2.0.0)
       capybara (>= 2.12, < 4)
       cucumber (>= 3.0.2, < 4)
       mime-types (>= 2.0, < 4)
@@ -168,13 +168,13 @@ GEM
     mimemagic (0.3.3)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.12.2)
-    multi_json (1.13.1)
+    minitest (5.13.0)
+    multi_json (1.14.1)
     multi_test (0.1.2)
     multipart-post (2.1.1)
     netrc (0.11.0)
     nio4r (2.5.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     null_logger (0.0.1)
     parallel (1.18.0)
@@ -333,7 +333,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
-  cucumber-rails (~> 1.8)
+  cucumber-rails (~> 2.0)
   decent_exposure (~> 3.0)
   gds-api-adapters (~> 60.1)
   govuk-lint
