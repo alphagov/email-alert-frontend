@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby File.read(".ruby-version").strip
 
-gem "rails", "5.2.3"
+gem "rails", "6.0.0"
 
 gem "decent_exposure", "~> 3.0"
 gem "gds-api-adapters", "~> 60.1"
