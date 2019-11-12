@@ -283,7 +283,7 @@ GEM
       tilt
     sentry-raven (2.11.3)
       faraday (>= 0.7.6, < 1.0)
-    slimmer (13.1.0)
+    slimmer (13.2.0)
       activesupport
       json
       nokogiri (~> 1.7)
@@ -344,7 +344,7 @@ DEPENDENCIES
   rspec-rails (~> 3.9)
   rubocop-govuk
   sass-rails (~> 5.0)
-  slimmer (~> 13.0)
+  slimmer (~> 13.2)
   timecop (~> 0.9.1)
   uglifier (~> 4.2)
   webmock (~> 3.7)
