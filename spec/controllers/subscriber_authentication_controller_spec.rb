@@ -59,7 +59,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders a form" do
         get :sign_in
-        expect(response.body).to include(%(action="/email/authenticate"))
+        expect(response.body).to include(%(action="#{request_sign_in_token_path}"))
       end
     end
   end
