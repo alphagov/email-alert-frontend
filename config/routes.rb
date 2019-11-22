@@ -31,9 +31,9 @@ Rails.application.routes.draw do
       get "/complete" => "subscriptions#complete", as: :subscription
     end
 
-    get "/authenticate" => "authentication#sign_in", as: :sign_in
-    post "/authenticate" => "authentication#request_sign_in_token", as: :request_sign_in_token
-    get "/authenticate/process" => "authentication#process_sign_in_token", as: :process_sign_in_token
+    get "/authenticate" => "subscriber_authentication#sign_in", as: :sign_in
+    post "/authenticate" => "subscriber_authentication#request_sign_in_token", as: :request_sign_in_token
+    get "/authenticate/process" => "subscriber_authentication#process_sign_in_token", as: :process_sign_in_token
   end
 
   get "/healthcheck", to: GovukHealthcheck.rack_response

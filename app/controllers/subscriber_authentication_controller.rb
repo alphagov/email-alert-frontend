@@ -1,4 +1,4 @@
-class AuthenticationController < ApplicationController
+class SubscriberAuthenticationController < ApplicationController
   MISSING_EMAIL_ERROR = "Please enter your email address.".freeze
   INVALID_EMAIL_ERROR = "This doesn’t look like a valid email address – check you’ve entered it correctly.".freeze
 

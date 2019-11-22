@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe AuthenticationController do
+RSpec.describe SubscriberAuthenticationController do
   EMAIL_ALERT_API_ENDPOINT = Plek.find("email-alert-api")
   let(:subscriber_id) { 1 }
   let(:subscriber_address) { "test@example.com" }
@@ -70,7 +70,7 @@ RSpec.describe AuthenticationController do
 
       it "renders an error message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(AuthenticationController::MISSING_EMAIL_ERROR)
+        expect(response.body).to include(SubscriberAuthenticationController::MISSING_EMAIL_ERROR)
       end
     end
 
@@ -84,7 +84,7 @@ RSpec.describe AuthenticationController do
 
       it "renders an error message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(AuthenticationController::INVALID_EMAIL_ERROR)
+        expect(response.body).to include(SubscriberAuthenticationController::INVALID_EMAIL_ERROR)
       end
     end
 
