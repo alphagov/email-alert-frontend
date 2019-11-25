@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe ContentItemSignupsController do
   include GdsApi::TestHelpers::ContentStore
 

@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe ContentItemSubscriberList do
   describe "#subscription_management_url" do
     let(:mock_email_alert_api) do

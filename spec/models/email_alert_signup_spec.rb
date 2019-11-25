@@ -1,6 +1,3 @@
-require "spec_helper"
-require "gds_api/test_helpers/email_alert_api"
-
 RSpec.describe EmailAlertSignup do
   include GovukContentSchemaExamples
   include GdsApi::TestHelpers::EmailAlertApi

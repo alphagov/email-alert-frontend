@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe ContentItemSubscriptionPresenter do
   describe "#description" do
     let(:fake_taxon) { { "document_type" => "taxon", "description" => "description of foo-id" } }

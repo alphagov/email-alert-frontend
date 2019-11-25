@@ -6,6 +6,7 @@ require "rspec/rails"
 require "webmock/rspec"
 require "slimmer/rspec"
 require_relative "../lib/govuk_content_schema_examples"
+require "gds_api/test_helpers/email_alert_api"
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
@@ -38,6 +39,7 @@ RSpec.configure do |config|
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
+  config.infer_spec_type_from_file_location!
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing

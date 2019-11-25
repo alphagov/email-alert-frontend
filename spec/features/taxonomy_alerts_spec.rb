@@ -1,6 +1,4 @@
-require "rails_helper"
-
-RSpec.describe "Subscribing to the taxonomy", type: :feature do
+RSpec.describe "Subscribing to the taxonomy" do
   include GdsApi::TestHelpers::ContentStore
 
   it "can handle any valid taxon" do
