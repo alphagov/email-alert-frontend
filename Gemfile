@@ -19,7 +19,7 @@ group :development, :test do
 end
 
 group :test do
-  gem "cucumber-rails", "~> 2.0", require: false
+  gem "capybara", "~> 3.2"
   gem "govuk_schemas"
   gem "rspec-rails", "~> 3.9"
   gem "timecop", "~> 0.9.1"
