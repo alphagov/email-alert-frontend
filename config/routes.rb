@@ -22,6 +22,10 @@ Rails.application.routes.draw do
       post "/address/change" => "subscriptions_management#change_address", as: :change_address
       get "/unsubscribe-all" => "subscriptions_management#confirm_unsubscribe_all", as: :confirm_unsubscribe_all
       post "/unsubscribe-all" => "subscriptions_management#confirmed_unsubscribe_all", as: :unsubscribe_all
+
+      get "/authenticate" => "subscriber_authentication#sign_in", as: :sign_in
+      post "/authenticate" => "subscriber_authentication#request_sign_in_token", as: :request_sign_in_token
+      get "/authenticate/process" => "subscriber_authentication#process_sign_in_token", as: :process_sign_in_token
     end
 
     scope "/subscriptions" do
@@ -31,9 +35,11 @@ Rails.application.routes.draw do
       get "/complete" => "subscriptions#complete", as: :subscription
     end
 
-    get "/authenticate" => "authentication#sign_in", as: :sign_in
-    post "/authenticate" => "authentication#request_sign_in_token", as: :request_sign_in_token
-    get "/authenticate/process" => "authentication#process_sign_in_token", as: :process_sign_in_token
+    # DEPRECATED: legacy route in emails from GOV.UK
+    get "/authenticate", to: redirect("/email/manage/authenticate")
+
+    # DEPRECATED: legacy route in emails from GOV.UK (delete 7 days after deploy)
+    get "/authenticate/process" => "subscriber_authentication#process_sign_in_token"
   end
 
   get "/healthcheck", to: GovukHealthcheck.rack_response
