@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe SubscriberAuthenticationController do
   EMAIL_ALERT_API_ENDPOINT = Plek.find("email-alert-api")
   let(:subscriber_id) { 1 }

@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe EmailVolume::WeeklyEmailVolume do
   include GdsApi::TestHelpers::ContentStore
 

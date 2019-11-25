@@ -1,6 +1,3 @@
-require "rails_helper"
-require "gds_api/test_helpers/email_alert_api"
-
 RSpec.describe SubscriptionsController do
   include GdsApi::TestHelpers::EmailAlertApi
 
