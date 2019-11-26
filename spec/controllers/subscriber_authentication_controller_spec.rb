@@ -1,46 +1,14 @@
 RSpec.describe SubscriberAuthenticationController do
-  EMAIL_ALERT_API_ENDPOINT = Plek.find("email-alert-api")
+  include GdsApi::TestHelpers::EmailAlertApi
+
+  let(:endpoint) { GdsApi::TestHelpers::EmailAlertApi::EMAIL_ALERT_API_ENDPOINT }
   let(:subscriber_id) { 1 }
   let(:subscriber_address) { "test@example.com" }
-  let(:secret) { Rails.application.secrets.email_alert_auth_token }
-  let(:token_data) do
-    {
-      "data" => {
-        "subscriber_id" => subscriber_id,
-        "redirect" => "/email/manage",
-      },
-      "exp" => 5.minutes.from_now.to_i,
-      "iat" => Time.now.to_i,
-      "iss" => "https://www.gov.uk",
-    }
-  end
-  let(:jwt_token) { JWT.encode(token_data, secret, "HS256") }
-  let(:expired_token_data) do
-    {
-      "data" => {
-        "subscriber_id" => subscriber_id,
-        "redirect" => "/email/manage",
-      },
-      "exp" => 5.minutes.ago.to_i,
-      "iat" => 10.minutes.ago.to_i,
-      "iss" => "https://www.gov.uk",
-    }
-  end
-  let(:expired_jwt_token) { JWT.encode(expired_token_data, secret, "HS256") }
 
   render_views
 
   before do
-    stub_request(:post, EMAIL_ALERT_API_ENDPOINT + "/subscribers/auth-token")
-      .to_return(
-        status: 200,
-        body: {
-          "subscriber" => {
-            "id" => subscriber_id,
-            "address" => subscriber_address,
-          },
-        }.to_json,
-      )
+    stub_email_alert_api_creates_an_auth_token(subscriber_id, subscriber_address)
   end
 
   describe "GET /email/authenticate" do
@@ -76,8 +44,7 @@ RSpec.describe SubscriberAuthenticationController do
       let(:subscriber_address) { "foobar" }
 
       before do
-        stub_request(:post, EMAIL_ALERT_API_ENDPOINT + "/subscribers/auth-token")
-          .to_return(status: 422)
+        stub_request(:post, "#{endpoint}/subscribers/auth-token").to_return(status: 422)
       end
 
       it "renders an error message" do
@@ -88,8 +55,7 @@ RSpec.describe SubscriberAuthenticationController do
 
     context "when a valid address is provided and the subscriber doesn't exist" do
       before do
-        stub_request(:post, EMAIL_ALERT_API_ENDPOINT + "/subscribers/auth-token")
-          .to_return(status: 404)
+        stub_request(:post, "#{endpoint}/subscribers/auth-token").to_return(status: 404)
       end
 
       it "renders a message" do
@@ -107,6 +73,22 @@ RSpec.describe SubscriberAuthenticationController do
   end
 
   describe "GET /email/authenticate/process" do
+    let(:secret) { Rails.application.secrets.email_alert_auth_token }
+
+    let(:token_data) do
+      {
+        "data" => {
+          "subscriber_id" => subscriber_id,
+          "redirect" => "/email/manage",
+        },
+        "exp" => 5.minutes.from_now.to_i,
+        "iat" => Time.now.to_i,
+        "iss" => "https://www.gov.uk",
+      }
+    end
+
+    let(:jwt_token) { JWT.encode(token_data, secret, "HS256") }
+
     context "when the page is requested" do
       it "sets the Cache-Control header to 'private, no-cache'" do
         get :process_sign_in_token, params: { token: jwt_token }
@@ -115,6 +97,20 @@ RSpec.describe SubscriberAuthenticationController do
     end
 
     context "when an expired token is provided" do
+      let(:expired_token_data) do
+        {
+          "data" => {
+            "subscriber_id" => subscriber_id,
+            "redirect" => "/email/manage",
+          },
+          "exp" => 5.minutes.ago.to_i,
+          "iat" => 10.minutes.ago.to_i,
+          "iss" => "https://www.gov.uk",
+        }
+      end
+
+      let(:expired_jwt_token) { JWT.encode(expired_token_data, secret, "HS256") }
+
       it "redirects to sign in" do
         get :process_sign_in_token, params: { token: expired_jwt_token }
         expect(response).to redirect_to(sign_in_path)

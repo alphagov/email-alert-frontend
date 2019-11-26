@@ -1,8 +1,10 @@
 RSpec.describe SubscriptionsManagementController do
-  EMAIL_ALERT_API_ENDPOINT = Plek.find("email-alert-api")
+  include GdsApi::TestHelpers::EmailAlertApi
+
   let(:subscriber_id) { 1 }
   let(:subscriber_address) { "test@example.com" }
   let(:subscription_id) { SecureRandom.uuid }
+  let(:endpoint) { GdsApi::TestHelpers::EmailAlertApi::EMAIL_ALERT_API_ENDPOINT }
   let(:new_frequency) { "weekly" }
   let(:new_address) { "test2@example.com" }
   let(:session_data) do
@@ -17,7 +19,7 @@ RSpec.describe SubscriptionsManagementController do
   render_views
 
   before do
-    stub_request(:get, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}/subscriptions")
+    stub_request(:get, endpoint + "/subscribers/#{subscriber_id}/subscriptions")
       .to_return(
         status: 200,
         body: {
@@ -43,37 +45,9 @@ RSpec.describe SubscriptionsManagementController do
         }.to_json,
       )
 
-    stub_request(:patch, EMAIL_ALERT_API_ENDPOINT + "/subscriptions/#{subscription_id}")
-      .to_return(
-        status: 200,
-        body: {
-          "subscription" => {
-            "subscriber_id" => 1,
-            "subscriber_list_id" => 1000,
-            "frequency" => "weekly",
-            "id" => subscription_id,
-            "subscriber_list" => {
-              "id" => 1000,
-              "slug" => "some-thing",
-              "title" => "Some thing",
-            },
-          },
-        }.to_json,
-      )
-
-    stub_request(:patch, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}")
-      .to_return(
-        status: 200,
-        body: {
-          "subscriber" => {
-            "id" => subscriber_id,
-            "address" => subscriber_address,
-          },
-        }.to_json,
-      )
-
-    stub_request(:delete, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}")
-      .to_return(status: 200)
+    stub_email_alert_api_has_updated_subscription(subscription_id, "weekly")
+    stub_email_alert_api_has_updated_subscriber(subscriber_id, subscriber_address)
+    stub_email_alert_api_unsubscribes_a_subscriber(subscriber_id)
   end
 
   describe "GET /email/manage" do
@@ -118,7 +92,7 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       before do
-        stub_request(:get, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id_with_no_subscriptions}/subscriptions")
+        stub_request(:get, endpoint + "/subscribers/#{subscriber_id_with_no_subscriptions}/subscriptions")
           .to_return(
             status: 200,
             body: {
@@ -227,7 +201,7 @@ RSpec.describe SubscriptionsManagementController do
       let(:new_address) { "foobar" }
 
       before do
-        stub_request(:patch, EMAIL_ALERT_API_ENDPOINT + "/subscribers/#{subscriber_id}")
+        stub_request(:patch, endpoint + "/subscribers/#{subscriber_id}")
           .to_return(status: 422)
       end
 
