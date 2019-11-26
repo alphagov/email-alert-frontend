@@ -4,31 +4,6 @@ RSpec.describe SubscriberAuthenticationController do
   let(:endpoint) { GdsApi::TestHelpers::EmailAlertApi::EMAIL_ALERT_API_ENDPOINT }
   let(:subscriber_id) { 1 }
   let(:subscriber_address) { "test@example.com" }
-  let(:secret) { Rails.application.secrets.email_alert_auth_token }
-  let(:token_data) do
-    {
-      "data" => {
-        "subscriber_id" => subscriber_id,
-        "redirect" => "/email/manage",
-      },
-      "exp" => 5.minutes.from_now.to_i,
-      "iat" => Time.now.to_i,
-      "iss" => "https://www.gov.uk",
-    }
-  end
-  let(:jwt_token) { JWT.encode(token_data, secret, "HS256") }
-  let(:expired_token_data) do
-    {
-      "data" => {
-        "subscriber_id" => subscriber_id,
-        "redirect" => "/email/manage",
-      },
-      "exp" => 5.minutes.ago.to_i,
-      "iat" => 10.minutes.ago.to_i,
-      "iss" => "https://www.gov.uk",
-    }
-  end
-  let(:expired_jwt_token) { JWT.encode(expired_token_data, secret, "HS256") }
 
   render_views
 
@@ -98,6 +73,22 @@ RSpec.describe SubscriberAuthenticationController do
   end
 
   describe "GET /email/authenticate/process" do
+    let(:secret) { Rails.application.secrets.email_alert_auth_token }
+
+    let(:token_data) do
+      {
+        "data" => {
+          "subscriber_id" => subscriber_id,
+          "redirect" => "/email/manage",
+        },
+        "exp" => 5.minutes.from_now.to_i,
+        "iat" => Time.now.to_i,
+        "iss" => "https://www.gov.uk",
+      }
+    end
+
+    let(:jwt_token) { JWT.encode(token_data, secret, "HS256") }
+
     context "when the page is requested" do
       it "sets the Cache-Control header to 'private, no-cache'" do
         get :process_sign_in_token, params: { token: jwt_token }
@@ -106,6 +97,20 @@ RSpec.describe SubscriberAuthenticationController do
     end
 
     context "when an expired token is provided" do
+      let(:expired_token_data) do
+        {
+          "data" => {
+            "subscriber_id" => subscriber_id,
+            "redirect" => "/email/manage",
+          },
+          "exp" => 5.minutes.ago.to_i,
+          "iat" => 10.minutes.ago.to_i,
+          "iss" => "https://www.gov.uk",
+        }
+      end
+
+      let(:expired_jwt_token) { JWT.encode(expired_token_data, secret, "HS256") }
+
       it "redirects to sign in" do
         get :process_sign_in_token, params: { token: expired_jwt_token }
         expect(response).to redirect_to(sign_in_path)
