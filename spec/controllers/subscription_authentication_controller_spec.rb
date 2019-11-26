@@ -1,10 +1,10 @@
 RSpec.describe SubscriptionAuthenticationController do
   include GdsApi::TestHelpers::EmailAlertApi
+  include TokenHelper
 
   render_views
 
   describe "GET authenticate" do
-    let(:secret) { Rails.application.secrets.email_alert_auth_token }
     let(:address) { "someone@example.com" }
     let(:topic_id) { SecureRandom.uuid }
     let(:params) { { topic_id: topic_id, frequency: "immediately" } }
@@ -24,7 +24,9 @@ RSpec.describe SubscriptionAuthenticationController do
         )
       end
 
-      let(:token) { JWT.encode(token_data, secret, "HS256") }
+      let(:token) do
+        jwt_token(data: { "topic_id" => topic_id, "address" => address })
+      end
 
       it "redirects to the success page" do
         get :authenticate, params: params.merge(token: token)
@@ -38,13 +40,7 @@ RSpec.describe SubscriptionAuthenticationController do
     end
 
     context "the token is expired" do
-      let(:token) do
-        JWT.encode(
-          token_data.merge("exp" => 5.minutes.ago.to_i),
-          secret,
-          "HS256"
-        )
-      end
+      let(:token) { jwt_token(expiry: 5.minutes.ago) }
 
       it "shows an error page" do
         get :authenticate, params: params.merge(token: token)
@@ -53,13 +49,7 @@ RSpec.describe SubscriptionAuthenticationController do
     end
 
     context "the token is incomplete" do
-      let(:token) do
-        JWT.encode(
-          token_data.merge("data" => {}),
-          secret,
-          "HS256"
-        )
-      end
+      let(:token) { jwt_token(data: {}) }
 
       it "shows an error page" do
         get :authenticate, params: params.merge(token: token)

@@ -1,5 +1,6 @@
 RSpec.feature "Subscribe opt-in" do
   include GdsApi::TestHelpers::EmailAlertApi
+  include TokenHelper
 
   scenario do
     given_i_am_subscribing_to_a_list
@@ -15,19 +16,12 @@ RSpec.feature "Subscribe opt-in" do
   end
 
   def when_i_click_on_the_confirmation_link
-    token_data = {
-      "data" => {
-        "address" => @address,
-        "topic_id" => @topic_id,
-      },
-      "exp" => 5.minutes.from_now.to_i,
-      "iat" => Time.now.to_i,
-      "iss" => "https://www.gov.uk",
-    }
-
-    secret = Rails.application.secrets.email_alert_auth_token
-    token = JWT.encode(token_data, secret, "HS256")
     @title = "Test Subscriber List"
+
+    token = jwt_token(data: {
+      "address" => @address,
+      "topic_id" => @topic_id,
+    })
 
     stub_email_alert_api_has_subscriber_list_by_slug(
       slug: @topic_id,
