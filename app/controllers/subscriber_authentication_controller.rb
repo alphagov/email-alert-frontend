@@ -15,7 +15,7 @@ class SubscriberAuthenticationController < ApplicationController
 
     @address = params.require(:address)
 
-    email_alert_api.create_auth_token(
+    email_alert_api.send_subscriber_verification_email(
       address: @address,
       destination: process_sign_in_token_path,
     )
