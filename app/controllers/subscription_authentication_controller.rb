@@ -1,10 +1,17 @@
 class SubscriptionAuthenticationController < ApplicationController
+  include FrequenciesHelper
+
   def authenticate
     @topic_id = params.require(:topic_id)
     @frequency = params.require(:frequency)
 
-    unless token.valid? && token.data[:topic_id] == @topic_id
+    unless token.valid?
       render :expired
+      return
+    end
+
+    unless valid_params?
+      head :unprocessable_entity
       return
     end
 
@@ -22,6 +29,11 @@ class SubscriptionAuthenticationController < ApplicationController
   end
 
 private
+
+  def valid_params?
+    token.data[:topic_id] == @topic_id &&
+      valid_frequencies.include?(@frequency)
+  end
 
   def token
     @token ||= AuthToken.new(params.require(:token))

@@ -42,16 +42,7 @@ RSpec.describe SubscriptionAuthenticationController do
     context "the token is expired" do
       let(:token) { jwt_token(expiry: 5.minutes.ago) }
 
-      it "shows an error page" do
-        get :authenticate, params: params.merge(token: token)
-        expect(response.body).to include(I18n.t!("subscription_authentication.title"))
-      end
-    end
-
-    context "the token is incomplete" do
-      let(:token) { jwt_token(data: {}) }
-
-      it "shows an error page" do
+      it "shows an expired error page" do
         get :authenticate, params: params.merge(token: token)
         expect(response.body).to include(I18n.t!("subscription_authentication.title"))
       end
@@ -60,14 +51,25 @@ RSpec.describe SubscriptionAuthenticationController do
     context "the token is re-used" do
       let(:token) { jwt_token(data: { "topic_id" => "another" }) }
 
-      it "shows an error page" do
+      it "shows a general error page" do
         get :authenticate, params: params.merge(token: token)
-        expect(response.body).to include(I18n.t!("subscription_authentication.title"))
+        expect(response.status).to eq 422
+      end
+    end
+
+    context "the frequency is invalid" do
+      let(:token) do
+        jwt_token(data: { "topic_id" => topic_id, "address" => address })
+      end
+
+      it "shows a general error page" do
+        get :authenticate, params: params.merge(token: token, frequency: "foo")
+        expect(response.status).to eq 422
       end
     end
 
     context "the token is invalid" do
-      it "shows an error page" do
+      it "shows an expired error page" do
         get :authenticate, params: params.merge(token: "foo")
         expect(response.body).to include(I18n.t!("subscription_authentication.title"))
       end
