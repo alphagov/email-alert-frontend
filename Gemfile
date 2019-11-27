@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby File.read(".ruby-version").strip
 
-gem "rails", "5.2.3"
+gem "rails", "6.0.1"
 
 gem "gds-api-adapters", "~> 61.0"
 gem "govuk_app_config", "~> 2.0"
