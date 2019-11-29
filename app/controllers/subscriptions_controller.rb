@@ -56,7 +56,7 @@ private
 
   def assign_back_url
     @back_url = url_for(action: :new, topic_id: @topic_id)
-    @back_url = govuk_url if params[:action] == "new" && !@frequency.present?
+    @back_url = govuk_url if params[:action] == "new" && @frequency.blank?
   end
 
   def subscription_params

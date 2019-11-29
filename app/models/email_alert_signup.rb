@@ -58,7 +58,7 @@ private
     subscriber_list = details["subscriber_list"]
 
     subscription_params = {
-      title: govdelivery_title.present? ? govdelivery_title : title,
+      title: govdelivery_title.presence || title,
     }
 
     if subscriber_list["document_type"].present?

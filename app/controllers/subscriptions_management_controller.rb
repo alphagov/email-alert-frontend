@@ -39,7 +39,7 @@ class SubscriptionsManagementController < ApplicationController
   def change_address
     @address = @subscriber["address"]
 
-    unless params[:new_address].present?
+    if params[:new_address].blank?
       flash.now[:error] = t("subscriptions_management.update_address.missing_email")
       return render :update_address
     end
