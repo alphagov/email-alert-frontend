@@ -47,6 +47,8 @@ Rails.application.configure do
 
   config.asset_host = ENV["GOVUK_ASSET_ROOT"] if ENV["GOVUK_ASSET_ROOT"].present?
 
+  config.hosts << "email-alert-frontend.dev.gov.uk"
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
