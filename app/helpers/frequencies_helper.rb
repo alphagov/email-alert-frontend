@@ -4,10 +4,10 @@ module FrequenciesHelper
   end
 
   def frequencies(options)
-    I18n.t("frequencies").map { |frequency, config|
+    I18n.t("frequencies").map { |frequency, desc|
       {
         value: frequency,
-        text: config[:short_desc],
+        text: desc,
         checked: (options[:checked_frequency] == frequency.to_s),
       }
     }

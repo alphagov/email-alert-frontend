@@ -44,7 +44,7 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "shows an expired error page" do
         get :authenticate, params: params.merge(token: token)
-        expect(response.body).to include(I18n.t!("subscription_authentication.title"))
+        expect(response.body).to include(I18n.t!("subscription_authentication.expired.title"))
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe SubscriptionAuthenticationController do
     context "the token is invalid" do
       it "shows an expired error page" do
         get :authenticate, params: params.merge(token: "foo")
-        expect(response.body).to include(I18n.t!("subscription_authentication.title"))
+        expect(response.body).to include(I18n.t!("subscription_authentication.expired.title"))
       end
     end
   end
