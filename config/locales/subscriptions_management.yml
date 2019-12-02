@@ -1,0 +1,7 @@
+en:
+  subscriptions_management:
+    index:
+      subscription:
+        immediately: "You chose to get updates as soon as they happen."
+        daily: "You chose to get daily updates."
+        weekly: "You chose to get weekly updates."
