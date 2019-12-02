@@ -42,7 +42,7 @@
           } %>
         <% end %>
         <p class="govuk-body">
-          <%= I18n.t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
+          <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
           <br>
           <%= link_to "Change how often you get updates",
                       update_frequency_path(id: subscription['id']),

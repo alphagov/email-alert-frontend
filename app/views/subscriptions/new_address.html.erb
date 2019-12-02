@@ -28,7 +28,7 @@
       ‘<strong><%= @title %></strong>’.
     </p>
     <p class="govuk-body">
-      <%= I18n.t("subscriptions.new_address.summary.#{@frequency}") %>
+      <%= t("subscriptions.new_address.summary.#{@frequency}") %>
     </p>
 
     <%= form_tag create_subscription_path, method: :post, class: "checklist-email-signup" do %>
