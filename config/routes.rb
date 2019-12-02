@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       post "/frequency" => "subscriptions#frequency", as: :subscription_frequency
       post "/create" => "subscriptions#create", as: :create_subscription
       get "/complete" => "subscriptions#complete", as: :subscription
+      get "/authenticate" => "subscription_authentication#authenticate", as: :confirm_subscription
     end
 
     # DEPRECATED: legacy route in emails from GOV.UK

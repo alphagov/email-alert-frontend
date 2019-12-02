@@ -30,30 +30,21 @@ class SubscriberAuthenticationController < ApplicationController
   end
 
   def process_sign_in_token
-    subscriber_id, redirect = read_token(params.require(:token))
-
-    if subscriber_id.nil?
+    unless token.valid?
       deauthenticate_subscriber
       flash[:error_summary] = "bad_token"
       return redirect_to :sign_in
     end
 
-    authenticate_subscriber(subscriber_id)
-
-    destination = safe_redirect_destination(redirect) || list_subscriptions_path
+    authenticate_subscriber(token.data[:subscriber_id])
+    destination = safe_redirect_destination || list_subscriptions_path
     redirect_to destination
   end
 
 private
 
-  def read_token(token)
-    payload, = JWT.decode(token, secret, true, algorithm: "HS256")
-    data = payload.fetch("data")
-    subscriber_id = data.fetch("subscriber_id")
-    redirect = data.fetch("redirect")
-    [subscriber_id, redirect]
-  rescue JWT::ExpiredSignature, JWT::VerificationError, KeyError
-    []
+  def token
+    @token ||= AuthToken.new(params.require(:token))
   end
 
   def authenticate_subscriber(subscriber_id)
@@ -66,17 +57,14 @@ private
     session["authentication"] = nil
   end
 
-  def safe_redirect_destination(redirect)
+  def safe_redirect_destination
+    redirect = token.data[:redirect]
     return nil unless redirect
 
     parsed = URI.parse(redirect)
     redirect if parsed.relative? && redirect[0] == "/"
   rescue URI::InvalidURIError
     nil
-  end
-
-  def secret
-    Rails.application.secrets.email_alert_auth_token
   end
 
   def email_alert_api

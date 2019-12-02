@@ -46,3 +46,6 @@ en:
       subscribing_to_topic: "You'll get one email per week if a page is added or changed."
       subscribed_to_topic: "You’ll get one email per week if there’s been an update to ‘%{title}’"
       subscribed_summary: "You chose to get weekly updates."
+  subscription_authentication:
+    title: Your link has expired
+    description: The links we send only work for 7 days. This is to protect your personal data.

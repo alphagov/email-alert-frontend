@@ -54,7 +54,6 @@ RSpec.feature "Subscribe" do
     expect(@request).to have_been_requested
     expect(page).to have_content("You’ve subscribed successfully")
     expect(page).to have_content("Test Subscriber List")
-    expect(back_link_href).to include(new_subscription_path(topic_id: @topic_id))
   end
 
   def back_link_href
