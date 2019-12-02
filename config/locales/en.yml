@@ -31,21 +31,26 @@
 
 en:
   frequencies:
-    immediately:
-      short_desc: As soon as they happen
-      subscribing_to_topic: "You’ll get an email every time a page is added or changed."
-      subscribed_to_topic: "You’ll get an email each time there’s an update to ‘%{title}’"
-      subscribed_summary: "You chose to get updates as soon as they happen."
-    daily:
-      short_desc: Once a day
-      subscribing_to_topic: "You'll get an email each day if a page is added or changed."
-      subscribed_to_topic: "You’ll get an email each day there’s been an update to ‘%{title}’"
-      subscribed_summary: "You chose to get daily updates."
-    weekly:
-      short_desc: Once a week
-      subscribing_to_topic: "You'll get one email per week if a page is added or changed."
-      subscribed_to_topic: "You’ll get one email per week if there’s been an update to ‘%{title}’"
-      subscribed_summary: "You chose to get weekly updates."
+    immediately: As soon as they happen
+    daily: Once a day
+    weekly: Once a week
+  subscriptions:
+    new_address:
+      summary:
+        immediately: "You’ll get an email every time a page is added or changed."
+        daily: "You'll get an email each day if a page is added or changed."
+        weekly: "You'll get one email per week if a page is added or changed."
+    complete:
+      summary:
+        immediately: "You’ll get an email each time there’s an update to ‘%{title}’"
+        daily: "You’ll get an email each day there’s been an update to ‘%{title}’"
+        weekly: "You’ll get one email per week if there’s been an update to ‘%{title}’"
+  subscriptions_management:
+    index:
+      subscription:
+        immediately: "You chose to get updates as soon as they happen."
+        daily: "You chose to get daily updates."
+        weekly: "You chose to get weekly updates."
   subscription_authentication:
     expired:
       title: Your link has expired
