@@ -53,7 +53,7 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "shows a general error page" do
         get :authenticate, params: params.merge(token: token)
-        expect(response.status).to eq 422
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "shows a general error page" do
         get :authenticate, params: params.merge(token: token, frequency: "foo")
-        expect(response.status).to eq 422
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
