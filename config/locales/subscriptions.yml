@@ -1,5 +1,8 @@
 en:
   subscriptions:
+    new_frequency:
+      general_problem: "There is a problem"
+      required_question: "You must answer this question"
     new_address:
       summary:
         immediately: "You’ll get an email every time a page is added or changed."

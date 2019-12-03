@@ -9,17 +9,31 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
+  <% if flash[:error] %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        title: t('subscriptions.new_frequency.general_problem'),
+        items: [
+          {
+            text: t('subscriptions.new_frequency.required_question'),
+            href: "#email-frequency-input",
+          }
+        ]
+      } %>
+    <% end %>
+
     <h1 class="govuk-heading-l">Get emails when pages are added or updated</h1>
 
     <%= form_tag subscription_frequency_path, method: :post, class: "checklist-email-signup" do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
       <%= render "govuk_publishing_components/components/fieldset", {
+        id: "email-frequency-input",
         legend_text: '<h2 class="govuk-heading-m">How often do you want to get updates?</h2>'.html_safe,
+        error_message: flash[:error],
       } do %>
         <%= render "govuk_publishing_components/components/radio", {
           name: "frequency",
-          items: frequencies(:checked_frequency => @default_frequency)
+          items: frequencies,
         } %>
       <% end %>
 
