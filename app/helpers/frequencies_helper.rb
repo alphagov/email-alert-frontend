@@ -1,10 +1,10 @@
 module FrequenciesHelper
   def valid_frequencies
-    I18n.t("frequencies").map { |frequency, _config| frequency.to_s }
+    t("frequencies").map { |frequency, _config| frequency.to_s }
   end
 
   def frequencies(options)
-    I18n.t("frequencies").map { |frequency, desc|
+    t("frequencies").map { |frequency, desc|
       {
         value: frequency,
         text: desc,
