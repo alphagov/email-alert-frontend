@@ -45,7 +45,7 @@ RSpec.describe SubscriberAuthenticationController do
       let(:subscriber_address) { "foobar" }
 
       before do
-        stub_request(:post, "#{endpoint}/subscribers/auth-token").to_return(status: 422)
+        stub_email_alert_api_invalid_auth_token
       end
 
       it "renders an error message" do
@@ -56,7 +56,7 @@ RSpec.describe SubscriberAuthenticationController do
 
     context "when a valid address is provided and the subscriber doesn't exist" do
       before do
-        stub_request(:post, "#{endpoint}/subscribers/auth-token").to_return(status: 404)
+        stub_email_alert_api_auth_token_no_subscriber
       end
 
       it "renders a message" do

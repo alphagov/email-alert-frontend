@@ -19,31 +19,16 @@ RSpec.describe SubscriptionsManagementController do
   render_views
 
   before do
-    stub_request(:get, endpoint + "/subscribers/#{subscriber_id}/subscriptions")
-      .to_return(
-        status: 200,
-        body: {
-          "subscriber" => {
-            "id" => subscriber_id,
-            "address" => subscriber_address,
-          },
-          "subscriptions" => [
-            {
-              "subscriber_id" => 1,
-              "subscriber_list_id" => 1000,
-              "frequency" => "daily",
-              "id" => subscription_id,
-              "created_at" => "2019-09-16 02:08:08 01:00",
-              "subscriber_list" => {
-                "id" => 1000,
-                "slug" => "some-thing",
-                "title" => "Some thing",
-                "description" => "[You can view a copy of your results on GOV.UK.](https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive)",
-              },
-            },
-          ],
-        }.to_json,
-      )
+    stub_email_alert_api_has_subscriber_subscriptions(subscriber_id, subscriber_address, subscriptions: [
+      {
+        "id" => subscription_id,
+        "created_at" => "2019-09-16 02:08:08 01:00",
+        "subscriber_list" => {
+          "title" => "Some thing",
+          "description" => "[You can view a copy of your results on GOV.UK.](https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive)",
+        },
+      },
+    ])
 
     stub_email_alert_api_has_updated_subscription(subscription_id, "weekly")
     stub_email_alert_api_has_updated_subscriber(subscriber_id, subscriber_address)
@@ -92,17 +77,9 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       before do
-        stub_request(:get, endpoint + "/subscribers/#{subscriber_id_with_no_subscriptions}/subscriptions")
-          .to_return(
-            status: 200,
-            body: {
-              "subscriber" => {
-                "id" => subscriber_id_with_no_subscriptions,
-                "address" => subscriber_address_with_no_subscriptions,
-              },
-              "subscriptions" => [],
-            }.to_json,
-          )
+        stub_email_alert_api_has_subscriber_subscriptions(subscriber_id_with_no_subscriptions,
+                                                          subscriber_address_with_no_subscriptions,
+                                                          subscriptions: [])
       end
 
       it "renders the subscriber's email address" do
@@ -201,8 +178,7 @@ RSpec.describe SubscriptionsManagementController do
       let(:new_address) { "foobar" }
 
       before do
-        stub_request(:patch, endpoint + "/subscribers/#{subscriber_id}")
-          .to_return(status: 422)
+        stub_email_alert_api_invalid_update_subscriber(subscriber_id)
       end
 
       it "renders an error message" do

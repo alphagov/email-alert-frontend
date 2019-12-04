@@ -18,7 +18,7 @@ RSpec.describe UnsubscriptionsController do
     it "responds with a 200" do
       get :confirm, params: { id: id }
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it "sets the Cache-Control header to 'private, no-cache'" do
@@ -75,7 +75,7 @@ RSpec.describe UnsubscriptionsController do
       it "redirects to the latest subscription" do
         get :confirm, params: { id: original_subscription_id }
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.headers["Location"]).to end_with("/email/unsubscribe/#{latest_subscription_id}")
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe UnsubscriptionsController do
       it "redirects the user to manage their subscriptions" do
         get :confirm, params: { id: original_subscription_id }
 
-        expect(response.status).to eq(302)
+        expect(response).to have_http_status(:found)
         expect(response.headers["Location"]).to end_with("/email/authenticate")
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe UnsubscriptionsController do
     it "responds with a 200" do
       post :confirmed, params: { id: id }
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it "sets the Cache-Control header to 'private, no-cache'" do
@@ -191,7 +191,7 @@ RSpec.describe UnsubscriptionsController do
 
       it "doesn't redirect" do
         post :confirmed, params: { id: id }, session: session
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
     end
   end
