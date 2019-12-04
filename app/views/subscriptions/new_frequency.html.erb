@@ -1,4 +1,4 @@
-<% content_for :title, "Get emails when pages are added or updated" %>
+<% content_for :title, t("subscriptions.new_frequency.title") %>
 
 <% content_for :back_link do %>
   <%= render "govuk_publishing_components/components/back_link", {
@@ -21,14 +21,14 @@
       } %>
     <% end %>
 
-    <h1 class="govuk-heading-l">Get emails when pages are added or updated</h1>
+    <%= tag.h1 t("subscriptions.new_frequency.title"), class: "govuk-heading-l" %>
 
     <%= form_tag subscription_frequency_path, method: :post, class: "checklist-email-signup" do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
       <%= render "govuk_publishing_components/components/fieldset", {
         id: "email-frequency-input",
-        legend_text: '<h2 class="govuk-heading-m">How often do you want to get updates?</h2>'.html_safe,
+        legend_text: tag.h2(t("subscriptions.new_frequency.question"), class: "govuk-heading-m"),
         error_message: flash[:error],
       } do %>
         <%= render "govuk_publishing_components/components/radio", {

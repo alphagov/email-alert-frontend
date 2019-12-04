@@ -1,4 +1,4 @@
-<% content_for :title, "Enter your email address" %>
+<% content_for :title, t("subscriptions.new_address.title") %>
 
 <% content_for :back_link do %>
   <%= render "govuk_publishing_components/components/back_link", {
@@ -21,12 +21,10 @@
       } %>
     <% end %>
 
-    <h1 class="govuk-heading-l">Enter your email address</h1>
+    <%= tag.h1 t("subscriptions.new_address.title"), class: "govuk-heading-l" %>
 
-    <p class="govuk-body">
-      You’re subscribing to get email notifications about: <br/>
-      ‘<strong><%= @title %></strong>’.
-    </p>
+    <%= tag.p t("subscriptions.new_address.description_html", title: @title), class: "govuk-body" %>
+
     <p class="govuk-body">
       <%= t("subscriptions.new_address.summary.#{@frequency}") %>
     </p>
@@ -38,7 +36,7 @@
       <%= render "govuk_publishing_components/components/input", {
         error_message: flash[:error],
         id: "email-address-input",
-        label: { text: "What’s your email address?" },
+        label: { text: t("subscriptions.new_address.question") },
         name: :address,
         type: "email",
         value: @address,

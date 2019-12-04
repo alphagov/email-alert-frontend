@@ -4,11 +4,18 @@ en:
       general_problem: "There is a problem"
       required_question: "You must answer this question"
       missing_frequency: "Select how often you want updates"
+      question: How often do you want to get updates?
+      title: Get emails when pages are added or updated
     new_address:
       general_problem: "We weren’t able to process your subscription"
       email_validation: "There’s a problem with your email address"
       missing_email: "Please enter your email address."
       invalid_email: "This doesn’t look like a valid email address – check you’ve entered it correctly."
+      title: Enter your email address
+      description_html: |
+        You’re subscribing to get email notifications about: <br/>
+        ‘<strong>%{title}</strong>’.
+      question: "What’s your email address?"
       summary:
         immediately: "You’ll get an email every time a page is added or changed."
         daily: "You'll get an email each day if a page is added or changed."
