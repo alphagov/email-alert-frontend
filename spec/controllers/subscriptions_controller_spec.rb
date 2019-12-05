@@ -126,12 +126,13 @@ RSpec.describe SubscriptionsController do
     context "when an invalid email address is provided" do
       let(:address) { "bad-email" }
       let(:frequency) { "immediately" }
+
       let(:params) do
         { topic_id: topic_id, frequency: frequency, address: address }
       end
 
       before do
-        email_alert_api_refuses_to_create_subscription(subscriber_list_id, address, frequency)
+        stub_email_alert_api_subscription_verification_email_invalid(address, frequency, topic_id)
       end
 
       it "renders an error" do
@@ -144,23 +145,24 @@ RSpec.describe SubscriptionsController do
     context "when a valid email address is provided" do
       let(:address) { valid_email }
       let(:frequency) { "immediately" }
+
       let(:params) do
         { topic_id: topic_id, frequency: frequency, address: address }
       end
 
-      before do
-        email_alert_api_creates_a_subscription(subscriber_list_id, address, frequency, 1)
+      let!(:request) do
+        stub_email_alert_api_sends_subscription_verification_email(address, frequency, topic_id)
       end
 
-      it "returns a redirect to subscription page" do
+      it "renders a notice to check email" do
         post :create, params: params
-        redirect = subscription_url(topic_id: topic_id, frequency: frequency)
-        expect(response).to redirect_to(redirect)
+        expect(response.body).to include(I18n.t!("subscriptions.check_email.title"))
+        expect(response).to have_http_status(:ok)
       end
 
       it "sends a request to email-alert-api" do
         post :create, params: params
-        assert_subscribed(subscriber_list_id, address, frequency)
+        expect(request).to have_been_requested
       end
 
       it "sets the Cache-Control header to 'private, no-cache'" do

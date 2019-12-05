@@ -31,14 +31,13 @@ class SubscriptionsController < ApplicationController
     return frequency_form_redirect unless valid_frequency
 
     if @address.present? && subscribe
-      redirect_to subscription_path(topic_id: @topic_id, frequency: @frequency)
+      render :check_email
     else
       flash.now[:error] = if @address.present?
                             t("subscriptions.new_address.invalid_email")
                           else
                             t("subscriptions.new_address.missing_email")
                           end
-
       render :new_address
     end
   end
@@ -92,8 +91,8 @@ private
   end
 
   def subscribe
-    email_alert_api.subscribe(
-      subscriber_list_id: @subscriber_list["id"],
+    email_alert_api.send_subscription_verification_email(
+      topic_id: @topic_id,
       address: @address,
       frequency: @frequency,
     )
