@@ -11,10 +11,10 @@
 
     <% if flash[:error] %>
       <%= render "govuk_publishing_components/components/error_summary", {
-        title: "We weren’t able to process your subscription",
+        title: t('subscriptions.new_address.general_problem'),
         items: [
           {
-            text: "There’s a problem with your email address",
+            text: t('subscriptions.new_address.email_validation'),
             href: "#email-address-input",
           }
         ]

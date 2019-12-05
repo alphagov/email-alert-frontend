@@ -3,7 +3,7 @@ module FrequenciesHelper
     t("frequencies").map { |frequency, _config| frequency.to_s }
   end
 
-  def frequencies(options)
+  def frequencies(options = {})
     t("frequencies").map { |frequency, desc|
       {
         value: frequency,

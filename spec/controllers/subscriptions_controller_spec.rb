@@ -70,9 +70,11 @@ RSpec.describe SubscriptionsController do
 
   describe "POST /email/subscriptions/frequency" do
     context "when no frequency is provided" do
-      it "redirects to new without the frequency" do
+      it "renders an error" do
         post :frequency, params: { topic_id: topic_id }
-        expect(response).to redirect_to(new_subscription_url(topic_id: topic_id))
+
+        expect(response.body).to include(described_class::MISSING_FREQUENCY_ERROR)
+        expect(response).to have_http_status(:ok)
       end
     end
 
