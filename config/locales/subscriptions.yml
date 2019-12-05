@@ -4,6 +4,8 @@ en:
       general_problem: "There is a problem"
       required_question: "You must answer this question"
     new_address:
+      general_problem: "We weren’t able to process your subscription"
+      email_validation: "There’s a problem with your email address"
       summary:
         immediately: "You’ll get an email every time a page is added or changed."
         daily: "You'll get an email each day if a page is added or changed."
