@@ -29,7 +29,7 @@
       <%= t("subscriptions.new_address.summary.#{@frequency}") %>
     </p>
 
-    <%= form_tag create_subscription_path, method: :post, class: "checklist-email-signup" do %>
+    <%= form_tag verify_subscription_path, method: :post, class: "checklist-email-signup" do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
       <%= hidden_field_tag :frequency, @frequency %>
 

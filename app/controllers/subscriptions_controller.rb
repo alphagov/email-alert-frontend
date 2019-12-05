@@ -27,7 +27,7 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  def create
+  def verify
     return frequency_form_redirect unless valid_frequency
 
     if @address.present? && subscribe

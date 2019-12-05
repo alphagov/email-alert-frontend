@@ -103,12 +103,12 @@ RSpec.describe SubscriptionsController do
     end
   end
 
-  describe "POST /email/subscriptions/create" do
+  describe "POST /email/subscriptions/verify" do
     let(:valid_email) { "joe@example.com" }
 
     context "when no frequency is provided" do
       it "redirects to new without the frequency" do
-        post :create, params: { topic_id: topic_id, address: valid_email }
+        post :verify, params: { topic_id: topic_id, address: valid_email }
         expect(response).to redirect_to(new_subscription_url(topic_id: topic_id))
       end
     end
@@ -117,7 +117,7 @@ RSpec.describe SubscriptionsController do
       let(:params) { { topic_id: topic_id, frequency: "daily" } }
 
       it "renders an error" do
-        post :create, params: params
+        post :verify, params: params
         expect(response.body).to include(I18n.t!("subscriptions.new_address.missing_email"))
         expect(response).to have_http_status(:ok)
       end
@@ -136,7 +136,7 @@ RSpec.describe SubscriptionsController do
       end
 
       it "renders an error" do
-        post :create, params: params
+        post :verify, params: params
         expect(response.body).to include(I18n.t!("subscriptions.new_address.invalid_email"))
         expect(response).to have_http_status(:ok)
       end
@@ -155,18 +155,18 @@ RSpec.describe SubscriptionsController do
       end
 
       it "renders a notice to check email" do
-        post :create, params: params
+        post :verify, params: params
         expect(response.body).to include(I18n.t!("subscriptions.check_email.title"))
         expect(response).to have_http_status(:ok)
       end
 
       it "sends a request to email-alert-api" do
-        post :create, params: params
+        post :verify, params: params
         expect(request).to have_been_requested
       end
 
       it "sets the Cache-Control header to 'private, no-cache'" do
-        post :create, params: params
+        post :verify, params: params
         expect(response.headers["Cache-Control"]).to eq("private, no-cache")
       end
     end
