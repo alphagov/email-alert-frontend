@@ -42,8 +42,6 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  def complete; end
-
 private
 
   def assign_attributes

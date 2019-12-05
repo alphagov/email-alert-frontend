@@ -32,8 +32,8 @@ Rails.application.routes.draw do
       get "/new" => "subscriptions#new", as: :new_subscription
       post "/frequency" => "subscriptions#frequency", as: :subscription_frequency
       post "/verify" => "subscriptions#verify", as: :verify_subscription
-      get "/complete" => "subscriptions#complete", as: :subscription
       get "/authenticate" => "subscription_authentication#authenticate", as: :confirm_subscription
+      get "/complete" => "subscription_authentication#complete", as: :subscription_complete
     end
 
     # DEPRECATED: legacy route in emails from GOV.UK

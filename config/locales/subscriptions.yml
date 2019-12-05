@@ -25,8 +25,3 @@ en:
       description_html: "We’ve sent an email to: <strong>‘%{address}’</strong>"
       instruction: Use the link in the email to confirm your subscription.
       expiry: You have 7 days to confirm.
-    complete:
-      summary:
-        immediately: "You’ll get an email each time there’s an update to ‘%{title}’"
-        daily: "You’ll get an email each day there’s been an update to ‘%{title}’"
-        weekly: "You’ll get one email per week if there’s been an update to ‘%{title}’"

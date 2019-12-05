@@ -1,0 +1,14 @@
+<% content_for :title, t("subscription_authentication.complete.browser_title") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <%= render "govuk_publishing_components/components/panel", {
+      title: t("subscription_authentication.complete.title")
+    } %>
+
+    <p class="govuk-body">
+      <%= t("subscription_authentication.complete.summary.#{@frequency}", title: @title) %>
+    </p>
+  </div>
+</div>

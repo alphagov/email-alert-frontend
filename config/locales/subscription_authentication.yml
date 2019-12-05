@@ -3,3 +3,10 @@ en:
     expired:
       title: Your link has expired
       description: The links we send only work for 7 days. This is to protect your personal data.
+    complete:
+      browser_title: "Subscription created successfully"
+      title: "You’ve subscribed successfully"
+      summary:
+        immediately: "You’ll get an email each time there’s an update to ‘%{title}’"
+        daily: "You’ll get an email each day there’s been an update to ‘%{title}’"
+        weekly: "You’ll get one email per week if there’s been an update to ‘%{title}’"

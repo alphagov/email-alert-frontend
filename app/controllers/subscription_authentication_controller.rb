@@ -25,7 +25,16 @@ class SubscriptionAuthenticationController < ApplicationController
       frequency: @frequency,
     )
 
-    redirect_to subscription_path(topic_id: @topic_id, frequency: @frequency)
+    redirect_to subscription_complete_path(topic_id: @topic_id, frequency: @frequency)
+  end
+
+  def complete
+    topic_id = params.require(:topic_id)
+    @frequency = params.require(:frequency)
+
+    @title = email_alert_api
+      .get_subscriber_list(slug: topic_id)
+      .to_h.dig("subscriber_list", "title")
   end
 
 private

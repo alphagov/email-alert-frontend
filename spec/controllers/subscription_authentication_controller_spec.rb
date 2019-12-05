@@ -30,7 +30,7 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "redirects to the success page" do
         get :authenticate, params: params.merge(token: token)
-        expect(response).to redirect_to(subscription_path(params))
+        expect(response).to redirect_to(subscription_complete_path(params))
       end
 
       it "sets the Cache-Control header to 'private, no-cache'" do
