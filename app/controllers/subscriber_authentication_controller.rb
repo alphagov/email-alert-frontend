@@ -1,14 +1,11 @@
 class SubscriberAuthenticationController < ApplicationController
-  MISSING_EMAIL_ERROR = "Please enter your email address.".freeze
-  INVALID_EMAIL_ERROR = "This doesn’t look like a valid email address – check you’ve entered it correctly.".freeze
-
   def sign_in
     @address = params[:address]
   end
 
   def request_sign_in_token
     unless params[:address].present?
-      flash.now[:error] = MISSING_EMAIL_ERROR
+      flash.now[:error] = t("subscriber_authentication.sign_in.missing_email")
       flash.now[:error_summary] = "email"
       return render :sign_in
     end
@@ -20,7 +17,7 @@ class SubscriberAuthenticationController < ApplicationController
       destination: process_sign_in_token_path,
     )
   rescue GdsApi::HTTPUnprocessableEntity
-    flash.now[:error] = INVALID_EMAIL_ERROR
+    flash.now[:error] = t("subscriber_authentication.sign_in.invalid_email")
     flash.now[:error_summary] = "email"
     render :sign_in
   rescue GdsApi::HTTPNotFound

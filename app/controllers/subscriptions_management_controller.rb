@@ -3,9 +3,6 @@ class SubscriptionsManagementController < ApplicationController
   before_action :get_subscription_details
   before_action :set_back_url
 
-  MISSING_EMAIL_ERROR = "Please enter your email address.".freeze
-  INVALID_EMAIL_ERROR = "That email address isn’t valid, or it’s already in use – check you’ve typed in your email address correctly.".freeze
-
   def index; end
 
   def update_frequency
@@ -43,7 +40,7 @@ class SubscriptionsManagementController < ApplicationController
     @address = @subscriber["address"]
 
     unless params[:new_address].present?
-      flash.now[:error] = MISSING_EMAIL_ERROR
+      flash.now[:error] = t("subscriptions_management.update_address.missing_email")
       return render :update_address
     end
 
@@ -59,7 +56,7 @@ class SubscriptionsManagementController < ApplicationController
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnprocessableEntity
     @new_address = new_address
-    flash.now[:error] = INVALID_EMAIL_ERROR
+    flash.now[:error] = t("subscriptions_management.update_address.invalid_email")
     render :update_address
   end
 
