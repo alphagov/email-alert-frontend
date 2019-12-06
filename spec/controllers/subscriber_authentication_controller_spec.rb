@@ -9,7 +9,7 @@ RSpec.describe SubscriberAuthenticationController do
   render_views
 
   before do
-    stub_email_alert_api_creates_an_auth_token(subscriber_id, subscriber_address)
+    stub_email_alert_api_sends_subscriber_verification_email(subscriber_id, subscriber_address)
   end
 
   describe "GET /email/authenticate" do
@@ -45,7 +45,7 @@ RSpec.describe SubscriberAuthenticationController do
       let(:subscriber_address) { "foobar" }
 
       before do
-        stub_email_alert_api_invalid_auth_token
+        stub_email_alert_api_subscriber_verification_email_invalid
       end
 
       it "renders an error message" do
@@ -56,7 +56,7 @@ RSpec.describe SubscriberAuthenticationController do
 
     context "when a valid address is provided and the subscriber doesn't exist" do
       before do
-        stub_email_alert_api_auth_token_no_subscriber
+        stub_email_alert_api_subscriber_verification_email_no_subscriber
       end
 
       it "renders a message" do
