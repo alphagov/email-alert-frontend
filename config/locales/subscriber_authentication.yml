@@ -1,0 +1,5 @@
+en:
+  subscriber_authentication:
+    sign_in:
+      missing_email: "Please enter your email address."
+      invalid_email: "This doesn’t look like a valid email address – check you’ve entered it correctly."

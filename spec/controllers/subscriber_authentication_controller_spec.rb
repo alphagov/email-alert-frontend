@@ -37,7 +37,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders an error message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(SubscriberAuthenticationController::MISSING_EMAIL_ERROR)
+        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.missing_email"))
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders an error message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(SubscriberAuthenticationController::INVALID_EMAIL_ERROR)
+        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.invalid_email"))
       end
     end
 

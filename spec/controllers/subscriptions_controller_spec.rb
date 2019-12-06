@@ -73,7 +73,7 @@ RSpec.describe SubscriptionsController do
       it "renders an error" do
         post :frequency, params: { topic_id: topic_id }
 
-        expect(response.body).to include(described_class::MISSING_FREQUENCY_ERROR)
+        expect(response.body).to include(I18n.t!("subscriptions.new_frequency.missing_frequency"))
         expect(response).to have_http_status(:ok)
       end
     end
@@ -118,8 +118,7 @@ RSpec.describe SubscriptionsController do
 
       it "renders an error" do
         post :create, params: params
-        missing_email_error = Regexp.new(described_class::MISSING_EMAIL_ERROR)
-        expect(response.body).to match missing_email_error
+        expect(response.body).to include(I18n.t!("subscriptions.new_address.missing_email"))
         expect(response).to have_http_status(:ok)
       end
     end
@@ -137,8 +136,7 @@ RSpec.describe SubscriptionsController do
 
       it "renders an error" do
         post :create, params: params
-        invalid_email_error = Regexp.new(described_class::INVALID_EMAIL_ERROR)
-        expect(response.body).to match invalid_email_error
+        expect(response.body).to include(I18n.t!("subscriptions.new_address.invalid_email"))
         expect(response).to have_http_status(:ok)
       end
     end

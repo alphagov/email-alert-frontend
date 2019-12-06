@@ -3,10 +3,6 @@ class SubscriptionsController < ApplicationController
   before_action :assign_attributes
   before_action :assign_back_url
 
-  MISSING_EMAIL_ERROR = "Please enter your email address.".freeze
-  INVALID_EMAIL_ERROR = "This doesn’t look like a valid email address – check you’ve entered it correctly.".freeze
-  MISSING_FREQUENCY_ERROR = "Select how often you want updates".freeze
-
   def new
     if @frequency.present?
       return frequency_form_redirect unless valid_frequency
@@ -26,7 +22,7 @@ class SubscriptionsController < ApplicationController
         frequency: @frequency,
       )
     else
-      flash.now[:error] = MISSING_FREQUENCY_ERROR
+      flash.now[:error] = t("subscriptions.new_frequency.missing_frequency")
       render :new_frequency
     end
   end
@@ -37,7 +33,11 @@ class SubscriptionsController < ApplicationController
     if @address.present? && subscribe
       redirect_to subscription_path(topic_id: @topic_id, frequency: @frequency)
     else
-      flash.now[:error] = @address.present? ? INVALID_EMAIL_ERROR : MISSING_EMAIL_ERROR
+      flash.now[:error] = if @address.present?
+                            t("subscriptions.new_address.invalid_email")
+                          else
+                            t("subscriptions.new_address.missing_email")
+                          end
 
       render :new_address
     end

@@ -5,3 +5,6 @@ en:
         immediately: "You chose to get updates as soon as they happen."
         daily: "You chose to get daily updates."
         weekly: "You chose to get weekly updates."
+    update_address:
+      missing_email: Please enter your email address.
+      invalid_email: "That email address isn’t valid, or it’s already in use – check you’ve typed in your email address correctly."
