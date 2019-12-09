@@ -28,7 +28,7 @@ class UnsubscriptionsController < ApplicationController
                   "You have been unsubscribed"
                 end
       flash[:success] = message if unsubscribed
-      return redirect_to list_subscriptions_path
+      redirect_to list_subscriptions_path
     end
   end
 
