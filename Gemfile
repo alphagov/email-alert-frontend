@@ -6,7 +6,7 @@ gem "rails", "6.0.1"
 
 gem "gds-api-adapters", "~> 62.0"
 gem "govuk_app_config", "~> 2.0"
-gem "govuk_publishing_components", "~> 21.13.3"
+gem "govuk_publishing_components", "~> 21.13.4"
 gem "jwt", "~> 2.2"
 gem "plek", "~> 3.0"
 gem "sass-rails", "~> 5.0"
