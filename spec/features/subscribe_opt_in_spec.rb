@@ -47,8 +47,8 @@ RSpec.feature "Subscribe opt-in" do
 
   def then_i_see_i_am_subscribed
     expect(@request).to have_been_requested
-    expect(page).to have_content("You’ve subscribed successfully")
-    description = I18n.t!("subscriptions.complete.summary.#{@frequency}", title: @title)
+    expect(page).to have_content(I18n.t!("subscription_authentication.complete.title"))
+    description = I18n.t!("subscription_authentication.complete.summary.#{@frequency}", title: @title)
     expect(page).to have_content(description)
   end
 end

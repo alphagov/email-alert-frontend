@@ -103,12 +103,12 @@ RSpec.describe SubscriptionsController do
     end
   end
 
-  describe "POST /email/subscriptions/create" do
+  describe "POST /email/subscriptions/verify" do
     let(:valid_email) { "joe@example.com" }
 
     context "when no frequency is provided" do
       it "redirects to new without the frequency" do
-        post :create, params: { topic_id: topic_id, address: valid_email }
+        post :verify, params: { topic_id: topic_id, address: valid_email }
         expect(response).to redirect_to(new_subscription_url(topic_id: topic_id))
       end
     end
@@ -117,7 +117,7 @@ RSpec.describe SubscriptionsController do
       let(:params) { { topic_id: topic_id, frequency: "daily" } }
 
       it "renders an error" do
-        post :create, params: params
+        post :verify, params: params
         expect(response.body).to include(I18n.t!("subscriptions.new_address.missing_email"))
         expect(response).to have_http_status(:ok)
       end
@@ -126,16 +126,17 @@ RSpec.describe SubscriptionsController do
     context "when an invalid email address is provided" do
       let(:address) { "bad-email" }
       let(:frequency) { "immediately" }
+
       let(:params) do
         { topic_id: topic_id, frequency: frequency, address: address }
       end
 
       before do
-        email_alert_api_refuses_to_create_subscription(subscriber_list_id, address, frequency)
+        stub_email_alert_api_subscription_verification_email_invalid(address, frequency, topic_id)
       end
 
       it "renders an error" do
-        post :create, params: params
+        post :verify, params: params
         expect(response.body).to include(I18n.t!("subscriptions.new_address.invalid_email"))
         expect(response).to have_http_status(:ok)
       end
@@ -144,27 +145,28 @@ RSpec.describe SubscriptionsController do
     context "when a valid email address is provided" do
       let(:address) { valid_email }
       let(:frequency) { "immediately" }
+
       let(:params) do
         { topic_id: topic_id, frequency: frequency, address: address }
       end
 
-      before do
-        email_alert_api_creates_a_subscription(subscriber_list_id, address, frequency, 1)
+      let!(:request) do
+        stub_email_alert_api_sends_subscription_verification_email(address, frequency, topic_id)
       end
 
-      it "returns a redirect to subscription page" do
-        post :create, params: params
-        redirect = subscription_url(topic_id: topic_id, frequency: frequency)
-        expect(response).to redirect_to(redirect)
+      it "renders a notice to check email" do
+        post :verify, params: params
+        expect(response.body).to include(I18n.t!("subscriptions.check_email.title"))
+        expect(response).to have_http_status(:ok)
       end
 
       it "sends a request to email-alert-api" do
-        post :create, params: params
-        assert_subscribed(subscriber_list_id, address, frequency)
+        post :verify, params: params
+        expect(request).to have_been_requested
       end
 
       it "sets the Cache-Control header to 'private, no-cache'" do
-        post :create, params: params
+        post :verify, params: params
         expect(response.headers["Cache-Control"]).to eq("private, no-cache")
       end
     end
