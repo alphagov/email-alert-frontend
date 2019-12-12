@@ -4,7 +4,7 @@ class SubscriberAuthenticationController < ApplicationController
   end
 
   def request_sign_in_token
-    unless params[:address].present?
+    if params[:address].blank?
       flash.now[:error] = t("subscriber_authentication.sign_in.missing_email")
       flash.now[:error_summary] = "email"
       return render :sign_in
