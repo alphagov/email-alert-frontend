@@ -60,7 +60,7 @@ private
   end
 
   def subscription_params
-    params.permit(:topic_id, :address, :frequency, :default_frequency)
+    params.permit(:topic_id, :address, :frequency)
   end
 
   def valid_frequency
