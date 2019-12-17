@@ -38,9 +38,6 @@ Rails.application.routes.draw do
 
     # DEPRECATED: legacy route in emails from GOV.UK
     get "/authenticate", to: redirect("/email/manage/authenticate")
-
-    # DEPRECATED: legacy route in emails from GOV.UK (delete 7 days after deploy)
-    get "/authenticate/process" => "subscriber_authentication#process_sign_in_token"
   end
 
   get "/healthcheck", to: GovukHealthcheck.rack_response
