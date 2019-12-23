@@ -14,7 +14,7 @@ en:
       title: Enter your email address
       description_html: |
         You’re subscribing to get email notifications about: <br/>
-        ‘<strong>%{title}</strong>’.
+        <strong>%{title}</strong>.
       question: "What’s your email address?"
       summary:
         immediately: "You’ll get an email every time a page is added or changed."

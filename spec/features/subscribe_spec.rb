@@ -46,7 +46,7 @@ RSpec.feature "Subscribe" do
       @topic_id,
     )
 
-    click_on "Subscribe"
+    click_on "Continue"
   end
 
   def then_i_should_receive_an_opt_in_email
