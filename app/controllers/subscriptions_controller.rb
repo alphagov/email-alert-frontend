@@ -1,9 +1,9 @@
 class SubscriptionsController < ApplicationController
   include FrequenciesHelper
   before_action :assign_attributes
-  before_action :assign_back_url
 
   def new
+    @back_url = @frequency.blank? ? govuk_url : url_for(action: :new, topic_id: @topic_id)
     if @frequency.present?
       return frequency_form_redirect unless valid_frequency
 
@@ -23,6 +23,7 @@ class SubscriptionsController < ApplicationController
       )
     else
       flash.now[:error] = t("subscriptions.new_frequency.missing_frequency")
+      @back_url = url_for(action: :new, topic_id: @topic_id)
       render :new_frequency
     end
   end
@@ -30,6 +31,11 @@ class SubscriptionsController < ApplicationController
   def verify
     return frequency_form_redirect unless valid_frequency
 
+    @back_url = url_for(host: Plek.new.website_root,
+                        action: :new,
+                        topic_id: @topic_id,
+                        frequency: @frequency,
+                        address: @address)
     if @address.present? && subscribe
       render :check_email
     else
@@ -52,11 +58,6 @@ private
     @frequency = subscription_params[:frequency]
     @address = subscription_params[:address]
     @title = @subscriber_list["title"]
-  end
-
-  def assign_back_url
-    @back_url = url_for(action: :new, topic_id: @topic_id)
-    @back_url = govuk_url if params[:action] == "new" && @frequency.blank?
   end
 
   def subscription_params
