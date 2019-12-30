@@ -2,9 +2,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Manage your subscriptions</h1>
+    <h1 class="govuk-heading-l"><%= t("subscriber_authentication.heading") %></h1>
 
-    <p class="govuk-body">We’ve sent an email to <%= @address %>.</p>
-    <p class="govuk-body">Check your inbox and click on the link to confirm your email address.</p>
+    <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.confirmation", address: @address) %></p>
+    <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.prompt") %></p>
   </div>
 </div>
