@@ -25,7 +25,7 @@ RSpec.describe SubscriptionAuthenticationController do
       end
 
       let(:token) do
-        jwt_token(data: { "topic_id" => topic_id, "address" => address })
+        encrypt_and_sign_token(data: { "topic_id" => topic_id, "address" => address })
       end
 
       it "redirects to the success page" do
@@ -40,7 +40,7 @@ RSpec.describe SubscriptionAuthenticationController do
     end
 
     context "the token is expired" do
-      let(:token) { jwt_token(expiry: 5.minutes.ago) }
+      let(:token) { encrypt_and_sign_token(expiry: 0) }
 
       it "shows an expired error page" do
         get :authenticate, params: params.merge(token: token)
@@ -49,7 +49,7 @@ RSpec.describe SubscriptionAuthenticationController do
     end
 
     context "the token is re-used" do
-      let(:token) { jwt_token(data: { "topic_id" => "another" }) }
+      let(:token) { encrypt_and_sign_token(data: { "topic_id" => "another" }) }
 
       it "shows a general error page" do
         get :authenticate, params: params.merge(token: token)
@@ -59,7 +59,7 @@ RSpec.describe SubscriptionAuthenticationController do
 
     context "the frequency is invalid" do
       let(:token) do
-        jwt_token(data: { "topic_id" => topic_id, "address" => address })
+        encrypt_and_sign_token(data: { "topic_id" => topic_id, "address" => address })
       end
 
       it "shows a general error page" do

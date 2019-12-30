@@ -18,7 +18,7 @@ RSpec.feature "Subscribe opt-in" do
   def when_i_click_on_the_confirmation_link
     @title = "Test Subscriber List"
 
-    token = jwt_token(data: {
+    token = encrypt_and_sign_token(data: {
       "address" => @address,
       "topic_id" => @topic_id,
     })
