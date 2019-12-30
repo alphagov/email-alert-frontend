@@ -1,4 +1,4 @@
-<% content_for :title, 'Change your email address' %>
+<% content_for :title, t("subscriptions_management.update_address.heading") %>
 
 <% content_for :back_link do %>
   <%= render "govuk_publishing_components/components/back_link", {
@@ -8,15 +8,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Change your email address</h1>
+    <h1 class="govuk-heading-l"><%= t("subscriptions_management.update_address.heading") %></h1>
 
     <% if flash[:error] %>
       <div class="column-two-thirds">
         <%= render 'govuk_publishing_components/components/error_summary', {
-          title: 'We weren’t able to change your email address',
+          title: t("subscriptions_management.update_address.error_title"),
           items: [
             {
-              text: 'There’s a problem with your email address',
+              text: t("subscriptions_management.update_address.error_description"),
               href: '#email-address-input',
             }
           ]
@@ -24,22 +24,20 @@
       </div>
     <% end %>
 
-    <p class="govuk-body">Your current email address is <%= @address %></p>
+    <p class="govuk-body"><%= t("subscriptions_management.update_address.current_email", address: @address) %></p>
 
     <%= form_tag change_address_path, method: :post do %>
       <%= render 'govuk_publishing_components/components/input', {
         error_message: flash[:error],
         id: 'email-address-input',
-        label: { text: 'What’s your new email address?' },
+        label: { text: t("subscriptions_management.update_address.new_email_label") },
         name: :new_address,
         type: 'email',
         value: @new_address,
       } %>
       <% unless @new_address.nil? %>
         <p class="govuk-body">
-          If you want to transfer your subscription to <%= @new_address %>,
-          you’ll need to subscribe to the same topics again, using the new
-          email address. Or you can
+          <%= t("subscriptions_management.update_address.description", address: @new_address) %>
           <%= link_to "contact us",
                       "/contact/govuk",
                       class: %w[govuk-link govuk-link--no-visited-state] %>.
