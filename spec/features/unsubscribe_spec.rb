@@ -32,7 +32,7 @@ RSpec.feature "Unsubscribe after receiving confirmation link" do
   def then_i_see_that_i_am_unsubscribed
     expect(@unsubscribe_request).to have_been_requested
     expect(page).to have_content(
-      "You won’t get any more updates about #{@title}.",
+      I18n.t!("unsubscriptions.confirmation.with_title", title: @title),
     )
   end
 end

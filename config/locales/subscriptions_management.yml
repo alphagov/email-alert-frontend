@@ -1,10 +1,28 @@
 en:
   subscriptions_management:
+    heading: Manage your subscriptions
     index:
       subscription:
         immediately: "You chose to get updates as soon as they happen."
         daily: "You chose to get daily updates."
         weekly: "You chose to get weekly updates."
     update_address:
+      heading: Change your email address
+      current_email: "Your current email address is %{address}"
+      description: |
+        If you want to transfer your subscription to %{address},
+        you’ll need to subscribe to the same topics again, using the new
+        email address. Or you can
+      new_email_label: What’s your new email address?
+      error_title: We weren’t able to change your email address
+      error_description: There’s a problem with your email address
       missing_email: Please enter your email address.
       invalid_email: "That email address isn’t valid, or it’s already in use – check you’ve typed in your email address correctly."
+      success: "Your email address has been changed to %{address}"
+    change_frequency:
+      success: "You’ll now get updates about ‘%{subscription_title}’ %{frequency}"
+    confirm_unsubscribe_all:
+      heading: Are you sure you want to unsubscribe from everything?
+      description: You won’t get any more automated emails from GOV.UK.
+    confirmed_unsubscribe_all:
+      success: You have been unsubscribed from all your subscriptions

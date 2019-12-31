@@ -165,7 +165,9 @@ RSpec.describe SubscriptionsManagementController do
 
       it "renders an error message" do
         post :change_address, params: { new_address: new_address }, session: session_data
-        expect(response.body).to include(I18n.t!("subscriptions_management.update_address.missing_email"))
+        expect(response.body).to include(
+          I18n.t!("subscriptions_management.update_address.missing_email"),
+        )
       end
 
       it "renders a form" do
@@ -183,7 +185,9 @@ RSpec.describe SubscriptionsManagementController do
 
       it "renders an error message" do
         post :change_address, params: { new_address: new_address }, session: session_data
-        expect(response.body).to include(I18n.t!("subscriptions_management.update_address.invalid_email"))
+        expect(response.body).to include(
+          I18n.t!("subscriptions_management.update_address.invalid_email"),
+        )
       end
 
       it "renders a form" do
@@ -209,7 +213,9 @@ RSpec.describe SubscriptionsManagementController do
 
       it "renders a message" do
         get :confirm_unsubscribe_all, session: session_data
-        expect(response.body).to include("You won’t get any more automated emails from GOV.UK.")
+        expect(response.body).to include(
+          I18n.t!("subscriptions_management.confirm_unsubscribe_all.description"),
+        )
       end
     end
 

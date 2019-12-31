@@ -36,7 +36,9 @@ RSpec.describe UnsubscriptionsController do
     it "renders the title on the page" do
       get :confirm, params: { id: id }
 
-      expect(response.body).to include("You won’t get any more updates about #{title}")
+      expect(response.body).to include(
+        I18n.t!("unsubscriptions.confirmation.with_title", title: title),
+      )
     end
 
     context "when the subscription has already ended" do
@@ -147,7 +149,9 @@ RSpec.describe UnsubscriptionsController do
     it "renders a confirmation page" do
       post :confirmed, params: { id: id }
 
-      expect(response.body).to include("You won’t get any more updates about #{title}")
+      expect(response.body).to include(
+        I18n.t!("unsubscriptions.confirmation.with_title", title: title),
+      )
     end
 
     it "sends an unsubscribe request to email-alert-api" do
@@ -164,7 +168,9 @@ RSpec.describe UnsubscriptionsController do
       it "renders a page informing them the subscription has already ended" do
         post :confirmed, params: { id: id }
 
-        expect(response.body).to include("You won’t get any more updates about #{title}")
+        expect(response.body).to include(
+          I18n.t!("unsubscriptions.confirmation.with_title", title: title),
+        )
       end
     end
 

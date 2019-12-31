@@ -1,4 +1,4 @@
-<% content_for :title, 'Are you sure you want to unsubscribe from everything?' %>
+<% content_for :title, t("subscriptions_management.confirm_unsubscribe_all.heading") %>
 
 <% content_for :back_link do %>
   <%= render "govuk_publishing_components/components/back_link", {
@@ -8,9 +8,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Are you sure you want to unsubscribe from everything?</h1>
+    <h1 class="govuk-heading-l"><%= t("subscriptions_management.confirm_unsubscribe_all.heading") %></h1>
 
-    <p class="govuk-body">You won’t get any more automated emails from GOV.UK.</p>
+    <p class="govuk-body"><%= t("subscriptions_management.confirm_unsubscribe_all.description") %></p>
 
     <%= form_tag(action: :confirmed_unsubscribe_all) do %>
       <%= hidden_field_tag(:from, @from) %>

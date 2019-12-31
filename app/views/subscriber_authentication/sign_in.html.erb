@@ -3,22 +3,22 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Manage your subscriptions</h1>
+    <h1 class="govuk-heading-l"><%= t("subscriber_authentication.heading") %></h1>
 
     <% if flash[:error_summary] == "email" %>
       <%= render 'govuk_publishing_components/components/error_summary', {
-        title: 'We weren’t able to sign you in',
+        title: t("subscriber_authentication.sign_in.email_error.title"),
         items: [
           {
-            text: 'There’s a problem with your email address',
+            text: t("subscriber_authentication.sign_in.email_error.description"),
             href: '#email-address-input',
           }
         ]
       } %>
     <% elsif flash[:error_summary] == "bad_token" %>
       <%= render 'govuk_publishing_components/components/error_summary', {
-        title: 'That link has expired',
-        description: 'Enter your email address again to change your subscription',
+        title: t("subscriber_authentication.sign_in.bad_token_error.title"),
+        description: t("subscriber_authentication.sign_in.bad_token_error.description"),
       } %>
     <% end %>
 
@@ -26,13 +26,13 @@
       <%= render 'govuk_publishing_components/components/input', {
         error_message: flash[:error],
         id: 'email-address-input',
-        label: { text: 'What’s your email address?' },
+        label: { text: t("subscriber_authentication.sign_in.email_input.label") },
         name: :address,
         type: 'email',
         value: @address,
       } %>
 
-      <p class="govuk-body">You’ll need to confirm your email address before you can manage your subscriptions.</p>
+      <p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
 
       <%= render 'govuk_publishing_components/components/button', {
         text: 'Continue',

@@ -1,4 +1,4 @@
-<% content_for :title, 'Are you sure you want to unsubscribe?' %>
+<% content_for :title, t("unsubscriptions.title.confirm") %>
 
 <% if @authenticated_for_subscription %>
   <% content_for :back_link do %>
@@ -10,13 +10,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Are you sure you want to unsubscribe?</h1>
+    <h1 class="govuk-heading-l"><%= t("unsubscriptions.title.confirm") %></h1>
 
-    <% if @title %>
-      <p class="govuk-body">You won’t get any more updates about <%= @title %>.</p>
-    <% else %>
-      <p class="govuk-body">You won’t get any more updates about this topic.</p>
-    <% end %>
+    <%= render "confirmation" %>
 
     <%= form_tag(action: :confirmed) do %>
       <%= render 'govuk_publishing_components/components/button', {

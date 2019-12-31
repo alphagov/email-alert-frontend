@@ -27,7 +27,9 @@ class SubscriptionsManagementController < ApplicationController
                        new_frequency
                      end
 
-    flash[:success] = "You’ll now get updates about ‘#{subscription_title}’ #{frequency_text}"
+    flash[:success] = t("subscriptions_management.change_frequency.success",
+                        subscription_title: subscription_title,
+                        frequency: frequency_text)
 
     redirect_to list_subscriptions_path
   end
@@ -50,8 +52,8 @@ class SubscriptionsManagementController < ApplicationController
       id: authenticated_subscriber_id,
       new_address: new_address,
     )
-
-    flash[:success] = "Your email address has been changed to #{new_address}"
+    flash[:success] = t("subscriptions_management.update_address.success",
+                        address: new_address)
 
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnprocessableEntity
@@ -65,7 +67,7 @@ class SubscriptionsManagementController < ApplicationController
   def confirmed_unsubscribe_all
     begin
       email_alert_api.unsubscribe_subscriber(authenticated_subscriber_id)
-      flash[:success] = "You have been unsubscribed from all your subscriptions"
+      flash[:success] = t("subscriptions_management.confirmed_unsubscribe_all.success")
     rescue GdsApi::HTTPNotFound
       # The user has already unsubscribed.
       nil

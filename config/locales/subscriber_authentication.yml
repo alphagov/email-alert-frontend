@@ -1,5 +1,18 @@
 en:
   subscriber_authentication:
+    heading: Manage your subscriptions
     sign_in:
+      description: You’ll need to confirm your email address before you can manage your subscriptions.
+      email_input:
+        label: What’s your email address?
       missing_email: "Please enter your email address."
       invalid_email: "This doesn’t look like a valid email address – check you’ve entered it correctly."
+      email_error:
+        title: We weren’t able to sign you in
+        description: There’s a problem with your email address
+      bad_token_error:
+        title: That link has expired
+        description: Enter your email address again to change your subscription
+    request_sign_in_token:
+      confirmation: "We’ve sent an email to %{address}."
+      prompt: Check your inbox and click on the link to confirm your email address.

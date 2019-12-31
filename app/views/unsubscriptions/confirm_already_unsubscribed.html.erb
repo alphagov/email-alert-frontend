@@ -1,5 +1,5 @@
 <%
-page_title = "You’ve already unsubscribed"
+page_title = t("unsubscriptions.title.confirm_already_unsubscribed")
 page_title += " from #{@title}" if @title
 content_for :title, page_title
 %>
@@ -16,10 +16,6 @@ content_for :title, page_title
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l"><%= page_title %></h1>
 
-    <% if @title %>
-      <p class="govuk-body">You won’t get any more updates about <%= @title %>.</p>
-    <% else %>
-      <p class="govuk-body">You won’t get any more updates about this topic.</p>
-    <% end %>
+    <%= render "confirmation" %>
   </div>
 </div>
