@@ -1,13 +1,9 @@
-<% content_for :title, 'You’ve successfully unsubscribed' %>
+<% content_for :title, t("unsubscriptions.title.confirmed") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">You’ve successfully unsubscribed</h1>
+    <h1 class="govuk-heading-l"><%= t("unsubscriptions.title.confirmed") %></h1>
 
-    <% if @title %>
-      <p class="govuk-body">You won’t get any more updates about <%= @title %>.</p>
-    <% else %>
-      <p class="govuk-body">You won’t get any more updates about this topic.</p>
-    <% end %>
+    <%= render "confirmation" %>
   </div>
 </div>

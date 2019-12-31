@@ -1,0 +1,5 @@
+<% if @title %>
+  <p class="govuk-body"><%= t("unsubscriptions.confirmation.with_title", title: @title) %></p>
+<% else %>
+  <p class="govuk-body"><%= t("unsubscriptions.confirmation.without_title") %></p>
+<% end %>
