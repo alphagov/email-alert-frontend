@@ -22,7 +22,7 @@ RSpec.feature "Bulk unsubscribe after receiving confirmation link" do
   end
 
   def when_i_visit_the_manage_my_subscriptions_page
-    token = jwt_token(data: {
+    token = encrypt_and_sign_token(data: {
       "address" => @address,
       "subscriber_id" => @subscriber_id,
     })

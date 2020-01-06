@@ -75,7 +75,7 @@ RSpec.describe SubscriberAuthenticationController do
 
   describe "GET /email/authenticate/process" do
     let(:token) do
-      jwt_token(data: {
+      encrypt_and_sign_token(data: {
         "subscriber_id" => subscriber_id,
         "redirect" => "/email/manage",
       })
@@ -89,7 +89,7 @@ RSpec.describe SubscriberAuthenticationController do
     end
 
     context "when an expired token is provided" do
-      let(:expired_token) { jwt_token(expiry: 5.minutes.ago) }
+      let(:expired_token) { encrypt_and_sign_token(expiry: 0) }
 
       it "redirects to sign in" do
         get :process_sign_in_token, params: { token: expired_token }

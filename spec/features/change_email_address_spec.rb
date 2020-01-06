@@ -23,7 +23,7 @@ RSpec.feature "Change email address after receiving confirmation link" do
       subscriptions: [],
     )
 
-    token = jwt_token(data: {
+    token = encrypt_and_sign_token(data: {
       "address" => @current_email_address,
       "subscriber_id" => @subscriber_id,
     })
