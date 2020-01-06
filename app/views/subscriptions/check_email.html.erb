@@ -1,3 +1,9 @@
+<% content_for :back_link do %>
+  <%= render "govuk_publishing_components/components/back_link", {
+      href: @back_url
+  } %>
+<% end %>
+
 <% content_for :title, t("subscriptions.check_email.title") %>
 
 <div class="govuk-grid-row">

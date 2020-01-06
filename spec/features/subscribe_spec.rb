@@ -30,7 +30,7 @@ RSpec.feature "Subscribe" do
     expect(page).to have_content(I18n.t!("subscriptions.new_frequency.question"))
     @frequency = "weekly"
     choose "frequency", option: @frequency, visible: false
-    click_on "Next"
+    click_on "Continue"
   end
 
   def and_i_enter_my_email_address
@@ -46,7 +46,7 @@ RSpec.feature "Subscribe" do
       @topic_id,
     )
 
-    click_on "Subscribe"
+    click_on "Continue"
   end
 
   def then_i_should_receive_an_opt_in_email

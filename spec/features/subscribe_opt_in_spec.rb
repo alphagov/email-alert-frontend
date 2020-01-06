@@ -11,7 +11,6 @@ RSpec.feature "Subscribe opt-in" do
   def given_i_am_subscribing_to_a_list
     @topic_id = SecureRandom.uuid
     @subscriber_list_id = SecureRandom.uuid
-    @frequency = "immediately"
     @address = "test@example.com"
   end
 
@@ -34,21 +33,20 @@ RSpec.feature "Subscribe opt-in" do
     @request = stub_email_alert_api_creates_a_subscription(
       @subscriber_list_id,
       @address,
-      @frequency,
+      "immediately",
       nil,
     )
 
     visit confirm_subscription_path(
       token: token,
       topic_id: @topic_id,
-      frequency: @frequency,
+      frequency: "immediately",
     )
   end
 
   def then_i_see_i_am_subscribed
     expect(@request).to have_been_requested
-    expect(page).to have_content(I18n.t!("subscription_authentication.complete.title"))
-    description = I18n.t!("subscription_authentication.complete.summary.#{@frequency}", title: @title)
-    expect(page).to have_content(description)
+    expect(page).to have_content("You’ve subscribed successfully")
+    expect(page).to have_content("You’ll get an email each time there’s an update to: Test Subscriber List")
   end
 end
