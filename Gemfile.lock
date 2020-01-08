@@ -82,7 +82,7 @@ GEM
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     ffi (1.11.3)
-    gds-api-adapters (63.1.1)
+    gds-api-adapters (63.2.0)
       addressable
       link_header
       null_logger
@@ -308,7 +308,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara (~> 3.30)
-  gds-api-adapters (~> 63.1)
+  gds-api-adapters (~> 63.2)
   govuk_app_config (~> 2.0)
   govuk_publishing_components (~> 21.17.0)
   govuk_schemas
