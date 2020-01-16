@@ -23,5 +23,5 @@ group :test do
   gem "govuk_schemas"
   gem "rspec-rails", "~> 3.9"
   gem "timecop", "~> 0.9.1"
-  gem "webmock", "~> 3.7"
+  gem "webmock", "~> 3.8"
 end
