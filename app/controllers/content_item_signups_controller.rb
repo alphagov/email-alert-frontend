@@ -5,6 +5,7 @@
 class ContentItemSignupsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :require_content_item_param
+  before_action :handle_redirects
   before_action :validate_document_type
   helper_method :estimated_email_frequency
 
@@ -29,11 +30,6 @@ private
   PERMITTED_CONTENT_ITEMS = %w(taxon organisation ministerial_role person topical_event world_location).freeze
 
   def require_content_item_param
-    if content_item_path.to_s == "/government/brexit"
-      redirect_to new_content_item_signup_path(topic: "/brexit")
-      return false
-    end
-
     unless valid_content_item_param?
       redirect_to "/"
       false
@@ -57,6 +53,18 @@ private
     @content_item ||= EmailAlertFrontend
       .services(:content_store)
       .content_item(content_item_path)
+  end
+
+  def handle_redirects
+    if content_item["document_type"] == "redirect"
+      destination_path = content_item.dig("redirects", 0, "destination")
+      if destination_path.nil?
+        redirect_to("/")
+      else
+        redirect_to(new_content_item_signup_path(topic: destination_path))
+      end
+      false
+    end
   end
 
   def validate_document_type

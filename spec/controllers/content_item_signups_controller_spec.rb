@@ -1,14 +1,31 @@
 RSpec.describe ContentItemSignupsController do
   include GdsApi::TestHelpers::ContentStore
 
-  shared_examples "handles bad input data correctly" do
-    it "redirects to topic=/brexit if topic param is /government/brexit" do
-      get :new, params: { topic: "/government/brexit" }
+  describe "redirection" do
+    it "follows a redirect" do
+      content_store_has_item("/magical/broomsticks",
+                             document_type: "redirect",
+                             content_id: SecureRandom.uuid,
+                             redirects: [{ destination: "/cleaning/broomsticks" }])
+
+      get :new, params: { topic: "/magical/broomsticks" }
 
       expect(response).to have_http_status(:found)
-      expect(response.location).to eq "http://test.host/email-signup?topic=%2Fbrexit"
+      expect(response.location).to eq "http://test.host/email-signup?topic=%2Fcleaning%2Fbroomsticks"
     end
+    it "redirects to the homepage if there is no destination path" do
+      content_store_has_item("/magical/broomsticks",
+                             document_type: "redirect",
+                             content_id: SecureRandom.uuid)
 
+      get :new, params: { topic: "/magical/broomsticks" }
+
+      expect(response).to have_http_status(:found)
+      expect(response.location).to eq "http://test.host/"
+    end
+  end
+
+  shared_examples "handles bad input data correctly" do
     it "redirects to root if topic param is missing" do
       make_request(bad_param: "/education/some-rando-item")
 
