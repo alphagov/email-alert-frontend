@@ -11,17 +11,15 @@
     <h1 class="govuk-heading-l"><%= t("subscriptions_management.update_address.heading") %></h1>
 
     <% if flash[:error] %>
-      <div class="column-two-thirds">
-        <%= render 'govuk_publishing_components/components/error_summary', {
-          title: t("subscriptions_management.update_address.error_title"),
-          items: [
-            {
-              text: t("subscriptions_management.update_address.error_description"),
-              href: '#email-address-input',
-            }
-          ]
-        } %>
-      </div>
+      <%= render 'govuk_publishing_components/components/error_summary', {
+        title: t("subscriptions_management.update_address.error_title"),
+        items: [
+          {
+            text: t("subscriptions_management.update_address.error_description"),
+            href: '#email-address-input',
+          }
+        ]
+      } %>
     <% end %>
 
     <p class="govuk-body"><%= t("subscriptions_management.update_address.current_email", address: @address) %></p>
