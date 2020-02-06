@@ -91,7 +91,7 @@ GEM
       rest-client (~> 2.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk_app_config (2.0.2)
+    govuk_app_config (2.0.3)
       logstasher (>= 1.2.2, < 1.4.0)
       sentry-raven (>= 2.7.1, < 2.14.0)
       statsd-ruby (~> 1.4.0)
