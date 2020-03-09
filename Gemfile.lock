@@ -91,7 +91,7 @@ GEM
       rest-client (~> 2.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk_app_config (2.0.3)
+    govuk_app_config (2.1.0)
       logstasher (>= 1.2.2, < 1.4.0)
       sentry-raven (>= 2.7.1, < 2.14.0)
       statsd-ruby (~> 1.4.0)
@@ -311,7 +311,7 @@ PLATFORMS
 DEPENDENCIES
   capybara (~> 3.31)
   gds-api-adapters (~> 63.5)
-  govuk_app_config (~> 2.0)
+  govuk_app_config (~> 2.1)
   govuk_publishing_components (~> 21.27.0)
   govuk_schemas
   jwt (~> 2.2)
