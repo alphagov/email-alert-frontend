@@ -37,21 +37,6 @@ RSpec.describe ContentItemSubscriberList do
       end
     end
 
-    context "given a taxon which is a world_location" do
-      it "asks email-alert-api to find or create a subscriber list" do
-        world_location = { "document_type" => "taxon", "title" => "Peters Island",
-                           "content_id" => "world-id", "base_path" => "/world/peter-island" }
-
-        signup = described_class.new(world_location)
-
-        expect(signup.has_content_item?).to be
-        expect(signup.subscription_management_url).to eq "/something"
-        expect(mock_email_alert_api)
-          .to have_received(:find_or_create_subscriber_list)
-          .with("title" => "Peters Island", "links" => { "world_locations" => %w[world-id] })
-      end
-    end
-
     context "given an organisation" do
       organisation = { "document_type" => "organisation", "title" => "Org", "content_id" => "org-id" }
 
@@ -107,21 +92,6 @@ RSpec.describe ContentItemSubscriberList do
         expect(mock_email_alert_api)
           .to have_received(:find_or_create_subscriber_list)
           .with("title" => "Summit 2019", "links" => { "topical_events" => %w[summit-id] })
-      end
-    end
-
-    context "given a international delegation" do
-      international_delegation = { "document_type" => "world_location",
-                                   "title" => "Nato Delegation", "content_id" => "delegation-id" }
-
-      it "asks email-alert-api to find or create a subscriber list" do
-        signup = described_class.new(international_delegation)
-
-        expect(signup.has_content_item?).to be
-        expect(signup.subscription_management_url).to eq "/something"
-        expect(mock_email_alert_api)
-          .to have_received(:find_or_create_subscriber_list)
-          .with("title" => "Nato Delegation", "links" => { "world_locations" => %w[delegation-id] })
       end
     end
   end
