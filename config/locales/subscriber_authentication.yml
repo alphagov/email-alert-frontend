@@ -2,7 +2,7 @@ en:
   subscriber_authentication:
     heading: Manage your subscriptions
     sign_in:
-      description: You’ll need to confirm your email address before you can manage your subscriptions.
+      description: You’ll need to confirm your email address before you can manage your subscriptions.  There may be a delay of up to 15 minutes before you receive the confirmation email.
       email_input:
         label: What’s your email address?
       missing_email: "Please enter your email address."
