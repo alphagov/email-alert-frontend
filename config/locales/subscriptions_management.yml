@@ -25,4 +25,4 @@ en:
       heading: Are you sure you want to unsubscribe from everything?
       description: You won’t get any more automated emails from GOV.UK.
     confirmed_unsubscribe_all:
-      success: You have been unsubscribed from all your subscriptions
+      success: You have been unsubscribed from all your subscriptions. It may take up to an hour for this change to take effect.
