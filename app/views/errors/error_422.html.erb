@@ -1,0 +1,6 @@
+<% content_for(:page_title, '422') %>
+
+<h1 class="page-title">
+  <%= @custom_header || 'The change you wanted was rejected' %>
+</h1>
+<p><%= @custom_body || 'Your link has expired, or your email does not exist in our database' %></p>
