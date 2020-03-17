@@ -4,12 +4,7 @@ Rails.application.routes.draw do
   root to: "development#index"
 
   scope via: :all do
-    match "/400" => "errors#bad_request"
-    match "/403" => "errors#forbidden"
-    match "/404" => "errors#not_found"
     match "/422" => "errors#unprocessable_entity"
-    match "/500" => "errors#internal_server_error"
-    match "/503" => "errors#service_unavailable"
   end
 
   get "/*base_path" => "email_alert_signups#new", as: :email_alert_signup, constraints: { base_path: %r|.*/email-signup| }
