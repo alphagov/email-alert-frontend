@@ -1,25 +1,25 @@
 class ErrorsController < ApplicationController
-  def error_400
+  def bad_request
     render status: :bad_request
   end
 
-  def error_403
+  def forbidden
     render status: :forbidden
   end
 
-  def error_404
+  def not_found
     render status: :not_found
   end
 
-  def error_422
+  def unprocessable_entity
     render status: :unprocessable_entity
   end
 
-  def error_500
+  def internal_server_error
     render status: :internal_server_error
   end
 
-  def error_503
+  def service_unavailable
     render status: :service_unavailable
   end
 end
