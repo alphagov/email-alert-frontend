@@ -33,7 +33,7 @@
       } do %>
         <%= render "govuk_publishing_components/components/radio", {
           name: "frequency",
-          items: frequencies,
+          items: frequencies(frequency_options(@topic_id)),
         } %>
       <% end %>
 
