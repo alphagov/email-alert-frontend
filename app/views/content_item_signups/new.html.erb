@@ -11,7 +11,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-  <% if @subscription.child_taxons.present?%>
     <h1 class="govuk-heading-l">What do you want to get alerts about?</h1>
 
     <%= form_tag({action: "confirm"}, method: "get") do %>
@@ -43,23 +42,5 @@
         margin_bottom: true
       } %>
     <% end %>
-
-  <% else %>
-
-    <h1 class="govuk-heading-l">Get email alerts</h1>
-
-    <p class="govuk-body">You are signing up for email alerts about: <%= @content_item['title']%></p>
-    <% if @content_item['description'].present? %>
-      <p class="govuk-body"><%= @subscription.description %></p>
-    <% end %>
-
-    <%= render "govuk_publishing_components/components/button", {
-      text: "Select",
-      href: confirm_content_item_signup_path(link: @content_item['base_path']),
-      margin_bottom: true
-    } %>
-
-  <% end %>
-
   </div>
 </div>
