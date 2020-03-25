@@ -21,7 +21,7 @@ end
 group :test do
   gem "capybara", "~> 3.31"
   gem "govuk_schemas"
-  gem "rspec-rails", "~> 3.9"
+  gem "rspec-rails", "~> 4.0"
   gem "timecop", "~> 0.9.1"
   gem "webmock", "~> 3.8"
 end
