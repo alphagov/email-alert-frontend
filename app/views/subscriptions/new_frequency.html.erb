@@ -21,8 +21,6 @@
       } %>
     <% end %>
 
-    <%= tag.h1 t("subscriptions.new_frequency.title"), class: "govuk-heading-l" %>
-
     <%= form_tag subscription_frequency_path, method: :post, class: "checklist-email-signup" do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
@@ -36,6 +34,10 @@
           items: frequencies(frequency_options(@topic_id)),
         } %>
       <% end %>
+
+      <%= render "govuk_publishing_components/components/inset_text", {
+        text: "<p>Your choice will apply to all of the GOV.UK emails you’re subscribed to.</p><p>You can unsubscribe from emails or change your subscription at any time.</p>".html_safe
+      } %>
 
       <%= render "govuk_publishing_components/components/button", {
         text: "Continue",

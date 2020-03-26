@@ -4,7 +4,7 @@ en:
       general_problem: "There is a problem"
       required_question: "You must answer this question"
       missing_frequency: "Select how often you want updates"
-      question: How often do you want to get updates?
+      question: How often do you want to receive emails?
       title: Get emails when pages are added or updated
     new_address:
       general_problem: "We weren’t able to process your subscription"
