@@ -1,5 +1,5 @@
 en:
   frequencies:
-    immediately: As soon as they happen
-    daily: Once a day
-    weekly: Once a week
+    immediately: Every time something changes on GOV.UK
+    daily: Once a day, with all the updates made that day (recommended)
+    weekly: Once a week, with all the updates made that week

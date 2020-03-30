@@ -21,17 +21,17 @@ RSpec.describe FrequenciesHelper do
       expect(frequencies).to eq([
         {
           value: :immediately,
-          text: "As soon as they happen",
+          text: "Every time something changes on GOV.UK",
           checked: false,
         },
         {
           value: :daily,
-          text: "Once a day",
+          text: "Once a day, with all the updates made that day (recommended)",
           checked: false,
         },
         {
           value: :weekly,
-          text: "Once a week",
+          text: "Once a week, with all the updates made that week",
           checked: false,
         },
       ])
@@ -41,17 +41,17 @@ RSpec.describe FrequenciesHelper do
       expect(frequencies({ checked_frequency: "daily" })).to eq([
         {
           value: :immediately,
-          text: "As soon as they happen",
+          text: "Every time something changes on GOV.UK",
           checked: false,
         },
         {
           value: :daily,
-          text: "Once a day",
+          text: "Once a day, with all the updates made that day (recommended)",
           checked: true,
         },
         {
           value: :weekly,
-          text: "Once a week",
+          text: "Once a week, with all the updates made that week",
           checked: false,
         },
       ])

@@ -13,7 +13,7 @@
     <%= form_tag change_frequency_path, method: :post do %>
       <%= hidden_field_tag :id, @subscription_id %>
         <%= render 'govuk_publishing_components/components/fieldset', {
-          legend_text: '<h2 class="govuk-heading-m">How often do you want to get updates?</h2>'.html_safe,
+          legend_text: '<h2 class="govuk-heading-m">How often do you want to receive emails?</h2>'.html_safe,
         } do %>
           <%= render 'govuk_publishing_components/components/radio', {
             name: 'new_frequency',
