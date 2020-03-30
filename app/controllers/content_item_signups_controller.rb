@@ -11,6 +11,12 @@ class ContentItemSignupsController < ApplicationController
 
   def new
     @subscription = ContentItemSubscriptionPresenter.new(@content_item)
+
+    if @subscription.child_taxons.present?
+      render "new"
+    else
+      render "confirm"
+    end
   end
 
   def confirm; end
