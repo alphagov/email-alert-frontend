@@ -19,7 +19,7 @@ group :development, :test do
 end
 
 group :test do
-  gem "capybara", "~> 3.31"
+  gem "capybara", "~> 3.32"
   gem "govuk_schemas"
   gem "rspec-rails", "~> 4.0"
   gem "timecop", "~> 0.9.1"
