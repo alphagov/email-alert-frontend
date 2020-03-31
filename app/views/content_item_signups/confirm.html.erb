@@ -21,9 +21,9 @@
       <p class="govuk-body"><%= @subscription.description %></p>
     <% end %>
 
-    <% if estimated_email_frequency %>
+    <% if weekly_email_volume_estimate %>
       <p class="govuk-body">
-        This might be between <%= estimated_email_frequency %> updates a week.
+        There might be <%= weekly_email_volume_estimate %> changes a week.
       </p>
   <% end %>
 

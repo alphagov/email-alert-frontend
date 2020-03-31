@@ -1,8 +1,8 @@
 module EmailVolume
   class TaxonWeeklyEmailVolume
-    HIGH = "40 - 60".freeze
-    MEDIUM = "0 - 20".freeze
-    LOW = "0 - 5".freeze
+    HIGH = "40 to 60".freeze
+    MEDIUM = "0 to 20".freeze
+    LOW = "0 to 5".freeze
 
     def initialize(taxon)
       @taxon = taxon

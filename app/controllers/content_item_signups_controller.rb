@@ -7,7 +7,7 @@ class ContentItemSignupsController < ApplicationController
   before_action :require_content_item_param
   before_action :handle_redirects
   before_action :validate_document_type
-  helper_method :estimated_email_frequency
+  helper_method :weekly_email_volume_estimate
 
   def new
     @subscription = ContentItemSubscriptionPresenter.new(@content_item)
@@ -82,7 +82,7 @@ private
     end
   end
 
-  def estimated_email_frequency
+  def weekly_email_volume_estimate
     EmailVolume::WeeklyEmailVolume.new(content_item).estimate
   end
 end
