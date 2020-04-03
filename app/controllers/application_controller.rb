@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_token
+
   rescue_from GdsApi::HTTPNotFound, with: :error_not_found
   rescue_from GdsApi::HTTPForbidden, with: :forbidden
   rescue_from GdsApi::HTTPGone, with: :gone
@@ -23,6 +25,11 @@ private
   def set_cache_control_header
     response.cache_control[:private] = true
     response.cache_control[:extras] = %w[no-cache]
+  end
+
+  def invalid_token
+    reset_session
+    render "sessions/invalid", status: :unprocessable_entity
   end
 
   def error_not_found
