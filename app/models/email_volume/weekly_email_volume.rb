@@ -18,6 +18,8 @@ module EmailVolume
         TaxonWeeklyEmailVolume.new(@content_item)
       when "organisation"
         OrganisationWeeklyEmailVolume.new(@content_item)
+      when "topical_event"
+        TopicalEventWeeklyEmailVolume.new(@content_item)
       end
     end
 

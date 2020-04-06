@@ -84,5 +84,24 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
         expect(described_class.new(person).estimate).to be_nil
       end
     end
+
+    context "given a topical event page" do
+      it "returns the estimated volume for the coronavirus page" do
+        coronavirus_page = {
+          document_type: "topical_event",
+          base_path: "/government/topical-events/coronavirus-covid-19-uk-government-response",
+        }.deep_stringify_keys
+
+        expect(described_class.new(coronavirus_page).estimate).to eql "40 to 60"
+      end
+
+      it "returns no estimated volume for non-coronavirus topical event pages" do
+        coronavirus_page = {
+          document_type: "topical_event",
+        }.deep_stringify_keys
+
+        expect(described_class.new(coronavirus_page).estimate).to be_nil
+      end
+    end
   end
 end
