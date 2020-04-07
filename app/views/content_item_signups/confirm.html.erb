@@ -1,4 +1,4 @@
-<% content_for :title, @content_item['title'] %>
+<% content_for :title, @subscription.title %>
 
 <% if live_content_item?(@content_item) %>
   <% content_for :back_link do %>
@@ -14,7 +14,7 @@
     <h1 class="govuk-heading-l">Sign up to get emails</h1>
 
     <p class="govuk-body">
-      Get emails when information changes on GOV.UK about: <%= @content_item['title'] %>.
+      Get emails when information changes on GOV.UK about: <%= @subscription.title %>.
     </p>
 
     <% if @subscription.description.present? %>
