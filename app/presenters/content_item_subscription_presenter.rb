@@ -3,6 +3,14 @@ class ContentItemSubscriptionPresenter
     @content_item = content_item
   end
 
+  def title
+    if content_item["content_id"] == "c4cd0e8a-3ae1-4385-8936-1cfafe5031fb"
+      "Coronavirus (COVID-19)"
+    else
+      content_item["title"]
+    end
+  end
+
   def description
     return "This will include: #{content_item['description']}" if is_taxon?
 
