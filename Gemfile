@@ -10,7 +10,7 @@ gem "govuk_publishing_components", "~> 21.38.4"
 gem "jwt", "~> 2.2"
 gem "plek", "~> 3.0"
 gem "sass-rails", "~> 5.0"
-gem "slimmer", "~> 13.2"
+gem "slimmer", "~> 13.3"
 gem "uglifier", "~> 4.2"
 
 group :development, :test do
