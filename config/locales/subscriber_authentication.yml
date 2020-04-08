@@ -8,7 +8,7 @@ en:
       missing_email: "Please enter your email address."
       invalid_email: "This doesn’t look like a valid email address – check you’ve entered it correctly."
       email_error:
-        title: We weren’t able to sign you in
+        title: We could not sign you in
         description: There’s a problem with your email address
       bad_token_error:
         title: That link has expired
