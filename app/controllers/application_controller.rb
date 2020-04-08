@@ -28,6 +28,7 @@ private
   end
 
   def invalid_token
+    response.set_header("X-Slimmer-Ignore-Error", "true")
     reset_session
     render "sessions/invalid", status: :unprocessable_entity
   end
