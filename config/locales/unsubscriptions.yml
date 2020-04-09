@@ -5,5 +5,5 @@ en:
       confirm: Are you sure you want to unsubscribe?
       confirmed: You’ve successfully unsubscribed
     confirmation:
-      with_title: You won’t get any more updates about %{title}. It may take up to an hour for this change to take effect.
-      without_title: You won’t get any more updates about this topic. It may take up to an hour for this change to take effect.
+      with_title: You won’t get any more updates about %{title}.
+      without_title: You won’t get any more updates about this topic.
