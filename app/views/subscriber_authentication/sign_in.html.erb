@@ -22,6 +22,8 @@
       } %>
     <% end %>
 
+    <p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
+
     <%= form_tag request_sign_in_token_path, method: :post do %>
       <%= render 'govuk_publishing_components/components/input', {
         error_message: flash[:error],
@@ -32,7 +34,7 @@
         value: @address,
       } %>
 
-      <p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
+      <p class="govuk-body"><%= t("subscriber_authentication.sign_in.action") %></p>
 
       <%= render 'govuk_publishing_components/components/button', {
         text: 'Continue',

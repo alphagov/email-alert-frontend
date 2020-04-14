@@ -2,7 +2,8 @@ en:
   subscriber_authentication:
     heading: Manage your email subscriptions
     sign_in:
-      description: We’ll send you an email with a link in to manage your subscriptions.
+      description: For security, we need you to confirm your email address.
+      action: We’ll send you an email with a link in to manage your subscriptions.
       email_input:
         label: Your email address
       missing_email: "Enter your email address."
