@@ -18,8 +18,8 @@ en:
       question: "What’s your email address?"
       summary:
         immediately: "You’ll get an email every time a page is added or changed."
-        daily: "You'll get an email each day if a page is added or changed."
-        weekly: "You'll get one email per week if a page is added or changed."
+        daily: "You’ll get an email each day if a page is added or changed."
+        weekly: "You’ll get one email per week if a page is added or changed."
     check_email:
       title: Check your email inbox to confirm your subscription
       description_html: "We’ve sent an email to: <strong>‘%{address}’</strong>"

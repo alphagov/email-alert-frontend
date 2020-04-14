@@ -40,7 +40,7 @@ $ bundle exec rake
 The [schema](https://github.com/alphagov/govuk-content-schemas/tree/master/formats/email_alert_signup) sets out the fields required for the Content Item. The only two fields required in the details hash are `summary` and `tags`:
 
 ```
-"summary": "You'll get an email each time any information on this policy is published or updated.",
+"summary": "You’ll get an email each time any information on this policy is published or updated.",
 "tags": {
   "policy": [
     "employment"
