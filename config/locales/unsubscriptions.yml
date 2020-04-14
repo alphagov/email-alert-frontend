@@ -6,4 +6,4 @@ en:
       confirmed: You’ve successfully unsubscribed
     confirmation:
       with_title: You will not get any more emails from GOV.UK about ‘%{title}’.
-      without_title: You won’t get any more emails from GOV.UK about this topic.
+      without_title: You will not get any more emails from GOV.UK about this topic.
