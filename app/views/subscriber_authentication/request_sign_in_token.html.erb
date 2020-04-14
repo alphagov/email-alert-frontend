@@ -1,8 +1,8 @@
-<% content_for :title, 'Manage your subscriptions' %>
+<% content_for :title, t("subscriber_authentication.request_sign_in_token.heading") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t("subscriber_authentication.heading") %></h1>
+    <h1 class="govuk-heading-l"><%= t("subscriber_authentication.request_sign_in_token.heading") %></h1>
 
     <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.confirmation", address: @address) %></p>
     <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.prompt") %></p>

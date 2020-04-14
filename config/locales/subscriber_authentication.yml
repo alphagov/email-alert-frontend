@@ -14,5 +14,6 @@ en:
         title: That link has expired
         description: Enter your email address again to manage your subscription
     request_sign_in_token:
+      heading: "Check your emails"
       confirmation: "We’ve sent an email to %{address}."
       prompt: Click the link in the email to manage your subscriptions. It can take up to 15 minutes for the email to arrive.
