@@ -26,4 +26,4 @@ en:
       description: You won’t get any more automated emails from GOV.UK.
     confirmed_unsubscribe_all:
       success_message: You have been unsubscribed from all your subscriptions.
-      success_description: It may take up to an hour for this change to take effect.
+      success_description: It can take up to an hour for this change to take effect.

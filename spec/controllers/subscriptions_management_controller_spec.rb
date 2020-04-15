@@ -235,7 +235,7 @@ RSpec.describe SubscriptionsManagementController do
       it "sets a flash about the success" do
         post :confirmed_unsubscribe_all, session: session_data
         expect(flash[:success][:message]).to match(/unsubscribed from all your subscriptions/)
-        expect(flash[:success][:description]).to match(/It may take up to an hour for this change to take effect./)
+        expect(flash[:success][:description]).to match(/It can take up to an hour for this change to take effect./)
       end
     end
   end
