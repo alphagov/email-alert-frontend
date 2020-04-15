@@ -13,7 +13,7 @@ en:
         description: There’s a problem with your email address
       bad_token_error:
         title: That link has expired
-        description: Enter your email address again to manage your subscription
+        description: Enter your email address again to manage your subscriptions
     request_sign_in_token:
       heading: "Check your emails"
       confirmation: "We’ve sent an email to %{address}."
