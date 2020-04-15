@@ -41,7 +41,7 @@ RSpec.feature "Bulk unsubscribe after receiving confirmation link" do
   def then_i_can_see_i_have_been_unsubscribed
     expect(@request).to have_been_requested
     expect(page).to have_content(
-      I18n.t("subscriptions_management.confirmed_unsubscribe_all.success"),
+      I18n.t("subscriptions_management.confirmed_unsubscribe_all.success_message"),
     )
   end
 

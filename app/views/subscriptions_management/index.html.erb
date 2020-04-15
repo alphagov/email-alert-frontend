@@ -6,7 +6,8 @@
 
     <% if flash[:success] %>
       <%= render 'govuk_publishing_components/components/success_alert', {
-        message: flash[:success]
+        message: flash[:success]["message"],
+        description: flash[:success]["description"],
       } %>
     <% end %>
 

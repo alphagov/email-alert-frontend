@@ -27,7 +27,15 @@ class UnsubscriptionsController < ApplicationController
                 else
                   "You have been unsubscribed"
                 end
-      flash[:success] = message if unsubscribed
+      description = "It can take up to an hour for this change to take effect."
+
+      if unsubscribed
+        flash[:success] = {
+          message: message,
+          description: description,
+        }
+      end
+
       redirect_to list_subscriptions_path
     end
   end
