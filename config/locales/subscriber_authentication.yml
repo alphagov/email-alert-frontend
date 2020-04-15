@@ -6,10 +6,10 @@ en:
       action: We’ll send you an email with a link in to manage your subscriptions.
       email_input:
         label: Your email address
-      missing_email: "Enter your email address."
-      invalid_email: "This does not look like a valid email address – check you’ve entered it correctly."
+      missing_email: "Enter your email address"
+      invalid_email: "This does not look like a valid email address – check you’ve entered it correctly"
       email_error:
-        title: We could not sign you in
+        title: We cannot send you an email
         description: There’s a problem with your email address
       bad_token_error:
         title: That link has expired
