@@ -24,7 +24,7 @@
 
     <p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
 
-    <%= form_tag request_sign_in_token_path, method: :post do %>
+    <%= form_tag request_sign_in_token_path, method: :post, novalidate: "novalidate"  do %>
       <%= render 'govuk_publishing_components/components/input', {
         error_message: flash[:error],
         id: 'email-address-input',
