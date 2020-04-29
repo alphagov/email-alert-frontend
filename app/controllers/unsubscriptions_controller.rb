@@ -17,7 +17,7 @@ class UnsubscriptionsController < ApplicationController
     unsubscribed = begin
                     api.unsubscribe(@id)
                    rescue GdsApi::HTTPNotFound
-                    # The user has already unsubscribed.
+                     # The user has already unsubscribed.
                      nil
                   end
 
