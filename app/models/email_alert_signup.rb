@@ -3,7 +3,7 @@ require "active_model"
 class EmailAlertSignup
   include ActiveModel::Model
 
-  validates_presence_of :signup_page
+  validates :signup_page, presence: true
 
   attr_reader :subscription_url
 

@@ -35,7 +35,7 @@ class ContentItemSignupsController < ApplicationController
 
 private
 
-  PERMITTED_CONTENT_ITEMS = %w(taxon organisation ministerial_role person topical_event).freeze
+  PERMITTED_CONTENT_ITEMS = %w[taxon organisation ministerial_role person topical_event].freeze
 
   def require_content_item_param
     unless valid_content_item_param?
@@ -52,7 +52,7 @@ private
 
   def content_item_path
     # Topic param left in for backwards compatibility.
-    # Topic is the user-facing terminology for taxons. Expect the taxon base
+    # Topic is the user-facing terminology for taxons. Expect the taxon base
     # path to be provided in a param of this name.
     params[:link] || params[:topic]
   end

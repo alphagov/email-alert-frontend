@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   root to: "development#index"
 
-  get "/*base_path" => "email_alert_signups#new", as: :email_alert_signup, constraints: { base_path: %r|.*/email-signup| }
-  post "/*base_path" => "email_alert_signups#create", as: :email_alert_signups, constraints: { base_path: %r|.*/email-signup| }
+  get "/*base_path" => "email_alert_signups#new", as: :email_alert_signup, constraints: { base_path: %r{.*/email-signup} }
+  post "/*base_path" => "email_alert_signups#create", as: :email_alert_signups, constraints: { base_path: %r{.*/email-signup} }
 
   get "/email-signup" => "content_item_signups#new", as: :new_content_item_signup
   get "/email-signup/confirm" => "content_item_signups#confirm", as: :confirm_content_item_signup

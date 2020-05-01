@@ -74,7 +74,7 @@ RSpec.describe EmailAlertSignup do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
             "title" => "Employment policy",
-            "tags" => { "policies" => %w(employment) },
+            "tags" => { "policies" => %w[employment] },
           )
           .and_return(mock_subscriber_list)
 
