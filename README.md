@@ -15,14 +15,6 @@ A consistent frontend for displaying email alert signup pages.
 - Email Alert Signup: a page displaying the title of what the User is signing up to
 - Tags: A key and array value pair which when are used by the [Email Alert API](https://github.com/alphagov/email-alert-api) to forward the user onto the signup URL
 
-## Running the application
-
-```
-  $ ./startup.sh
-```
-
-If you are using the GDS development virtual machine then the application will be available on the host at http://email-alert-frontend.dev.gov.uk/
-
 ## Running the test suite
 
 ```
