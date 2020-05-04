@@ -10,8 +10,6 @@ module EmailVolume
 
   private
 
-    class ContentItemNotEstimatableError < StandardError; end
-
     def volume_estimator
       case content_item_type
       when "taxon"
