@@ -8,6 +8,12 @@ RSpec.describe ContentItemSubscriptionPresenter do
         presenter = described_class.new(fake_taxon)
         expect(presenter.description).to eq "This will include: description of foo-id"
       end
+
+      it "returns nothing when there is no description" do
+        fake_taxon_without_description = { "document_type" => "taxon", "description" => nil }
+        presenter = described_class.new(fake_taxon_without_description)
+        expect(presenter.description).to be_nil
+      end
     end
 
     context "given an organisation" do

@@ -12,9 +12,13 @@ class ContentItemSubscriptionPresenter
   end
 
   def description
-    return "This will include: #{content_item['description']}" if is_taxon?
+    description = content_item["description"]
 
-    content_item["description"]
+    return if description.blank?
+
+    return "This will include: #{description}" if is_taxon?
+
+    description
   end
 
   def child_taxons
