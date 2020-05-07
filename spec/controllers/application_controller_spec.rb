@@ -1,5 +1,4 @@
 RSpec.describe ApplicationController do
-  render_views
   controller do
     def index
       raise ActionController::InvalidAuthenticityToken
@@ -7,9 +6,8 @@ RSpec.describe ApplicationController do
   end
 
   describe "handling InvalidAuthenticityToken exceptions" do
-    it "renders the invalid session template" do
+    it "returns an unprocessable entity response" do
       get :index
-      expect(response.body).to include("Sorry, there was a problem")
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end

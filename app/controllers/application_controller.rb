@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_token
-
   rescue_from GdsApi::HTTPNotFound, with: :error_not_found
   rescue_from GdsApi::HTTPForbidden, with: :forbidden
   rescue_from GdsApi::HTTPGone, with: :gone
@@ -28,9 +27,8 @@ private
   end
 
   def invalid_token
-    response.set_header("X-Slimmer-Ignore-Error", "true")
     reset_session
-    render "sessions/invalid", status: :unprocessable_entity
+    head :unprocessable_entity
   end
 
   def error_not_found
