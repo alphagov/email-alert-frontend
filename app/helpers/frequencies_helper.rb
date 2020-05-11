@@ -4,13 +4,13 @@ module FrequenciesHelper
   end
 
   def frequencies(options = {})
-    t("frequencies").map { |frequency, desc|
+    t("frequencies").map do |frequency, desc|
       {
         value: frequency,
         text: desc,
         checked: (options[:checked_frequency] == frequency.to_s),
       }
-    }
+    end
   end
 
   def frequency_options(topic_id)
