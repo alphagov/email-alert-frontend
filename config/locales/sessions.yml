@@ -1,7 +1,0 @@
-en:
-  sessions:
-    invalid:
-      title: 'Sorry, there was a problem'
-      heading: 'Sorry, there was a problem'
-      description: 'We cannot show you the page you were expecting.'
-      action: 'Go back and try again.'
