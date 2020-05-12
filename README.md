@@ -6,7 +6,8 @@ A frontend for creating and managing email subscriptions.
 
 ### Signup
 
-This app provides two routes for signing up to email:
+This app provides three routes for signing up to email:
+
 
 - A `/email-signup?link=/:base_path` route [[example](https://www.gov.uk/email-signup/?topic=/money)].
 
@@ -15,6 +16,12 @@ This route supports signup to several types of content. It was [originally speci
 - A **legacy** `/:base_path/email-signup` route [[example](https://www.gov.uk/foreign-travel-advice/canada/email-signup)].
 
 Each of these routes corresponds to a content item with an [`email_alert_signup` schema](https://github.com/alphagov/govuk-content-schemas/blob/master/formats/email_alert_signup.jsonnet). At the time of writing, `/foreign-travel-advice/*` and `/service-manual/*` still use this route.
+
+- A `/email/subscriptions/new` route [[example](https://www.gov.uk/email/subscriptions/new?topic_id=statistics-with-1-research-and-statistic-5e2982632b)].
+
+This route enables any other application to offer a fully customised email signup experience that is not reliant on the content store.
+
+It is used by apps like [finder-frontend](https://github.com/alphagov/finder-frontend), where a new subscriber list is created from the combination of selected filters.
 
 ### Double Opt-In
 
