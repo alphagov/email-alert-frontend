@@ -31,11 +31,13 @@ class SubscriptionsController < ApplicationController
   def verify
     return frequency_form_redirect unless valid_frequency
 
-    @back_url = url_for(host: Plek.new.website_root,
-                        action: :new,
-                        topic_id: @topic_id,
-                        frequency: @frequency,
-                        address: @address)
+    @back_url = url_for(
+      host: Plek.new.website_root,
+      action: :new,
+      topic_id: @topic_id,
+      frequency: @frequency,
+      address: @address,
+    )
     if @address.present? && subscribe
       render :check_email
     else

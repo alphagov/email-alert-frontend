@@ -46,8 +46,10 @@ RSpec.feature "Change email address after receiving confirmation link" do
   def then_i_can_see_that_my_email_address_has_been_changed
     expect(@request).to have_been_requested
     expect(page).to have_content(
-      I18n.t!("subscriptions_management.update_address.success",
-              address: @new_email_address),
+      I18n.t!(
+        "subscriptions_management.update_address.success",
+        address: @new_email_address,
+      ),
     )
   end
 end

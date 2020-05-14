@@ -3,10 +3,12 @@ RSpec.describe ContentItemSignupsController do
 
   describe "redirection" do
     it "follows a redirect" do
-      content_store_has_item("/magical/broomsticks",
-                             document_type: "redirect",
-                             content_id: SecureRandom.uuid,
-                             redirects: [{ destination: "/cleaning/broomsticks" }])
+      content_store_has_item(
+        "/magical/broomsticks",
+        document_type: "redirect",
+        content_id: SecureRandom.uuid,
+        redirects: [{ destination: "/cleaning/broomsticks" }],
+      )
 
       get :new, params: { topic: "/magical/broomsticks" }
 
@@ -14,9 +16,11 @@ RSpec.describe ContentItemSignupsController do
       expect(response.location).to eq "http://test.host/email-signup?topic=%2Fcleaning%2Fbroomsticks"
     end
     it "redirects to the homepage if there is no destination path" do
-      content_store_has_item("/magical/broomsticks",
-                             document_type: "redirect",
-                             content_id: SecureRandom.uuid)
+      content_store_has_item(
+        "/magical/broomsticks",
+        document_type: "redirect",
+        content_id: SecureRandom.uuid,
+      )
 
       get :new, params: { topic: "/magical/broomsticks" }
 

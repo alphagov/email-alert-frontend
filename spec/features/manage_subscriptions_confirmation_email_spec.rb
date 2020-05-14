@@ -30,8 +30,10 @@ RSpec.feature "Receive confirmation email when managing subscriptions" do
   def then_i_can_see_a_confirmation_email_has_been_sent_to_me
     expect(@request).to have_been_requested
     expect(page).to have_content(
-      I18n.t!("subscriber_authentication.request_sign_in_token.confirmation",
-              address: @email_address),
+      I18n.t!(
+        "subscriber_authentication.request_sign_in_token.confirmation",
+        address: @email_address,
+      ),
     )
   end
 end

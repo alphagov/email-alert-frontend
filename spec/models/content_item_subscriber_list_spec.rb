@@ -16,8 +16,10 @@ RSpec.describe ContentItemSubscriberList do
 
     context "given a taxon" do
       it "asks email-alert-api to find or create a subscriber list" do
-        taxon = { "document_type" => "taxon", "title" => "Foo",
-                  "content_id" => "foo-id", "base_path" => "/taxy/taxon" }
+        taxon = { "document_type" => "taxon",
+                  "title" => "Foo",
+                  "content_id" => "foo-id",
+                  "base_path" => "/taxy/taxon" }
 
         signup = described_class.new(taxon)
 
@@ -67,7 +69,8 @@ RSpec.describe ContentItemSubscriberList do
 
     context "given a ministerial role" do
       ministerial_role = { "document_type" => "ministerial_role",
-                           "title" => "pm", "content_id" => "pm-id" }
+                           "title" => "pm",
+                           "content_id" => "pm-id" }
 
       it "asks email-alert-api to find or create a subscriber list" do
         signup = described_class.new(ministerial_role)
@@ -82,7 +85,8 @@ RSpec.describe ContentItemSubscriberList do
 
     context "given a topical event" do
       topical_event = { "document_type" => "topical_event",
-                        "title" => "Summit 2019", "content_id" => "summit-id" }
+                        "title" => "Summit 2019",
+                        "content_id" => "summit-id" }
 
       it "asks email-alert-api to find or create a subscriber list" do
         signup = described_class.new(topical_event)

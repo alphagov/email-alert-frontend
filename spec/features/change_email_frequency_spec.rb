@@ -53,9 +53,11 @@ RSpec.feature "Change email frequency after receiving confirmation link" do
   def then_i_can_see_that_i_am_subscribed_to_weekly_updates
     expect(@request).to have_been_requested
     expect(page).to have_content(
-      I18n.t!("subscriptions_management.change_frequency.success",
-              subscription_title: @subscription_title,
-              frequency: "weekly"),
+      I18n.t!(
+        "subscriptions_management.change_frequency.success",
+        subscription_title: @subscription_title,
+        frequency: "weekly",
+      ),
     )
   end
 
