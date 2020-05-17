@@ -1,2 +1,2 @@
-desc 'Run all tests'
-task :test => [:spec]
+desc "Run all tests"
+task test: [:spec]
