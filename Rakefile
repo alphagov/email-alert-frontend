@@ -5,4 +5,5 @@ require File.expand_path("config/application", __dir__)
 
 Rails.application.load_tasks
 
-task default: %i[spec lint]
+Rake::Task[:default].clear
+task default: %i[lint spec]
