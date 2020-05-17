@@ -5,7 +5,7 @@ RSpec.feature "Topic signup back" do
     document = GovukSchemas::Example.find("taxon", example_name: "taxon_with_child_taxons")
     document.merge!("phase" => "live")
 
-    content_store_has_item(document["base_path"], document)
+    stub_content_store_has_item(document["base_path"], document)
     visit "/email-signup?topic=#{document['base_path']}"
 
     expect(page).to have_link "Back", href: document["base_path"]
@@ -15,7 +15,7 @@ RSpec.feature "Topic signup back" do
     document = GovukSchemas::Example.find("taxon", example_name: "taxon_with_child_taxons")
     document.merge!("phase" => "alpha")
 
-    content_store_has_item(document["base_path"], document)
+    stub_content_store_has_item(document["base_path"], document)
     visit "/email-signup?topic=#{document['base_path']}"
 
     expect(page).to_not have_link "Back", href: document["base_path"]
@@ -25,8 +25,8 @@ RSpec.feature "Topic signup back" do
     document = GovukSchemas::Example.find("taxon", example_name: "taxon")
     document.merge!("phase" => "live")
 
-    content_store_has_item(document["base_path"], document)
-    content_store_has_item(
+    stub_content_store_has_item(document["base_path"], document)
+    stub_content_store_has_item(
       document["links"]["parent_taxons"].first["base_path"],
       document["links"]["parent_taxons"].first,
     )
@@ -39,8 +39,8 @@ RSpec.feature "Topic signup back" do
     document = GovukSchemas::Example.find("taxon", example_name: "taxon")
     document.merge!("phase" => "alpha")
 
-    content_store_has_item(document["base_path"], document)
-    content_store_has_item(
+    stub_content_store_has_item(document["base_path"], document)
+    stub_content_store_has_item(
       document["links"]["parent_taxons"].first["base_path"],
       document["links"]["parent_taxons"].first,
     )

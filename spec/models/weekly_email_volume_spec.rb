@@ -20,7 +20,7 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
 
     context "given a 2nd level taxon" do
       before do
-        content_store_has_item(top_taxon["base_path"], top_taxon)
+        stub_content_store_has_item(top_taxon["base_path"], top_taxon)
       end
 
       it "returns a MEDIUM range" do
@@ -36,7 +36,7 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
       end
 
       before do
-        content_store_has_item(second_taxon["base_path"], second_taxon)
+        stub_content_store_has_item(second_taxon["base_path"], second_taxon)
       end
 
       it "returns a LOW range" do
@@ -62,7 +62,7 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
       end
       context "given a 2nd level organisation" do
         before do
-          content_store_has_item(top_organisation["base_path"], top_organisation)
+          stub_content_store_has_item(top_organisation["base_path"], top_organisation)
         end
         it "returns a MEDIUM range" do
           expect(described_class.new(second_organisation).estimate).to eq EmailVolume::OrganisationWeeklyEmailVolume::MEDIUM
@@ -70,7 +70,7 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
       end
       context "given a 3rd level organisation" do
         before do
-          content_store_has_item(second_organisation["base_path"], second_organisation)
+          stub_content_store_has_item(second_organisation["base_path"], second_organisation)
         end
         it "returns a LOW range" do
           expect(described_class.new(third_organisation).estimate).to eq EmailVolume::OrganisationWeeklyEmailVolume::LOW

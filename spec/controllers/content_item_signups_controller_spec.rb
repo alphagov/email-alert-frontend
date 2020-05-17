@@ -3,7 +3,7 @@ RSpec.describe ContentItemSignupsController do
 
   describe "redirection" do
     it "follows a redirect" do
-      content_store_has_item(
+      stub_content_store_has_item(
         "/magical/broomsticks",
         document_type: "redirect",
         content_id: SecureRandom.uuid,
@@ -16,7 +16,7 @@ RSpec.describe ContentItemSignupsController do
       expect(response.location).to eq "http://test.host/email-signup?topic=%2Fcleaning%2Fbroomsticks"
     end
     it "redirects to the homepage if there is no destination path" do
-      content_store_has_item(
+      stub_content_store_has_item(
         "/magical/broomsticks",
         document_type: "redirect",
         content_id: SecureRandom.uuid,
@@ -62,21 +62,21 @@ RSpec.describe ContentItemSignupsController do
     end
 
     it "errors if no taxon found" do
-      content_store_does_not_have_item("/education/some-rando-item")
+      stub_content_store_does_not_have_item("/education/some-rando-item")
       make_request(topic: "/education/some-rando-item")
 
       expect(response).to have_http_status(:not_found)
     end
 
     it "returns a 410 if taxon is gone" do
-      content_store_has_gone_item("/taxon-is-gone")
+      stub_content_store_has_gone_item("/taxon-is-gone")
       make_request(topic: "/taxon-is-gone")
 
       expect(response).to have_http_status(:gone)
     end
 
     it "redirects to root unless the content item is a taxon" do
-      content_store_has_item("/cma-cases", document_type: "finder")
+      stub_content_store_has_item("/cma-cases", document_type: "finder")
       make_request(topic: "/cma-cases")
 
       expect(response).to have_http_status(:found)

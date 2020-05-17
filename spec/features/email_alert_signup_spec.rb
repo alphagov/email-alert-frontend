@@ -14,7 +14,7 @@ RSpec.feature "Email alert signup" do
     @base_path = content_item["base_path"]
     @tags = content_item["details"]["subscriber_list"]["tags"]
     @title = content_item["title"]
-    content_store_has_item(@base_path, content_item.to_json)
+    stub_content_store_has_item(@base_path, content_item.to_json)
   end
 
   def when_i_visit_the_signup_page
