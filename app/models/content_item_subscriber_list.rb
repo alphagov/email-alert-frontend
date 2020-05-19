@@ -33,6 +33,8 @@ private
     case content_item_type
     when "taxon"
       taxon_links
+    when "topic"
+      topic_links
     when "organisation"
       organisation_links
     when "person"
@@ -58,6 +60,12 @@ private
   def organisation_links
     {
       "organisations" => [content_item["content_id"]],
+    }
+  end
+
+  def topic_links
+    {
+      "topics" => [content_item["content_id"]],
     }
   end
 
