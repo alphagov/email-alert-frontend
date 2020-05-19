@@ -44,9 +44,9 @@ RSpec.feature "Content item signup" do
       },
     }
 
-    content_store_has_item(@taxon[:base_path], @taxon)
+    stub_content_store_has_item(@taxon[:base_path], @taxon)
 
-    content_store_has_item(
+    stub_content_store_has_item(
       @taxon.dig(:links, :parent_taxons).first[:base_path],
       @taxon.dig(:links, :parent_taxons).first,
     )

@@ -15,13 +15,13 @@ gem "uglifier", "~> 4.2"
 
 group :development, :test do
   gem "pry-byebug"
+  gem "rspec-rails", "~> 4.0"
   gem "rubocop-govuk"
 end
 
 group :test do
   gem "capybara", "~> 3.32"
   gem "govuk_schemas"
-  gem "rspec-rails", "~> 4.0"
   gem "timecop", "~> 0.9.1"
   gem "webmock", "~> 3.8"
 end

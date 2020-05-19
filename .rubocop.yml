@@ -6,13 +6,3 @@ inherit_gem:
 inherit_mode:
   merge:
     - Exclude
-
-AllCops:
-  TargetRubyVersion: 2.4
-  Exclude:
-    - lib/tasks/**
-
-Metrics/BlockLength:
-  Exclude:
-    - config/routes.rb
-    - spec/**/*
