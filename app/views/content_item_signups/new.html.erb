@@ -26,7 +26,7 @@
         }]
       } %>
 
-      <p class='app-email-option'>or only one of the following <%= @subscription.child_taxons.count %> topics</p>
+      <p class='app-email-option'>or only one of the following <%= @subscription.child_taxons.count %> sub-topics</p>
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
         id_prefix: "topics",
