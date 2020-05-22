@@ -8,10 +8,10 @@ RSpec.describe UnsubscriptionsController do
   let(:title) { "title" }
 
   before do
-    email_alert_api_has_subscription(
+    stub_email_alert_api_has_subscription(
       id, "immediately", title: title, subscriber_id: subscriber_id
     )
-    email_alert_api_unsubscribes_a_subscription(id)
+    stub_email_alert_api_unsubscribes_a_subscription(id)
   end
 
   describe "GET /email/unsubscribe/:id" do
@@ -43,7 +43,7 @@ RSpec.describe UnsubscriptionsController do
 
     context "when the subscription has already ended" do
       before do
-        email_alert_api_has_subscription(
+        stub_email_alert_api_has_subscription(
           id, "immediately", ended: true, title: "VAT Rates"
         )
       end
@@ -60,7 +60,7 @@ RSpec.describe UnsubscriptionsController do
       let(:latest_subscription_id) { SecureRandom.uuid }
 
       before do
-        email_alert_api_has_subscriptions([
+        stub_email_alert_api_has_subscriptions([
           {
             id: original_subscription_id,
             frequency: "immediately",
@@ -87,7 +87,7 @@ RSpec.describe UnsubscriptionsController do
       let(:latest_subscription_id) { SecureRandom.uuid }
 
       before do
-        email_alert_api_has_subscriptions([
+        stub_email_alert_api_has_subscriptions([
           {
             id: original_subscription_id,
             frequency: "immediately",
