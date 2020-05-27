@@ -15,6 +15,7 @@ RSpec.describe ContentItemSignupsController do
       expect(response).to have_http_status(:found)
       expect(response.location).to eq "http://test.host/email-signup?topic=%2Fcleaning%2Fbroomsticks"
     end
+
     it "redirects to the homepage if there is no destination path" do
       stub_content_store_has_item(
         "/magical/broomsticks",
@@ -31,6 +32,7 @@ RSpec.describe ContentItemSignupsController do
 
   shared_examples "handles bad input data correctly" do
     it "redirects to root if topic param is missing" do
+      stub_content_store_does_not_have_item("/education/some-rando-item")
       make_request(bad_param: "/education/some-rando-item")
 
       expect(response).to have_http_status(:found)

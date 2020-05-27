@@ -1,5 +1,10 @@
 en:
   subscriptions:
+    new_topic:
+      title: What do you want to get alerts about?
+      general_problem: "There is a problem"
+      required_question: "You must select an option"
+      missing_topic: "Select an option"
     new_frequency:
       general_problem: "There is a problem"
       required_question: "You must answer this question"

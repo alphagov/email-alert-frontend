@@ -11,32 +11,49 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l">What do you want to get alerts about?</h1>
+    <% if flash[:error] %>
+      <%= render "govuk_publishing_components/components/error_summary", {
+        title: t('subscriptions.new_topic.general_problem'),
+        items: [
+          {
+            text: t('subscriptions.new_topic.required_question'),
+            href: "#email-topic-input",
+          }
+        ]
+      } %>
+    <% end %>
 
     <%= form_tag({action: "confirm"}, method: "get") do %>
 
-      <p class="app-email-option">Everything published to GOV.UK about</p>
-      <%= render "govuk_publishing_components/components/radio", {
-        name: "topic",
-        id_prefix: "all",
-        items: [{
-          value: @content_item['base_path'],
-          text: @content_item['title'],
-          conditional: '<p class="govuk-body">This will include alerts about all the topics below</p>'.html_safe
-        }]
-      } %>
+      <%= render "govuk_publishing_components/components/fieldset", {
+        id: "email-topic-input",
+        legend_text: tag.h1(t('subscriptions.new_topic.title'), class: "govuk-heading-l"),
+        error_message: flash[:error],
+      } do %>
+        <p class="app-email-option">Everything published to GOV.UK about</p>
+        <%= render "govuk_publishing_components/components/radio", {
+          name: "topic",
+          id_prefix: "all",
+          items: [{
+            value: @content_item['base_path'],
+            text: @content_item['title'],
+            conditional: '<p class="govuk-body">This will include alerts about all the topics below</p>'.html_safe
+          }]
+        } %>
 
-      <p class='app-email-option'>or only one of the following <%= @subscription.child_taxons.count %> sub-topics</p>
-      <%= render "govuk_publishing_components/components/radio", {
-        name: "topic",
-        id_prefix: "topics",
-        items: @subscription.child_taxons.each.map { |taxon| {
-          :value => taxon['base_path'],
-          :text => taxon['title'],
-          :conditional => taxon['description'].present? ? ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe : nil
-        } }
-      } %>
+        <p class='app-email-option'>or only one of the following <%= @subscription.child_taxons.count %> sub-topics</p>
+        <%= render "govuk_publishing_components/components/radio", {
+          name: "topic",
+          id_prefix: "topics",
+          items: @subscription.child_taxons.each.map { |taxon| {
+            :value => taxon['base_path'],
+            :text => taxon['title'],
+            :conditional => taxon['description'].present? ? ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe : nil
+          } }
+        } %>
+      <% end %>
 
+      <%= hidden_field_tag 'current_topic', @content_item['base_path'] %>
       <%= render "govuk_publishing_components/components/button", {
         text: "Select",
         margin_bottom: true

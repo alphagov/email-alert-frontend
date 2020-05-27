@@ -4,9 +4,8 @@
 # finder_email_signup content item.
 class ContentItemSignupsController < ApplicationController
   protect_from_forgery except: [:create]
-  before_action :require_content_item_param
+  before_action :require_content_item_param, except: [:confirm]
   before_action :handle_redirects
-  before_action :validate_document_type
   helper_method :weekly_email_volume_estimate
 
   def new
@@ -20,7 +19,16 @@ class ContentItemSignupsController < ApplicationController
   end
 
   def confirm
-    @subscription = ContentItemSubscriptionPresenter.new(content_item)
+    if !content_item_path && params["current_topic"]
+      flash.now[:error] = t("subscriptions.new_topic.missing_topic")
+      @content_item = EmailAlertFrontend.services(:content_store).content_item(params["current_topic"])
+      new
+    elsif !valid_document_type?
+      redirect_to "/"
+      false
+    else
+      @subscription = ContentItemSubscriptionPresenter.new(content_item)
+    end
   end
 
   def create
@@ -45,7 +53,7 @@ private
   end
 
   def valid_content_item_param?
-    content_item_path.to_s.starts_with?("/") && URI.parse(content_item_path).relative?
+    content_item_path.to_s.starts_with?("/") && URI.parse(content_item_path).relative? && valid_document_type?
   rescue URI::InvalidURIError
     false
   end
@@ -75,11 +83,8 @@ private
     end
   end
 
-  def validate_document_type
-    unless PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
-      redirect_to "/"
-      false
-    end
+  def valid_document_type?
+    PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
   end
 
   def weekly_email_volume_estimate
