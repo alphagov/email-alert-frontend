@@ -45,8 +45,6 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  config.asset_host = ENV["GOVUK_ASSET_ROOT"] if ENV["GOVUK_ASSET_ROOT"].present?
-
   # Allow requests for all domains e.g. <app>.dev.gov.uk
   config.hosts.clear
 

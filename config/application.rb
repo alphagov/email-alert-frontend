@@ -28,5 +28,12 @@ module EmailAlertFrontend
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # Path within public/ where assets are compiled to
+    config.assets.prefix = "/assets/email-alert-frontend"
+
+    # allow overriding the asset host with an enironment variable, useful for
+    # when router is proxying to this app but asset proxying isn't set up.
+    config.asset_host = ENV["ASSET_HOST"]
   end
 end
