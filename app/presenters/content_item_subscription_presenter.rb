@@ -4,11 +4,7 @@ class ContentItemSubscriptionPresenter
   end
 
   def title
-    if content_item["content_id"] == "c4cd0e8a-3ae1-4385-8936-1cfafe5031fb"
-      "Coronavirus (COVID-19)"
-    else
-      content_item["title"]
-    end
+    content_item["title"]
   end
 
   def description
