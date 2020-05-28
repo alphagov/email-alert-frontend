@@ -32,75 +32,28 @@ private
   def link_hash
     case content_item_type
     when "taxon"
-      taxon_links
+      single_link(key: "taxon_tree")
     when "topic"
-      topic_links
+      single_link(key: "topics")
     when "organisation"
-      organisation_links
+      single_link(key: "organisations")
     when "person"
-      person_links
+      single_link(key: "people")
     when "ministerial_role"
-      ministerial_role_links
+      single_link(key: "roles")
     when "topical_event"
-      topical_event_links
+      single_link(key: "topical_events")
     when "service_manual_topic"
-      service_manual_topic_links
+      single_link(key: "service_manual_topics")
     when "service_manual_service_standard"
-      parent_links
+      single_link(key: "parent")
     else
-      message = "No link hash available for content items of type #{content_item_type}!"
-      raise UnsupportedContentItemError, message
+      raise UnsupportedContentItemError
     end
   end
 
-  def service_manual_topic_links
-    {
-      "service_manual_topics" => [content_item["content_id"]],
-    }
-  end
-
-  def parent_links
-    {
-      "parent" => [content_item["content_id"]],
-    }
-  end
-
-  def taxon_links
-    {
-      # 'taxon_tree' is the key used in email-alert-service for
-      # notifications, so create a subscriber list with this key.
-      "taxon_tree" => [content_item["content_id"]],
-    }
-  end
-
-  def organisation_links
-    {
-      "organisations" => [content_item["content_id"]],
-    }
-  end
-
-  def topic_links
-    {
-      "topics" => [content_item["content_id"]],
-    }
-  end
-
-  def topical_event_links
-    {
-      "topical_events" => [content_item["content_id"]],
-    }
-  end
-
-  def person_links
-    {
-      "people" => [content_item["content_id"]],
-    }
-  end
-
-  def ministerial_role_links
-    {
-      "roles" => [content_item["content_id"]],
-    }
+  def single_link(key:)
+    { key => [content_item["content_id"]] }
   end
 
   def content_item_type
