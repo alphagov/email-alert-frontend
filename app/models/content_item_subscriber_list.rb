@@ -1,26 +1,21 @@
 class ContentItemSubscriberList
   def initialize(content_item)
     @content_item = content_item
+
+    @subscriber_list = EmailAlertFrontend
+      .services(:email_alert_api)
+      .find_or_create_subscriber_list(subscription_params)
   end
 
   def subscription_management_url
     subscriber_list.dig("subscriber_list", "subscription_url")
   end
 
-  def has_content_item?
-    content_item.present?
-  end
-
 private
 
-  attr_accessor :content_item
+  attr_reader :content_item, :subscriber_list
 
   class UnsupportedContentItemError < StandardError; end
-
-  def subscriber_list
-    EmailAlertFrontend.services(:email_alert_api)
-      .find_or_create_subscriber_list(subscription_params)
-  end
 
   def subscription_params
     {
