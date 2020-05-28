@@ -98,5 +98,37 @@ RSpec.describe ContentItemSubscriberList do
           .with("title" => "Summit 2019", "links" => { "topical_events" => %w[summit-id] })
       end
     end
+
+    context "given a service manual topic" do
+      topical_event = { "document_type" => "service_manual_topic",
+                        "title" => "Foo",
+                        "content_id" => "foo-id" }
+
+      it "asks email-alert-api to find or create a subscriber list" do
+        signup = described_class.new(topical_event)
+
+        expect(signup.has_content_item?).to be
+        expect(signup.subscription_management_url).to eq "/something"
+        expect(mock_email_alert_api)
+          .to have_received(:find_or_create_subscriber_list)
+          .with("title" => "Foo", "links" => { "service_manual_topics" => %w[foo-id] })
+      end
+    end
+
+    context "given the service standard" do
+      topical_event = { "document_type" => "service_manual_service_standard",
+                        "title" => "Foo",
+                        "content_id" => "foo-id" }
+
+      it "asks email-alert-api to find or create a subscriber list" do
+        signup = described_class.new(topical_event)
+
+        expect(signup.has_content_item?).to be
+        expect(signup.subscription_management_url).to eq "/something"
+        expect(mock_email_alert_api)
+          .to have_received(:find_or_create_subscriber_list)
+          .with("title" => "Foo", "links" => { "parent" => %w[foo-id] })
+      end
+    end
   end
 end

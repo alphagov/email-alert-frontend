@@ -43,10 +43,26 @@ private
       ministerial_role_links
     when "topical_event"
       topical_event_links
+    when "service_manual_topic"
+      service_manual_topic_links
+    when "service_manual_service_standard"
+      parent_links
     else
       message = "No link hash available for content items of type #{content_item_type}!"
       raise UnsupportedContentItemError, message
     end
+  end
+
+  def service_manual_topic_links
+    {
+      "service_manual_topics" => [content_item["content_id"]],
+    }
+  end
+
+  def parent_links
+    {
+      "parent" => [content_item["content_id"]],
+    }
   end
 
   def taxon_links
