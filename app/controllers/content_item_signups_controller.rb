@@ -35,7 +35,7 @@ class ContentItemSignupsController < ApplicationController
 
 private
 
-  PERMITTED_CONTENT_ITEMS = %w[taxon organisation ministerial_role person topical_event].freeze
+  PERMITTED_CONTENT_ITEMS = %w[taxon organisation ministerial_role person topical_event topic].freeze
 
   def require_content_item_param
     unless valid_content_item_param?
