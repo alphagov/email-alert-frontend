@@ -65,6 +65,15 @@ RSpec.describe ContentItemSubscriberList do
         .with("title" => "Foo", "links" => { "topical_events" => %w[foo-id] })
     end
 
+    it "creates a subscriber list for a topic" do
+      content_item.merge!("document_type" => "topic")
+      described_class.new(content_item)
+
+      expect(mock_email_alert_api)
+        .to have_received(:find_or_create_subscriber_list)
+        .with("title" => "Foo", "links" => { "topics" => %w[foo-id] })
+    end
+
     it "creates a subscriber list for a service manual topic" do
       content_item.merge!("document_type" => "service_manual_topic")
       described_class.new(content_item)
