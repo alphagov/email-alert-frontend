@@ -1,26 +1,21 @@
 class ContentItemSubscriberList
   def initialize(content_item)
     @content_item = content_item
+
+    @subscriber_list = EmailAlertFrontend
+      .services(:email_alert_api)
+      .find_or_create_subscriber_list(subscription_params)
   end
 
   def subscription_management_url
     subscriber_list.dig("subscriber_list", "subscription_url")
   end
 
-  def has_content_item?
-    content_item.present?
-  end
-
 private
 
-  attr_accessor :content_item
+  attr_reader :content_item, :subscriber_list
 
   class UnsupportedContentItemError < StandardError; end
-
-  def subscriber_list
-    EmailAlertFrontend.services(:email_alert_api)
-      .find_or_create_subscriber_list(subscription_params)
-  end
 
   def subscription_params
     {
@@ -32,59 +27,28 @@ private
   def link_hash
     case content_item_type
     when "taxon"
-      taxon_links
+      single_link(key: "taxon_tree")
     when "topic"
-      topic_links
+      single_link(key: "topics")
     when "organisation"
-      organisation_links
+      single_link(key: "organisations")
     when "person"
-      person_links
+      single_link(key: "people")
     when "ministerial_role"
-      ministerial_role_links
+      single_link(key: "roles")
     when "topical_event"
-      topical_event_links
+      single_link(key: "topical_events")
+    when "service_manual_topic"
+      single_link(key: "service_manual_topics")
+    when "service_manual_service_standard"
+      single_link(key: "parent")
     else
-      message = "No link hash available for content items of type #{content_item_type}!"
-      raise UnsupportedContentItemError, message
+      raise UnsupportedContentItemError
     end
   end
 
-  def taxon_links
-    {
-      # 'taxon_tree' is the key used in email-alert-service for
-      # notifications, so create a subscriber list with this key.
-      "taxon_tree" => [content_item["content_id"]],
-    }
-  end
-
-  def organisation_links
-    {
-      "organisations" => [content_item["content_id"]],
-    }
-  end
-
-  def topic_links
-    {
-      "topics" => [content_item["content_id"]],
-    }
-  end
-
-  def topical_event_links
-    {
-      "topical_events" => [content_item["content_id"]],
-    }
-  end
-
-  def person_links
-    {
-      "people" => [content_item["content_id"]],
-    }
-  end
-
-  def ministerial_role_links
-    {
-      "roles" => [content_item["content_id"]],
-    }
+  def single_link(key:)
+    { key => [content_item["content_id"]] }
   end
 
   def content_item_type

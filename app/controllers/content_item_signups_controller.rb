@@ -24,9 +24,8 @@ class ContentItemSignupsController < ApplicationController
   end
 
   def create
-    signup = ContentItemSubscriberList.new(content_item.to_h)
-
-    if signup.has_content_item?
+    if content_item.to_h.present?
+      signup = ContentItemSubscriberList.new(content_item.to_h)
       redirect_to signup.subscription_management_url
     else
       redirect_to confirm_content_item_signup_path(link: content_item_path)
@@ -35,7 +34,14 @@ class ContentItemSignupsController < ApplicationController
 
 private
 
-  PERMITTED_CONTENT_ITEMS = %w[taxon organisation ministerial_role person topical_event topic].freeze
+  PERMITTED_CONTENT_ITEMS = %w[taxon
+                               organisation
+                               ministerial_role
+                               person
+                               topic
+                               topical_event
+                               service_manual_topic
+                               service_manual_service_standard].freeze
 
   def require_content_item_param
     unless valid_content_item_param?
