@@ -24,8 +24,7 @@ class ContentItemSignupsController < ApplicationController
       @content_item = EmailAlertFrontend.services(:content_store).content_item(params["current_topic"])
       new
     elsif !valid_document_type?
-      redirect_to "/"
-      false
+      render status: :bad_request
     else
       @subscription = ContentItemSubscriptionPresenter.new(content_item)
     end
@@ -47,8 +46,7 @@ private
 
   def require_content_item_param
     unless valid_content_item_param?
-      redirect_to "/"
-      false
+      error 400
     end
   end
 
@@ -69,6 +67,8 @@ private
     @content_item ||= EmailAlertFrontend
       .services(:content_store)
       .content_item(content_item_path)
+    rescue GdsApi::HTTPNotFound
+      bad_request
   end
 
   def handle_redirects
