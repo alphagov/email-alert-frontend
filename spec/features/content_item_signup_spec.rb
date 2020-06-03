@@ -62,6 +62,7 @@ RSpec.feature "Content item signup" do
 
     visit new_content_item_signup_path(topic: @taxon[:base_path])
     expect(page).to have_content(@taxon[:title])
+    expect(page).to have_checked_field("all-0")
     expect(page).to have_content(@taxon.dig(:links, :child_taxons).first[:title])
   end
 
