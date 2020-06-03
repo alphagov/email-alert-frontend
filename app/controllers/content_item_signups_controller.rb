@@ -45,8 +45,7 @@ private
 
   def require_content_item_param
     unless valid_content_item_param?
-      redirect_to "/"
-      false
+      bad_request
     end
   end
 
@@ -83,8 +82,7 @@ private
 
   def validate_document_type
     unless PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
-      redirect_to "/"
-      false
+      bad_request
     end
   end
 

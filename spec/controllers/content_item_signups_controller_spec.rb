@@ -33,22 +33,19 @@ RSpec.describe ContentItemSignupsController do
     it "redirects to root if topic param is missing" do
       make_request(bad_param: "/education/some-rando-item")
 
-      expect(response).to have_http_status(:found)
-      expect(response.location).to eq "http://test.host/"
+      expect(response).to have_http_status(:bad_request)
     end
 
     it "redirects to root if topic param isn't a valid path" do
       get :new, params: { topic: "/with unencoded spaces" }
 
-      expect(response).to have_http_status(:found)
-      expect(response.location).to eq "http://test.host/"
+      expect(response).to have_http_status(:bad_request)
     end
 
     it "redirects to root if topic param isn't interpreted as a string" do
       get :new, params: { topic: ["/a"] }
 
-      expect(response).to have_http_status(:found)
-      expect(response.location).to eq "http://test.host/"
+      expect(response).to have_http_status(:bad_request)
     end
 
     it "returns a 403 when the user is not authorised" do
@@ -79,8 +76,7 @@ RSpec.describe ContentItemSignupsController do
       stub_content_store_has_item("/cma-cases", document_type: "finder")
       make_request(topic: "/cma-cases")
 
-      expect(response).to have_http_status(:found)
-      expect(response.location).to eq "http://test.host/"
+      expect(response).to have_http_status(:bad_request)
     end
   end
 
