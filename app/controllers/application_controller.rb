@@ -31,6 +31,10 @@ private
     head :unprocessable_entity
   end
 
+  def bad_request
+    render status: :bad_request, plain: "400 bad request"
+  end
+
   def error_not_found
     render status: :not_found, plain: "404 not found"
   end
