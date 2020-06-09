@@ -12,4 +12,12 @@ module FrequenciesHelper
       }
     end
   end
+
+  def frequency_options(topic_id)
+    options = {}
+    if topic_id == "coronavirus-covid-19"
+      options[:checked_frequency] = "daily"
+    end
+    options
+  end
 end
