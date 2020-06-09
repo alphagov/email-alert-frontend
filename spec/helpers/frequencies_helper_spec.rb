@@ -11,7 +11,7 @@ RSpec.describe FrequenciesHelper do
     end
 
     it "returns default options for a listed topic_id" do
-      options = frequency_options("coronavirus-covid-19-uk-government-response")
+      options = frequency_options("coronavirus-covid-19")
       expect(options).to eq({ checked_frequency: "daily" })
     end
   end
