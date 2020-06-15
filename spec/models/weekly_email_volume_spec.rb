@@ -12,6 +12,14 @@ RSpec.describe EmailVolume::WeeklyEmailVolume do
       }.deep_stringify_keys
     end
 
+    context "given the Coronavirus (COVID-19) taxon" do
+      coronavirus_taxon = { document_type: "taxon", base_path: "/coronavirus-taxon", links: { parent_taxons: [] } }.deep_stringify_keys
+
+      it "returns an EXTREME range" do
+        expect(described_class.new(coronavirus_taxon).estimate).to eq EmailVolume::TaxonWeeklyEmailVolume::EXTREME
+      end
+    end
+
     context "given a top level taxon" do
       it "returns a HIGH range" do
         expect(described_class.new(top_taxon).estimate).to eq EmailVolume::TaxonWeeklyEmailVolume::HIGH
