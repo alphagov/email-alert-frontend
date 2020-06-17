@@ -1,5 +1,6 @@
 module EmailVolume
   class TaxonWeeklyEmailVolume
+    EXTREME = "200 to 800".freeze
     HIGH = "40 to 60".freeze
     MEDIUM = "0 to 20".freeze
     LOW = "0 to 5".freeze
@@ -10,6 +11,9 @@ module EmailVolume
 
     def estimate
       parent_taxon = extract_parent_from(@taxon)
+
+      # Is for covid-19
+      return EXTREME if @taxon.dig("base_path") == "/coronavirus-taxon"
 
       # Is at the top of the taxonomy
       return HIGH if parent_taxon.blank?
