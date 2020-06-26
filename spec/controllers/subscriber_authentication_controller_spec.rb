@@ -71,6 +71,18 @@ RSpec.describe SubscriberAuthenticationController do
         expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
       end
     end
+
+    context "when there are too many requests for a particular address" do
+      before do
+        allow(VerifySubscriberEmailService).to receive(:call)
+          .and_raise(VerifySubscriberEmailService::RatelimitExceededError)
+      end
+
+      it "returns a 429 reponse" do
+        post :request_sign_in_token, params: { address: subscriber_address }
+        expect(response).to have_http_status(:too_many_requests)
+      end
+    end
   end
 
   describe "GET /email/authenticate/process" do

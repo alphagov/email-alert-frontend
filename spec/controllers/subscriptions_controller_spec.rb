@@ -170,5 +170,21 @@ RSpec.describe SubscriptionsController do
         expect(response.headers["Cache-Control"]).to eq("private, no-cache")
       end
     end
+
+    context "when there are too many requests for a particular address" do
+      let(:params) do
+        { topic_id: topic_id, frequency: "immediately", address: valid_email }
+      end
+
+      before do
+        allow(VerifySubscriptionEmailService).to receive(:call)
+          .and_raise(VerifySubscriptionEmailService::RatelimitExceededError)
+      end
+
+      it "returns a 429 reponse" do
+        post :verify, params: params
+        expect(response).to have_http_status(:too_many_requests)
+      end
+    end
   end
 end

@@ -11,19 +11,13 @@ class SubscriberAuthenticationController < ApplicationController
     end
 
     @address = params.require(:address)
-
-    email_alert_api.send_subscriber_verification_email(
-      address: @address,
-      destination: process_sign_in_token_path,
-    )
+    VerifySubscriberEmailService.call(@address)
   rescue GdsApi::HTTPUnprocessableEntity
     flash.now[:error] = t("subscriber_authentication.sign_in.invalid_email")
     flash.now[:error_summary] = "email"
     render :sign_in
-  rescue GdsApi::HTTPNotFound
-    # User isn't subscribed, but we carry on as if they were so we
-    # don't reveal this information.
-    nil
+  rescue VerifySubscriberEmailService::RatelimitExceededError
+    head :too_many_requests
   end
 
   def process_sign_in_token
