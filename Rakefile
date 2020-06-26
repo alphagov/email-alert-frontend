@@ -6,4 +6,4 @@ require File.expand_path("config/application", __dir__)
 Rails.application.load_tasks
 
 Rake::Task[:default].clear unless Rails.env.production?
-task default: %i[lint spec]
+task default: %i[lint spec jasmine:ci]
