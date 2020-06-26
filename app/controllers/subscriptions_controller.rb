@@ -92,7 +92,7 @@ private
   end
 
   def subscribe
-    email_alert_api.send_subscription_verification_email(
+    VerifySubscriptionEmailService.call(
       topic_id: @topic_id,
       address: @address,
       frequency: @frequency,
