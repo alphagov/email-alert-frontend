@@ -39,16 +39,16 @@ class SubscriptionsController < ApplicationController
       address: @address,
     )
 
-    if @address.present? && subscribe
+    if @address.present?
+      VerifySubscriptionEmailService.call(@address, @frequency, @topic_id)
       render :check_email
     else
-      flash.now[:error] = if @address.present?
-                            t("subscriptions.new_address.invalid_email")
-                          else
-                            t("subscriptions.new_address.missing_email")
-                          end
+      flash.now[:error] = t("subscriptions.new_address.missing_email")
       render :new_address
     end
+  rescue GdsApi::HTTPUnprocessableEntity
+    flash.now[:error] = t("subscriptions.new_address.invalid_email")
+    render :new_address
   rescue VerifySubscriptionEmailService::RatelimitExceededError
     head :too_many_requests
   end
@@ -92,12 +92,6 @@ private
     else
       Plek.new.website_root
     end
-  end
-
-  def subscribe
-    VerifySubscriptionEmailService.call(@address, @frequency, @topic_id)
-  rescue GdsApi::HTTPUnprocessableEntity
-    false
   end
 
   def email_alert_api
