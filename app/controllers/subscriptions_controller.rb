@@ -38,6 +38,7 @@ class SubscriptionsController < ApplicationController
       frequency: @frequency,
       address: @address,
     )
+
     if @address.present? && subscribe
       render :check_email
     else
@@ -48,6 +49,8 @@ class SubscriptionsController < ApplicationController
                           end
       render :new_address
     end
+  rescue VerifySubscriptionEmailService::RatelimitExceededError
+    head :too_many_requests
   end
 
 private
@@ -92,11 +95,7 @@ private
   end
 
   def subscribe
-    VerifySubscriptionEmailService.call(
-      topic_id: @topic_id,
-      address: @address,
-      frequency: @frequency,
-    )
+    VerifySubscriptionEmailService.call(@address, @frequency, @topic_id)
   rescue GdsApi::HTTPUnprocessableEntity
     false
   end

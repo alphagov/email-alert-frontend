@@ -16,4 +16,9 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.infer_spec_type_from_file_location!
   config.order = "random"
+
+  config.before :each do
+    rate_limiter = instance_double(Ratelimit, add: nil, exceeded?: false)
+    allow(Ratelimit).to receive(:new).and_return(rate_limiter)
+  end
 end

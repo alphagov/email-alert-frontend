@@ -11,11 +11,13 @@ class SubscriberAuthenticationController < ApplicationController
     end
 
     @address = params.require(:address)
-    VerifySubscriberEmailService.call(address: @address)
+    VerifySubscriberEmailService.call(@address)
   rescue GdsApi::HTTPUnprocessableEntity
     flash.now[:error] = t("subscriber_authentication.sign_in.invalid_email")
     flash.now[:error_summary] = "email"
     render :sign_in
+  rescue VerifySubscriberEmailService::RatelimitExceededError
+    head :too_many_requests
   end
 
   def process_sign_in_token
