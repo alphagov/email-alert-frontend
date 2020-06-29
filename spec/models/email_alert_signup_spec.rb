@@ -2,14 +2,17 @@ RSpec.describe EmailAlertSignup do
   include GovukContentSchemaExamples
   include GdsApi::TestHelpers::EmailAlertApi
 
-  let(:api_client)    { EmailAlertFrontend.services(:email_alert_api) }
-
+  let(:api_client) { double(:api_client, find_or_create_subscriber_list: true) }
   let(:policy_item) { govuk_content_schema_example("policy_email_alert_signup") }
   let(:travel_index_item) { govuk_content_schema_example("travel_advice_index_email_alert_signup") }
   let(:travel_country_item) { govuk_content_schema_example("travel_advice_country_email_alert_signup") }
 
   let(:mock_subscriber_list) do
     mock_response(subscriber_list: { subscription_url: "http://foo" })
+  end
+
+  before do
+    allow(GdsApi).to receive(:email_alert_api).and_return(api_client)
   end
 
   def mock_response(body)

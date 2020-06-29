@@ -22,7 +22,7 @@ class EmailAlertSignup
   end
 
   def find_or_create_subscription
-    EmailAlertFrontend.services(:email_alert_api)
+    GdsApi.email_alert_api
       .find_or_create_subscriber_list(subscription_params)
   end
 

@@ -57,7 +57,7 @@ private
 
   def assign_attributes
     @topic_id = subscription_params.require(:topic_id)
-    @subscriber_list = email_alert_api
+    @subscriber_list = GdsApi.email_alert_api
       .get_subscriber_list(slug: @topic_id)
       .to_h.fetch("subscriber_list")
     @frequency = subscription_params[:frequency]
@@ -92,9 +92,5 @@ private
     else
       Plek.new.website_root
     end
-  end
-
-  def email_alert_api
-    EmailAlertFrontend.services(:email_alert_api)
   end
 end

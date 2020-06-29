@@ -15,11 +15,11 @@ class UnsubscriptionsController < ApplicationController
 
   def confirmed
     unsubscribed = begin
-                    api.unsubscribe(@id)
+                     GdsApi.email_alert_api.unsubscribe(@id)
                    rescue GdsApi::HTTPNotFound
                      # The user has already unsubscribed.
                      nil
-                  end
+                   end
 
     if @authenticated_for_subscription
       message = if @title
@@ -44,8 +44,8 @@ private
 
   def set_attributes
     @id = params.require(:id)
-    @original_subscription = api.get_subscription(@id)
-    @latest_subscription = api.get_latest_matching_subscription(@id)
+    @original_subscription = GdsApi.email_alert_api.get_subscription(@id)
+    @latest_subscription = GdsApi.email_alert_api.get_latest_matching_subscription(@id)
     @title = @latest_subscription.dig("subscription", "subscriber_list", "title").presence
     @authenticated_for_subscription = check_authenticated(@latest_subscription)
   end
@@ -77,10 +77,6 @@ private
     else
       false
     end
-  end
-
-  def api
-    EmailAlertFrontend.services(:email_alert_api)
   end
 
   def redirect_to_unsubscribe_latest

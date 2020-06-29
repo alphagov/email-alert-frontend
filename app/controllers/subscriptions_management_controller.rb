@@ -17,7 +17,7 @@ class SubscriptionsManagementController < ApplicationController
     id = params.require(:id)
     new_frequency = params.require(:new_frequency)
 
-    email_alert_api.change_subscription(id: id, frequency: new_frequency)
+    GdsApi.email_alert_api.change_subscription(id: id, frequency: new_frequency)
 
     subscription_title = @subscriptions[id]["subscriber_list"]["title"]
 
@@ -48,7 +48,7 @@ class SubscriptionsManagementController < ApplicationController
 
     new_address = params.require(:new_address)
 
-    email_alert_api.change_subscriber(
+    GdsApi.email_alert_api.change_subscriber(
       id: authenticated_subscriber_id,
       new_address: new_address,
     )
@@ -67,7 +67,7 @@ class SubscriptionsManagementController < ApplicationController
 
   def confirmed_unsubscribe_all
     begin
-      email_alert_api.unsubscribe_subscriber(authenticated_subscriber_id)
+      GdsApi.email_alert_api.unsubscribe_subscriber(authenticated_subscriber_id)
       flash[:success] = {
         message: t("subscriptions_management.confirmed_unsubscribe_all.success_message"),
         description: t("subscriptions_management.confirmed_unsubscribe_all.success_description"),
@@ -82,7 +82,7 @@ class SubscriptionsManagementController < ApplicationController
 private
 
   def get_subscription_details
-    subscription_details = email_alert_api.get_subscriptions(
+    subscription_details = GdsApi.email_alert_api.get_subscriptions(
       id: authenticated_subscriber_id,
     )
 
@@ -96,9 +96,5 @@ private
 
   def set_back_url
     @back_url = list_subscriptions_path
-  end
-
-  def email_alert_api
-    EmailAlertFrontend.services(:email_alert_api_with_no_caching)
   end
 end

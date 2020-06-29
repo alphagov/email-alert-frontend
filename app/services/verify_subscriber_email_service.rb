@@ -20,7 +20,7 @@ class VerifySubscriberEmailService < ApplicationService
     rate_limiter.add(address)
     raise_if_over_rate_limit
 
-    email_alert_api.send_subscriber_verification_email(
+    GdsApi.email_alert_api.send_subscriber_verification_email(
       address: address,
       destination: process_sign_in_token_path,
     )
@@ -50,9 +50,5 @@ private
 
   def rate_limiter
     @rate_limiter ||= Ratelimit.new("email-alert-frontend:verify-subscriber")
-  end
-
-  def email_alert_api
-    EmailAlertFrontend.services(:email_alert_api_with_no_caching)
   end
 end

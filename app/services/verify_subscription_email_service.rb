@@ -21,7 +21,7 @@ class VerifySubscriptionEmailService < ApplicationService
     rate_limiter.add(address)
     raise_if_over_rate_limit
 
-    email_alert_api.send_subscription_verification_email(
+    GdsApi.email_alert_api.send_subscription_verification_email(
       topic_id: topic_id,
       address: address,
       frequency: frequency,
@@ -48,9 +48,5 @@ private
 
   def rate_limiter
     @rate_limiter ||= Ratelimit.new("email-alert-frontend:verify-subscription")
-  end
-
-  def email_alert_api
-    EmailAlertFrontend.services(:email_alert_api)
   end
 end
