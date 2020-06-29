@@ -59,6 +59,6 @@ private
   end
 
   def email_alert_api
-    EmailAlertFrontend.services(:email_alert_api_with_no_caching)
+    EmailAlertFrontend.services(:email_alert_api)
   end
 end
