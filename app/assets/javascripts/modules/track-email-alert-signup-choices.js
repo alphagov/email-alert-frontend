@@ -17,6 +17,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
         var $submittedForm = $(event.target)
         var $checkedOptions = $submittedForm.find('input:checked')
         var category = $submittedForm.data('track-category')
+        var action = $submittedForm.data('track-action')
 
         if ($checkedOptions.length) {
           $checkedOptions.each(function (index) {
