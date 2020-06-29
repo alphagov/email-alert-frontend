@@ -15,11 +15,11 @@ class SubscriptionAuthenticationController < ApplicationController
       return
     end
 
-    subscriber_list_id = email_alert_api
+    subscriber_list_id = GdsApi.email_alert_api
       .get_subscriber_list(slug: @topic_id)
       .dig("subscriber_list", "id")
 
-    email_alert_api.subscribe(
+    GdsApi.email_alert_api.subscribe(
       subscriber_list_id: subscriber_list_id,
       address: token.data[:address],
       frequency: @frequency,
@@ -32,7 +32,7 @@ class SubscriptionAuthenticationController < ApplicationController
     topic_id = params.require(:topic_id)
     @frequency = params.require(:frequency)
 
-    @title = email_alert_api
+    @title = GdsApi.email_alert_api
       .get_subscriber_list(slug: topic_id)
       .to_h.dig("subscriber_list", "title")
   end
@@ -46,9 +46,5 @@ private
 
   def token
     @token ||= AuthToken.new(params.require(:token))
-  end
-
-  def email_alert_api
-    EmailAlertFrontend.services(:email_alert_api)
   end
 end

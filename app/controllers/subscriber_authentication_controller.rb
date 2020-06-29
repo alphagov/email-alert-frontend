@@ -57,8 +57,4 @@ private
   rescue URI::InvalidURIError
     nil
   end
-
-  def email_alert_api
-    EmailAlertFrontend.services(:email_alert_api)
-  end
 end

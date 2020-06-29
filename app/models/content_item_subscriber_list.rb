@@ -2,8 +2,7 @@ class ContentItemSubscriberList
   def initialize(content_item)
     @content_item = content_item
 
-    @subscriber_list = EmailAlertFrontend
-      .services(:email_alert_api)
+    @subscriber_list = GdsApi.email_alert_api
       .find_or_create_subscriber_list(subscription_params)
   end
 

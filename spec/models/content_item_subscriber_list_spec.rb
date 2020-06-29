@@ -1,7 +1,7 @@
 RSpec.describe ContentItemSubscriberList do
   describe "#subscription_management_url" do
     let(:mock_email_alert_api) do
-      instance_double(EmailAlertFrontend.services(:email_alert_api).class)
+      instance_double(GdsApi.email_alert_api.class)
     end
 
     let(:content_item) do
@@ -9,9 +9,7 @@ RSpec.describe ContentItemSubscriberList do
     end
 
     before do
-      allow(EmailAlertFrontend)
-        .to receive(:services)
-        .with(:email_alert_api)
+      allow(GdsApi).to receive(:email_alert_api)
         .and_return(mock_email_alert_api)
 
       allow(mock_email_alert_api)
