@@ -63,9 +63,7 @@ private
   end
 
   def content_item
-    @content_item ||= EmailAlertFrontend
-      .services(:content_store)
-      .content_item(content_item_path)
+    @content_item ||= GdsApi.content_store.content_item(content_item_path)
   end
 
   def handle_redirects

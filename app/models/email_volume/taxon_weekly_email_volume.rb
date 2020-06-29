@@ -35,7 +35,7 @@ module EmailVolume
     end
 
     def fetch_content_item(base_path)
-      EmailAlertFrontend.services(:content_store).content_item(base_path)
+      GdsApi.content_store.content_item(base_path)
     end
   end
 end
