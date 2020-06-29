@@ -31,9 +31,18 @@
       You can choose how often you want to receive emails.
     </p>
 
-    <%= form_tag(:action => :create) do %>
+    <%= form_tag(action: :create) do %>
       <%= hidden_field_tag 'link', @content_item['base_path'] %>
-      <%= submit_tag('Sign up', class: 'govuk-button') %>
+      <%= render 'govuk_publishing_components/components/button', {
+        text: 'Sign up',
+        margin_bottom: true,
+        data_attributes: {
+          module: 'track-click',
+          track_category: 'email_subscriptions',
+          track_action: 'new_frequency',
+          track_label: @subscription.title,
+        },
+      } %>
     <% end %>
 
   </div>
