@@ -21,6 +21,7 @@
                  }) do %>
 
       <p class="app-email-option">Everything published to GOV.UK about</p>
+
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
         id_prefix: "all",
@@ -33,13 +34,14 @@
       } %>
 
       <p class='app-email-option'>or only one of the following <%= @subscription.child_taxons.count %> sub-topics</p>
+
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
         id_prefix: "topics",
         items: @subscription.child_taxons.each.map { |taxon| {
-          :value => taxon['base_path'],
-          :text => taxon['title'],
-          :conditional => taxon['description'].present? ? ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe : nil
+          value: taxon['base_path'],
+          text: taxon['title'],
+          conditional: taxon['description'].present? ? ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe : nil
         } }
       } %>
 
