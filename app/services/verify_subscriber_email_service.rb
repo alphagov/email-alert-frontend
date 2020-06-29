@@ -3,8 +3,14 @@ class VerifySubscriberEmailService < ApplicationService
 
   class RatelimitExceededError < StandardError; end
 
-  MINUTELY_THRESHOLD = 3 # TODO: update this based on data and comment
-  HOURLY_THRESHOLD = 20 # TODO: update this based on data and comment
+  # This allows for up to 2 retries, to account for users
+  # not getting the email quickly enough and resubmitting.
+  MINUTELY_THRESHOLD = 4
+
+  # This allows for up to 10 logins to manage subscriptions
+  # per hour, to account # for the user needing to return
+  # to manage their # subscriptions on different devices.
+  HOURLY_THRESHOLD = 11
 
   def initialize(address)
     @address = address
