@@ -15,7 +15,7 @@ This route supports signup to several types of content. It was [originally speci
 
 - A **legacy** `/:base_path/email-signup` route [[example](https://www.gov.uk/foreign-travel-advice/canada/email-signup)].
 
-Each of these routes corresponds to a content item with an [`email_alert_signup` schema](https://github.com/alphagov/govuk-content-schemas/blob/master/formats/email_alert_signup.jsonnet). At the time of writing, `/foreign-travel-advice/*` and `/service-manual/*` still use this route.
+Each of these routes corresponds to a content item with an [`email_alert_signup` schema](https://github.com/alphagov/govuk-content-schemas/blob/master/formats/email_alert_signup.jsonnet). At the time of writing, `/foreign-travel-advice/*` still uses this route.
 
 - A `/email/subscriptions/new` route [[example](https://www.gov.uk/email/subscriptions/new?topic_id=statistics-with-1-research-and-statistic-5e2982632b)].
 
