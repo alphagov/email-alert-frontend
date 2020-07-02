@@ -30,12 +30,12 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
             options = { transport: 'beacon', label: eventLabel }
 
-            GOVUK.analytics.trackEvent(category, action, options)
+            GOVUK.EmailAnalytics.trackEvent(category, action, options)
           })
         } else {
           options = { transport: 'beacon', label: '' }
 
-          GOVUK.analytics.trackEvent(category, action, options)
+          GOVUK.EmailAnalytics.trackEvent(category, action, options)
         }
       })
     }

@@ -8,9 +8,6 @@ describe('Email alert sign up tracking', function () {
   var $element;
 
   beforeEach(function () {
-    GOVUK.analytics = { trackEvent: function () {} }
-    tracker = new GOVUK.Modules.TrackEmailAlertSignupChoices();
-
     $element = $(
       '<div>' +
         '<form onsubmit="event.preventDefault()" data-track-action="action-name" data-track-category="category-name">' +
@@ -30,31 +27,34 @@ describe('Email alert sign up tracking', function () {
       '</div>'
     )
 
+    tracker = new GOVUK.Modules.TrackEmailAlertSignupChoices();
     tracker.start($element)
   })
 
   afterEach(function () {
-    delete GOVUK.analytics
+    GOVUK.EmailAnalytics.trackEvent.calls.reset()
   })
 
-  it('tracks selected radio buttons when clicking submit', function () {
-    spyOn(GOVUK.analytics, 'trackEvent')
+  describe('trackEvent', function () {
+    it('tracks selected radio buttons when clicking submit', function () {
+      spyOn(GOVUK.EmailAnalytics, 'trackEvent')
 
-    $element.find('input[value="accommodation"]').trigger('click')
-    $element.find('form').trigger('submit')
+      $element.find('input[value="accommodation"]').trigger('click')
+      $element.find('form').trigger('submit')
 
-    expect(GOVUK.analytics.trackEvent).toHaveBeenCalledWith(
-      'category-name', 'action-name', { transport: 'beacon', label: 'Accommodation label' }
-    )
-  })
+      expect(GOVUK.EmailAnalytics.trackEvent).toHaveBeenCalledWith(
+        'category-name', 'action-name', { transport: 'beacon', label: 'Accommodation label' }
+      )
+    })
 
-  it('reports label as empty string when no option has been selected', function () {
-    spyOn(GOVUK.analytics, 'trackEvent')
+    it('reports label as empty string when no option has been selected', function () {
+      spyOn(GOVUK.EmailAnalytics, 'trackEvent')
 
-    $element.find('form').trigger('submit')
+      $element.find('form').trigger('submit')
 
-    expect(GOVUK.analytics.trackEvent).toHaveBeenCalledWith(
-      'category-name', 'action-name', { transport: 'beacon', label: '' }
-    )
+      expect(GOVUK.EmailAnalytics.trackEvent).toHaveBeenCalledWith(
+        'category-name', 'action-name', { transport: 'beacon', label: '' }
+      )
+    })
   })
 });
