@@ -1,16 +1,15 @@
-/* eslint-env jasmine, jquery */
-
-var $ = window.jQuery
+/* eslint-env jasmine */
+/* global GOVUK Event */
 
 describe('Email alert sign up tracking', function () {
-  var GOVUK = window.GOVUK || {};
-  var tracker;
-  var $element;
+  'use strict'
+
+  var container, tracker
 
   beforeEach(function () {
-    $element = $(
-      '<div>' +
-        '<form onsubmit="event.preventDefault()" data-track-action="action-name" data-track-category="category-name">' +
+    container = document.createElement('div')
+    container.innerHTML =
+        '<form onsubmit="event.preventDefault()" data-module="track-email-alert-signup-choices" data-track-action="action-name" data-track-category="category-name">' +
           '<div>' +
             '<input name="sector_business_area[]" id="construction" type="radio" value="construction">' +
             '<label for="construction">Construction label</label>' +
@@ -23,38 +22,44 @@ describe('Email alert sign up tracking', function () {
             '<input name="sector_business_area[]" type="radio" value="furniture">' +
           '</div>' +
           '<button type="submit">Next</button>' +
-        '</form>' +
-      '</div>'
-    )
+        '</form>'
 
-    tracker = new GOVUK.Modules.TrackEmailAlertSignupChoices();
-    tracker.start($element)
+    document.body.appendChild(container)
+    var element = document.querySelector('[data-module="track-email-alert-signup-choices"]')
+    tracker = new GOVUK.Modules.TrackEmailAlertSignupChoices()
+    tracker.start(element)
   })
 
   afterEach(function () {
-    GOVUK.EmailAnalytics.trackEvent.calls.reset()
+    document.body.removeChild(container)
   })
 
   describe('trackEvent', function () {
+    beforeEach(function () {
+      GOVUK.analytics = {
+        trackEvent: function () {}
+      }
+    })
+
     it('tracks selected radio buttons when clicking submit', function () {
-      spyOn(GOVUK.EmailAnalytics, 'trackEvent')
+      spyOn(GOVUK.analytics, 'trackEvent')
 
-      $element.find('input[value="accommodation"]').trigger('click')
-      $element.find('form').trigger('submit')
+      tracker.form.querySelector('input[value="accommodation"]').click()
+      tracker.form.dispatchEvent(new Event('submit'))
 
-      expect(GOVUK.EmailAnalytics.trackEvent).toHaveBeenCalledWith(
+      expect(GOVUK.analytics.trackEvent).toHaveBeenCalledWith(
         'category-name', 'action-name', { transport: 'beacon', label: 'Accommodation label' }
       )
     })
 
     it('reports label as empty string when no option has been selected', function () {
-      spyOn(GOVUK.EmailAnalytics, 'trackEvent')
+      spyOn(GOVUK.analytics, 'trackEvent')
 
-      $element.find('form').trigger('submit')
+      tracker.form.dispatchEvent(new window.Event('submit'))
 
-      expect(GOVUK.EmailAnalytics.trackEvent).toHaveBeenCalledWith(
+      expect(GOVUK.analytics.trackEvent).toHaveBeenCalledWith(
         'category-name', 'action-name', { transport: 'beacon', label: '' }
       )
     })
   })
-});
+})

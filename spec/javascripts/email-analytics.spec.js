@@ -1,9 +1,8 @@
-/* eslint-env jasmine, jquery */
+/* eslint-env jasmine */
+/* global GOVUK */
 
 describe('EmailAnalytics', function () {
   'use strict'
-
-  var GOVUK = window.GOVUK || {}
 
   describe('when GOVUK.analytics is undefined', function () {
     beforeEach(function () {
@@ -12,7 +11,9 @@ describe('EmailAnalytics', function () {
 
     describe('trackEvent', function () {
       it('does not raise an error', function () {
-        expect(GOVUK.EmailAnalytics.trackEvent).not.toThrow()
+        var emailAnalytics = new GOVUK.Modules.EmailAnalytics()
+
+        expect(emailAnalytics.trackEvent).not.toThrow()
       })
     })
   })
@@ -27,7 +28,11 @@ describe('EmailAnalytics', function () {
     describe('trackEvent', function () {
       it('forwards arguments to GOVUK.analytics', function () {
         spyOn(GOVUK.analytics, 'trackEvent')
-        GOVUK.EmailAnalytics.trackEvent('category', 'action', {})
+
+        var emailAnalytics = new GOVUK.Modules.EmailAnalytics()
+
+        emailAnalytics.trackEvent('category', 'action', {})
+
         expect(GOVUK.analytics.trackEvent).toHaveBeenCalledWith(
           'category', 'action', {})
       })

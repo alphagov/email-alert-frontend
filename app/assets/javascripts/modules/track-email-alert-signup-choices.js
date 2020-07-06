@@ -1,43 +1,46 @@
+/* global GOVUK */
+
 window.GOVUK = window.GOVUK || {}
 window.GOVUK.Modules = window.GOVUK.Modules || {};
 
-(function (global, GOVUK) {
+(function (Modules) {
   'use strict'
 
-  var $ = global.jQuery
+  function TrackEmailAlertSignupChoices () { }
 
-  GOVUK.Modules.TrackEmailAlertSignupChoices = function () {
-    this.start = function (element) {
-      track(element)
-    }
+  TrackEmailAlertSignupChoices.prototype.start = function ($module) {
+    this.form = $module
+    this.form.addEventListener('submit', this.handleSubmit.bind(this))
+  }
 
-    function track (element) {
-      element.on('submit', function (event) {
-        var $checkedOption, eventLabel, options
-        var $submittedForm = $(event.target)
-        var $checkedOptions = $submittedForm.find('input:checked')
-        var category = $submittedForm.data('track-category')
-        var action = $submittedForm.data('track-action')
+  TrackEmailAlertSignupChoices.prototype.handleSubmit = function (event) {
+    var options
+    var submittedForm = event.target
+    var checkedOption = submittedForm.querySelector('input:checked')
+    var category = submittedForm.getAttribute('data-track-category')
+    var action = submittedForm.getAttribute('data-track-action')
 
-        if ($checkedOptions.length) {
-          $checkedOptions.each(function (index) {
-            $checkedOption = $(this)
-            var checkedOptionId = $checkedOption.attr('id')
-            var checkedOptionLabel = $submittedForm.find('label[for="' + checkedOptionId + '"]').text().trim()
-            eventLabel = checkedOptionLabel.length
-              ? checkedOptionLabel
-              : $checkedOption.val()
+    if (checkedOption) {
+      var checkedOptionId = checkedOption.getAttribute('id')
+      var checkedOptionLabel = submittedForm.querySelector('label[for="' + checkedOptionId + '"]').innerText
 
-            options = { transport: 'beacon', label: eventLabel }
+      var label = checkedOptionLabel.length
+        ? checkedOptionLabel
+        : checkedOption.value
 
-            GOVUK.EmailAnalytics.trackEvent(category, action, options)
-          })
-        } else {
-          options = { transport: 'beacon', label: '' }
+      options = { transport: 'beacon', label: label }
 
-          GOVUK.EmailAnalytics.trackEvent(category, action, options)
-        }
-      })
+      this.forwardToAnalytics(category, action, options)
+    } else {
+      options = { transport: 'beacon', label: '' }
+      this.forwardToAnalytics(category, action, options)
     }
   }
-})(window, window.GOVUK)
+
+  TrackEmailAlertSignupChoices.prototype.forwardToAnalytics = function () {
+    if (!GOVUK.analytics || !GOVUK.analytics.trackEvent) { return }
+    return GOVUK.analytics.trackEvent.apply(GOVUK, arguments)
+  }
+
+  Modules.TrackEmailAlertSignupChoices = TrackEmailAlertSignupChoices
+})(window.GOVUK.Modules)

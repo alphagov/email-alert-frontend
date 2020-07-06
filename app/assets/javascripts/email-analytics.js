@@ -1,17 +1,17 @@
-(function (global, GOVUK) {
+/* global GOVUK */
+
+window.GOVUK = window.GOVUK || {}
+window.GOVUK.Modules = window.GOVUK.Modules || {};
+
+(function (Modules) {
   'use strict'
 
-  window.GOVUK = window.GOVUK || {}
+  function EmailAnalytics () {}
 
-  function canTrack () {
-    return !!GOVUK.analytics
+  EmailAnalytics.prototype.trackEvent = function () {
+    if (!GOVUK.analytics || !GOVUK.analytics.trackEvent) { return }
+    return GOVUK.analytics.trackEvent.apply(GOVUK, arguments)
   }
 
-  // The EmailAnalytics module is a wrapper around GOVUK.analytics
-  GOVUK.EmailAnalytics = {
-    trackEvent: function trackEvent () {
-      if (!canTrack() || !GOVUK.analytics.trackEvent) { return }
-      return GOVUK.analytics.trackEvent.apply(GOVUK, arguments)
-    }
-  }
-})(window, window.GOVUK)
+  Modules.EmailAnalytics = EmailAnalytics
+})(window.GOVUK.Modules)
