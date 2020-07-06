@@ -1,0 +1,28 @@
+{
+  "name": "email-alert-frontend",
+  "version": "1.0.0",
+  "description": "A frontend for creating and managing email subscriptions.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard app/assets/javascripts/{*.js,**/*.js} spec/javascripts/{*.js,**/*.js}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alphagov/email-alert-frontend.git"
+  },
+  "author": "GDS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alphagov/email-alert-frontend/issues"
+  },
+  "homepage": "https://github.com/alphagov/email-alert-frontend#readme"
+}
