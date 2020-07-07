@@ -13,7 +13,13 @@
 
     <h1 class="govuk-heading-l">What do you want to get alerts about?</h1>
 
-    <%= form_tag({action: "confirm"}, method: "get") do %>
+    <%= form_tag({ action: :confirm },
+                 method: "get",
+                 data: {
+                   module: "track-email-alert-signup-choices",
+                   track_action: "new_topic",
+                   track_category: "email_subscriptions",
+                 }) do %>
 
       <p class="app-email-option">Everything published to GOV.UK about</p>
       <%= render "govuk_publishing_components/components/radio", {
