@@ -15,6 +15,7 @@ gem "slimmer", "~> 15.0.0"
 gem "uglifier", "~> 4.2"
 
 group :development, :test do
+  gem "govuk_test", "~> 1.0"
   gem "pry-byebug"
   gem "rspec-rails", "~> 4.0"
   gem "rubocop-govuk"
