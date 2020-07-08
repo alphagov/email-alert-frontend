@@ -17,7 +17,7 @@ gem "uglifier", "~> 4.2"
 group :development, :test do
   gem "govuk_test", "~> 1.0"
   gem "jasmine", "~> 3.5.1"
-  gem "jasmine_selenium_runner", "~> 3", require: false
+  gem "jasmine_selenium_runner", "~> 3"
   gem "pry-byebug"
   gem "rspec-rails", "~> 4.0"
   gem "rubocop-govuk"
