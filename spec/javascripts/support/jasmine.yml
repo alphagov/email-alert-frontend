@@ -1,4 +1,5 @@
 src_files:
+  - assets/govuk_publishing_components/dependencies.js
   - assets/application.js
 
 spec_dir:
