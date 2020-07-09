@@ -4,3 +4,5 @@
 //= require govuk_publishing_components/components/feedback
 //= require govuk_publishing_components/components/govspeak
 //= require govuk_publishing_components/components/radio
+
+//= require_tree ./modules

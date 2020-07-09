@@ -1,0 +1,15 @@
+{
+  "name": "email-alert-frontend",
+  "description": "GOV.UK frontend for creating and managing email subscriptions.",
+  "private": true,
+  "author": "Government Digital Service",
+  "license": "MIT",
+  "scripts": {
+    "lint": "standard app/assets/javascripts/{*.js,**/*.js} spec/javascripts/{*.js,**/*.js}",
+    "lint:fix": "standard --fix app/javascripts/{*.js,**/*.js} spec/javascripts/{*.js,**/*.js}"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "standard": "^12.0.1"
+  }
+}

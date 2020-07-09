@@ -1,0 +1,15 @@
+src_files:
+  - assets/govuk_publishing_components/dependencies.js
+  - assets/application.js
+
+spec_dir:
+  - spec/javascripts
+
+helpers:
+  - "helpers/**/*.js"
+
+spec_files:
+  - "**/*[Ss]pec.js"
+
+spec_helper:
+  - spec/javascripts/support/jasmine_helper.rb
