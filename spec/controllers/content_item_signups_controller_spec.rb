@@ -48,6 +48,16 @@ RSpec.describe ContentItemSignupsController do
       expect(response).to have_http_status(:bad_request)
     end
 
+    it "returns a 400 when the content store returns a bad request response" do
+      base_path = "/#{SecureRandom.hex}"
+      url = content_store_endpoint + "/content#{base_path}"
+      stub_request(:get, url).to_return(status: 400, headers: {})
+
+      get :new, params: { topic: base_path }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
     it "returns a 403 when the user is not authorised" do
       base_path = "/#{SecureRandom.hex}"
       url = content_store_endpoint + "/content#{base_path}"
