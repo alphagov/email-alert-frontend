@@ -162,7 +162,7 @@ RSpec.describe UnsubscriptionsController do
 
     context "when the user has already unsubscribed" do
       before do
-        email_alert_api_has_no_subscription_for_uuid(id)
+        stub_email_alert_api_has_no_subscription_for_uuid(id)
       end
 
       it "renders a page informing them the subscription has already ended" do
