@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :invalid_token
+  rescue_from GdsApi::HTTPClientError, with: :bad_request
   rescue_from GdsApi::HTTPNotFound, with: :error_not_found
   rescue_from GdsApi::HTTPForbidden, with: :forbidden
   rescue_from GdsApi::HTTPGone, with: :gone
