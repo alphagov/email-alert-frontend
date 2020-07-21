@@ -1,19 +1,11 @@
-require "gds_api/publishing_api_v2"
 require "gds_api/publishing_api/special_route_publisher"
 
 namespace :publishing_api do
   desc "Publish email signup page for taxonomy"
   task publish_email_signup_page: :environment do
-    logger = Logger.new(STDOUT)
-
-    publishing_api = GdsApi::PublishingApiV2.new(
-      Plek.new.find("publishing-api"),
-      bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
-    )
-
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: logger,
-      publishing_api: publishing_api,
+      logger: Logger.new(STDOUT),
+      publishing_api: GdsApi.publishing_api,
     )
 
     special_route_publisher.publish(
@@ -39,16 +31,9 @@ namespace :publishing_api do
 
   desc "Publish /email/unsubscribe prefix route"
   task publish_email_unsubscribe_prefix: :environment do
-    logger = Logger.new(STDOUT)
-
-    publishing_api = GdsApi::PublishingApiV2.new(
-      Plek.new.find("publishing-api"),
-      bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
-    )
-
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: logger,
-      publishing_api: publishing_api,
+      logger: Logger.new(STDOUT),
+      publishing_api: GdsApi.publishing_api,
     )
 
     special_route_publisher.publish(
@@ -64,16 +49,9 @@ namespace :publishing_api do
 
   desc "Publish /email/subscriptions prefix route"
   task publish_email_subscriptions_prefix: :environment do
-    logger = Logger.new(STDOUT)
-
-    publishing_api = GdsApi::PublishingApiV2.new(
-      Plek.new.find("publishing-api"),
-      bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
-    )
-
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: logger,
-      publishing_api: publishing_api,
+      logger: Logger.new(STDOUT),
+      publishing_api: GdsApi.publishing_api,
     )
 
     special_route_publisher.publish(
@@ -89,16 +67,9 @@ namespace :publishing_api do
 
   desc "Publish /email/authenticate prefix route"
   task publish_email_authenticate_prefix: :environment do
-    logger = Logger.new(STDOUT)
-
-    publishing_api = GdsApi::PublishingApiV2.new(
-      Plek.new.find("publishing-api"),
-      bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
-    )
-
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: logger,
-      publishing_api: publishing_api,
+      logger: Logger.new(STDOUT),
+      publishing_api: GdsApi.publishing_api,
     )
 
     special_route_publisher.publish(
@@ -114,16 +85,9 @@ namespace :publishing_api do
 
   desc "Publish /email/manage prefix route"
   task publish_email_manage_prefix: :environment do
-    logger = Logger.new(STDOUT)
-
-    publishing_api = GdsApi::PublishingApiV2.new(
-      Plek.new.find("publishing-api"),
-      bearer_token: ENV["PUBLISHING_API_BEARER_TOKEN"] || "example",
-    )
-
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: logger,
-      publishing_api: publishing_api,
+      logger: Logger.new(STDOUT),
+      publishing_api: GdsApi.publishing_api,
     )
 
     special_route_publisher.publish(
