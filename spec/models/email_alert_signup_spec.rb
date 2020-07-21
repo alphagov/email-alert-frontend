@@ -50,7 +50,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.save!
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.save!
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.save!
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.save!
       end
     end
   end
@@ -114,7 +114,7 @@ RSpec.describe EmailAlertSignup do
         .and_return(mock_subscriber_list)
 
       email_signup = EmailAlertSignup.new(signup_page)
-      email_signup.save
+      email_signup.save!
 
       expect("http://foo").to eq(email_signup.subscription_url)
     end
