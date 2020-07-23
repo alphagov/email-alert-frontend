@@ -33,10 +33,10 @@ RSpec.describe EmailAlertSignup do
   it "does not attempt to create a subscription if no signup page is provided" do
     expect(api_client).not_to receive(:find_or_create_subscriber_list)
 
-    expect(EmailAlertSignup.new(nil).save).to eq(false)
+    expect(EmailAlertSignup.new(nil).find_or_create).to eq(false)
   end
 
-  describe "#save" do
+  describe "#find_or_create" do
     context "when the signup page is for a travel advice country" do
       let(:signup_page) { mock_response(travel_country_item) }
 
@@ -50,7 +50,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.find_or_create
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.find_or_create
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.find_or_create
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe EmailAlertSignup do
           .and_return(mock_subscriber_list)
 
         email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.save
+        email_signup.find_or_create
       end
     end
   end
@@ -114,7 +114,7 @@ RSpec.describe EmailAlertSignup do
         .and_return(mock_subscriber_list)
 
       email_signup = EmailAlertSignup.new(signup_page)
-      email_signup.save
+      email_signup.find_or_create
 
       expect("http://foo").to eq(email_signup.subscription_url)
     end
