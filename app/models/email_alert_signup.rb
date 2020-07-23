@@ -12,7 +12,7 @@ class EmailAlertSignup
     @base_path = signup_page["base_path"] if signup_page
   end
 
-  def save
+  def find_or_create
     if valid?
       @subscription_url = find_or_create_subscription.dig("subscriber_list", "subscription_url")
       true

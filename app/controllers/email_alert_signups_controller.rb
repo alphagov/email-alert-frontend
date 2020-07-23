@@ -4,7 +4,7 @@ class EmailAlertSignupsController < ApplicationController
   def new; end
 
   def create
-    if email_alert_signup.save
+    if email_alert_signup.find_or_create
       redirect_to email_alert_signup.subscription_url
     else
       render action: "new"
