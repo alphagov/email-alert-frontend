@@ -4,28 +4,28 @@ ruby File.read(".ruby-version").strip
 
 gem "rails", "6.0.3.2"
 
-gem "gds-api-adapters", "~> 67.0"
-gem "govuk_app_config", "~> 2.2"
-gem "govuk_publishing_components", "~> 21.60.3"
-gem "jwt", "~> 2.2"
-gem "plek", "~> 4.0"
+gem "gds-api-adapters"
+gem "govuk_app_config"
+gem "govuk_publishing_components"
+gem "jwt"
+gem "plek"
 gem "ratelimit"
-gem "sass-rails", "~> 5.0"
-gem "slimmer", "~> 15.1.0"
-gem "uglifier", "~> 4.2"
+gem "sass-rails"
+gem "slimmer"
+gem "uglifier"
 
 group :development, :test do
-  gem "govuk_test", "~> 1.0"
-  gem "jasmine", "~> 3.6.0"
-  gem "jasmine_selenium_runner", "~> 3"
+  gem "govuk_test"
+  gem "jasmine"
+  gem "jasmine_selenium_runner"
   gem "pry-byebug"
-  gem "rspec-rails", "~> 4.0"
+  gem "rspec-rails"
   gem "rubocop-govuk"
 end
 
 group :test do
-  gem "capybara", "~> 3.33"
+  gem "capybara"
   gem "govuk_schemas"
-  gem "timecop", "~> 0.9.1"
-  gem "webmock", "~> 3.8"
+  gem "timecop"
+  gem "webmock"
 end
