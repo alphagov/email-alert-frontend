@@ -3,9 +3,9 @@ en:
     heading: Manage your subscriptions
     index:
       subscription:
-        immediately: "You chose to get updates as soon as they happen."
-        daily: "You chose to get daily updates."
-        weekly: "You chose to get weekly updates."
+        immediately: "You get updates as soon as they happen."
+        daily: "You get daily updates."
+        weekly: "You get weekly updates."
     update_address:
       heading: Change your email address
       current_email: "Your current email address is %{address}"
