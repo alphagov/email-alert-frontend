@@ -127,7 +127,7 @@ GEM
     jasmine_selenium_runner (3.0.0)
       jasmine (~> 3.0)
       selenium-webdriver (~> 3.8)
-    json (2.3.0)
+    json (2.3.1)
     json-schema (2.8.1)
       addressable (>= 2.4)
     jwt (2.2.1)
@@ -286,7 +286,7 @@ GEM
       rubyzip (>= 1.2.2)
     sentry-raven (3.0.0)
       faraday (>= 1.0)
-    slimmer (15.0.0)
+    slimmer (15.1.0)
       activesupport
       json
       nokogiri (~> 1.7)
@@ -352,7 +352,7 @@ DEPENDENCIES
   rspec-rails (~> 4.0)
   rubocop-govuk
   sass-rails (~> 5.0)
-  slimmer (~> 15.0.0)
+  slimmer (~> 15.1.0)
   timecop (~> 0.9.1)
   uglifier (~> 4.2)
   webmock (~> 3.8)

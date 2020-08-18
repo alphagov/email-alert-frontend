@@ -11,7 +11,7 @@ gem "jwt", "~> 2.2"
 gem "plek", "~> 4.0"
 gem "ratelimit"
 gem "sass-rails", "~> 5.0"
-gem "slimmer", "~> 15.0.0"
+gem "slimmer", "~> 15.1.0"
 gem "uglifier", "~> 4.2"
 
 group :development, :test do
