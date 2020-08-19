@@ -3,6 +3,7 @@
   <head>
     <title><%= yield :title %> - GOV.UK</title>
     <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
     <% if content_for(:meta_description).present? %>
       <meta name="description" content="<%= content_for(:meta_description) %>" />
     <% end %>
