@@ -101,53 +101,61 @@ RSpec.describe SubscriptionsManagementController do
   end
 
   describe "GET /email/manage/frequency/:id" do
-    context "when the page is requested" do
-      it "returns 200" do
-        get :update_frequency, params: { id: subscription_id }, session: session_data
-        expect(response).to have_http_status(:ok)
-      end
+    it "returns a 200 response" do
+      get :update_frequency, params: { id: subscription_id }, session: session_data
+      expect(response).to have_http_status(:ok)
     end
 
-    context "when the requested subscription exists" do
-      it "renders a form" do
-        get :update_frequency, params: { id: subscription_id }, session: session_data
-        expect(response.body).to include(%(action="/email/manage/frequency/#{subscription_id}/change"))
-      end
+    it "renders a form" do
+      get :update_frequency, params: { id: subscription_id }, session: session_data
+      expect(response.body).to include(%(action="/email/manage/frequency/#{subscription_id}/change"))
     end
 
-    context "when the requested subscription doesn't exist" do
-      let(:non_existant_subscription_id) { SecureRandom.uuid }
+    it "returns 404 when the subscription doesn't belong to the subscriber" do
+      stub_email_alert_api_has_subscriber_subscriptions(
+        subscriber_id,
+        subscriber_address,
+        subscriptions: [],
+      )
 
-      it "returns 404" do
-        get :update_frequency, params: { id: non_existant_subscription_id }, session: session_data
-        expect(response).to have_http_status(:not_found)
-      end
+      get :update_frequency, params: { id: subscription_id }, session: session_data
+      expect(response).to have_http_status(:not_found)
     end
   end
 
   describe "POST /email/manage/frequency/:id/change" do
-    context "when no frequency is provided" do
-      it "raises an exception" do
-        expect {
-          post :change_frequency, params: { id: subscription_id }, session: session_data
-        }.to raise_error(ActionController::ParameterMissing)
-      end
+    it "redirects to the subscription management page when frequency is updated" do
+      post :change_frequency, params: { id: subscription_id, new_frequency: new_frequency }, session: session_data
+      expect(response).to redirect_to(list_subscriptions_path)
     end
 
-    context "when an invalid frequency is provided" do
-      let(:new_frequency) { "foobar" }
-
-      it "redirects to the subscription management page" do
-        post :change_frequency, params: { id: subscription_id, new_frequency: new_frequency }, session: session_data
-        expect(response).to redirect_to(list_subscriptions_path)
-      end
+    it "raises an ActionController::ParameterMissing error when frequency is not provided" do
+      expect {
+        post :change_frequency, params: { id: subscription_id }, session: session_data
+      }.to raise_error(ActionController::ParameterMissing)
     end
 
-    context "when a valid frequency is provided" do
-      it "redirects to the subscription management page" do
-        post :change_frequency, params: { id: subscription_id, new_frequency: new_frequency }, session: session_data
-        expect(response).to redirect_to(list_subscriptions_path)
-      end
+    it "returns a 400 response when an invalid frequency is provided" do
+      stub_request(:patch, "#{endpoint}/subscriptions/#{subscription_id}")
+        .to_return(status: 422)
+
+      post :change_frequency,
+           params: { id: subscription_id, new_frequency: "foobar" },
+           session: session_data
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "returns 404 when the subscription doesn't belong to the subscriber" do
+      stub_email_alert_api_has_subscriber_subscriptions(
+        subscriber_id,
+        subscriber_address,
+        subscriptions: [],
+      )
+
+      post :change_frequency,
+           params: { id: subscription_id, new_frequency: new_frequency },
+           session: session_data
+      expect(response).to have_http_status(:not_found)
     end
   end
 

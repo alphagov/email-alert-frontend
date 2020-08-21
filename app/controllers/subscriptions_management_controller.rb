@@ -7,14 +7,15 @@ class SubscriptionsManagementController < ApplicationController
 
   def update_frequency
     @subscription_id = params.require(:id)
-
-    return render status: :not_found, plain: "404 not found" if @subscriptions[@subscription_id].nil?
+    return error_not_found unless @subscriptions[@subscription_id]
 
     @current_frequency = @subscriptions[@subscription_id]["frequency"]
   end
 
   def change_frequency
     id = params.require(:id)
+    return error_not_found unless @subscriptions[id]
+
     new_frequency = params.require(:new_frequency)
 
     GdsApi.email_alert_api.change_subscription(id: id, frequency: new_frequency)
