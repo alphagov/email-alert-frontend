@@ -1,4 +1,4 @@
-<% content_for :title, t("subscriptions.new_address.title") %>
+<% content_for :title, t("subscriptions.new_address.title") + ' - ' + @title %>
 
 <% content_for :back_link do %>
   <%= render "govuk_publishing_components/components/back_link", {
