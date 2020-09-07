@@ -13,14 +13,11 @@
 
     <%= form_tag change_frequency_path, method: :post do %>
       <%= hidden_field_tag :id, @subscription_id %>
-        <%= render 'govuk_publishing_components/components/fieldset', {
-          legend_text: '<h2 class="govuk-heading-m">' + page_heading + '</h2>'.html_safe,
-        } do %>
-          <%= render 'govuk_publishing_components/components/radio', {
-            name: 'new_frequency',
-            items: frequencies(:checked_frequency => @current_frequency)
-          } %>
-        <% end %>
+        <%= render 'govuk_publishing_components/components/radio', {
+          name: 'new_frequency',
+          heading: page_heading,
+          items: frequencies(:checked_frequency => @current_frequency)
+        } %>
 
         <%= render 'govuk_publishing_components/components/button', {
           text: 'Save',
