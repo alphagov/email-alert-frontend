@@ -37,7 +37,7 @@
 
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
-        heading: "or only one of the following #{@subscription.child_taxons.count} sub-topics",
+        heading: "One of the following #{@subscription.child_taxons.count} sub-topics",
         id_prefix: "topics",
         items: @subscription.child_taxons.each.map { |taxon| {
           :value => taxon['base_path'],
