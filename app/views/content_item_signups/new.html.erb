@@ -22,9 +22,10 @@
                    track_category: "email_subscriptions",
                  }) do %>
 
-      <p class="app-email-option">Everything published to GOV.UK about</p>
+
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
+        heading: "Everything published to GOV.UK about",
         id_prefix: "all",
         items: [{
           value: @content_item['base_path'],
@@ -34,9 +35,9 @@
         }]
       } %>
 
-      <p class='app-email-option'>or only one of the following <%= @subscription.child_taxons.count %> sub-topics</p>
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
+        heading: "One of the following #{@subscription.child_taxons.count} sub-topics",
         id_prefix: "topics",
         items: @subscription.child_taxons.each.map { |taxon| {
           :value => taxon['base_path'],

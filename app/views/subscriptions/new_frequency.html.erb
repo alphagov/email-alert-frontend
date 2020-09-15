@@ -21,24 +21,21 @@
     <% end %>
 
     <%= form_tag(subscription_frequency_path,
-                 class: "checklist-email-signup",
-                 data: {
-                   module: "track-email-alert-signup-choices",
-                   track_category: "email_subscriptions",
-                   track_action: 'new_address',
-                 }) do %>
+      class: "checklist-email-signup",
+      data: {
+        module: "track-email-alert-signup-choices",
+        track_category: "email_subscriptions",
+        track_action: 'new_address',
+      }) do %>
       <%= hidden_field_tag :topic_id, @topic_id %>
 
-      <%= render "govuk_publishing_components/components/fieldset", {
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "frequency",
         id: "email-frequency-input",
-        legend_text: tag.h2(t("subscriptions.new_frequency.question"), class: "govuk-heading-m"),
+        heading: t("subscriptions.new_frequency.question"),
         error_message: flash[:error],
-      } do %>
-        <%= render "govuk_publishing_components/components/radio", {
-          name: "frequency",
-          items: frequencies(frequency_options(@topic_id)),
-        } %>
-      <% end %>
+        items: frequencies(frequency_options(@topic_id)),
+      } %>
 
       <%= render "govuk_publishing_components/components/inset_text", {
         text: "<p>You can unsubscribe from emails or change your subscription at any time.</p>".html_safe
