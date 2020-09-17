@@ -21,7 +21,7 @@ private
   def read_token
     len = ActiveSupport::MessageEncryptor.key_len(CIPHER)
     key = ActiveSupport::KeyGenerator.new(secret).generate_key("", len)
-    crypt = ActiveSupport::MessageEncryptor.new(key, OPTIONS)
+    crypt = ActiveSupport::MessageEncryptor.new(key, **OPTIONS)
     decrypted_data = crypt.decrypt_and_verify(token)
     decrypted_data&.symbolize_keys
   rescue ActiveSupport::MessageEncryptor::InvalidMessage
