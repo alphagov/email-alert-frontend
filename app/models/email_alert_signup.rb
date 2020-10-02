@@ -26,14 +26,6 @@ class EmailAlertSignup
       .find_or_create_subscriber_list(subscription_params)
   end
 
-  def government?
-    base_path.starts_with?("/government")
-  end
-
-  def government_content_section
-    base_path.split("/")[2]
-  end
-
   def details
     signup_page["details"]
   end
