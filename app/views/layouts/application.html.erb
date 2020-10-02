@@ -15,7 +15,7 @@
   <body class="govuk-template__body">
     <div class="govuk-width-container" id="wrapper">
       <%= yield :back_link %>
-      <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main">
+      <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main" id="content">
         <div id="email-alert-frontend">
           <%= yield %>
         </div>
