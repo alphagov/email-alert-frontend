@@ -1,10 +1,6 @@
 <% content_for :title, email_alert_signup.title %>
 <% content_for :meta_description, email_alert_signup.summary %>
 
-<% if email_alert_signup.government? %>
-  <%= render 'govuk_publishing_components/components/government_navigation', active: email_alert_signup.government_content_section %>
-<% end %>
-
 <header class="app-title">
   <%= title email_alert_signup.title, context: "Email alert subscription" %>
 </header>
