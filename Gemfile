@@ -24,6 +24,7 @@ end
 group :test do
   gem "capybara"
   gem "govuk_schemas"
+  gem "simplecov"
   gem "timecop"
   gem "webmock"
 end
