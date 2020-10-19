@@ -38,9 +38,9 @@
           <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
         </p>
         <% if subscription['subscriber_list']['description'].present? %>
-          <%= render "govuk_publishing_components/components/govspeak", {
-            content: raw(Kramdown::Document.new(subscription['subscriber_list']['description']).to_html)
-          } %>
+          <%= render "govuk_publishing_components/components/govspeak", {} do %>
+            <%= raw(Kramdown::Document.new(subscription['subscriber_list']['description']).to_html) %>
+          <% end %>
         <% end %>
         <p class="govuk-body">
           <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
