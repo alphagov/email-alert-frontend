@@ -34,7 +34,7 @@
         id: "email-frequency-input",
         heading: t("subscriptions.new_frequency.question"),
         error_message: flash[:error],
-        items: frequencies(frequency_options(@topic_id)),
+        items: frequencies
       } %>
 
       <%= render "govuk_publishing_components/components/inset_text", {

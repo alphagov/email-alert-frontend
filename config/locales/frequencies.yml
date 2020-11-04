@@ -1,5 +1,5 @@
 en:
   frequencies:
-    immediately: Every time something changes on GOV.UK
-    daily: Once a day, with all the updates made that day (recommended)
+    immediately: Every time something changes on GOV.UK, you may get a lot of emails
+    daily: Once a day, with all the updates made that day
     weekly: Once a week, with all the updates made that week
