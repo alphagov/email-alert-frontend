@@ -4,20 +4,19 @@ module FrequenciesHelper
   end
 
   def frequencies(options = {})
-    t("frequencies").map do |frequency, desc|
-      {
-        value: frequency,
-        text: desc,
-        checked: (options[:checked_frequency] == frequency.to_s),
-      }
-    end
+    [
+      frequency_item("daily", options),
+      frequency_item("weekly", options),
+      :or,
+      frequency_item("immediately", options),
+    ]
   end
 
-  def frequency_options(topic_id)
-    options = {}
-    if topic_id == "coronavirus-covid-19"
-      options[:checked_frequency] = "daily"
-    end
-    options
+  def frequency_item(key, options)
+    {
+      value: key.to_sym,
+      text: t("frequencies.#{key}"),
+      checked: (options[:checked_frequency] == key),
+    }
   end
 end
