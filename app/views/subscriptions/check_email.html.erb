@@ -1,20 +1,29 @@
-<% content_for :back_link do %>
-  <%= render "govuk_publishing_components/components/back_link", {
-      href: @back_url
-  } %>
-<% end %>
-
 <% content_for :title, t("subscriptions.check_email.title") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= tag.h1 t("subscriptions.check_email.title"), class: "govuk-heading-l" %>
+    <h1 class="govuk-heading-l"><%= t("subscriptions.check_email.title") %></h1>
 
-    <%= tag.p t("subscriptions.check_email.description_html", address: @address), class: "govuk-body" %>
-    <%= tag.p t("subscriptions.check_email.instruction"), class: "govuk-body" %>
+    <p class="govuk-body">
+      <%= t("subscriptions.check_email.description_html", address: @address) %>
+    </p>
 
-    <%= render "govuk_publishing_components/components/inset_text", {
-      text: t("subscriptions.check_email.expiry")
-    } %>
+    <p class="govuk-body">
+      <%= t("subscriptions.check_email.instruction") %>
+    </p>
+
+    <p class="govuk-body">
+      <strong><%= @title %></strong>
+    </p>
+
+    <p class="govuk-body">
+      <%= t("subscriptions.check_email.expiry") %>
+    </p>
+
+    <%= render "govuk_publishing_components/components/details", {
+      title: t("subscriptions.check_email.not_received_title"),
+    } do %>
+      <%= t("subscriptions.check_email.not_received_detail_html") %>
+    <% end %>
   </div>
 </div>

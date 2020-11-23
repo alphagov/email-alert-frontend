@@ -34,18 +34,20 @@ class SubscriptionsController < ApplicationController
   def verify
     return frequency_form_redirect unless valid_frequency
 
-    @back_url = url_for(
-      host: Plek.new.website_root,
-      action: :new,
-      topic_id: @topic_id,
-      frequency: @frequency,
-      address: @address,
-    )
-
     if @address.present?
+      @title = GdsApi.email_alert_api
+        .get_subscriber_list(slug: @topic_id)
+        .to_h.dig("subscriber_list", "title")
       VerifySubscriptionEmailService.call(@address, @frequency, @topic_id)
       render :check_email
     else
+      @back_url = url_for(
+        host: Plek.new.website_root,
+        action: :new,
+        topic_id: @topic_id,
+        frequency: @frequency,
+        address: @address,
+      )
       flash.now[:error] = t("subscriptions.new_address.missing_email")
       render :new_address
     end
