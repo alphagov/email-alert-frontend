@@ -27,7 +27,7 @@ RSpec.feature "Subscribe" do
   end
 
   def and_i_choose_a_frequency
-    expect(page).to have_content(I18n.t!("subscriptions.new_frequency.question"))
+    expect(page).to have_content(I18n.t!("subscriptions.new_frequency.title"))
     @frequency = "weekly"
     choose "frequency", option: @frequency, visible: false
     click_on "Continue"

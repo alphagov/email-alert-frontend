@@ -3,9 +3,6 @@ class SubscriptionsController < ApplicationController
   before_action :assign_attributes
 
   def new
-    @title = GdsApi.email_alert_api
-      .get_subscriber_list(slug: @topic_id)
-      .to_h.dig("subscriber_list", "title")
     if @frequency.present?
       return frequency_form_redirect unless valid_frequency
 
