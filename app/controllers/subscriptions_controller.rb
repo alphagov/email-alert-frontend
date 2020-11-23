@@ -33,9 +33,6 @@ class SubscriptionsController < ApplicationController
     return frequency_form_redirect unless valid_frequency
 
     if @address.present?
-      @title = GdsApi.email_alert_api
-        .get_subscriber_list(slug: @topic_id)
-        .to_h.dig("subscriber_list", "title")
       VerifySubscriptionEmailService.call(@address, @frequency, @topic_id)
       render :check_email
     else
@@ -59,7 +56,6 @@ private
       .to_h.fetch("subscriber_list")
     @frequency = subscription_params[:frequency]
     @address = subscription_params[:address]
-    @title = @subscriber_list["title"]
   end
 
   def subscription_params
