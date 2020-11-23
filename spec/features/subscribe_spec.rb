@@ -35,7 +35,7 @@ RSpec.feature "Subscribe" do
 
   def and_i_enter_my_email_address
     expect(back_link_href).to include(new_subscription_path(topic_id: @topic_id))
-    expect(page).to have_content(I18n.t!("subscriptions.new_address.question"))
+    expect(page).to have_content(I18n.t!("subscriptions.new_address.title"))
 
     address = "test@test.com"
     fill_in :address, with: address
