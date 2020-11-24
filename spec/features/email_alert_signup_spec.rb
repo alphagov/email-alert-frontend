@@ -39,7 +39,7 @@ RSpec.feature "Email alert signup" do
       },
     )
 
-    click_on "Create subscription"
+    click_on "Continue"
   end
 
   def then_i_can_subscribe_to_alerts
