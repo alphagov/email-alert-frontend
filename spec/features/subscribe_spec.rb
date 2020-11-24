@@ -27,7 +27,7 @@ RSpec.feature "Subscribe" do
   end
 
   def and_i_choose_a_frequency
-    expect(page).to have_content(I18n.t!("subscriptions.new_frequency.question"))
+    expect(page).to have_content(I18n.t!("subscriptions.new_frequency.title"))
     @frequency = "weekly"
     choose "frequency", option: @frequency, visible: false
     click_on "Continue"
@@ -35,7 +35,7 @@ RSpec.feature "Subscribe" do
 
   def and_i_enter_my_email_address
     expect(back_link_href).to include(new_subscription_path(topic_id: @topic_id))
-    expect(page).to have_content(I18n.t!("subscriptions.new_address.question"))
+    expect(page).to have_content(I18n.t!("subscriptions.new_address.title"))
 
     address = "test@test.com"
     fill_in :address, with: address

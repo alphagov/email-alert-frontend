@@ -4,24 +4,21 @@ en:
       general_problem: "There is a problem"
       required_question: "You must answer this question"
       missing_frequency: "Select how often you want updates"
-      question: How often do you want to receive emails?
-      title: Get emails when pages are added or updated
+      title: How often do you want to get emails?
+      unsubscribe_html: Do you need to <a target="_blank" href="https://www.gov.uk/help/update-email-notifications">unsubscribe from GOV.UK emails</a>?
     new_address:
       general_problem: "We weren’t able to process your subscription"
       email_validation: "There’s a problem with your email address"
       missing_email: "Please enter your email address."
       invalid_email: "This doesn’t look like a valid email address – check you’ve entered it correctly."
       title: Enter your email address
-      description_html: |
-        You’re subscribing to get email notifications about: <br/>
-        <strong>%{title}</strong>.
-      question: "What’s your email address?"
-      summary:
-        immediately: "You’ll get an email every time a page is added or changed."
-        daily: "You’ll get an email each day if a page is added or changed."
-        weekly: "You’ll get one email per week if a page is added or changed."
     check_email:
-      title: Check your email inbox to confirm your subscription
-      description_html: "We’ve sent an email to: <strong>‘%{address}’</strong>"
-      instruction: Use the link in the email to confirm your subscription.
-      expiry: You have 7 days to confirm.
+      title: Check your email
+      description_html: "We’ve sent an email to <strong>%{address}</strong>"
+      instruction: "Click the link in the email to confirm you want emails from GOV.UK about:"
+      expiry: The link will stop working after 7 days.
+      not_received_title: Not received an email?
+      not_received_detail_html: |
+        <p>Emails sometimes take a few minutes to arrive.</p>
+        <p>If you do not receive an email soon, check your spam or junk folder.</p>
+        <p>If this does not work, <a target="_blank" href="https://www.gov.uk/contact/govuk">contact GOV.UK</a> for help.</p>
