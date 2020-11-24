@@ -7,7 +7,6 @@ class ContentItemSignupsController < ApplicationController
   before_action :require_content_item_param
   before_action :handle_redirects
   before_action :validate_document_type
-  helper_method :weekly_email_volume_estimate
 
   def new
     @subscription = ContentItemSubscriptionPresenter.new(@content_item)
@@ -80,9 +79,5 @@ private
     unless PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
       bad_request
     end
-  end
-
-  def weekly_email_volume_estimate
-    EmailVolume::WeeklyEmailVolume.new(content_item).estimate
   end
 end
