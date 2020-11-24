@@ -81,11 +81,7 @@ RSpec.feature "Content item signup" do
       "subscription_url" => @subscriber_list_url,
     )
 
-    # Based on the position of this taxon in the taxonomy:
-    expect(page).to have_content("There might be 0 to 20 changes a week")
-    expect(page).to have_content("You can choose how often you want to receive emails.")
-
-    click_on "Sign up"
+    click_on "Continue"
   end
 
   def then_i_can_subscribe_to_alerts

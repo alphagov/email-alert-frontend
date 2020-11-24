@@ -1,0 +1,5 @@
+en:
+  content_item_signups:
+    confirm:
+      title: Get emails from GOV.UK
+      description: "You’ll get emails when we add or update pages about:"

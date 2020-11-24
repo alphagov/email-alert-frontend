@@ -1,5 +1,4 @@
-<% page_heading = "Sign up to get emails" %>
-<% content_for :title, page_heading + ' - ' + @subscription.title %>
+<% content_for :title, t("content_item_signups.confirm.title") %>
 
 <% if live_content_item?(@content_item) %>
   <% content_for :back_link do %>
@@ -12,30 +11,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l"><%= page_heading %></h1>
+    <h1 class="govuk-heading-l"><%= t("content_item_signups.confirm.title") %></h1>
 
     <p class="govuk-body">
-      Get emails when information changes on GOV.UK about: <%= @subscription.title %>.
+      <%= t("content_item_signups.confirm.description") %>
     </p>
 
-    <% if @subscription.description.present? %>
-      <p class="govuk-body"><%= @subscription.description %></p>
-    <% end %>
-
-    <% if weekly_email_volume_estimate %>
-      <p class="govuk-body">
-        There might be <%= weekly_email_volume_estimate %> changes a week.
-      </p>
-  <% end %>
-
-    <p class="govuk-body">
-      You can choose how often you want to receive emails.
+    <p class="govuk-body govuk-!-margin-bottom-8">
+      <strong><%= @subscription.title %></strong>
     </p>
 
     <%= form_tag(action: :create) do %>
       <%= hidden_field_tag 'link', @content_item['base_path'] %>
       <%= render 'govuk_publishing_components/components/button', {
-        text: 'Sign up',
+        text: 'Continue',
         margin_bottom: true,
         data_attributes: {
           module: 'track-click',
