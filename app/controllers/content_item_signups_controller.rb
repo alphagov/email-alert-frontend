@@ -19,9 +19,7 @@ class ContentItemSignupsController < ApplicationController
     end
   end
 
-  def confirm
-    @subscription = ContentItemSubscriptionPresenter.new(content_item)
-  end
+  def confirm; end
 
   def create
     if content_item.to_h.present?

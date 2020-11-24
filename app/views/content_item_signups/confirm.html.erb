@@ -18,7 +18,7 @@
     </p>
 
     <p class="govuk-body govuk-!-margin-bottom-8">
-      <strong><%= @subscription.title %></strong>
+      <strong><%= @content_item['title'] %></strong>
     </p>
 
     <%= form_tag(action: :create) do %>
@@ -30,7 +30,7 @@
           module: 'track-click',
           track_category: 'email_subscriptions',
           track_action: 'new_frequency',
-          track_label: @subscription.title,
+          track_label: @content_item['title'],
         },
       } %>
     <% end %>
