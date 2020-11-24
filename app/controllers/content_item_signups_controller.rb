@@ -3,16 +3,16 @@
 # This is in contrast to EmailAlertSignupsController, which takes a
 # finder_email_signup content item.
 class ContentItemSignupsController < ApplicationController
+  include TaxonsHelper
+
   protect_from_forgery except: [:create]
   before_action :require_content_item_param
   before_action :handle_redirects
   before_action :validate_document_type
 
   def new
-    @subscription = ContentItemSubscriptionPresenter.new(@content_item)
-
-    if @subscription.child_taxons.present?
-      render "new"
+    if is_taxon?(@content_item) && taxon_children(@content_item).any?
+      render "taxon"
     else
       render "confirm"
     end

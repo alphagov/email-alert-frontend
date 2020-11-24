@@ -1,4 +1,4 @@
-<% content_for :title, t("content_item_signups.new.title") %>
+<% content_for :title, t("content_item_signups.taxon.title") %>
 
 <% if live_content_item?(@content_item) %>
   <% content_for :back_link do %>
@@ -11,7 +11,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l"><%= t("content_item_signups.new.title") %></h1>
+    <h1 class="govuk-heading-l"><%= t("content_item_signups.taxon.title") %></h1>
 
     <%= form_tag({ action: :confirm },
                  method: "get",
@@ -22,7 +22,7 @@
                  }) do %>
 
       <%
-         radio_items = @subscription.child_taxons.map do |taxon|
+         radio_items = taxon_children(@content_item).map do |taxon|
            { :value => taxon['base_path'], :text => taxon['title'] }
          end
       %>
