@@ -1,5 +1,4 @@
-<% page_heading = "What do you want to get alerts about?" %>
-<% content_for :title, page_heading + ' - ' + @content_item['title'] %>
+<% content_for :title, t("content_item_signups.new.title") %>
 
 <% if live_content_item?(@content_item) %>
   <% content_for :back_link do %>
@@ -12,7 +11,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l"><%= page_heading %></h1>
+    <h1 class="govuk-heading-l"><%= t("content_item_signups.new.title") %></h1>
 
     <%= form_tag({ action: :confirm },
                  method: "get",
@@ -22,32 +21,27 @@
                    track_category: "email_subscriptions",
                  }) do %>
 
+      <%
+         radio_items = @subscription.child_taxons.map do |taxon|
+           { :value => taxon['base_path'], :text => taxon['title'] }
+         end
+      %>
 
       <%= render "govuk_publishing_components/components/radio", {
         name: "topic",
-        heading: "Everything published to GOV.UK about",
-        id_prefix: "all",
-        items: [{
-          value: @content_item['base_path'],
-          text: @content_item['title'],
-          checked: true,
-          conditional: '<p class="govuk-body">This will include alerts about all the topics below</p>'.html_safe
-        }]
-      } %>
-
-      <%= render "govuk_publishing_components/components/radio", {
-        name: "topic",
-        heading: "One of the following #{@subscription.child_taxons.count} sub-topics",
-        id_prefix: "topics",
-        items: @subscription.child_taxons.each.map { |taxon| {
-          :value => taxon['base_path'],
-          :text => taxon['title'],
-          :conditional => taxon['description'].present? ? ('<p class="govuk-body">This will include: ' + taxon['description'] + '</p>').html_safe : nil
-        } }
+        id_prefix: "topic",
+        items: radio_items + [
+          :or,
+          {
+            value: @content_item['base_path'],
+            text: "#{@content_item['title']} (all topics)",
+            checked: true,
+          }
+        ]
       } %>
 
       <%= render "govuk_publishing_components/components/button", {
-        text: "Select",
+        text: "Continue",
         margin_bottom: true
       } %>
     <% end %>
