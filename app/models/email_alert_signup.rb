@@ -38,10 +38,6 @@ class EmailAlertSignup
     details["govdelivery_title"]
   end
 
-  def summary
-    details["summary"]
-  end
-
 private
 
   attr_reader :signup_page, :base_path

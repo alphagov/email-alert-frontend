@@ -1,0 +1,49 @@
+<% content_for :title, t("content_item_signups.taxon.title") %>
+
+<% if live_content_item?(@content_item) %>
+  <% content_for :back_link do %>
+    <%= render "govuk_publishing_components/components/back_link", {
+      href: @content_item['base_path']
+    } %>
+  <% end %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l"><%= t("content_item_signups.taxon.title") %></h1>
+
+    <%= form_tag({ action: :confirm },
+                 method: "get",
+                 data: {
+                   module: "track-email-alert-signup-choices",
+                   track_action: "new_topic",
+                   track_category: "email_subscriptions",
+                 }) do %>
+
+      <%
+         radio_items = taxon_children(@content_item).map do |taxon|
+           { :value => taxon['base_path'], :text => taxon['title'] }
+         end
+      %>
+
+      <%= render "govuk_publishing_components/components/radio", {
+        name: "topic",
+        id_prefix: "topic",
+        items: radio_items + [
+          :or,
+          {
+            value: @content_item['base_path'],
+            text: "#{@content_item['title']} (all topics)",
+            checked: true,
+          }
+        ]
+      } %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Continue",
+        margin_bottom: true
+      } %>
+    <% end %>
+  </div>
+</div>

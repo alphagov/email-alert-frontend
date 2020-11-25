@@ -1,14 +1,23 @@
-<% content_for :title, email_alert_signup.title %>
-<% content_for :meta_description, email_alert_signup.summary %>
+<% content_for :title, t("email_alert_signups.new.title") %>
 
-<header class="app-title">
-  <%= title email_alert_signup.title, context: "Email alert subscription" %>
-</header>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
-<%= form_for email_alert_signup, html: { class: "signup-form" } do |form| %>
-  <p class="govuk-body"><%= email_alert_signup.summary %></p>
+    <h1 class="govuk-heading-l"><%= t("email_alert_signups.new.title") %></h1>
 
-  <%= render "govuk_publishing_components/components/button", {
-    text: "Create subscription"
-  } %>
-<% end %>
+    <p class="govuk-body">
+      <%= t("email_alert_signups.new.description") %>
+    </p>
+
+    <p class="govuk-body govuk-!-margin-bottom-8">
+      <strong><%= email_alert_signup.title %></strong>
+    </p>
+
+    <%= form_tag(action: :create) do %>
+      <%= render "govuk_publishing_components/components/button", {
+        text: "Continue",
+        margin_bottom: true,
+      } %>
+    <% end %>
+  </div>
+</div>

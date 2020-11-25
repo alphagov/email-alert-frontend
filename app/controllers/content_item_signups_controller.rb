@@ -3,25 +3,22 @@
 # This is in contrast to EmailAlertSignupsController, which takes a
 # finder_email_signup content item.
 class ContentItemSignupsController < ApplicationController
+  include TaxonsHelper
+
   protect_from_forgery except: [:create]
-  before_action :require_content_item_param
+  before_action :validate_base_path
   before_action :handle_redirects
   before_action :validate_document_type
-  helper_method :weekly_email_volume_estimate
 
   def new
-    @subscription = ContentItemSubscriptionPresenter.new(@content_item)
-
-    if @subscription.child_taxons.present?
-      render "new"
+    if is_taxon?(@content_item) && taxon_children(@content_item).any?
+      render "taxon"
     else
       render "confirm"
     end
   end
 
-  def confirm
-    @subscription = ContentItemSubscriptionPresenter.new(content_item)
-  end
+  def confirm; end
 
   def create
     if content_item.to_h.present?
@@ -42,18 +39,6 @@ private
                                topical_event
                                service_manual_topic
                                service_manual_service_standard].freeze
-
-  def require_content_item_param
-    unless valid_content_item_param?
-      bad_request
-    end
-  end
-
-  def valid_content_item_param?
-    content_item_path.to_s.starts_with?("/") && URI.parse(content_item_path).relative?
-  rescue URI::InvalidURIError
-    false
-  end
 
   def content_item_path
     # Topic param left in for backwards compatibility.
@@ -78,13 +63,18 @@ private
     end
   end
 
+  def validate_base_path
+    return if content_item_path.to_s.starts_with?("/") &&
+      URI.parse(content_item_path).relative?
+
+    bad_request
+  rescue URI::InvalidURIError
+    bad_request
+  end
+
   def validate_document_type
     unless PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
       bad_request
     end
-  end
-
-  def weekly_email_volume_estimate
-    EmailVolume::WeeklyEmailVolume.new(content_item).estimate
   end
 end
