@@ -6,10 +6,8 @@ class SubscriptionsController < ApplicationController
     if @frequency.present?
       return frequency_form_redirect unless valid_frequency
 
-      @back_url = new_subscription_path(topic_id: @topic_id)
       render :new_address
     else
-      @back_url = govuk_url
       render :new_frequency
     end
   end
@@ -24,7 +22,6 @@ class SubscriptionsController < ApplicationController
       )
     else
       flash.now[:error] = t("subscriptions.new_frequency.missing_frequency")
-      @back_url = new_subscription_path(topic_id: @topic_id)
       render :new_frequency
     end
   end
@@ -36,7 +33,6 @@ class SubscriptionsController < ApplicationController
       VerifySubscriptionEmailService.call(@address, @frequency, @topic_id)
       render :check_email
     else
-      @back_url = new_subscription_path(topic_id: @topic_id, frequency: @frequency, address: @address)
       flash.now[:error] = t("subscriptions.new_address.missing_email")
       render :new_address
     end
@@ -68,20 +64,5 @@ private
 
   def frequency_form_redirect
     redirect_to new_subscription_path(topic_id: @topic_id)
-  end
-
-  def govuk_url
-    referer = request.referer
-
-    if referer && referer.exclude?("/email/subscriptions")
-      referer_uri = URI(referer)
-      sanitised_referer_uri = Plek.new.website_uri
-      sanitised_referer_uri.path = referer_uri.path
-      sanitised_referer_uri.query = referer_uri.query
-      sanitised_referer_uri.fragment = referer_uri.fragment
-      sanitised_referer_uri.to_s
-    else
-      Plek.new.website_root
-    end
   end
 end
