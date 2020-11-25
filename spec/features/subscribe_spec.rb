@@ -34,7 +34,6 @@ RSpec.feature "Subscribe" do
   end
 
   def and_i_enter_my_email_address
-    expect(back_link_href).to include(new_subscription_path(topic_id: @topic_id))
     expect(page).to have_content(I18n.t!("subscriptions.new_address.title"))
 
     address = "test@test.com"
@@ -52,9 +51,5 @@ RSpec.feature "Subscribe" do
   def then_i_should_receive_an_opt_in_email
     expect(@request).to have_been_requested
     expect(page).to have_content(I18n.t!("subscriptions.check_email.title"))
-  end
-
-  def back_link_href
-    page.find("a", text: "Back")[:href]
   end
 end
