@@ -1,4 +1,6 @@
 class ContentItemSubscriberList
+  include Rails.application.routes.url_helpers
+
   def initialize(content_item)
     @content_item = content_item
 
@@ -7,7 +9,8 @@ class ContentItemSubscriberList
   end
 
   def subscription_management_url
-    subscriber_list.dig("subscriber_list", "subscription_url")
+    slug = subscriber_list.dig("subscriber_list", "slug")
+    new_subscription_path(topic_id: slug)
   end
 
 private

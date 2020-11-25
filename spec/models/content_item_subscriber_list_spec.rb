@@ -14,13 +14,13 @@ RSpec.describe ContentItemSubscriberList do
 
       allow(mock_email_alert_api)
         .to receive(:find_or_create_subscriber_list)
-        .and_return("subscriber_list" => { "subscription_url" => "/something" })
+        .and_return("subscriber_list" => { "slug" => "something" })
     end
 
     it "creates a subscriber list for taxons" do
       content_item.merge!("document_type" => "taxon")
       signup = described_class.new(content_item)
-      expect(signup.subscription_management_url).to eq "/something"
+      expect(signup.subscription_management_url).to eq "/email/subscriptions/new?topic_id=something"
 
       expect(mock_email_alert_api)
         .to have_received(:find_or_create_subscriber_list)
