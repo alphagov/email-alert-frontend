@@ -1,9 +1,9 @@
-class ContentItemSubscriberList
+class GenerateSubscriberListParamsService < ApplicationService
   def initialize(content_item)
     @content_item = content_item
   end
 
-  def params
+  def call
     {
       "title" => content_item["title"],
       "links" => link_hash,

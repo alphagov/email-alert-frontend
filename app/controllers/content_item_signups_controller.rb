@@ -63,8 +63,8 @@ private
   end
 
   def assign_list_params
-    @list_params = ContentItemSubscriberList.new(content_item.to_h).params
-  rescue ContentItemSubscriberList::UnsupportedContentItemError
+    @list_params = GenerateSubscriberListParamsService.call(content_item.to_h)
+  rescue GenerateSubscriberListParamsService::UnsupportedContentItemError
     bad_request
   end
 end
