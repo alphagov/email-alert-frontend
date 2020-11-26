@@ -31,15 +31,12 @@ class ContentItemSignupsController < ApplicationController
 private
 
   def handle_redirects
-    if @content_item["document_type"] == "redirect"
-      destination_path = @content_item.dig("redirects", 0, "destination")
-      if destination_path.nil?
-        redirect_to("/")
-      else
-        redirect_to(new_content_item_signup_path(topic: destination_path))
-      end
-      false
-    end
+    return unless @content_item["document_type"] == "redirect"
+
+    destination_path = @content_item.dig("redirects", 0, "destination")
+    return error_not_found if destination_path.nil?
+
+    redirect_to(new_content_item_signup_path(topic: destination_path))
   end
 
   def assign_content_item

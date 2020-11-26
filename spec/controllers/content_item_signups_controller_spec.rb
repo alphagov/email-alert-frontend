@@ -15,7 +15,7 @@ RSpec.describe ContentItemSignupsController do
       expect(response).to have_http_status(:found)
       expect(response.location).to eq "http://test.host/email-signup?topic=%2Fcleaning%2Fbroomsticks"
     end
-    it "redirects to the homepage if there is no destination path" do
+    it "returns not found if there is no destination path" do
       stub_content_store_has_item(
         "/magical/broomsticks",
         document_type: "redirect",
@@ -23,9 +23,7 @@ RSpec.describe ContentItemSignupsController do
       )
 
       get :new, params: { topic: "/magical/broomsticks" }
-
-      expect(response).to have_http_status(:found)
-      expect(response.location).to eq "http://test.host/"
+      expect(response).to have_http_status(:not_found)
     end
   end
 
