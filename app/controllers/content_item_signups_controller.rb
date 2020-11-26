@@ -21,12 +21,8 @@ class ContentItemSignupsController < ApplicationController
   def confirm; end
 
   def create
-    if content_item.to_h.present?
-      signup = ContentItemSubscriberList.new(content_item.to_h)
-      redirect_to signup.subscription_management_url
-    else
-      redirect_to confirm_content_item_signup_path(link: content_item_path)
-    end
+    signup = ContentItemSubscriberList.new(content_item.to_h)
+    redirect_to signup.subscription_management_url
   end
 
 private
