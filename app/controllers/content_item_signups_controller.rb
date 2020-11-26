@@ -8,7 +8,7 @@ class ContentItemSignupsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :validate_base_path
   before_action :handle_redirects
-  before_action :validate_document_type
+  before_action :assign_list_params
 
   def new
     if is_taxon?(@content_item) && taxon_children(@content_item).any?
@@ -21,20 +21,14 @@ class ContentItemSignupsController < ApplicationController
   def confirm; end
 
   def create
-    signup = ContentItemSubscriberList.new(content_item.to_h)
-    redirect_to signup.subscription_management_url
+    slug = GdsApi.email_alert_api
+                 .find_or_create_subscriber_list(@list_params)
+                 .dig("subscriber_list", "slug")
+
+    redirect_to new_subscription_path(topic_id: slug)
   end
 
 private
-
-  PERMITTED_CONTENT_ITEMS = %w[taxon
-                               organisation
-                               ministerial_role
-                               person
-                               topic
-                               topical_event
-                               service_manual_topic
-                               service_manual_service_standard].freeze
 
   def content_item_path
     # Topic param left in for backwards compatibility.
@@ -68,9 +62,9 @@ private
     bad_request
   end
 
-  def validate_document_type
-    unless PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
-      bad_request
-    end
+  def assign_list_params
+    @list_params = ContentItemSubscriberList.new(content_item.to_h).params
+  rescue ContentItemSubscriberList::UnsupportedContentItemError
+    bad_request
   end
 end

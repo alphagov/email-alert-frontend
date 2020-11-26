@@ -1,30 +1,20 @@
 class ContentItemSubscriberList
-  include Rails.application.routes.url_helpers
-
   def initialize(content_item)
     @content_item = content_item
-
-    @subscriber_list = GdsApi.email_alert_api
-      .find_or_create_subscriber_list(subscription_params)
   end
 
-  def subscription_management_url
-    slug = subscriber_list.dig("subscriber_list", "slug")
-    new_subscription_path(topic_id: slug)
-  end
-
-private
-
-  attr_reader :content_item, :subscriber_list
-
-  class UnsupportedContentItemError < StandardError; end
-
-  def subscription_params
+  def params
     {
       "title" => content_item["title"],
       "links" => link_hash,
     }
   end
+
+private
+
+  attr_reader :content_item
+
+  class UnsupportedContentItemError < StandardError; end
 
   def link_hash
     case content_item_type
