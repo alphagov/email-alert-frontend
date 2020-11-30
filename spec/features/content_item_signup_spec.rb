@@ -1,88 +1,72 @@
 RSpec.feature "Content item signup" do
-  include GovukContentSchemaExamples
+  include GdsApi::TestHelpers::ContentStore
   include GdsApi::TestHelpers::EmailAlertApi
 
-  scenario do
+  scenario "generic content item" do
+    given_there_is_an_organisation
+    when_i_visit_the_signup_page
+    and_i_click_to_signup_to_alerts
+    then_i_can_subscribe_to_alerts
+  end
+
+  scenario "taxon with children" do
     given_there_is_a_topic
-    when_i_visit_the_topic_signup_page
+    when_i_visit_the_signup_page
     and_i_refine_my_selection
     and_i_click_to_signup_to_alerts
     then_i_can_subscribe_to_alerts
   end
 
   def given_there_is_a_topic
-    @taxon = {
-      content_id: "taxon-uuid",
+    @links_type = "taxon_tree"
+    @content_item = {
       base_path: "/education/further-education",
       title: "Further education",
       document_type: "taxon",
-      phrase: "live",
       links: {
-        parent_taxons: [
-          {
-            base_path: "/education",
-            title: "Education",
-            description: "Education content",
-            links: {},
-          },
-        ],
-        child_taxons: [
-          {
-            base_path: "/education/funding",
-            title: "Funding",
-            links: {
-              parent_taxons: [
-                {
-                  base_path: "/education/further-education",
-                  title: "Further education",
-                  links: {},
-                },
-              ],
-            },
-          },
-        ],
+        child_taxons: [{ title: "Funding" }],
       },
     }
 
-    stub_content_store_has_item(@taxon[:base_path], @taxon)
-
-    stub_content_store_has_item(
-      @taxon.dig(:links, :parent_taxons).first[:base_path],
-      @taxon.dig(:links, :parent_taxons).first,
-    )
+    stub_content_store_has_item(@content_item[:base_path], @content_item)
   end
 
-  def when_i_visit_the_topic_signup_page
-    stub_email_alert_api_has_subscriber_list_by_slug(
-      slug: @taxon[:base_path],
-      returned_attributes: {
-        "title" => @taxon[:title],
-      },
-    )
+  def given_there_is_an_organisation
+    @links_type = "organisations"
+    @content_item = {
+      title: "Organisation",
+      base_path: "/my-organisation",
+      document_type: "organisation",
+    }
 
-    visit new_content_item_signup_path(topic: @taxon[:base_path])
-    expect(page).to have_content(@taxon[:title])
-    expect(page).to have_checked_field("topic-2")
-    expect(page).to have_content(@taxon.dig(:links, :child_taxons).first[:title])
+    stub_content_store_has_item(@content_item[:base_path], @content_item)
+  end
+
+  def when_i_visit_the_signup_page
+    visit new_content_item_signup_path(topic: @content_item[:base_path])
+    expect(page).to have_content(@content_item[:title])
   end
 
   def and_i_refine_my_selection
-    choose @taxon[:title]
+    expect(page).to have_checked_field("topic-2")
+    expect(page).to have_content(@content_item.dig(:links, :child_taxons).first[:title])
+
+    choose @content_item[:title]
     click_button "Continue"
   end
 
   def and_i_click_to_signup_to_alerts
     stub_email_alert_api_has_subscriber_list(
-      "links" => { "taxon_tree" => [@taxon[:content_id]] },
-      "id" => @taxon[:base_path],
-      "slug" => @taxon[:base_path],
+      "links" => { @links_type => [@content_item[:content_id]] },
+      "slug" => "my-list",
     )
 
+    stub_email_alert_api_has_subscriber_list_by_slug(slug: "my-list", returned_attributes: {})
     click_on "Continue"
   end
 
   def then_i_can_subscribe_to_alerts
-    expected_path = new_subscription_path(topic_id: @taxon[:base_path])
+    expected_path = new_subscription_path(topic_id: "my-list")
     expect(page).to have_current_path(expected_path)
   end
 end
