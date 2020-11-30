@@ -1,5 +1,6 @@
 RSpec.describe ContentItemSignupsController do
   include GdsApi::TestHelpers::ContentStore
+  include GdsApi::TestHelpers::EmailAlertApi
 
   shared_examples "router for redirects" do
     it "follows a redirect for an unpublished content item" do
@@ -102,5 +103,26 @@ RSpec.describe ContentItemSignupsController do
     it_behaves_like "proxy to content store"
     it_behaves_like "router for redirects"
     it_behaves_like "limited to certain types"
+
+    it "creates a subscriber list for the content" do
+      content_id = SecureRandom.uuid
+      stub_content_store_has_item("/my-organisation", document_type: "organisation", content_id: content_id)
+
+      stub_email_alert_api_does_not_have_subscriber_list("links" => { organisations: [content_id] })
+      stub_email_alert_api_creates_subscriber_list("links" => { organisations: [content_id] }, "slug" => "my-list")
+
+      make_request(topic: "/my-organisation")
+      expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
+    end
+
+    it "uses an existing list if there is one" do
+      content_id = SecureRandom.uuid
+      stub_content_store_has_item("/my-organisation", document_type: "organisation", content_id: content_id)
+
+      stub_email_alert_api_has_subscriber_list("links" => { organisations: [content_id] }, "slug" => "my-list")
+
+      make_request(topic: "/my-organisation")
+      expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
+    end
   end
 end
