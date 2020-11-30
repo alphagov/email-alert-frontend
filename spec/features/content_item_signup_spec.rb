@@ -72,19 +72,17 @@ RSpec.feature "Content item signup" do
   end
 
   def and_i_click_to_signup_to_alerts
-    subscriber_list_id = @taxon[:base_path]
-    @subscriber_list_url = new_subscription_path(topic_id: subscriber_list_id)
-
     stub_email_alert_api_has_subscriber_list(
       "links" => { "taxon_tree" => [@taxon[:content_id]] },
       "id" => @taxon[:base_path],
-      "subscription_url" => @subscriber_list_url,
+      "slug" => @taxon[:base_path],
     )
 
     click_on "Continue"
   end
 
   def then_i_can_subscribe_to_alerts
-    expect(page).to have_current_path(@subscriber_list_url)
+    expected_path = new_subscription_path(topic_id: @taxon[:base_path])
+    expect(page).to have_current_path(expected_path)
   end
 end

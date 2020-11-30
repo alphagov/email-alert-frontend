@@ -6,9 +6,9 @@ class ContentItemSignupsController < ApplicationController
   include TaxonsHelper
 
   protect_from_forgery except: [:create]
-  before_action :validate_base_path
+  before_action :assign_content_item
   before_action :handle_redirects
-  before_action :validate_document_type
+  before_action :assign_list_params
 
   def new
     if is_taxon?(@content_item) && taxon_children(@content_item).any?
@@ -21,60 +21,41 @@ class ContentItemSignupsController < ApplicationController
   def confirm; end
 
   def create
-    if content_item.to_h.present?
-      signup = ContentItemSubscriberList.new(content_item.to_h)
-      redirect_to signup.subscription_management_url
-    else
-      redirect_to confirm_content_item_signup_path(link: content_item_path)
-    end
+    slug = GdsApi.email_alert_api
+                 .find_or_create_subscriber_list(@list_params)
+                 .dig("subscriber_list", "slug")
+
+    redirect_to new_subscription_path(topic_id: slug)
   end
 
 private
 
-  PERMITTED_CONTENT_ITEMS = %w[taxon
-                               organisation
-                               ministerial_role
-                               person
-                               topic
-                               topical_event
-                               service_manual_topic
-                               service_manual_service_standard].freeze
+  def handle_redirects
+    return unless @content_item["document_type"] == "redirect"
 
-  def content_item_path
+    destination_path = @content_item.dig("redirects", 0, "destination")
+    return error_not_found if destination_path.nil?
+
+    redirect_to(new_content_item_signup_path(topic: destination_path))
+  end
+
+  def assign_content_item
     # Topic param left in for backwards compatibility.
     # Topic is the user-facing terminology for taxons. Expect the taxon base
     # path to be provided in a param of this name.
-    params[:link] || params[:topic]
-  end
+    content_item_path = params[:link] || params[:topic]
 
-  def content_item
+    return bad_request unless content_item_path.to_s.starts_with?("/")
+    return bad_request unless URI.parse(content_item_path).relative?
+
     @content_item ||= GdsApi.content_store.content_item(content_item_path)
-  end
-
-  def handle_redirects
-    if content_item["document_type"] == "redirect"
-      destination_path = content_item.dig("redirects", 0, "destination")
-      if destination_path.nil?
-        redirect_to("/")
-      else
-        redirect_to(new_content_item_signup_path(topic: destination_path))
-      end
-      false
-    end
-  end
-
-  def validate_base_path
-    return if content_item_path.to_s.starts_with?("/") &&
-      URI.parse(content_item_path).relative?
-
-    bad_request
   rescue URI::InvalidURIError
     bad_request
   end
 
-  def validate_document_type
-    unless PERMITTED_CONTENT_ITEMS.include?(content_item["document_type"])
-      bad_request
-    end
+  def assign_list_params
+    @list_params = GenerateSubscriberListParamsService.call(@content_item.to_h)
+  rescue GenerateSubscriberListParamsService::UnsupportedContentItemError
+    bad_request
   end
 end
