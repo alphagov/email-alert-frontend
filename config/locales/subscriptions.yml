@@ -5,7 +5,7 @@ en:
       required_question: "You must answer this question"
       missing_frequency: "Select how often you want updates"
       title: How often do you want to get emails?
-      unsubscribe_html: Do you need to <a target="_blank" href="https://www.gov.uk/help/update-email-notifications">unsubscribe from GOV.UK emails</a>?
+      unsubscribe_html: Do you need to <a class="govuk-link" href="https://www.gov.uk/help/update-email-notifications">unsubscribe from GOV.UK emails</a>?
     new_address:
       general_problem: "We weren’t able to process your subscription"
       email_validation: "There’s a problem with your email address"
@@ -21,4 +21,4 @@ en:
       not_received_detail_html: |
         <p>Emails sometimes take a few minutes to arrive.</p>
         <p>If you do not receive an email soon, check your spam or junk folder.</p>
-        <p>If this does not work, <a target="_blank" href="https://www.gov.uk/contact/govuk">contact GOV.UK</a> for help.</p>
+        <p>If this does not work, <a class="govuk-link" href="https://www.gov.uk/contact/govuk">contact GOV.UK</a> for help.</p>
