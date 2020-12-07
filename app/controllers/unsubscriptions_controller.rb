@@ -3,7 +3,7 @@ class UnsubscriptionsController < ApplicationController
   before_action :check_is_latest, only: %i[confirm]
 
   def confirm
-    if subscription_ended?(@subscription)
+    if @subscription["ended_at"].present?
       render :confirm_already_unsubscribed
     else
       render :confirm
@@ -32,8 +32,8 @@ private
 
   def set_attributes
     @id = params.require(:id)
-    @subscription = GdsApi.email_alert_api.get_subscription(@id)
-    @title = @subscription.dig("subscription", "subscriber_list", "title")
+    @subscription = GdsApi.email_alert_api.get_subscription(@id).dig("subscription")
+    @title = @subscription.dig("subscriber_list", "title")
   end
 
   def check_is_latest
@@ -42,12 +42,8 @@ private
       .get_latest_matching_subscription(@id)
       .dig("subscription", "id")
 
-    return if latest_subscription_id == @subscription.dig("subscription", "id")
+    return if latest_subscription_id == @subscription["id"]
 
     redirect_to confirm_unsubscribe_path(latest_subscription_id)
-  end
-
-  def subscription_ended?(subscription)
-    subscription.dig("subscription", "ended_at").present?
   end
 end
