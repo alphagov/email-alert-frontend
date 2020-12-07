@@ -17,28 +17,12 @@ RSpec.describe UnsubscriptionsController do
   describe "GET /email/unsubscribe/:id" do
     it "responds with a 200" do
       get :confirm, params: { id: id }
-
       expect(response).to have_http_status(:ok)
     end
 
     it "sets the Cache-Control header to 'private, no-cache'" do
       get :confirm, params: { id: id }
-
       expect(response.headers["Cache-Control"]).to eq("private, no-cache")
-    end
-
-    it "renders a form" do
-      get :confirm, params: { id: id }
-
-      expect(response.body).to include(%(action="/email/unsubscribe/#{id}"))
-    end
-
-    it "renders the title on the page" do
-      get :confirm, params: { id: id }
-
-      expect(response.body).to include(
-        I18n.t!("unsubscriptions.confirmation.with_title", title: title),
-      )
     end
 
     context "when the subscription has already ended" do
@@ -50,12 +34,11 @@ RSpec.describe UnsubscriptionsController do
 
       it "show a message saying subscription has ended" do
         get :confirm, params: { id: id }
-
         expect(response.body).to include("You’ve already unsubscribed from VAT Rates")
       end
     end
 
-    context "when the user has unsubscribed and resubscribed, then clicked 'Unsubscribe' from their previous subscription" do
+    context "when the user has modified their subscription" do
       let(:original_subscription_id) { SecureRandom.uuid }
       let(:latest_subscription_id) { SecureRandom.uuid }
 
@@ -76,59 +59,7 @@ RSpec.describe UnsubscriptionsController do
 
       it "redirects to the latest subscription" do
         get :confirm, params: { id: original_subscription_id }
-
-        expect(response).to have_http_status(:found)
-        expect(response.headers["Location"]).to end_with("/email/unsubscribe/#{latest_subscription_id}")
-      end
-    end
-
-    context "when the user has changed their frequency, then clicked 'Unsubscribe' from their previous subscription" do
-      let(:original_subscription_id) { SecureRandom.uuid }
-      let(:latest_subscription_id) { SecureRandom.uuid }
-
-      before do
-        stub_email_alert_api_has_subscriptions([
-          {
-            id: original_subscription_id,
-            frequency: "immediately",
-            ended: true,
-          },
-          {
-            id: latest_subscription_id,
-            frequency: "daily",
-            ended: false,
-          },
-        ])
-      end
-
-      it "redirects to the latest subscription" do
-        get :confirm, params: { id: original_subscription_id }
-
-        expect(response).to have_http_status(:found)
-        expect(response.headers["Location"]).to end_with("/email/unsubscribe/#{latest_subscription_id}")
-      end
-    end
-
-    context "when a user is authenticated" do
-      let(:session) do
-        { "authentication" => { "subscriber_id" => 1 } }
-      end
-
-      it "shows a cancel button" do
-        get :confirm, params: { id: id }, session: session
-
-        expect(response.body).to have_link("Cancel", href: list_subscriptions_path)
-      end
-    end
-
-    context "when a user is authenticated but not to the list this is from" do
-      let(:session) do
-        { "authenticated" => { "subscriber_id" => 2 } }
-      end
-
-      it "doesn't show a cancel button" do
-        get :confirm, params: { id: id }, session: session
-        expect(response.body).not_to include("Cancel")
+        expect(response).to redirect_to(confirm_unsubscribe_path(latest_subscription_id))
       end
     end
   end
@@ -136,13 +67,11 @@ RSpec.describe UnsubscriptionsController do
   describe "POST /email/unsubscribe/:id" do
     it "responds with a 200" do
       post :confirmed, params: { id: id }
-
       expect(response).to have_http_status(:ok)
     end
 
     it "sets the Cache-Control header to 'private, no-cache'" do
       post :confirmed, params: { id: id }
-
       expect(response.headers["Cache-Control"]).to eq("private, no-cache")
     end
 
@@ -156,7 +85,6 @@ RSpec.describe UnsubscriptionsController do
 
     it "sends an unsubscribe request to email-alert-api" do
       post :confirmed, params: { id: id }
-
       assert_unsubscribed(id)
     end
 
@@ -187,18 +115,6 @@ RSpec.describe UnsubscriptionsController do
       it "sets a flash to confirm" do
         post :confirmed, params: { id: id }, session: session
         expect(flash[:success][:message]).to eq("You have been unsubscribed from ‘#{title}’")
-        expect(flash[:success][:description]).to eq("It can take up to an hour for this change to take effect.")
-      end
-    end
-
-    context "when a user is authenticated but not to the list this is from" do
-      let(:session) do
-        { "authenticated" => { "subscriber_id" => subscriber_id + 1 } }
-      end
-
-      it "doesn't redirect" do
-        post :confirmed, params: { id: id }, session: session
-        expect(response).to have_http_status(:ok)
       end
     end
   end
