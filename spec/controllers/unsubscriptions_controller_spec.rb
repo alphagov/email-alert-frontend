@@ -20,11 +20,6 @@ RSpec.describe UnsubscriptionsController do
       expect(response).to have_http_status(:ok)
     end
 
-    it "sets the Cache-Control header to 'private, no-cache'" do
-      get :confirm, params: { id: id }
-      expect(response.headers["Cache-Control"]).to eq("private, no-cache")
-    end
-
     context "when the subscription has already ended" do
       before do
         stub_email_alert_api_has_subscription(
@@ -68,11 +63,6 @@ RSpec.describe UnsubscriptionsController do
     it "responds with a 200" do
       post :confirmed, params: { id: id }
       expect(response).to have_http_status(:ok)
-    end
-
-    it "sets the Cache-Control header to 'private, no-cache'" do
-      post :confirmed, params: { id: id }
-      expect(response.headers["Cache-Control"]).to eq("private, no-cache")
     end
 
     it "renders a confirmation page" do

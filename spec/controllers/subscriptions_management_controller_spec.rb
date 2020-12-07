@@ -45,11 +45,6 @@ RSpec.describe SubscriptionsManagementController do
         get :index, session: session_data
         expect(response).to have_http_status(:ok)
       end
-
-      it "sets the Cache-Control header to 'private, no-cache'" do
-        get :index, session: session_data
-        expect(response.headers["Cache-Control"]).to eq("private, no-cache")
-      end
     end
 
     context "when there is a subscriber with a subscription" do

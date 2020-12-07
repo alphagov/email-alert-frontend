@@ -19,11 +19,6 @@ RSpec.describe SubscriberAuthenticationController do
         expect(response).to have_http_status(:ok)
       end
 
-      it "sets the Cache-Control header to 'private, no-cache'" do
-        get :sign_in
-        expect(response.headers["Cache-Control"]).to eq("private, no-cache")
-      end
-
       it "renders a form" do
         get :sign_in
         expect(response.body).to include(%(action="#{request_sign_in_token_path}"))
@@ -91,13 +86,6 @@ RSpec.describe SubscriberAuthenticationController do
         "subscriber_id" => subscriber_id,
         "redirect" => "/email/manage",
       })
-    end
-
-    context "when the page is requested" do
-      it "sets the Cache-Control header to 'private, no-cache'" do
-        get :process_sign_in_token, params: { token: token }
-        expect(response.headers["Cache-Control"]).to eq("private, no-cache")
-      end
     end
 
     context "when an expired token is provided" do
