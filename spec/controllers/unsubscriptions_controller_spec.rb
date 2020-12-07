@@ -93,7 +93,7 @@ RSpec.describe UnsubscriptionsController do
         stub_email_alert_api_has_no_subscription_for_uuid(id)
       end
 
-      it "renders a page informing them the subscription has already ended" do
+      it "renders a confirmation page" do
         post :confirmed, params: { id: id }
 
         expect(response.body).to include(

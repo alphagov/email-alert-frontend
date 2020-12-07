@@ -11,20 +11,18 @@ class UnsubscriptionsController < ApplicationController
   end
 
   def confirmed
-    unsubscribed = begin
-                     GdsApi.email_alert_api.unsubscribe(@id)
-                   rescue GdsApi::HTTPNotFound
-                     # The user has already unsubscribed.
-                     nil
-                   end
+    begin
+      GdsApi.email_alert_api.unsubscribe(@id)
+    rescue GdsApi::HTTPNotFound
+      # The user has already unsubscribed.
+      nil
+    end
 
     if authenticated?
-      if unsubscribed
-        flash[:success] = {
-          message: t("subscriptions_management.index.unsubscribe.message", title: @title),
-          description: t("subscriptions_management.index.unsubscribe.description"),
-        }
-      end
+      flash[:success] = {
+        message: t("subscriptions_management.index.unsubscribe.message", title: @title),
+        description: t("subscriptions_management.index.unsubscribe.description"),
+      }
 
       redirect_to list_subscriptions_path
     end
