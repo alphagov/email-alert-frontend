@@ -1,5 +1,6 @@
 RSpec.describe UnsubscriptionsController do
   include GdsApi::TestHelpers::EmailAlertApi
+  include SessionHelper
 
   render_views
 
@@ -93,9 +94,7 @@ RSpec.describe UnsubscriptionsController do
     end
 
     context "when a user is authenticated" do
-      let(:session) do
-        { "authentication" => { "subscriber_id" => subscriber_id } }
-      end
+      let(:session) { session_for(subscriber_id) }
 
       it "redirects to subscription management" do
         post :confirmed, params: { id: id }, session: session

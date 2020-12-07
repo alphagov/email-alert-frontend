@@ -1,5 +1,6 @@
 RSpec.describe SubscriptionsManagementController do
   include GdsApi::TestHelpers::EmailAlertApi
+  include SessionHelper
 
   let(:subscriber_id) { 1 }
   let(:subscriber_address) { "test@example.com" }
@@ -7,14 +8,7 @@ RSpec.describe SubscriptionsManagementController do
   let(:endpoint) { GdsApi::TestHelpers::EmailAlertApi::EMAIL_ALERT_API_ENDPOINT }
   let(:new_frequency) { "weekly" }
   let(:new_address) { "test2@example.com" }
-  let(:session_data) do
-    {
-      "authentication": {
-        "subscriber_id": subscriber_id,
-        "redirect": "/email/manage",
-      },
-    }.with_indifferent_access
-  end
+  let(:session) { session_for(subscriber_id) }
 
   render_views
 
@@ -42,19 +36,19 @@ RSpec.describe SubscriptionsManagementController do
   describe "GET /email/manage" do
     context "when the page is requested" do
       it "returns 200" do
-        get :index, session: session_data
+        get :index, session: session
         expect(response).to have_http_status(:ok)
       end
     end
 
     context "when there is a subscriber with a subscription" do
       it "renders the subscriber's email address" do
-        get :index, session: session_data
+        get :index, session: session
         expect(response.body).to include("Subscriptions for #{subscriber_address}")
       end
 
       it "renders the subscriber's subscriptions" do
-        get :index, session: session_data
+        get :index, session: session
         expect(response.body).to include("Some thing")
         expect(response.body).to include("Created on 16 September 2019 at 2:08am")
         expect(response.body).to include(
@@ -66,14 +60,7 @@ RSpec.describe SubscriptionsManagementController do
     context "when there is a subscriber without any subscription" do
       let(:subscriber_id_with_no_subscriptions) { 2 }
       let(:subscriber_address_with_no_subscriptions) { "nothing@example.com" }
-      let(:session_data_with_no_subscriptions) do
-        {
-          "authentication": {
-            "subscriber_id": subscriber_id_with_no_subscriptions,
-            "redirect": "/email/manage",
-          },
-        }.with_indifferent_access
-      end
+      let(:session_with_no_subscriptions) { session_for(subscriber_id_with_no_subscriptions) }
 
       before do
         stub_email_alert_api_has_subscriber_subscriptions(
@@ -84,12 +71,12 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       it "renders the subscriber's email address" do
-        get :index, session: session_data_with_no_subscriptions
+        get :index, session: session_with_no_subscriptions
         expect(response.body).to include("Subscriptions for #{subscriber_address_with_no_subscriptions}")
       end
 
       it "renders a message" do
-        get :index, session: session_data_with_no_subscriptions
+        get :index, session: session_with_no_subscriptions
         expect(response.body).to include("You aren’t subscribed to any topics on GOV.UK.")
       end
     end
@@ -97,12 +84,12 @@ RSpec.describe SubscriptionsManagementController do
 
   describe "GET /email/manage/frequency/:id" do
     it "returns a 200 response" do
-      get :update_frequency, params: { id: subscription_id }, session: session_data
+      get :update_frequency, params: { id: subscription_id }, session: session
       expect(response).to have_http_status(:ok)
     end
 
     it "renders a form" do
-      get :update_frequency, params: { id: subscription_id }, session: session_data
+      get :update_frequency, params: { id: subscription_id }, session: session
       expect(response.body).to include(%(action="/email/manage/frequency/#{subscription_id}/change"))
     end
 
@@ -113,20 +100,20 @@ RSpec.describe SubscriptionsManagementController do
         subscriptions: [],
       )
 
-      get :update_frequency, params: { id: subscription_id }, session: session_data
+      get :update_frequency, params: { id: subscription_id }, session: session
       expect(response).to have_http_status(:not_found)
     end
   end
 
   describe "POST /email/manage/frequency/:id/change" do
     it "redirects to the subscription management page when frequency is updated" do
-      post :change_frequency, params: { id: subscription_id, new_frequency: new_frequency }, session: session_data
+      post :change_frequency, params: { id: subscription_id, new_frequency: new_frequency }, session: session
       expect(response).to redirect_to(list_subscriptions_path)
     end
 
     it "raises an ActionController::ParameterMissing error when frequency is not provided" do
       expect {
-        post :change_frequency, params: { id: subscription_id }, session: session_data
+        post :change_frequency, params: { id: subscription_id }, session: session
       }.to raise_error(ActionController::ParameterMissing)
     end
 
@@ -136,7 +123,7 @@ RSpec.describe SubscriptionsManagementController do
 
       post :change_frequency,
            params: { id: subscription_id, new_frequency: "foobar" },
-           session: session_data
+           session: session
       expect(response).to have_http_status(:bad_request)
     end
 
@@ -149,7 +136,7 @@ RSpec.describe SubscriptionsManagementController do
 
       post :change_frequency,
            params: { id: subscription_id, new_frequency: new_frequency },
-           session: session_data
+           session: session
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -157,12 +144,12 @@ RSpec.describe SubscriptionsManagementController do
   describe "GET /email/manage/address" do
     context "when the page is requested" do
       it "returns 200" do
-        get :update_address, session: session_data
+        get :update_address, session: session
         expect(response).to have_http_status(:ok)
       end
 
       it "renders a form" do
-        get :update_address, session: session_data
+        get :update_address, session: session
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
     end
@@ -173,14 +160,14 @@ RSpec.describe SubscriptionsManagementController do
       let(:new_address) { "" }
 
       it "renders an error message" do
-        post :change_address, params: { new_address: new_address }, session: session_data
+        post :change_address, params: { new_address: new_address }, session: session
         expect(response.body).to include(
           I18n.t!("subscriptions_management.update_address.missing_email"),
         )
       end
 
       it "renders a form" do
-        post :change_address, params: { new_address: new_address }, session: session_data
+        post :change_address, params: { new_address: new_address }, session: session
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
     end
@@ -193,21 +180,21 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       it "renders an error message" do
-        post :change_address, params: { new_address: new_address }, session: session_data
+        post :change_address, params: { new_address: new_address }, session: session
         expect(response.body).to include(
           I18n.t!("subscriptions_management.update_address.invalid_email"),
         )
       end
 
       it "renders a form" do
-        post :change_address, params: { new_address: new_address }, session: session_data
+        post :change_address, params: { new_address: new_address }, session: session
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
     end
 
     context "when a valid address is provided" do
       it "redirects to the subscription management page" do
-        post :change_address, params: { new_address: new_address }, session: session_data
+        post :change_address, params: { new_address: new_address }, session: session
         expect(response).to redirect_to(list_subscriptions_path)
       end
     end
@@ -216,12 +203,12 @@ RSpec.describe SubscriptionsManagementController do
   describe "GET /email/manage/unsubscribe-all" do
     context "when the page is requested" do
       it "returns 200" do
-        get :confirm_unsubscribe_all, session: session_data
+        get :confirm_unsubscribe_all, session: session
         expect(response).to have_http_status(:ok)
       end
 
       it "renders a message" do
-        get :confirm_unsubscribe_all, session: session_data
+        get :confirm_unsubscribe_all, session: session
         expect(response.body).to include(
           I18n.t!("subscriptions_management.confirm_unsubscribe_all.description"),
         )
@@ -229,7 +216,7 @@ RSpec.describe SubscriptionsManagementController do
     end
 
     it "renders a form" do
-      get :confirm_unsubscribe_all, session: session_data
+      get :confirm_unsubscribe_all, session: session
       expect(response.body).to include(%(action="/email/manage/unsubscribe-all"))
     end
   end
@@ -237,12 +224,12 @@ RSpec.describe SubscriptionsManagementController do
   describe "POST /email/manage/unsubscribe-all" do
     context "when the subscriber is unsubscribed" do
       it "redirects to subscription management" do
-        post :confirmed_unsubscribe_all, session: session_data
+        post :confirmed_unsubscribe_all, session: session
         expect(response).to redirect_to(list_subscriptions_path)
       end
 
       it "sets a flash about the success" do
-        post :confirmed_unsubscribe_all, session: session_data
+        post :confirmed_unsubscribe_all, session: session
         expect(flash[:success][:message]).to match(/unsubscribed from all your subscriptions/)
         expect(flash[:success][:description]).to match(/It can take up to an hour for this change to take effect./)
       end
