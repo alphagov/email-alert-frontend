@@ -13,11 +13,17 @@ class ApplicationController < ActionController::Base
   rescue_from GdsApi::HTTPForbidden, with: :forbidden
   rescue_from GdsApi::HTTPGone, with: :gone
 
+  helper_method :authenticated?
+
   if ENV["BASIC_AUTH_USERNAME"]
     http_basic_authenticate_with(
       name: ENV.fetch("BASIC_AUTH_USERNAME"),
       password: ENV.fetch("BASIC_AUTH_PASSWORD"),
     )
+  end
+
+  def authenticated?
+    session["authentication"].present?
   end
 
 private
@@ -50,10 +56,6 @@ private
 
   def require_authentication
     redirect_to :sign_in unless authenticated?
-  end
-
-  def authenticated?
-    session["authentication"].present?
   end
 
   def authenticated_subscriber_id

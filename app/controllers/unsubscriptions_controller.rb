@@ -18,7 +18,7 @@ class UnsubscriptionsController < ApplicationController
                      nil
                    end
 
-    if @authenticated_for_subscription
+    if authenticated?
       message = if @title
                   "You have been unsubscribed from ‘#{@title}’"
                 else
@@ -43,7 +43,6 @@ private
     @id = params.require(:id)
     @subscription = GdsApi.email_alert_api.get_subscription(@id)
     @title = @subscription.dig("subscription", "subscriber_list", "title").presence
-    @authenticated_for_subscription = check_authenticated(@subscription)
   end
 
   def check_is_latest
@@ -59,14 +58,5 @@ private
 
   def subscription_ended?(subscription)
     subscription.dig("subscription", "ended_at").present?
-  end
-
-  def check_authenticated(subscription)
-    if authenticated?
-      subscriber_id = subscription.dig("subscription", "subscriber", "id")
-      subscriber_id == authenticated_subscriber_id
-    else
-      false
-    end
   end
 end
