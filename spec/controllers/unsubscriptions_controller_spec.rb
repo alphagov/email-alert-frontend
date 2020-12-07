@@ -101,11 +101,11 @@ RSpec.describe UnsubscriptionsController do
         ])
       end
 
-      it "redirects the user to manage their subscriptions" do
+      it "redirects to the latest subscription" do
         get :confirm, params: { id: original_subscription_id }
 
         expect(response).to have_http_status(:found)
-        expect(response.headers["Location"]).to end_with("/email/authenticate")
+        expect(response.headers["Location"]).to end_with("/email/unsubscribe/#{latest_subscription_id}")
       end
     end
 
