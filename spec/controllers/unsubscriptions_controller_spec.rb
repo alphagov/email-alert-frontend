@@ -114,7 +114,10 @@ RSpec.describe UnsubscriptionsController do
 
       it "sets a flash to confirm" do
         post :confirmed, params: { id: id }, session: session
-        expect(flash[:success][:message]).to eq("You have been unsubscribed from ‘#{title}’")
+
+        expect(flash[:success][:message]).to eq(
+          I18n.t!("subscriptions_management.index.unsubscribe.message", title: title),
+        )
       end
     end
   end

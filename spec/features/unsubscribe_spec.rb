@@ -82,7 +82,7 @@ RSpec.feature "Unsubscribe" do
   def then_i_see_the_management_page
     expect(current_path).to eq list_subscriptions_path
     expect(page).to have_content(
-      "You have been unsubscribed from ‘#{@title}’",
+      I18n.t!("subscriptions_management.index.unsubscribe.message", title: @title),
     )
   end
 end

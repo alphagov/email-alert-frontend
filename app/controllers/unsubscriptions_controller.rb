@@ -19,13 +19,10 @@ class UnsubscriptionsController < ApplicationController
                    end
 
     if authenticated?
-      message = "You have been unsubscribed from ‘#{@title}’"
-      description = "It can take up to an hour for this change to take effect."
-
       if unsubscribed
         flash[:success] = {
-          message: message,
-          description: description,
+          message: t("subscriptions_management.index.unsubscribe.message", title: @title),
+          description: t("subscriptions_management.index.unsubscribe.description"),
         }
       end
 
