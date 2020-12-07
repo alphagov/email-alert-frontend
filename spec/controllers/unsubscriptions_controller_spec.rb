@@ -16,9 +16,18 @@ RSpec.describe UnsubscriptionsController do
   end
 
   describe "GET /email/unsubscribe/:id" do
-    it "responds with a 200" do
-      get :confirm, params: { id: id }
-      expect(response).to have_http_status(:ok)
+    context "when the user has a one-click link" do
+      it "responds with a 200" do
+        get :confirm, params: { id: id }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "when the user is signed in" do
+      it "responds with a 200" do
+        get :confirm, params: { id: id }, session: session_for(id)
+        expect(response).to have_http_status(:ok)
+      end
     end
 
     context "when the subscription has already ended" do
@@ -61,22 +70,24 @@ RSpec.describe UnsubscriptionsController do
   end
 
   describe "POST /email/unsubscribe/:id" do
-    it "responds with a 200" do
-      post :confirmed, params: { id: id }
-      expect(response).to have_http_status(:ok)
-    end
+    context "when the user has a one-click link" do
+      it "responds with a 200" do
+        post :confirmed, params: { id: id }
+        expect(response).to have_http_status(:ok)
+      end
 
-    it "renders a confirmation page" do
-      post :confirmed, params: { id: id }
+      it "renders a confirmation page" do
+        post :confirmed, params: { id: id }
 
-      expect(response.body).to include(
-        I18n.t!("unsubscriptions.confirmation.with_title", title: title),
-      )
-    end
+        expect(response.body).to include(
+          I18n.t!("unsubscriptions.confirmation.with_title", title: title),
+        )
+      end
 
-    it "sends an unsubscribe request to email-alert-api" do
-      post :confirmed, params: { id: id }
-      assert_unsubscribed(id)
+      it "sends an unsubscribe request to email-alert-api" do
+        post :confirmed, params: { id: id }
+        assert_unsubscribed(id)
+      end
     end
 
     context "when the user has already unsubscribed" do
@@ -93,8 +104,13 @@ RSpec.describe UnsubscriptionsController do
       end
     end
 
-    context "when a user is authenticated" do
+    context "when a user is signed in" do
       let(:session) { session_for(subscriber_id) }
+
+      it "sends an unsubscribe request to email-alert-api" do
+        post :confirmed, params: { id: id }
+        assert_unsubscribed(id)
+      end
 
       it "redirects to subscription management" do
         post :confirmed, params: { id: id }, session: session
