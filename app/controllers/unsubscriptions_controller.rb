@@ -19,11 +19,7 @@ class UnsubscriptionsController < ApplicationController
                    end
 
     if authenticated?
-      message = if @title
-                  "You have been unsubscribed from ‘#{@title}’"
-                else
-                  "You have been unsubscribed"
-                end
+      message = "You have been unsubscribed from ‘#{@title}’"
       description = "It can take up to an hour for this change to take effect."
 
       if unsubscribed
@@ -42,7 +38,7 @@ private
   def set_attributes
     @id = params.require(:id)
     @subscription = GdsApi.email_alert_api.get_subscription(@id)
-    @title = @subscription.dig("subscription", "subscriber_list", "title").presence
+    @title = @subscription.dig("subscription", "subscriber_list", "title")
   end
 
   def check_is_latest
