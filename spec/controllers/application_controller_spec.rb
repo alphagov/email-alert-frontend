@@ -11,4 +11,11 @@ RSpec.describe ApplicationController do
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
+
+  describe "Cache-Control header" do
+    it "sets it to 'private, no-cache'" do
+      get :index
+      expect(response.headers["Cache-Control"]).to eq("private, no-cache")
+    end
+  end
 end

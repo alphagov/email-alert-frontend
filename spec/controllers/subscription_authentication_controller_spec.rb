@@ -32,11 +32,6 @@ RSpec.describe SubscriptionAuthenticationController do
         get :authenticate, params: params.merge(token: token)
         expect(response).to redirect_to(subscription_complete_path(params))
       end
-
-      it "sets the Cache-Control header to 'private, no-cache'" do
-        get :authenticate, params: params.merge(token: token)
-        expect(response.headers["Cache-Control"]).to eq("private, no-cache")
-      end
     end
 
     context "the token is expired" do

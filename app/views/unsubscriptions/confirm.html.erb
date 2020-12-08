@@ -1,6 +1,6 @@
 <% content_for :title, t("unsubscriptions.title.confirm") %>
 
-<% if @authenticated_for_subscription %>
+<% if authenticated? %>
   <% content_for :back_link do %>
     <%= render "govuk_publishing_components/components/back_link", {
       href: list_subscriptions_path
@@ -26,7 +26,7 @@
         },
       } %>
     <% end %>
-    <% if @authenticated_for_subscription %>
+    <% if authenticated? %>
       <p class="govuk-body">
         <%= link_to "Cancel",
                     list_subscriptions_path,
