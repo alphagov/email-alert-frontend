@@ -25,7 +25,7 @@ RSpec.describe UnsubscriptionsController do
 
     context "when the user is signed in" do
       it "responds with a 200" do
-        get :confirm, params: { id: id }, session: session_for(id)
+        get :confirm, params: { id: id }, session: session_for(subscriber_id)
         expect(response).to have_http_status(:ok)
       end
     end
