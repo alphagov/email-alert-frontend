@@ -82,10 +82,7 @@ RSpec.describe SubscriberAuthenticationController do
 
   describe "GET /email/authenticate/process" do
     let(:token) do
-      encrypt_and_sign_token(data: {
-        "subscriber_id" => subscriber_id,
-        "redirect" => "/email/manage",
-      })
+      encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
     end
 
     context "when an expired token is provided" do
