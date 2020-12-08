@@ -28,8 +28,7 @@ class SubscriberAuthenticationController < ApplicationController
     end
 
     authenticate_subscriber(token.data[:subscriber_id])
-    destination = safe_redirect_destination || list_subscriptions_path
-    redirect_to destination
+    redirect_to list_subscriptions_path
   end
 
 private
@@ -46,15 +45,5 @@ private
 
   def deauthenticate_subscriber
     session["authentication"] = nil
-  end
-
-  def safe_redirect_destination
-    redirect = token.data[:redirect]
-    return nil unless redirect
-
-    parsed = URI.parse(redirect)
-    redirect if parsed.relative? && redirect[0] == "/"
-  rescue URI::InvalidURIError
-    nil
   end
 end
