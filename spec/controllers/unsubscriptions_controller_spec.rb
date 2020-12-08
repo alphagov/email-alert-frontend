@@ -19,7 +19,7 @@ RSpec.describe UnsubscriptionsController do
   shared_examples "requires authentication" do
     context "when the token is for a different subscription" do
       it "redirects to the sign in page" do
-        token = encrypt_and_sign_token(data: { "subscription_id" => "other" })
+        token = encrypt_and_sign_token(data: { "subscriber_id" => "other" })
         make_request(params: { id: id, token: token })
         expect(response).to redirect_to sign_in_path
         expect(flash[:error_summary]).to eq("bad_token")
@@ -28,7 +28,7 @@ RSpec.describe UnsubscriptionsController do
 
     context "when the token is expired" do
       it "redirects to the sign in page" do
-        token = encrypt_and_sign_token(data: { "subscription_id" => id }, expiry: 0)
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id }, expiry: 0)
         make_request(params: { id: id, token: token })
         expect(response).to redirect_to sign_in_path
         expect(flash[:error_summary]).to eq("bad_token")
@@ -62,7 +62,7 @@ RSpec.describe UnsubscriptionsController do
 
     context "when the user has a one-click link" do
       it "responds with a 200" do
-        token = encrypt_and_sign_token(data: { "subscription_id" => id })
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
         make_request(params: { id: id, token: token })
         expect(response).to have_http_status(:ok)
       end
@@ -108,7 +108,7 @@ RSpec.describe UnsubscriptionsController do
       end
 
       it "redirects to the latest subscription" do
-        token = encrypt_and_sign_token(data: { "subscription_id" => original_subscription_id })
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
         make_request(params: { id: original_subscription_id, token: token })
 
         expected_path = confirm_unsubscribe_path(latest_subscription_id, token: token)
@@ -125,7 +125,7 @@ RSpec.describe UnsubscriptionsController do
     it_behaves_like "requires authentication"
 
     context "when the user has a one-click link" do
-      let(:token) { encrypt_and_sign_token(data: { "subscription_id" => id }) }
+      let(:token) { encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id }) }
 
       it "responds with a 200" do
         make_request(params: { id: id, token: token })
@@ -152,7 +152,7 @@ RSpec.describe UnsubscriptionsController do
       end
 
       it "renders a confirmation page" do
-        token = encrypt_and_sign_token(data: { "subscription_id" => id })
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
         make_request(params: { id: id, token: token })
 
         expect(response.body).to include(

@@ -32,7 +32,7 @@ RSpec.feature "Unsubscribe" do
   end
 
   def when_i_visit_the_unsubscribe_page
-    token = encrypt_and_sign_token(data: { "subscription_id" => @subscription_id })
+    token = encrypt_and_sign_token(data: { "subscriber_id" => @subscriber_id })
     visit confirm_unsubscribe_path(@subscription_id, token: token)
   end
 

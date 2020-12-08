@@ -49,11 +49,11 @@ private
   end
 
   def check_owns_subscription
-    return if authenticated? &&
-      @subscription.dig("subscriber", "id") == authenticated_subscriber_id
+    expected_id = @subscription.dig("subscriber", "id")
+    return if authenticated? && expected_id == authenticated_subscriber_id
 
     token = AuthToken.new(params[:token].to_s)
-    return if token.valid? && token.data[:subscription_id] == @id
+    return if token.valid? && token.data[:subscriber_id] == expected_id
 
     flash[:error_summary] = "bad_token" if params[:token]
     redirect_to sign_in_path
