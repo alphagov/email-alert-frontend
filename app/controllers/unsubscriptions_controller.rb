@@ -1,7 +1,7 @@
 class UnsubscriptionsController < ApplicationController
   before_action :set_attributes
-  before_action :check_is_latest, only: %i[confirm]
   before_action :check_owns_subscription
+  before_action :check_is_latest, only: %i[confirm]
 
   def confirm
     if @subscription["ended_at"].present?
