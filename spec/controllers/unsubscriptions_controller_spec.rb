@@ -108,8 +108,11 @@ RSpec.describe UnsubscriptionsController do
       end
 
       it "redirects to the latest subscription" do
-        make_request(params: { id: original_subscription_id })
-        expect(response).to redirect_to(confirm_unsubscribe_path(latest_subscription_id))
+        token = encrypt_and_sign_token(data: { "subscription_id" => original_subscription_id })
+        make_request(params: { id: original_subscription_id, token: token })
+
+        expected_path = confirm_unsubscribe_path(latest_subscription_id, token: token)
+        expect(response).to redirect_to(expected_path)
       end
     end
   end

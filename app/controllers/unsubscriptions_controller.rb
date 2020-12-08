@@ -45,7 +45,7 @@ private
 
     return if latest_subscription_id == @subscription["id"]
 
-    redirect_to confirm_unsubscribe_path(latest_subscription_id)
+    redirect_to confirm_unsubscribe_path(latest_subscription_id, token: params[:token])
   end
 
   def check_owns_subscription
