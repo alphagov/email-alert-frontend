@@ -1,5 +1,6 @@
 class UnsubscriptionsController < ApplicationController
   before_action :set_attributes
+  before_action :check_owns_subscription
   before_action :check_is_latest, only: %i[confirm]
 
   def confirm
@@ -44,6 +45,20 @@ private
 
     return if latest_subscription_id == @subscription["id"]
 
-    redirect_to confirm_unsubscribe_path(latest_subscription_id)
+    redirect_to confirm_unsubscribe_path(latest_subscription_id, token: params[:token])
+  end
+
+  def check_owns_subscription
+    expected_id = @subscription.dig("subscriber", "id")
+
+    # Check for users who have signed in (have a session)
+    return if authenticated? && expected_id == authenticated_subscriber_id
+
+    # Check for users who have a one-click unsubscribe link
+    token = AuthToken.new(params[:token].to_s)
+    return if token.valid? && token.data[:subscriber_id] == expected_id
+
+    flash[:error_summary] = "bad_token" if params[:token]
+    redirect_to sign_in_path
   end
 end

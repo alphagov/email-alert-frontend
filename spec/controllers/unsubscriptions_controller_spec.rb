@@ -1,6 +1,7 @@
 RSpec.describe UnsubscriptionsController do
   include GdsApi::TestHelpers::EmailAlertApi
   include SessionHelper
+  include TokenHelper
 
   render_views
 
@@ -15,17 +16,61 @@ RSpec.describe UnsubscriptionsController do
     stub_email_alert_api_unsubscribes_a_subscription(id)
   end
 
+  shared_examples "requires authentication" do
+    context "when the token is for a different subscription" do
+      it "redirects to the sign in page" do
+        token = encrypt_and_sign_token(data: { "subscriber_id" => "other" })
+        make_request(params: { id: id, token: token })
+        expect(response).to redirect_to sign_in_path
+        expect(flash[:error_summary]).to eq("bad_token")
+      end
+    end
+
+    context "when the token is expired" do
+      it "redirects to the sign in page" do
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id }, expiry: 0)
+        make_request(params: { id: id, token: token })
+        expect(response).to redirect_to sign_in_path
+        expect(flash[:error_summary]).to eq("bad_token")
+      end
+    end
+
+    context "when the token is invalid" do
+      it "redirects to the sign in page" do
+        token = encrypt_and_sign_token(data: {})
+        make_request(params: { id: id, token: token })
+        expect(response).to redirect_to sign_in_path
+        expect(flash[:error_summary]).to eq("bad_token")
+      end
+    end
+
+    context "when the user has no authentication" do
+      it "redirects to the sign in page" do
+        make_request(params: { id: id })
+        expect(response).to redirect_to sign_in_path
+        expect(flash[:error_summary]).to be_nil
+      end
+    end
+  end
+
   describe "GET /email/unsubscribe/:id" do
+    def make_request(params:, session: nil)
+      get :confirm, params: params, session: session
+    end
+
+    it_behaves_like "requires authentication"
+
     context "when the user has a one-click link" do
       it "responds with a 200" do
-        get :confirm, params: { id: id }
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
+        make_request(params: { id: id, token: token })
         expect(response).to have_http_status(:ok)
       end
     end
 
     context "when the user is signed in" do
       it "responds with a 200" do
-        get :confirm, params: { id: id }, session: session_for(id)
+        make_request(params: { id: id }, session: session_for(subscriber_id))
         expect(response).to have_http_status(:ok)
       end
     end
@@ -38,7 +83,7 @@ RSpec.describe UnsubscriptionsController do
       end
 
       it "show a message saying subscription has ended" do
-        get :confirm, params: { id: id }
+        make_request(params: { id: id }, session: session_for(subscriber_id))
         expect(response.body).to include("You’ve already unsubscribed from VAT Rates")
       end
     end
@@ -63,21 +108,32 @@ RSpec.describe UnsubscriptionsController do
       end
 
       it "redirects to the latest subscription" do
-        get :confirm, params: { id: original_subscription_id }
-        expect(response).to redirect_to(confirm_unsubscribe_path(latest_subscription_id))
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
+        make_request(params: { id: original_subscription_id, token: token })
+
+        expected_path = confirm_unsubscribe_path(latest_subscription_id, token: token)
+        expect(response).to redirect_to(expected_path)
       end
     end
   end
 
   describe "POST /email/unsubscribe/:id" do
+    def make_request(params:, session: nil)
+      post :confirmed, params: params, session: session
+    end
+
+    it_behaves_like "requires authentication"
+
     context "when the user has a one-click link" do
+      let(:token) { encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id }) }
+
       it "responds with a 200" do
-        post :confirmed, params: { id: id }
+        make_request(params: { id: id, token: token })
         expect(response).to have_http_status(:ok)
       end
 
       it "renders a confirmation page" do
-        post :confirmed, params: { id: id }
+        make_request(params: { id: id, token: token })
 
         expect(response.body).to include(
           I18n.t!("unsubscriptions.confirmation.with_title", title: title),
@@ -85,7 +141,7 @@ RSpec.describe UnsubscriptionsController do
       end
 
       it "sends an unsubscribe request to email-alert-api" do
-        post :confirmed, params: { id: id }
+        make_request(params: { id: id, token: token })
         assert_unsubscribed(id)
       end
     end
@@ -96,7 +152,8 @@ RSpec.describe UnsubscriptionsController do
       end
 
       it "renders a confirmation page" do
-        post :confirmed, params: { id: id }
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
+        make_request(params: { id: id, token: token })
 
         expect(response.body).to include(
           I18n.t!("unsubscriptions.confirmation.with_title", title: title),
@@ -108,17 +165,17 @@ RSpec.describe UnsubscriptionsController do
       let(:session) { session_for(subscriber_id) }
 
       it "sends an unsubscribe request to email-alert-api" do
-        post :confirmed, params: { id: id }
+        make_request(params: { id: id }, session: session)
         assert_unsubscribed(id)
       end
 
       it "redirects to subscription management" do
-        post :confirmed, params: { id: id }, session: session
+        make_request(params: { id: id }, session: session)
         expect(response).to redirect_to(list_subscriptions_path)
       end
 
       it "sets a flash to confirm" do
-        post :confirmed, params: { id: id }, session: session
+        make_request(params: { id: id }, session: session)
 
         expect(flash[:success][:message]).to eq(
           I18n.t!("subscriptions_management.index.unsubscribe.message", title: title),
