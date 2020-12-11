@@ -7,6 +7,7 @@ class GenerateSubscriberListParamsService < ApplicationService
     {
       "title" => content_item["title"],
       "links" => link_hash,
+      "url" => content_item["base_path"],
     }
   end
 
