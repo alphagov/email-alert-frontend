@@ -50,8 +50,11 @@ private
 
   def check_owns_subscription
     expected_id = @subscription.dig("subscriber", "id")
+
+    # Check for users who have signed in (have a session)
     return if authenticated? && expected_id == authenticated_subscriber_id
 
+    # Check for users who have a one-click unsubscribe link
     token = AuthToken.new(params[:token].to_s)
     return if token.valid? && token.data[:subscriber_id] == expected_id
 
