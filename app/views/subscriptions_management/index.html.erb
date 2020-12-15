@@ -37,10 +37,12 @@
         <p class='govuk-body'>
           <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
         </p>
-        <% if subscription['subscriber_list']['description'].present? %>
-          <%= render "govuk_publishing_components/components/govspeak", {} do %>
-            <%= raw(Kramdown::Document.new(subscription['subscriber_list']['description']).to_html) %>
-          <% end %>
+        <% if subscription['subscriber_list']['url'] =~ %r{transition-check/results} %>
+          <p class="govuk-body">
+            <%= link_to 'You can view a copy of your results on GOV.UK',
+                        subscription['subscriber_list']['url'],
+                        class: %w[govuk-link govuk-link--no-visited-state] %>
+          </p>
         <% end %>
         <p class="govuk-body">
           <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
