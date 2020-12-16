@@ -7,7 +7,7 @@ RSpec.describe EmailAlertSignup do
   let(:travel_country_item) { govuk_content_schema_example("travel_advice_country_email_alert_signup") }
 
   let(:mock_subscriber_list) do
-    mock_response(subscriber_list: { subscription_url: "http://foo" })
+    mock_response(subscriber_list: { slug: "topic-id" })
   end
 
   before do
@@ -80,7 +80,8 @@ RSpec.describe EmailAlertSignup do
       email_signup = EmailAlertSignup.new(signup_page)
       email_signup.find_or_create
 
-      expect("http://foo").to eq(email_signup.subscription_url)
+      expect(email_signup.subscription_url)
+        .to eq("/email/subscriptions/new?topic_id=topic-id")
     end
   end
 end

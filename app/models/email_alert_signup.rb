@@ -2,6 +2,7 @@ require "active_model"
 
 class EmailAlertSignup
   include ActiveModel::Model
+  include Rails.application.routes.url_helpers
 
   validates :signup_page, presence: true
 
@@ -14,7 +15,8 @@ class EmailAlertSignup
 
   def find_or_create
     if valid?
-      @subscription_url = find_or_create_subscription.dig("subscriber_list", "subscription_url")
+      slug = find_or_create_subscription.dig("subscriber_list", "slug")
+      @subscription_url = new_subscription_path(topic_id: slug)
       true
     else
       false
