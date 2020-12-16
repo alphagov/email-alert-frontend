@@ -3,7 +3,6 @@ RSpec.describe EmailAlertSignup do
   include GdsApi::TestHelpers::EmailAlertApi
 
   let(:api_client) { double(:api_client, find_or_create_subscriber_list: true) }
-  let(:policy_item) { govuk_content_schema_example("policy_email_alert_signup") }
   let(:travel_index_item) { govuk_content_schema_example("travel_advice_index_email_alert_signup") }
   let(:travel_country_item) { govuk_content_schema_example("travel_advice_country_email_alert_signup") }
 
@@ -69,45 +68,10 @@ RSpec.describe EmailAlertSignup do
         email_signup.find_or_create
       end
     end
-
-    context "when the signup page is for a policy" do
-      let(:signup_page) { mock_response(policy_item) }
-
-      it "sends the correct subscription params to the email alert api" do
-        expect(api_client).to receive(:find_or_create_subscriber_list)
-          .with(
-            "title" => "Employment policy",
-            "tags" => { "policies" => %w[employment] },
-          )
-          .and_return(mock_subscriber_list)
-
-        email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.find_or_create
-      end
-    end
-
-    context "when the signup page doesn't have a govdelivery_title" do
-      let(:item_without_govdelivery_title) do
-        travel_index_item["title"] = "Some Title"
-        travel_index_item["details"]["govdelivery_title"] = ""
-        travel_index_item
-      end
-
-      let(:signup_page) { mock_response(item_without_govdelivery_title) }
-
-      it "falls back to using the content item's title" do
-        expect(api_client).to receive(:find_or_create_subscriber_list)
-          .with(hash_including("title" => "Some Title"))
-          .and_return(mock_subscriber_list)
-
-        email_signup = EmailAlertSignup.new(signup_page)
-        email_signup.find_or_create
-      end
-    end
   end
 
   describe "#subscription_url" do
-    let(:signup_page) { mock_response(policy_item) }
+    let(:signup_page) { mock_response(travel_country_item) }
 
     it "is the subscription_url returned by the API" do
       expect(api_client).to receive(:find_or_create_subscriber_list)
