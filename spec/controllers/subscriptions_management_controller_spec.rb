@@ -20,10 +20,7 @@ RSpec.describe SubscriptionsManagementController do
         {
           "id" => subscription_id,
           "created_at" => "2019-09-16 02:08:08 01:00",
-          "subscriber_list" => {
-            "title" => "Some thing",
-            "description" => "[You can view a copy of your results on GOV.UK.](https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive)",
-          },
+          "subscriber_list" => { "title" => "Some thing" },
         },
       ],
     )
@@ -51,8 +48,31 @@ RSpec.describe SubscriptionsManagementController do
         get :index, session: session
         expect(response.body).to include("Some thing")
         expect(response.body).to include("Created on 16 September 2019 at 2:08am")
+      end
+    end
+
+    context "when the subscription is for a brexit checker list" do
+      before do
+        stub_email_alert_api_has_subscriber_subscriptions(
+          subscriber_id,
+          subscriber_address,
+          subscriptions: [
+            {
+              "id" => subscription_id,
+              "created_at" => "2019-09-16 02:08:08 01:00",
+              "subscriber_list" => {
+                "title" => "Some thing",
+                "url" => "/transition-check/results?c%5B%5D=automotive",
+              },
+            },
+          ],
+        )
+      end
+
+      it "renders a link to the list URL" do
+        get :index, session: session
         expect(response.body).to include(
-          "<p><a href=\"https://www.gov.uk/get-ready-brexit-check/results?c%5B%5D=automotive\">You can view a copy of your results on GOV.UK.</a></p>",
+          "href=\"/transition-check/results?c%5B%5D=automotive\">You can view a copy of your results on GOV.UK</a>",
         )
       end
     end
