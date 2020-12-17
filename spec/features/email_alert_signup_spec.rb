@@ -23,17 +23,16 @@ RSpec.feature "Email alert signup" do
   end
 
   def and_i_click_to_signup_to_alerts
-    subscriber_list_id = SecureRandom.uuid
-    @subscriber_list_url = new_subscription_path(topic_id: subscriber_list_id)
+    @subscriber_list_id = SecureRandom.uuid
 
     stub_email_alert_api_has_subscriber_list(
       "tags" => @tags,
-      "id" => subscriber_list_id,
-      "subscription_url" => @subscriber_list_url,
+      "id" => @subscriber_list_id,
+      "slug" => @subscriber_list_id,
     )
 
     stub_email_alert_api_has_subscriber_list_by_slug(
-      slug: subscriber_list_id,
+      slug: @subscriber_list_id,
       returned_attributes: {
         "title" => @title,
       },
@@ -43,6 +42,7 @@ RSpec.feature "Email alert signup" do
   end
 
   def then_i_can_subscribe_to_alerts
-    expect(page).to have_current_path(@subscriber_list_url)
+    subscriber_list_url = new_subscription_path(topic_id: @subscriber_list_id)
+    expect(page).to have_current_path(subscriber_list_url)
   end
 end

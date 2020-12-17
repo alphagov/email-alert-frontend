@@ -2,6 +2,7 @@ require "active_model"
 
 class EmailAlertSignup
   include ActiveModel::Model
+  include Rails.application.routes.url_helpers
 
   validates :signup_page, presence: true
 
@@ -14,7 +15,8 @@ class EmailAlertSignup
 
   def find_or_create
     if valid?
-      @subscription_url = find_or_create_subscription.dig("subscriber_list", "subscription_url")
+      slug = find_or_create_subscription.dig("subscriber_list", "slug")
+      @subscription_url = new_subscription_path(topic_id: slug)
       true
     else
       false
@@ -34,20 +36,13 @@ class EmailAlertSignup
     signup_page["title"]
   end
 
-  def govdelivery_title
-    details["govdelivery_title"]
-  end
-
 private
 
   attr_reader :signup_page, :base_path
 
   def subscription_params
     subscriber_list = details["subscriber_list"]
-
-    subscription_params = {
-      title: govdelivery_title.presence || title,
-    }
+    subscription_params = { title: title }
 
     if subscriber_list["document_type"].present?
       subscription_params[:document_type] = subscriber_list["document_type"]
