@@ -17,10 +17,9 @@ RSpec.describe SubscriptionAuthenticationController do
         )
 
         stub_email_alert_api_creates_a_subscription(
-          123,
-          address,
-          params[:frequency],
-          nil,
+          subscriber_list_id: 123,
+          address: address,
+          frequency: params[:frequency],
         )
       end
 

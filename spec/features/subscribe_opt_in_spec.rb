@@ -31,10 +31,9 @@ RSpec.feature "Subscribe opt-in" do
     )
 
     @request = stub_email_alert_api_creates_a_subscription(
-      @subscriber_list_id,
-      @address,
-      "immediately",
-      nil,
+      subscriber_list_id: @subscriber_list_id,
+      address: @address,
+      frequency: "immediately",
     )
 
     visit confirm_subscription_path(
