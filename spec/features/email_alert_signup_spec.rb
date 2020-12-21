@@ -10,11 +10,10 @@ RSpec.feature "Email alert signup" do
   end
 
   def given_there_is_a_signup_page
-    content_item = govuk_content_schema_example("policy_email_alert_signup")
-    @base_path = content_item["base_path"]
-    @tags = content_item["details"]["subscriber_list"]["tags"]
-    @title = content_item["title"]
-    stub_content_store_has_item(@base_path, content_item.to_json)
+    @content_item = govuk_content_schema_example("travel_advice_country_email_alert_signup")
+    @base_path = @content_item["base_path"]
+    @title = @content_item["title"]
+    stub_content_store_has_item(@base_path, @content_item.to_json)
   end
 
   def when_i_visit_the_signup_page
@@ -26,9 +25,10 @@ RSpec.feature "Email alert signup" do
     @subscriber_list_id = SecureRandom.uuid
 
     stub_email_alert_api_has_subscriber_list(
-      "tags" => @tags,
-      "id" => @subscriber_list_id,
-      "slug" => @subscriber_list_id,
+      @content_item["details"]["subscriber_list"].merge(
+        "id" => @subscriber_list_id,
+        "slug" => @subscriber_list_id,
+      ),
     )
 
     stub_email_alert_api_has_subscriber_list_by_slug(
