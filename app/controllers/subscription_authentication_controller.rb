@@ -40,15 +40,6 @@ class SubscriptionAuthenticationController < ApplicationController
     redirect_to list_subscriptions_path
   end
 
-  def complete
-    topic_id = params.require(:topic_id)
-    @frequency = params.require(:frequency)
-
-    @title = GdsApi.email_alert_api
-      .get_subscriber_list(slug: topic_id)
-      .to_h.dig("subscriber_list", "title")
-  end
-
 private
 
   def valid_params?
