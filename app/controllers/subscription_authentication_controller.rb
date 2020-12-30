@@ -28,12 +28,9 @@ class SubscriptionAuthenticationController < ApplicationController
       )
       .dig("subscription")
 
-    flash[:success] = {
+    flash[:subscription] = {
+      id: subscription["id"],
       message: t("subscription_authentication.authenticate.message"),
-      description: t(
-        "subscription_authentication.authenticate.description.#{@frequency}",
-        title: subscriber_list["title"],
-      ),
     }
 
     authenticate_subscriber(subscription.dig("subscriber", "id"))

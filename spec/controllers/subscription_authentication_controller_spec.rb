@@ -22,6 +22,7 @@ RSpec.describe SubscriptionAuthenticationController do
         subscriber_list_id: 123,
         address: address,
         frequency: frequency,
+        returned_subscription_id: 1,
       )
     end
 
@@ -37,40 +38,13 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "shows a success flash message" do
         get :authenticate, params: params
-        expect(flash[:success][:message]).to eq(I18n.t!("subscription_authentication.authenticate.message"))
-
-        expect(flash[:success][:description]).to eq(
-          I18n.t!("subscription_authentication.authenticate.description.immediately", title: "Title"),
-        )
+        expect(flash[:subscription][:message]).to eq(I18n.t!("subscription_authentication.authenticate.message"))
+        expect(flash[:subscription][:id]).to eq(1)
       end
 
       it "creates a new session" do
         get :authenticate, params: params
         expect(session["authentication"]).to be_present
-      end
-
-      context "for a daily subscription" do
-        let(:frequency) { "daily" }
-
-        it "shows a success flash message" do
-          get :authenticate, params: params
-
-          expect(flash[:success][:description]).to eq(
-            I18n.t!("subscription_authentication.authenticate.description.daily", title: "Title"),
-          )
-        end
-      end
-
-      context "for a weekly subscription" do
-        let(:frequency) { "weekly" }
-
-        it "shows a success flash message" do
-          get :authenticate, params: params
-
-          expect(flash[:success][:description]).to eq(
-            I18n.t!("subscription_authentication.authenticate.description.weekly", title: "Title"),
-          )
-        end
       end
     end
 

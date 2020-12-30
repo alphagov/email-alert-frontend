@@ -4,8 +4,4 @@ en:
       title: Your link has expired
       description: The links we send only work for 7 days. This is to protect your personal data.
     authenticate:
-      message: "You’ve subscribed successfully"
-      description:
-        immediately: "You’ll get an email from GOV.UK each time we add or update a page about: %{title}"
-        daily: "You’ll get one email a day from GOV.UK about: %{title}"
-        weekly: "You’ll get one email a week from GOV.UK about: %{title}"
+      message: "You’ve subscribed to GOV.UK emails"

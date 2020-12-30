@@ -18,6 +18,7 @@ RSpec.feature "Subscribe opt-in" do
   def when_i_click_on_the_confirmation_link
     @title = "Test Subscriber List"
     subscriber_id = 1
+    subscription_id = 2
 
     token = encrypt_and_sign_token(data: {
       "address" => @address,
@@ -37,13 +38,19 @@ RSpec.feature "Subscribe opt-in" do
       address: @address,
       frequency: "immediately",
       subscriber_id: subscriber_id,
+      returned_subscription_id: subscription_id,
     )
 
     stub_email_alert_api_has_subscriber_subscriptions(
       subscriber_id,
       @address,
       nil,
-      subscriptions: [],
+      subscriptions: [{
+        "id": subscription_id,
+        "frequency": "immediately",
+        "subscriber_list": { "title": "Title" },
+        "created_at": Time.zone.now.to_s,
+      }],
     )
 
     visit confirm_subscription_path(
@@ -55,14 +62,8 @@ RSpec.feature "Subscribe opt-in" do
 
   def then_i_see_i_am_subscribed
     expect(@request).to have_been_requested
-
-    description = I18n.t!(
-      "subscription_authentication.authenticate.description.immediately",
-      title: "Test Subscriber List",
-    )
-
     expect(page).to have_content(I18n.t!("subscription_authentication.authenticate.message"))
-    expect(page).to have_content(description)
+    expect(page).to have_content(I18n.t!("subscriptions_management.index.flashes.subscription.immediately"))
   end
 
   def and_i_can_manage_my_subscriptions
