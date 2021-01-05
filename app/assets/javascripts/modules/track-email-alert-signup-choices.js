@@ -1,5 +1,3 @@
-/* global GOVUK */
-
 window.GOVUK = window.GOVUK || {}
 window.GOVUK.Modules = window.GOVUK.Modules || {};
 

@@ -1,6 +1,3 @@
-/* eslint-env jasmine */
-/* global GOVUK Event $ */
-
 describe('Email alert sign up tracking', function () {
   'use strict'
 
