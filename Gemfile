@@ -8,7 +8,7 @@ gem "govuk_publishing_components"
 gem "jwt"
 gem "plek"
 gem "ratelimit"
-gem "sass-rails"
+gem "sassc-rails"
 gem "slimmer"
 gem "uglifier"
 
