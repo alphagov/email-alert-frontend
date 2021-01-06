@@ -5,5 +5,5 @@
 
 @mixin govuk-template-link-focus-override {
   @include govuk-focused-text;
-  color: govuk-colour("black") !important;
+  color: govuk-colour("black") !important; // stylelint-disable-line declaration-no-important
 }
