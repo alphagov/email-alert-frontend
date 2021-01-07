@@ -2,8 +2,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t("subscriptions_management.heading") %></h1>
-
     <% if flash[:success] %>
       <%= render 'govuk_publishing_components/components/success_alert', {
         message: flash[:success]["message"],
@@ -25,6 +23,8 @@
         description: description
       } %>
     <% end %>
+
+    <h1 class="govuk-heading-l"><%= t("subscriptions_management.heading") %></h1>
 
     <h2 class="govuk-heading-m">
       <%= "Subscriptions for #{@subscriber['address']}" %>
