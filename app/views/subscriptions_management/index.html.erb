@@ -12,16 +12,18 @@
     <% if flash[:subscription] %>
       <% subscription = @subscriptions[flash[:subscription]['id']] %>
 
-      <% description = capture do %>
-        <p><%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %></p>
-        <br>
-        <p><strong><%= subscription['subscriber_list']['title'] %></strong></p>
-      <% end %>
+      <% if subscription %>
+        <% description = capture do %>
+          <p><%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %></p>
+          <br>
+          <p><strong><%= subscription['subscriber_list']['title'] %></strong></p>
+        <% end %>
 
-      <%= render 'govuk_publishing_components/components/success_alert', {
-        message: flash[:subscription]['message'],
-        description: description
-      } %>
+        <%= render 'govuk_publishing_components/components/success_alert', {
+          message: flash[:subscription]['message'],
+          description: description
+        } %>
+      <% end %>
     <% end %>
 
     <h1 class="govuk-heading-l"><%= t("subscriptions_management.heading") %></h1>
