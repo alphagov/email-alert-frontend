@@ -1,4 +1,6 @@
 class SubscriberAuthenticationController < ApplicationController
+  include SessionsHelper
+
   def sign_in
     @address = params[:address]
   end
@@ -35,15 +37,5 @@ private
 
   def token
     @token ||= AuthToken.new(params.require(:token))
-  end
-
-  def authenticate_subscriber(subscriber_id)
-    session["authentication"] = {
-      "subscriber_id" => subscriber_id,
-    }
-  end
-
-  def deauthenticate_subscriber
-    session["authentication"] = nil
   end
 end

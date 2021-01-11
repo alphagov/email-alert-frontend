@@ -2,14 +2,31 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t("subscriptions_management.heading") %></h1>
-
     <% if flash[:success] %>
       <%= render 'govuk_publishing_components/components/success_alert', {
         message: flash[:success]["message"],
         description: flash[:success]["description"],
       } %>
     <% end %>
+
+    <% if flash[:subscription] %>
+      <% subscription = @subscriptions[flash[:subscription]['id']] %>
+
+      <% if subscription %>
+        <% description = capture do %>
+          <p><%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %></p>
+          <br>
+          <p><strong><%= subscription['subscriber_list']['title'] %></strong></p>
+        <% end %>
+
+        <%= render 'govuk_publishing_components/components/success_alert', {
+          message: flash[:subscription]['message'],
+          description: description
+        } %>
+      <% end %>
+    <% end %>
+
+    <h1 class="govuk-heading-l"><%= t("subscriptions_management.heading") %></h1>
 
     <h2 class="govuk-heading-m">
       <%= "Subscriptions for #{@subscriber['address']}" %>

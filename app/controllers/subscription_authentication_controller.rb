@@ -1,5 +1,6 @@
 class SubscriptionAuthenticationController < ApplicationController
   include FrequenciesHelper
+  include SessionsHelper
 
   def authenticate
     @topic_id = params.require(:topic_id)
@@ -15,26 +16,25 @@ class SubscriptionAuthenticationController < ApplicationController
       return
     end
 
-    subscriber_list_id = GdsApi.email_alert_api
+    subscriber_list = GdsApi.email_alert_api
       .get_subscriber_list(slug: @topic_id)
-      .dig("subscriber_list", "id")
+      .dig("subscriber_list")
 
-    GdsApi.email_alert_api.subscribe(
-      subscriber_list_id: subscriber_list_id,
-      address: token.data[:address],
-      frequency: @frequency,
-    )
+    subscription = GdsApi.email_alert_api
+      .subscribe(
+        subscriber_list_id: subscriber_list["id"],
+        address: token.data[:address],
+        frequency: @frequency,
+      )
+      .dig("subscription")
 
-    redirect_to subscription_complete_path(topic_id: @topic_id, frequency: @frequency)
-  end
+    flash[:subscription] = {
+      id: subscription["id"],
+      message: t("subscription_authentication.authenticate.message"),
+    }
 
-  def complete
-    topic_id = params.require(:topic_id)
-    @frequency = params.require(:frequency)
-
-    @title = GdsApi.email_alert_api
-      .get_subscriber_list(slug: topic_id)
-      .to_h.dig("subscriber_list", "title")
+    authenticate_subscriber(subscription.dig("subscriber", "id"))
+    redirect_to list_subscriptions_path
   end
 
 private

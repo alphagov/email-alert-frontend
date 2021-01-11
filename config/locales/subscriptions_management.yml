@@ -9,6 +9,11 @@ en:
       unsubscribe:
         message: "You have been unsubscribed from ‘%{title}’"
         description: "It can take up to an hour for this change to take effect."
+      flashes:
+        subscription:
+          immediately: "You’ll get an email from GOV.UK each time we add or update a page about:"
+          daily: "You’ll get one email a day from GOV.UK about:"
+          weekly: "You’ll get one email a week from GOV.UK about:"
     update_address:
       heading: Change your email address
       current_email: "Your current email address is %{address}"

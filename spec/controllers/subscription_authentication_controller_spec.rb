@@ -1,35 +1,50 @@
 RSpec.describe SubscriptionAuthenticationController do
   include GdsApi::TestHelpers::EmailAlertApi
   include TokenHelper
+  include SessionHelper
 
   render_views
 
   describe "GET authenticate" do
     let(:address) { "someone@example.com" }
     let(:topic_id) { SecureRandom.uuid }
-    let(:params) { { topic_id: topic_id, frequency: "immediately" } }
+    let(:frequency) { "immediately" }
+    let(:token) { nil }
+    let(:params) { { topic_id: topic_id, frequency: frequency, token: token } }
+
+    before do
+      stub_email_alert_api_has_subscriber_list_by_slug(
+        slug: topic_id,
+        returned_attributes: { id: 123, title: "Title" },
+      )
+
+      stub_email_alert_api_creates_a_subscription(
+        subscriber_list_id: 123,
+        address: address,
+        frequency: frequency,
+        returned_subscription_id: 1,
+      )
+    end
 
     context "the token is valid" do
-      before do
-        stub_email_alert_api_has_subscriber_list_by_slug(
-          slug: topic_id,
-          returned_attributes: { id: 123 },
-        )
-
-        stub_email_alert_api_creates_a_subscription(
-          subscriber_list_id: 123,
-          address: address,
-          frequency: params[:frequency],
-        )
-      end
-
       let(:token) do
         encrypt_and_sign_token(data: { "topic_id" => topic_id, "address" => address })
       end
 
-      it "redirects to the success page" do
-        get :authenticate, params: params.merge(token: token)
-        expect(response).to redirect_to(subscription_complete_path(params))
+      it "redirects to the manage page" do
+        get :authenticate, params: params
+        expect(response).to redirect_to(list_subscriptions_path)
+      end
+
+      it "shows a success flash message" do
+        get :authenticate, params: params
+        expect(flash[:subscription][:message]).to eq(I18n.t!("subscription_authentication.authenticate.message"))
+        expect(flash[:subscription][:id]).to eq(1)
+      end
+
+      it "creates a new session" do
+        get :authenticate, params: params
+        expect(session["authentication"]).to be_present
       end
     end
 
@@ -37,7 +52,7 @@ RSpec.describe SubscriptionAuthenticationController do
       let(:token) { encrypt_and_sign_token(expiry: 0) }
 
       it "shows an expired error page" do
-        get :authenticate, params: params.merge(token: token)
+        get :authenticate, params: params
         expect(response.body).to include(I18n.t!("subscription_authentication.expired.title"))
       end
     end
@@ -46,25 +61,29 @@ RSpec.describe SubscriptionAuthenticationController do
       let(:token) { encrypt_and_sign_token(data: { "topic_id" => "another" }) }
 
       it "shows a general error page" do
-        get :authenticate, params: params.merge(token: token)
+        get :authenticate, params: params
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
     context "the frequency is invalid" do
+      let(:frequency) { "foo" }
+
       let(:token) do
         encrypt_and_sign_token(data: { "topic_id" => topic_id, "address" => address })
       end
 
       it "shows a general error page" do
-        get :authenticate, params: params.merge(token: token, frequency: "foo")
+        get :authenticate, params: params
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
     context "the token is invalid" do
+      let(:token) { "foo" }
+
       it "shows an expired error page" do
-        get :authenticate, params: params.merge(token: "foo")
+        get :authenticate, params: params
         expect(response.body).to include(I18n.t!("subscription_authentication.expired.title"))
       end
     end
