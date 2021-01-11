@@ -8,10 +8,6 @@ RSpec.describe SubscriberAuthenticationController do
 
   render_views
 
-  before do
-    stub_email_alert_api_sends_subscriber_verification_email(subscriber_id, subscriber_address)
-  end
-
   describe "GET /email/authenticate" do
     context "when the page is requested" do
       it "returns 200" do
@@ -61,6 +57,10 @@ RSpec.describe SubscriberAuthenticationController do
     end
 
     context "when a valid address is provided and the subscriber exists" do
+      before do
+        stub_email_alert_api_sends_subscriber_verification_email(subscriber_id, subscriber_address)
+      end
+
       it "renders a message" do
         post :request_sign_in_token, params: { address: subscriber_address }
         expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
