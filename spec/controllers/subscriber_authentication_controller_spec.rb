@@ -1,6 +1,7 @@
 RSpec.describe SubscriberAuthenticationController do
   include GdsApi::TestHelpers::EmailAlertApi
   include TokenHelper
+  include SessionHelper
 
   let(:endpoint) { GdsApi::TestHelpers::EmailAlertApi::EMAIL_ALERT_API_ENDPOINT }
   let(:subscriber_id) { 1 }
@@ -97,12 +98,25 @@ RSpec.describe SubscriberAuthenticationController do
         get :process_sign_in_token, params: { token: expired_token }
         expect(flash[:error_summary]).to eq("bad_token")
       end
+
+      it "clears any existing session" do
+        get :process_sign_in_token,
+            params: { token: expired_token },
+            session: session_for(subscriber_id)
+
+        expect(session.to_h).to_not include(session_for(subscriber_id))
+      end
     end
 
     context "when a valid token is provided" do
       it "redirects to the subscription management page" do
         get :process_sign_in_token, params: { token: token }
         expect(response).to redirect_to(list_subscriptions_path)
+      end
+
+      it "creates a session for the subscriber" do
+        get :process_sign_in_token, params: { token: token }
+        expect(session.to_h).to include(session_for(subscriber_id))
       end
     end
   end
