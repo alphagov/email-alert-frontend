@@ -9,6 +9,8 @@ RSpec.describe SubscriptionAuthenticationController do
     let(:address) { "someone@example.com" }
     let(:topic_id) { SecureRandom.uuid }
     let(:frequency) { "immediately" }
+    let(:subscription_id) { 1 }
+    let(:subscriber_id) { 2 }
     let(:token) { nil }
     let(:params) { { topic_id: topic_id, frequency: frequency, token: token } }
 
@@ -22,7 +24,8 @@ RSpec.describe SubscriptionAuthenticationController do
         subscriber_list_id: 123,
         address: address,
         frequency: frequency,
-        returned_subscription_id: 1,
+        returned_subscription_id: subscription_id,
+        subscriber_id: subscriber_id,
       )
     end
 
@@ -39,12 +42,12 @@ RSpec.describe SubscriptionAuthenticationController do
       it "shows a success flash message" do
         get :authenticate, params: params
         expect(flash[:subscription][:message]).to eq(I18n.t!("subscription_authentication.authenticate.message"))
-        expect(flash[:subscription][:id]).to eq(1)
+        expect(flash[:subscription][:id]).to eq(subscription_id)
       end
 
       it "creates a new session" do
         get :authenticate, params: params
-        expect(session["authentication"]).to be_present
+        expect(session.to_h).to include(session_for(subscriber_id))
       end
     end
 
