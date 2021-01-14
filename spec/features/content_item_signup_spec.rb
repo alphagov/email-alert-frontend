@@ -45,7 +45,7 @@ RSpec.feature "Content item signup" do
   end
 
   def when_i_visit_the_signup_page
-    visit new_content_item_signup_path(topic: @content_item[:base_path])
+    visit new_content_item_signup_path(link: @content_item[:base_path])
     expect(page).to have_content(@content_item[:title])
   end
 

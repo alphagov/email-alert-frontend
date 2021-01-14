@@ -12,14 +12,14 @@ RSpec.describe ContentItemSignupsController do
         redirects: [{ destination: "/cleaning/broomsticks" }],
       )
 
-      make_request(topic: "/magical/broomsticks")
-      expected_path = new_content_item_signup_path(topic: "/cleaning/broomsticks")
+      make_request(link: "/magical/broomsticks")
+      expected_path = new_content_item_signup_path(link: "/cleaning/broomsticks")
       expect(response).to redirect_to(expected_path)
     end
 
     it "returns a 404 if there is no destination path" do
       stub_content_store_has_item("/magical/broomsticks", document_type: "redirect")
-      make_request(topic: "/magical/broomsticks")
+      make_request(link: "/magical/broomsticks")
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -31,10 +31,10 @@ RSpec.describe ContentItemSignupsController do
     end
 
     it "returns a 400 if the content item path is invalid" do
-      make_request(topic: "/with unencoded spaces")
+      make_request(link: "/with unencoded spaces")
       expect(response).to have_http_status(:bad_request)
 
-      make_request(topic: ["/a"])
+      make_request(link: ["/a"])
       expect(response).to have_http_status(:bad_request)
     end
 
@@ -43,7 +43,7 @@ RSpec.describe ContentItemSignupsController do
       url = content_store_endpoint + "/content#{base_path}"
       stub_request(:get, url).to_return(status: 400, headers: {})
 
-      make_request(topic: base_path)
+      make_request(link: base_path)
       expect(response).to have_http_status(:bad_request)
     end
 
@@ -52,19 +52,19 @@ RSpec.describe ContentItemSignupsController do
       url = content_store_endpoint + "/content#{base_path}"
       stub_request(:get, url).to_return(status: 403, headers: {})
 
-      make_request(topic: base_path)
+      make_request(link: base_path)
       expect(response).to have_http_status(:forbidden)
     end
 
     it "returns a 404 if the content item is not found" do
       stub_content_store_does_not_have_item("/education/some-rando-item")
-      make_request(topic: "/education/some-rando-item")
+      make_request(link: "/education/some-rando-item")
       expect(response).to have_http_status(:not_found)
     end
 
     it "returns a 410 if the content item is unpublished" do
       stub_content_store_has_gone_item("/taxon-is-gone")
-      make_request(topic: "/taxon-is-gone")
+      make_request(link: "/taxon-is-gone")
       expect(response).to have_http_status(:gone)
     end
   end
@@ -72,7 +72,7 @@ RSpec.describe ContentItemSignupsController do
   shared_examples "limited to certain types" do
     it "returns a 400 if the content item is not supported" do
       stub_content_store_has_item("/cma-cases", document_type: "finder")
-      make_request(topic: "/cma-cases")
+      make_request(link: "/cma-cases")
       expect(response).to have_http_status(:bad_request)
     end
   end
@@ -84,7 +84,7 @@ RSpec.describe ContentItemSignupsController do
 
     it "shows a page to confirm the subscription" do
       stub_content_store_has_item("/organisation", document_type: "organisation")
-      make_request(topic: "/organisation")
+      make_request(link: "/organisation")
       expect(response.body).to include(I18n.t!("content_item_signups.confirm.title"))
     end
 
@@ -93,7 +93,7 @@ RSpec.describe ContentItemSignupsController do
                                   document_type: "taxon",
                                   links: { "child_taxons" => %w[child-taxon] })
 
-      make_request(topic: "/my-taxon")
+      make_request(link: "/my-taxon")
       expect(response.body).to include(I18n.t!("content_item_signups.taxon.title"))
     end
 
@@ -138,7 +138,7 @@ RSpec.describe ContentItemSignupsController do
       stub_email_alert_api_does_not_have_subscriber_list("links" => { organisations: [content_id] })
       stub_email_alert_api_creates_subscriber_list("links" => { organisations: [content_id] }, "slug" => "my-list")
 
-      make_request(topic: "/my-organisation")
+      make_request(link: "/my-organisation")
       expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
     end
 
@@ -148,7 +148,7 @@ RSpec.describe ContentItemSignupsController do
 
       stub_email_alert_api_has_subscriber_list("links" => { organisations: [content_id] }, "slug" => "my-list")
 
-      make_request(topic: "/my-organisation")
+      make_request(link: "/my-organisation")
       expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
     end
   end

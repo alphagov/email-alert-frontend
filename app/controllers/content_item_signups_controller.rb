@@ -43,13 +43,11 @@ private
     destination_path = @content_item.dig("redirects", 0, "destination")
     return error_not_found if destination_path.nil?
 
-    redirect_to(new_content_item_signup_path(topic: destination_path))
+    redirect_to(new_content_item_signup_path(link: destination_path))
   end
 
   def assign_content_item
-    # Topic param left in for backwards compatibility.
-    # Topic is the user-facing terminology for taxons. Expect the taxon base
-    # path to be provided in a param of this name.
+    # Note: the "topic" param has historically appeared in external links
     content_item_path = params[:topic] || params[:link]
 
     return bad_request unless content_item_path.to_s.starts_with?("/")
