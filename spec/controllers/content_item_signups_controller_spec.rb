@@ -2,6 +2,8 @@ RSpec.describe ContentItemSignupsController do
   include GdsApi::TestHelpers::ContentStore
   include GdsApi::TestHelpers::EmailAlertApi
 
+  render_views
+
   shared_examples "router for redirects" do
     it "follows a redirect for an unpublished content item" do
       stub_content_store_has_item(
@@ -78,6 +80,21 @@ RSpec.describe ContentItemSignupsController do
   describe "#new" do
     def make_request(params)
       get :new, params: params
+    end
+
+    it "shows a page to confirm the subscription" do
+      stub_content_store_has_item("/organisation", document_type: "organisation")
+      make_request(topic: "/organisation")
+      expect(response.body).to include(I18n.t!("content_item_signups.confirm.title"))
+    end
+
+    it "shows a special page for taxons with children" do
+      stub_content_store_has_item("/my-taxon",
+                                  document_type: "taxon",
+                                  links: { "child_taxons" => %w[child-taxon] })
+
+      make_request(topic: "/my-taxon")
+      expect(response.body).to include(I18n.t!("content_item_signups.taxon.title"))
     end
 
     it_behaves_like "proxy to content store"
