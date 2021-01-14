@@ -11,7 +11,7 @@ class ContentItemSignupsController < ApplicationController
   before_action :assign_list_params
 
   def new
-    if is_taxon?(@content_item) && taxon_children(@content_item).any?
+    if is_taxon_with_children?(@content_item)
       render "taxon"
     else
       render "confirm"
@@ -19,11 +19,9 @@ class ContentItemSignupsController < ApplicationController
   end
 
   def confirm
-    if is_taxon?(@content_item) && taxon_children(@content_item).any?
-      if params[:topic].nil?
-        flash[:error] = t("content_item_signups.taxon.no_selection")
-        render "taxon"
-      end
+    if is_taxon_with_children?(@content_item) && params[:topic].nil?
+      flash[:error] = t("content_item_signups.taxon.no_selection")
+      render "taxon"
     end
   end
 
