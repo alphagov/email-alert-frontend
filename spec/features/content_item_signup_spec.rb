@@ -20,6 +20,7 @@ RSpec.feature "Content item signup" do
   def given_there_is_a_topic
     @links_type = "taxon_tree"
     @content_item = {
+      content_id: SecureRandom.uuid,
       base_path: "/education/further-education",
       title: "Further education",
       document_type: "taxon",
@@ -34,6 +35,7 @@ RSpec.feature "Content item signup" do
   def given_there_is_an_organisation
     @links_type = "organisations"
     @content_item = {
+      content_id: SecureRandom.uuid,
       title: "Organisation",
       base_path: "/my-organisation",
       document_type: "organisation",
