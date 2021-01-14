@@ -107,6 +107,16 @@ RSpec.describe ContentItemSignupsController do
       get :confirm, params: params
     end
 
+    it "shows an error if a taxon is not selected" do
+      stub_content_store_has_item("/my-taxon",
+                                  document_type: "taxon",
+                                  links: { "child_taxons" => %w[child-taxon] })
+
+      make_request(link: "/my-taxon")
+      expect(response.body).to include(I18n.t!("content_item_signups.taxon.title"))
+      expect(response.body).to include(I18n.t!("content_item_signups.taxon.no_selection"))
+    end
+
     it_behaves_like "proxy to content store"
     it_behaves_like "router for redirects"
     it_behaves_like "limited to certain types"

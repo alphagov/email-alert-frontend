@@ -50,7 +50,7 @@ RSpec.feature "Content item signup" do
   end
 
   def and_i_refine_my_selection
-    expect(page).to have_checked_field("topic-2")
+    expect(page).to_not have_checked_field
     expect(page).to have_content(@content_item.dig(:links, :child_taxons).first[:title])
 
     choose @content_item[:title]

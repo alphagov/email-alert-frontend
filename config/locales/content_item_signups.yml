@@ -5,3 +5,5 @@ en:
       description: "You’ll get emails when we add or update pages about:"
     taxon:
       title: What do you want to get emails about?
+      general_problem: There is a problem
+      no_selection: Select a topic
