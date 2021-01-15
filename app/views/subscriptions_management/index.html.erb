@@ -26,11 +26,20 @@
       <% end %>
     <% end %>
 
-    <h1 class="govuk-heading-l"><%= t("subscriptions_management.heading") %></h1>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("subscriptions_management.heading"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6,
+    } %>
 
-    <h2 class="govuk-heading-m">
-      <%= "Subscriptions for #{@subscriber['address']}" %>
-    </h2>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: "Subscriptions for #{@subscriber['address']}",
+      heading_level: 2,
+      font_size: "m",
+      margin_bottom: 4,
+    } %>
+
     <p class="govuk-body">
       <%= link_to "Change email address",
                   update_address_path,
@@ -48,9 +57,13 @@
       </p>
     <% else %>
       <% @subscriptions.each do |_key, subscription| %>
-        <h3 class="govuk-heading-s">
-          <%= subscription['subscriber_list']['title'] %>
-        </h3>
+        <%= render "govuk_publishing_components/components/heading", {
+          text: subscription['subscriber_list']['title'],
+          heading_level: 3,
+          font_size: "s",
+          margin_bottom: 4
+        } %>
+
         <p class='govuk-body'>
           <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
         </p>

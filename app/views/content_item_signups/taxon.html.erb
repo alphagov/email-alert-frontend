@@ -15,7 +15,12 @@
       } %>
     <% end %>
 
-    <h1 class="govuk-heading-l"><%= t("content_item_signups.taxon.title") %></h1>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("content_item_signups.taxon.title"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6,
+    } %>
 
     <%= form_tag({ action: :confirm },
                  method: "get",
