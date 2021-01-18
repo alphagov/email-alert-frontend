@@ -58,7 +58,7 @@ RSpec.feature "Content item signup" do
   end
 
   def and_i_click_to_signup_to_alerts
-    stub_email_alert_api_has_subscriber_list(
+    stub_email_alert_api_creates_subscriber_list(
       "links" => { @links_type => [@content_item[:content_id]] },
       "slug" => "my-list",
     )
