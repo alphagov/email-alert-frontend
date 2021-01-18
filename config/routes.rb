@@ -39,5 +39,5 @@ Rails.application.routes.draw do
     get "/authenticate", to: redirect("/email/manage/authenticate")
   end
 
-  get "/healthcheck", to: GovukHealthcheck.rack_response(Healthchecks::RedisConnection)
+  get "/healthcheck", to: GovukHealthcheck.rack_response(GovukHealthcheck::Redis)
 end
