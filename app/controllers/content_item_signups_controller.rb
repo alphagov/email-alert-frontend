@@ -11,14 +11,19 @@ class ContentItemSignupsController < ApplicationController
   before_action :assign_list_params
 
   def new
-    if is_taxon?(@content_item) && taxon_children(@content_item).any?
+    if is_taxon_with_children?(@content_item)
       render "taxon"
     else
       render "confirm"
     end
   end
 
-  def confirm; end
+  def confirm
+    if is_taxon_with_children?(@content_item) && params[:topic].nil?
+      flash[:error] = t("content_item_signups.taxon.no_selection")
+      render "taxon"
+    end
+  end
 
   def create
     slug = GdsApi.email_alert_api
@@ -36,14 +41,12 @@ private
     destination_path = @content_item.dig("redirects", 0, "destination")
     return error_not_found if destination_path.nil?
 
-    redirect_to(new_content_item_signup_path(topic: destination_path))
+    redirect_to(new_content_item_signup_path(link: destination_path))
   end
 
   def assign_content_item
-    # Topic param left in for backwards compatibility.
-    # Topic is the user-facing terminology for taxons. Expect the taxon base
-    # path to be provided in a param of this name.
-    content_item_path = params[:link] || params[:topic]
+    # Note: the "topic" param has historically appeared in external links
+    content_item_path = params[:topic] || params[:link]
 
     return bad_request unless content_item_path.to_s.starts_with?("/")
     return bad_request unless URI.parse(content_item_path).relative?
