@@ -9,7 +9,7 @@ A frontend for creating and managing email subscriptions.
 This app provides three routes for signing up to email:
 
 
-- A `/email-signup?link=/:base_path` route [[example](https://www.gov.uk/email-signup/?topic=/money)].
+- A `/email-signup?link=/:base_path` route [[example](https://www.gov.uk/email-signup/?link=/money)].
 
 This route supports signup to several types of content. It was [originally specific to the taxonomy](https://github.com/alphagov/email-alert-frontend/pull/33) (despite the generic name), and then [got re-purposed for other document types](https://github.com/alphagov/email-alert-frontend/pull/451).
 
