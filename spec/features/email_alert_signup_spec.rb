@@ -24,7 +24,7 @@ RSpec.feature "Email alert signup" do
   def and_i_click_to_signup_to_alerts
     @subscriber_list_id = SecureRandom.uuid
 
-    stub_email_alert_api_has_subscriber_list(
+    stub_email_alert_api_creates_subscriber_list(
       @content_item["details"]["subscriber_list"].merge(
         "id" => @subscriber_list_id,
         "slug" => @subscriber_list_id,
