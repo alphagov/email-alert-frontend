@@ -2,7 +2,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t("subscriber_authentication.request_sign_in_token.heading") %></h1>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("subscriber_authentication.request_sign_in_token.heading"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6,
+    } %>
 
     <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.confirmation", address: @address) %></p>
     <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.prompt") %></p>

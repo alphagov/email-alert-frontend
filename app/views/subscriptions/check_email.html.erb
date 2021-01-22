@@ -2,7 +2,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t("subscriptions.check_email.title") %></h1>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("subscriptions.check_email.title"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6,
+    } %>
 
     <p class="govuk-body">
       <%= t("subscriptions.check_email.description_html", address: @address) %>

@@ -3,7 +3,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <h1 class="govuk-heading-l"><%= t("content_item_signups.confirm.title") %></h1>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("content_item_signups.confirm.title"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6
+    } %>
 
     <p class="govuk-body">
       <%= t("content_item_signups.confirm.description") %>

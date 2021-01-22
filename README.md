@@ -37,11 +37,15 @@ In order to verify the email for a new subscription:
 
 This allows the user to list, modify and delete their subscriptions [[login](https://www.gov.uk/email/manage/authenticate)]. It uses a similar, but separate email/token process to authenticate a user, establishing a session for them to make their changes.
 
+### Testing 
+
+Some pages are only accessible from a link sent in an email. The documentation on [receiving emails from Email Alert API in Integration and Staging](https://docs.publishing.service.gov.uk/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html) will show how to send emails so these pages can be viewed.
+
 ## Nomenclature
 
 ### Tags and links
 
-Uniquely define a list people can subscribe to. The criteria within are used to figure out whether an update is relevant subscribers in the list. Defined in [the docs for email-alert-api](https://github.com/alphagov/email-alert-api/blob/master/doc/matching-content-to-subscriber-lists.md).
+Uniquely define a list people can subscribe to. The criteria within are used to figure out whether an update is relevant subscribers in the list. Defined in [the docs for email-alert-api](https://docs.publishing.service.gov.uk/apps/email-alert-api/matching-content-to-subscriber-lists.html).
 
 ```
 tags: { topics: { any: ["business-tax/vat"] } }

@@ -9,7 +9,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l"><%= t("subscriptions_management.heading") %></h1>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("subscriptions_management.heading"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6,
+    } %>
 
     <%= form_tag change_frequency_path, method: :post do %>
       <%= hidden_field_tag :id, @subscription_id %>
