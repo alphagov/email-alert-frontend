@@ -1,4 +1,4 @@
-RSpec.feature "Change email address after receiving confirmation link" do
+RSpec.feature "Change email address" do
   include GdsApi::TestHelpers::EmailAlertApi
   include TokenHelper
 
