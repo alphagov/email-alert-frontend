@@ -29,7 +29,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders an error message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.missing_email"))
+        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.missing_email.description"))
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders an error message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.invalid_email"))
+        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.invalid_email.description"))
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "sets a bad_token flash" do
         get :process_sign_in_token, params: { token: expired_token }
-        expect(flash[:error_summary]).to eq("bad_token")
+        expect(flash[:error]).to eq(:bad_token)
       end
 
       it "clears any existing session" do

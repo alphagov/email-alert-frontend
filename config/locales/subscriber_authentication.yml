@@ -4,14 +4,18 @@ en:
       heading: Change your email preferences
       description: For security, we need you to confirm your email address.
       email_input: Email address
-      missing_email: "Enter your email address"
-      invalid_email: "This does not look like a valid email address – check you’ve entered it correctly"
-      email_error:
-        title: We cannot send you an email
-        description: There’s a problem with your email address
-      bad_token_error:
+      missing_email:
+        title: There is a problem
+        description: "Enter your email address"
+        message: "Enter your email address"
+      invalid_email:
+        title: There is a problem
+        description: "Enter an email address in the correct format, like name@example.com"
+        message: "Enter an email address in the correct format, like name@example.com"
+      bad_token:
         title: That link has expired
-        description: Enter your email address again to manage your subscriptions
+        description: Enter your email address again to change your email preferences
+        message: "Enter your email address"
     request_sign_in_token:
       heading: "Check your inbox"
       confirmation: "We’ve sent an email to %{address}."

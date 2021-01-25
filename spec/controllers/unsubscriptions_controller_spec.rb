@@ -22,7 +22,7 @@ RSpec.describe UnsubscriptionsController do
         token = encrypt_and_sign_token(data: { "subscriber_id" => "other" })
         make_request(params: { id: id, token: token })
         expect(response).to redirect_to sign_in_path
-        expect(flash[:error_summary]).to eq("bad_token")
+        expect(flash[:error]).to eq(:bad_token)
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe UnsubscriptionsController do
         token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id }, expiry: 0)
         make_request(params: { id: id, token: token })
         expect(response).to redirect_to sign_in_path
-        expect(flash[:error_summary]).to eq("bad_token")
+        expect(flash[:error]).to eq(:bad_token)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe UnsubscriptionsController do
         token = encrypt_and_sign_token(data: {})
         make_request(params: { id: id, token: token })
         expect(response).to redirect_to sign_in_path
-        expect(flash[:error_summary]).to eq("bad_token")
+        expect(flash[:error]).to eq(:bad_token)
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe UnsubscriptionsController do
       it "redirects to the sign in page" do
         make_request(params: { id: id })
         expect(response).to redirect_to sign_in_path
-        expect(flash[:error_summary]).to be_nil
+        expect(flash[:error]).to be_nil
       end
     end
   end
