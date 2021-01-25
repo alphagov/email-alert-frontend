@@ -1,11 +1,9 @@
 en:
   subscriber_authentication:
-    heading: Manage your email subscriptions
     sign_in:
+      heading: Change your email preferences
       description: For security, we need you to confirm your email address.
-      action: We’ll send you an email with a link in to manage your subscriptions.
-      email_input:
-        label: Your email address
+      email_input: Email address
       missing_email: "Enter your email address"
       invalid_email: "This does not look like a valid email address – check you’ve entered it correctly"
       email_error:
