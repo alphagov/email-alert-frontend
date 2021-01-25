@@ -6,7 +6,7 @@ RSpec.feature "Subscribe" do
     when_i_visit_the_email_signup_page
     and_i_choose_a_frequency
     and_i_enter_my_email_address
-    then_i_should_receive_an_opt_in_email
+    then_i_expect_to_get_an_email
   end
 
   def given_there_is_content_i_can_subscribe_to
@@ -48,7 +48,7 @@ RSpec.feature "Subscribe" do
     click_on "Continue"
   end
 
-  def then_i_should_receive_an_opt_in_email
+  def then_i_expect_to_get_an_email
     expect(@request).to have_been_requested
     expect(page).to have_content(I18n.t!("subscriptions.check_email.title"))
   end

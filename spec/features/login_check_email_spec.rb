@@ -1,18 +1,18 @@
-RSpec.feature "Receive confirmation email when managing subscriptions" do
+RSpec.feature "Login check email" do
   include GdsApi::TestHelpers::EmailAlertApi
 
   scenario do
     given_i_have_an_email_address
-    when_i_visit_the_manage_my_subscriptions_page
+    when_i_visit_the_manage_page
     and_i_enter_my_email_address
-    then_i_can_see_a_confirmation_email_has_been_sent_to_me
+    then_i_expect_to_get_an_email
   end
 
   def given_i_have_an_email_address
     @email_address = "test@test.com"
   end
 
-  def when_i_visit_the_manage_my_subscriptions_page
+  def when_i_visit_the_manage_page
     visit sign_in_path
   end
 
@@ -26,7 +26,7 @@ RSpec.feature "Receive confirmation email when managing subscriptions" do
     click_on "Continue"
   end
 
-  def then_i_can_see_a_confirmation_email_has_been_sent_to_me
+  def then_i_expect_to_get_an_email
     expect(@request).to have_been_requested
     expect(page).to have_content(
       I18n.t!(
