@@ -16,7 +16,7 @@ en:
         title: That link has expired
         description: Enter your email address again to change your email preferences
         message: "Enter your email address"
-    request_sign_in_token:
+    check_email:
       heading: "Check your inbox"
       description_html: |
         <p class="govuk-body">We’ve sent an email to <strong>%{address}</strong></p>

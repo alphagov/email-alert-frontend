@@ -26,7 +26,7 @@ RSpec.feature "Login check email" do
   def then_i_expect_to_get_an_email
     expect(@request).to have_been_requested
     expect(page).to have_content(
-      I18n.t!("subscriber_authentication.request_sign_in_token.heading"),
+      I18n.t!("subscriber_authentication.check_email.heading"),
     )
   end
 end

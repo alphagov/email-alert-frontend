@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       post "/unsubscribe-all" => "subscriptions_management#confirmed_unsubscribe_all", as: :unsubscribe_all
 
       get "/authenticate" => "subscriber_authentication#sign_in", as: :sign_in
-      post "/authenticate" => "subscriber_authentication#request_sign_in_token", as: :request_sign_in_token
+      post "/authenticate" => "subscriber_authentication#verify", as: :verify_subscriber
       get "/authenticate/process" => "subscriber_authentication#process_sign_in_token", as: :process_sign_in_token
     end
 

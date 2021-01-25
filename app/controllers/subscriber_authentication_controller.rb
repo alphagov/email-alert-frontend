@@ -5,7 +5,7 @@ class SubscriberAuthenticationController < ApplicationController
     @address = params[:address]
   end
 
-  def request_sign_in_token
+  def verify
     if params[:address].blank?
       flash.now[:error] = :missing_email
       return render :sign_in
@@ -13,6 +13,7 @@ class SubscriberAuthenticationController < ApplicationController
 
     @address = params.require(:address)
     VerifySubscriberEmailService.call(@address)
+    render :check_email
   rescue GdsApi::HTTPUnprocessableEntity
     flash.now[:error] = :invalid_email
     render :sign_in
