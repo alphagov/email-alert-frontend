@@ -18,6 +18,12 @@ en:
         message: "Enter your email address"
     request_sign_in_token:
       heading: "Check your inbox"
-      confirmation: "We’ve sent an email to %{address}."
-      prompt: Click the link in the email to manage your subscriptions.
-      delay_warning: It can take up to 15 minutes for the email to arrive.
+      description_html: |
+        <p class="govuk-body">We’ve sent an email to <strong>%{address}</strong></p>
+        <p class="govuk-body">Click the link in the email to confirm your email address.</p>
+        <p class="govuk-body">The link will stop working after 7 days.</p>
+      delay_title: Not received an email?
+      delay_html: |
+        <p>Emails sometimes take a few minutes to arrive.</p>
+        <p>If you do not receive an email soon, check your spam or junk folder.</p>
+        <p>If this does not work, <a class="govuk-link govuk-link--no-visited-state" href="https://www.gov.uk/contact/govuk">contact GOV.UK</a> for help.</p>

@@ -9,8 +9,13 @@
       margin_bottom: 6,
     } %>
 
-    <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.confirmation", address: @address) %></p>
-    <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.prompt") %></p>
-    <p class="govuk-body"><%= t("subscriber_authentication.request_sign_in_token.delay_warning") %></p>
+    <div class="govuk-body">
+      <%= t("subscriber_authentication.request_sign_in_token.description_html", address: @address) %>
+    </div>
+
+    <%= render("govuk_publishing_components/components/details",
+               title: t("subscriber_authentication.request_sign_in_token.delay_title")) do %>
+      <%= t("subscriber_authentication.request_sign_in_token.delay_html") %>
+    <% end %>
   </div>
 </div>

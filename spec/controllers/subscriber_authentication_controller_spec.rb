@@ -53,7 +53,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders a message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
+        expect(response.body).to include(I18n.t!("subscriber_authentication.request_sign_in_token.heading"))
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders a message" do
         post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
+        expect(response.body).to include(I18n.t!("subscriber_authentication.request_sign_in_token.heading"))
       end
     end
 
