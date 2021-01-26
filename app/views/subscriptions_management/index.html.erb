@@ -14,8 +14,9 @@
 
       <% if subscription %>
         <% description = capture do %>
-          <p><%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %></p>
-          <br>
+          <p class="govuk-body">
+            <%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %>
+          </p>
           <p><strong><%= subscription['subscriber_list']['title'] %></strong></p>
         <% end %>
 
