@@ -1,4 +1,4 @@
-RSpec.feature "Change email frequency after receiving confirmation link" do
+RSpec.feature "Change email frequency" do
   include GdsApi::TestHelpers::EmailAlertApi
   include TokenHelper
 

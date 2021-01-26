@@ -1,10 +1,10 @@
-RSpec.feature "Subscribe opt-in" do
+RSpec.feature "Subscribe verify email" do
   include GdsApi::TestHelpers::EmailAlertApi
   include TokenHelper
 
   scenario do
     given_i_am_subscribing_to_a_list
-    when_i_click_on_the_confirmation_link
+    when_i_click_on_the_verification_link
     then_i_see_i_am_subscribed
     and_i_can_manage_my_subscriptions
   end
@@ -15,7 +15,7 @@ RSpec.feature "Subscribe opt-in" do
     @address = "test@example.com"
   end
 
-  def when_i_click_on_the_confirmation_link
+  def when_i_click_on_the_verification_link
     @title = "Test Subscriber List"
     subscriber_id = 1
     subscription_id = 2

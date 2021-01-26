@@ -18,7 +18,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders a form" do
         get :sign_in
-        expect(response.body).to include(%(action="#{request_sign_in_token_path}"))
+        expect(response.body).to include(%(action="#{verify_subscriber_path}"))
       end
     end
   end
@@ -28,8 +28,8 @@ RSpec.describe SubscriberAuthenticationController do
       let(:subscriber_address) { "" }
 
       it "renders an error message" do
-        post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.missing_email"))
+        post :verify, params: { address: subscriber_address }
+        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.missing_email.description"))
       end
     end
 
@@ -41,8 +41,8 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       it "renders an error message" do
-        post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.invalid_email"))
+        post :verify, params: { address: subscriber_address }
+        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.invalid_email.description"))
       end
     end
 
@@ -52,8 +52,8 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       it "renders a message" do
-        post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
+        post :verify, params: { address: subscriber_address }
+        expect(response.body).to include(I18n.t!("subscriber_authentication.check_email.heading"))
       end
     end
 
@@ -63,8 +63,8 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       it "renders a message" do
-        post :request_sign_in_token, params: { address: subscriber_address }
-        expect(response.body).to include("We’ve sent an email to #{subscriber_address}")
+        post :verify, params: { address: subscriber_address }
+        expect(response.body).to include(I18n.t!("subscriber_authentication.check_email.heading"))
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       it "returns a 429 reponse" do
-        post :request_sign_in_token, params: { address: subscriber_address }
+        post :verify, params: { address: subscriber_address }
         expect(response).to have_http_status(:too_many_requests)
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "sets a bad_token flash" do
         get :process_sign_in_token, params: { token: expired_token }
-        expect(flash[:error_summary]).to eq("bad_token")
+        expect(flash[:error]).to eq(:bad_token)
       end
 
       it "clears any existing session" do

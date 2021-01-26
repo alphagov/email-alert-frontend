@@ -1,4 +1,4 @@
-RSpec.feature "Bulk unsubscribe after receiving confirmation link" do
+RSpec.feature "Bulk unsubscribe" do
   include GdsApi::TestHelpers::EmailAlertApi
   include TokenHelper
 

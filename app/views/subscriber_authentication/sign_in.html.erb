@@ -1,45 +1,36 @@
-<% content_for :title, t("subscriber_authentication.heading") %>
-
+<% content_for :title, t("subscriber_authentication.sign_in.heading") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriber_authentication.heading"),
+      text: t("subscriber_authentication.sign_in.heading"),
       heading_level: 1,
       font_size: "l",
       margin_bottom: 6,
     } %>
 
-    <% if flash[:error_summary] == "email" %>
+    <% if flash[:error] %>
       <%= render 'govuk_publishing_components/components/error_summary', {
-        title: t("subscriber_authentication.sign_in.email_error.title"),
-        items: [
-          {
-            text: t("subscriber_authentication.sign_in.email_error.description"),
-            href: '#email-address-input',
-          }
-        ]
-      } %>
-    <% elsif flash[:error_summary] == "bad_token" %>
-      <%= render 'govuk_publishing_components/components/error_summary', {
-        title: t("subscriber_authentication.sign_in.bad_token_error.title"),
-        description: t("subscriber_authentication.sign_in.bad_token_error.description"),
+        title: t("subscriber_authentication.sign_in.#{flash[:error]}.title"),
+        items: [{
+          text: t("subscriber_authentication.sign_in.#{flash[:error]}.description"),
+          href: '#email-address-input'
+        }]
       } %>
     <% end %>
 
     <p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
 
-    <%= form_tag request_sign_in_token_path, method: :post, novalidate: "novalidate"  do %>
+    <%= form_tag verify_subscriber_path, method: :post, novalidate: "novalidate"  do %>
       <%= render 'govuk_publishing_components/components/input', {
-        error_message: flash[:error],
+        error_message: flash[:error] &&
+          t("subscriber_authentication.sign_in.#{flash[:error]}.message"),
         id: 'email-address-input',
-        label: { text: t("subscriber_authentication.sign_in.email_input.label") },
+        label: { text: t("subscriber_authentication.sign_in.email_input") },
         name: :address,
         type: 'email',
         value: @address,
       } %>
-
-      <p class="govuk-body"><%= t("subscriber_authentication.sign_in.action") %></p>
 
       <%= render 'govuk_publishing_components/components/button', {
         text: 'Continue',

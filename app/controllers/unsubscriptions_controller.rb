@@ -58,7 +58,7 @@ private
     token = AuthToken.new(params[:token].to_s)
     return if token.valid? && token.data[:subscriber_id] == expected_id
 
-    flash[:error_summary] = "bad_token" if params[:token]
+    flash[:error] = :bad_token if params[:token]
     redirect_to sign_in_path
   end
 end
