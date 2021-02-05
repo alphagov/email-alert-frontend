@@ -4,6 +4,10 @@ A frontend for creating and managing email subscriptions.
 
 ## Overview
 
+### Running the application
+
+This application is designed to be run within the [GOV.UK Docker](https://github.com/alphagov/govuk-docker) development environment it will be available on the host at http://email-alert-frontend.dev.gov.uk/.  You can run Email Alert Frontend against live, read-only data with `govuk-docker-up app-live`.
+
 ### Signup
 
 This app provides three routes for signing up to email:
