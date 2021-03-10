@@ -4,10 +4,6 @@ A frontend for creating and managing email subscriptions.
 
 ## Overview
 
-### Running the application
-
-This application is designed to be run within the [GOV.UK Docker](https://github.com/alphagov/govuk-docker) development environment it will be available on the host at http://email-alert-frontend.dev.gov.uk/.  You can run Email Alert Frontend against live, read-only data with `govuk-docker-up app-live`.
-
 ### Signup
 
 This app provides three routes for signing up to email:
@@ -41,10 +37,6 @@ In order to verify the email for a new subscription:
 
 This allows the user to list, modify and delete their subscriptions [[login](https://www.gov.uk/email/manage/authenticate)]. It uses a similar, but separate email/token process to authenticate a user, establishing a session for them to make their changes.
 
-### Testing 
-
-Some pages are only accessible from a link sent in an email. The documentation on [receiving emails from Email Alert API in Integration and Staging](https://docs.publishing.service.gov.uk/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html) will show how to send emails so these pages can be viewed.
-
 ## Nomenclature
 
 ### Tags and links
@@ -71,11 +63,24 @@ These terms are also used by [the legacy `email_alert_signup` schema](https://gi
 "links": { "countries": ["f402b8de-2e99-4ff3-949f-31fe65796cae"] }
 ```
 
-## Running the test suite
+## Technical documentation
+
+
+This is a Ruby on Rails app, and should follow [our Rails app conventions](https://docs.publishing.service.gov.uk/manual/conventions-for-rails-applications.html).
+
+You can use the [GOV.UK Docker environment](https://github.com/alphagov/govuk-docker) to run the application and its tests with all the necessary dependencies. Follow [the usage instructions](https://github.com/alphagov/govuk-docker#usage) to get started.
+
+**Use GOV.UK Docker to run any commands that follow.**
+
+### Running the test suite
 
 ```
 $ bundle exec rake
 ```
+
+### Testing account pages
+
+Some pages are only accessible once a user has logged-in, using a link sent in an email. To test these pages locally, you will need to make a temporary change to the controller code to bypass authentication. If testing on a deployed branch, see the documentation on [receiving emails from in Integration and Staging](https://docs.publishing.service.gov.uk/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html).
 
 ## Licence
 
