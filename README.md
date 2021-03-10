@@ -2,36 +2,19 @@
 
 A frontend for creating and managing email subscriptions.
 
-## Overview
+## Features
 
 ### Signup
 
 This app provides three routes for signing up to email:
 
+- A `/email-signup?link=/:base_path` route [[example](https://www.gov.uk/email-signup/?link=/money)]. This route supports signup to several types of content. It was [originally specific to the taxonomy](https://github.com/alphagov/email-alert-frontend/pull/33) (despite the generic name), and then [got re-purposed for other document types](https://github.com/alphagov/email-alert-frontend/pull/451).
 
-- A `/email-signup?link=/:base_path` route [[example](https://www.gov.uk/email-signup/?link=/money)].
+- A **legacy** `/:base_path/email-signup` route [[example](https://www.gov.uk/foreign-travel-advice/canada/email-signup)]. Each of these routes corresponds to a content item with an [`email_alert_signup` schema](https://github.com/alphagov/govuk-content-schemas/blob/master/formats/email_alert_signup.jsonnet). At the time of writing, `/foreign-travel-advice/*` still uses this route.
 
-This route supports signup to several types of content. It was [originally specific to the taxonomy](https://github.com/alphagov/email-alert-frontend/pull/33) (despite the generic name), and then [got re-purposed for other document types](https://github.com/alphagov/email-alert-frontend/pull/451).
+- A `/email/subscriptions/new` route [[example](https://www.gov.uk/email/subscriptions/new?topic_id=statistics-with-1-research-and-statistic-5e2982632b)]. This route enables any other application to offer a fully customised email signup experience that is not reliant on the content store. It is used by apps like [finder-frontend](https://github.com/alphagov/finder-frontend), where a new subscriber list is created from the combination of selected filters.
 
-- A **legacy** `/:base_path/email-signup` route [[example](https://www.gov.uk/foreign-travel-advice/canada/email-signup)].
-
-Each of these routes corresponds to a content item with an [`email_alert_signup` schema](https://github.com/alphagov/govuk-content-schemas/blob/master/formats/email_alert_signup.jsonnet). At the time of writing, `/foreign-travel-advice/*` still uses this route.
-
-- A `/email/subscriptions/new` route [[example](https://www.gov.uk/email/subscriptions/new?topic_id=statistics-with-1-research-and-statistic-5e2982632b)].
-
-This route enables any other application to offer a fully customised email signup experience that is not reliant on the content store.
-
-It is used by apps like [finder-frontend](https://github.com/alphagov/finder-frontend), where a new subscriber list is created from the combination of selected filters.
-
-### Double Opt-In
-
-In order to verify the email for a new subscription:
-
-- We [send a verification email using email-alert-api](https://github.com/alphagov/email-alert-frontend/pull/629)
-- The email [contains a link with a unique token for the subscription](https://github.com/alphagov/email-alert-api/pull/1051)\*
-- Clicking on the link [completes the signup process](https://github.com/alphagov/email-alert-frontend/pull/615)
-
-\* Note that [the token strategy has changed over time](https://github.com/alphagov/email-alert-api/pull/1083).
+In order to verify the email for a new subscription, we send a verification email using Email Alert API. The email contains a link with a unique token for the subscription. Clicking on the link completes the signup process.
 
 ### Manage
 
