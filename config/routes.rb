@@ -40,4 +40,9 @@ Rails.application.routes.draw do
   end
 
   get "/healthcheck", to: GovukHealthcheck.rack_response(GovukHealthcheck::Redis)
+
+  get "/healthcheck/live", to: proc { [200, {}, %w[OK]] }
+  get "/healthcheck/ready", to: GovukHealthcheck.rack_response(
+    GovukHealthcheck::Redis,
+  )
 end
