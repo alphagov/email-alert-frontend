@@ -1,5 +1,6 @@
 class GenerateSubscriberListParamsService < ApplicationService
   def initialize(content_item)
+    super()
     @content_item = content_item
   end
 

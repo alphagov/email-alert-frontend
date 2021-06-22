@@ -12,6 +12,7 @@ class VerifySubscriptionEmailService < ApplicationService
   HOURLY_THRESHOLD = 11
 
   def initialize(address, frequency, topic_id)
+    super()
     @topic_id = topic_id
     @address = address
     @frequency = frequency
