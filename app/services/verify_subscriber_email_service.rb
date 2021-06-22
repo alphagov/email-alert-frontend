@@ -13,6 +13,7 @@ class VerifySubscriberEmailService < ApplicationService
   HOURLY_THRESHOLD = 11
 
   def initialize(address)
+    super()
     @address = address
   end
 

@@ -17,16 +17,14 @@ class SubscriptionAuthenticationController < ApplicationController
     end
 
     subscriber_list = GdsApi.email_alert_api
-      .get_subscriber_list(slug: @topic_id)
-      .dig("subscriber_list")
+      .get_subscriber_list(slug: @topic_id)["subscriber_list"]
 
     subscription = GdsApi.email_alert_api
       .subscribe(
         subscriber_list_id: subscriber_list["id"],
         address: token.data[:address],
         frequency: @frequency,
-      )
-      .dig("subscription")
+      )["subscription"]
 
     flash[:subscription] = {
       id: subscription["id"],

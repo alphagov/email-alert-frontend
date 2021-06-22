@@ -33,7 +33,7 @@ private
 
   def set_attributes
     @id = params.require(:id)
-    @subscription = GdsApi.email_alert_api.get_subscription(@id).dig("subscription")
+    @subscription = GdsApi.email_alert_api.get_subscription(@id)["subscription"]
     @title = @subscription.dig("subscriber_list", "title")
   end
 

@@ -4,7 +4,7 @@ namespace :publishing_api do
   desc "Publish email signup page for taxonomy"
   task publish_email_signup_page: :environment do
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: Logger.new(STDOUT),
+      logger: Logger.new($stdout),
       publishing_api: GdsApi.publishing_api,
     )
 
@@ -32,7 +32,7 @@ namespace :publishing_api do
   desc "Publish /email/unsubscribe prefix route"
   task publish_email_unsubscribe_prefix: :environment do
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: Logger.new(STDOUT),
+      logger: Logger.new($stdout),
       publishing_api: GdsApi.publishing_api,
     )
 
@@ -50,7 +50,7 @@ namespace :publishing_api do
   desc "Publish /email/subscriptions prefix route"
   task publish_email_subscriptions_prefix: :environment do
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: Logger.new(STDOUT),
+      logger: Logger.new($stdout),
       publishing_api: GdsApi.publishing_api,
     )
 
@@ -68,7 +68,7 @@ namespace :publishing_api do
   desc "Publish /email/authenticate prefix route"
   task publish_email_authenticate_prefix: :environment do
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: Logger.new(STDOUT),
+      logger: Logger.new($stdout),
       publishing_api: GdsApi.publishing_api,
     )
 
@@ -86,7 +86,7 @@ namespace :publishing_api do
   desc "Publish /email/manage prefix route"
   task publish_email_manage_prefix: :environment do
     special_route_publisher = GdsApi::PublishingApi::SpecialRoutePublisher.new(
-      logger: Logger.new(STDOUT),
+      logger: Logger.new($stdout),
       publishing_api: GdsApi.publishing_api,
     )
 

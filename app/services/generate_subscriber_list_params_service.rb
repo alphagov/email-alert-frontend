@@ -1,5 +1,6 @@
 class GenerateSubscriberListParamsService < ApplicationService
   def initialize(content_item)
+    super()
     @content_item = content_item
   end
 
@@ -45,6 +46,6 @@ private
   end
 
   def content_item_type
-    content_item.dig("document_type")
+    content_item["document_type"]
   end
 end
