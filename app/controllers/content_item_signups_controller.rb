@@ -45,7 +45,7 @@ private
   end
 
   def assign_content_item
-    # Note: the "topic" param has historically appeared in external links
+    # NOTE: the "topic" param has historically appeared in external links
     content_item_path = params[:topic] || params[:link]
 
     return bad_request unless content_item_path.to_s.starts_with?("/")
