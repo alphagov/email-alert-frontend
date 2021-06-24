@@ -35,17 +35,14 @@ class SubscriberAuthenticationController < ApplicationController
 
   def process_govuk_account
     head :not_found and return unless ENV["FEATURE_FLAG_GOVUK_ACCOUNT"] == "enabled"
+    reauthenticate_govuk_account and return if account_session_header.blank?
 
     api_response = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(govuk_account_session: account_session_header)
     set_account_session_header(api_response["govuk_account_session"])
     authenticate_subscriber(api_response.dig("subscriber", "id"))
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnauthorized
-    deauthenticate_subscriber
-    logout!
-    uri = GdsApi.account_api.get_sign_in_url(redirect_path: process_govuk_account_path)["auth_uri"]
-    uri += "&_ga=#{params[:_ga]}" if params[:_ga]
-    redirect_to uri
+    reauthenticate_govuk_account
   rescue GdsApi::HTTPForbidden => e
     deauthenticate_subscriber
     set_account_session_header(JSON.parse(e.http_body)["govuk_account_session"])
@@ -60,5 +57,14 @@ private
 
   def token
     @token ||= AuthToken.new(params.require(:token))
+  end
+
+  def reauthenticate_govuk_account
+    deauthenticate_subscriber
+    logout!
+
+    uri = GdsApi.account_api.get_sign_in_url(redirect_path: process_govuk_account_path)["auth_uri"]
+    uri += "&_ga=#{params[:_ga]}" if params[:_ga]
+    redirect_to uri
   end
 end
