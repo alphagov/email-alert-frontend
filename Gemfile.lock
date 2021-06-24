@@ -71,6 +71,7 @@ GEM
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
     childprocess (3.0.0)
+    climate_control (1.0.1)
     coderay (1.1.3)
     concurrent-ruby (1.1.9)
     crack (0.4.3)
@@ -109,6 +110,8 @@ GEM
       sentry-raven (~> 3.1.1)
       statsd-ruby (~> 1.5.0)
       unicorn (>= 5.4, < 5.9)
+    govuk_personalisation (0.5.0)
+      rails (~> 6)
     govuk_publishing_components (24.15.3)
       govuk_app_config
       kramdown
@@ -352,8 +355,10 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
+  climate_control
   gds-api-adapters
   govuk_app_config
+  govuk_personalisation
   govuk_publishing_components
   govuk_schemas
   govuk_test
