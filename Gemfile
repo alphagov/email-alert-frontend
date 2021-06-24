@@ -4,6 +4,7 @@ gem "rails", "6.0.3.4"
 
 gem "gds-api-adapters"
 gem "govuk_app_config"
+gem "govuk_personalisation"
 gem "govuk_publishing_components"
 gem "jwt"
 gem "plek"
@@ -13,6 +14,7 @@ gem "slimmer"
 gem "uglifier"
 
 group :development, :test do
+  gem "climate_control"
   gem "govuk_test"
   gem "jasmine"
   gem "jasmine_selenium_runner"

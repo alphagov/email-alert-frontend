@@ -1,5 +1,7 @@
 RSpec.describe SubscriberAuthenticationController do
+  include GdsApi::TestHelpers::AccountApi
   include GdsApi::TestHelpers::EmailAlertApi
+  include GovukPersonalisation::TestHelpers::Requests
   include TokenHelper
   include SessionHelper
 
@@ -117,6 +119,129 @@ RSpec.describe SubscriberAuthenticationController do
       it "creates a session for the subscriber" do
         get :process_sign_in_token, params: { token: token }
         expect(session.to_h).to include(session_for(subscriber_id))
+      end
+    end
+  end
+
+  describe "GET /email/authenticate/account" do
+    before { mock_logged_in_session(session_id) }
+
+    let(:session_id) { "session-id" }
+
+    it "returns a 404" do
+      get :process_govuk_account
+      expect(response).to have_http_status(:not_found)
+    end
+
+    context "when the feature flag is on" do
+      around do |example|
+        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+          example.run
+        end
+      end
+
+      before do
+        stub_email_alert_api_authenticate_subscriber_by_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
+      end
+
+      let(:new_session_id) { nil }
+
+      it "redirects to the subscription management page" do
+        get :process_govuk_account
+        expect(response).to redirect_to(list_subscriptions_path)
+      end
+
+      it "creates a session for the subscriber" do
+        get :process_govuk_account
+        expect(session.to_h).to include(session_for(subscriber_id))
+      end
+
+      it "sets the Vary response header" do
+        get :process_govuk_account
+        expect(response.headers["Vary"]).to include("GOVUK-Account-Session")
+      end
+
+      context "when email-alert-api returns a new session ID" do
+        let(:new_session_id) { "new-session-id" }
+
+        it "includes a new session ID in the response headers" do
+          get :process_govuk_account
+          expect(response.headers["GOVUK-Account-Session"]).to eq(new_session_id)
+        end
+      end
+
+      context "when the user's session is invalid" do
+        before do
+          stub_email_alert_api_authenticate_subscriber_by_govuk_account_session_invalid(session_id)
+          stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
+        end
+
+        let(:auth_uri) { "/sign-in" }
+
+        it "redirects them to sign in" do
+          get :process_govuk_account
+          expect(response).to redirect_to(auth_uri)
+        end
+
+        it "sets the logout session header" do
+          get :process_govuk_account
+          expect(response.headers["GOVUK-Account-End-Session"]).to_not be_nil
+        end
+
+        it "clears any existing session" do
+          get :process_govuk_account, session: session_for(subscriber_id)
+          expect(session.to_h).to_not include(session_for(subscriber_id))
+        end
+      end
+
+      context "when the account email address is unverified" do
+        before do
+          stub_email_alert_api_authenticate_subscriber_by_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
+        end
+
+        it "renders an error response" do
+          get :process_govuk_account
+          expect(response.body).to eq("This GOV.UK account does not have a verified email address.")
+        end
+
+        it "clears any existing session" do
+          get :process_govuk_account, session: session_for(subscriber_id)
+          expect(session.to_h).to_not include(session_for(subscriber_id))
+        end
+
+        context "when email-alert-api returns a new session ID" do
+          let(:new_session_id) { "new-session-id" }
+
+          it "includes a new session ID in the response headers" do
+            get :process_govuk_account
+            expect(response.headers["GOVUK-Account-Session"]).to eq(new_session_id)
+          end
+        end
+      end
+
+      context "when there is no matching subscriber" do
+        before do
+          stub_email_alert_api_authenticate_subscriber_by_govuk_account_no_subscriber(session_id, new_govuk_account_session: new_session_id)
+        end
+
+        it "renders an error response" do
+          get :process_govuk_account
+          expect(response.body).to eq("This GOV.UK account does not have a notifications account.")
+        end
+
+        it "clears any existing session" do
+          get :process_govuk_account, session: session_for(subscriber_id)
+          expect(session.to_h).to_not include(session_for(subscriber_id))
+        end
+
+        context "when email-alert-api returns a new session ID" do
+          let(:new_session_id) { "new-session-id" }
+
+          it "includes a new session ID in the response headers" do
+            get :process_govuk_account
+            expect(response.headers["GOVUK-Account-Session"]).to eq(new_session_id)
+          end
+        end
       end
     end
   end

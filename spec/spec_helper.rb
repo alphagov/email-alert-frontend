@@ -7,6 +7,7 @@ require File.expand_path("../config/environment", __dir__)
 require "rspec/rails"
 require "webmock/rspec"
 require "slimmer/rspec"
+require "gds_api/test_helpers/account_api"
 require "gds_api/test_helpers/email_alert_api"
 
 WebMock.disable_net_connect!(allow_localhost: true)
