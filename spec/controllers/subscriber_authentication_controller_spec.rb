@@ -170,6 +170,31 @@ RSpec.describe SubscriberAuthenticationController do
         end
       end
 
+      context "when the user's session is missing" do
+        before do
+          stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
+        end
+
+        let(:session_id) { nil }
+
+        let(:auth_uri) { "/sign-in" }
+
+        it "redirects them to sign in" do
+          get :process_govuk_account
+          expect(response).to redirect_to(auth_uri)
+        end
+
+        it "sets the logout session header" do
+          get :process_govuk_account
+          expect(response.headers["GOVUK-Account-End-Session"]).to_not be_nil
+        end
+
+        it "clears any existing session" do
+          get :process_govuk_account, session: session_for(subscriber_id)
+          expect(session.to_h).to_not include(session_for(subscriber_id))
+        end
+      end
+
       context "when the user's session is invalid" do
         before do
           stub_email_alert_api_authenticate_subscriber_by_govuk_account_session_invalid(session_id)
