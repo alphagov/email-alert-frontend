@@ -16,7 +16,7 @@ Bundler.require(*Rails.groups)
 module EmailAlertFrontend
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
 
     # Add lib directory to autoload paths
     config.autoload_paths += Dir[Rails.root.join("lib")]
