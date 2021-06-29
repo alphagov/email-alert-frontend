@@ -243,31 +243,6 @@ RSpec.describe SubscriberAuthenticationController do
           end
         end
       end
-
-      context "when there is no matching subscriber" do
-        before do
-          stub_email_alert_api_authenticate_subscriber_by_govuk_account_no_subscriber(session_id, new_govuk_account_session: new_session_id)
-        end
-
-        it "renders an error response" do
-          get :process_govuk_account
-          expect(response.body).to eq("This GOV.UK account does not have a notifications account.")
-        end
-
-        it "clears any existing session" do
-          get :process_govuk_account, session: session_for(subscriber_id)
-          expect(session.to_h).to_not include(session_for(subscriber_id))
-        end
-
-        context "when email-alert-api returns a new session ID" do
-          let(:new_session_id) { "new-session-id" }
-
-          it "includes a new session ID in the response headers" do
-            get :process_govuk_account
-            expect(response.headers["GOVUK-Account-Session"]).to eq(new_session_id)
-          end
-        end
-      end
     end
   end
 end

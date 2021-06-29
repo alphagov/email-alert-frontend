@@ -47,10 +47,6 @@ class SubscriberAuthenticationController < ApplicationController
     deauthenticate_subscriber
     set_account_session_header(JSON.parse(e.http_body)["govuk_account_session"])
     render plain: "This GOV.UK account does not have a verified email address."
-  rescue GdsApi::HTTPNotFound => e
-    deauthenticate_subscriber
-    set_account_session_header(JSON.parse(e.http_body)["govuk_account_session"])
-    render plain: "This GOV.UK account does not have a notifications account."
   end
 
 private
