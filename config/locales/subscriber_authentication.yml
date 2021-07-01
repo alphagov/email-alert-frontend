@@ -4,6 +4,10 @@ en:
       heading: Change your email preferences
       description: For security, we need you to confirm your email address.
       email_input: Email address
+      account_description_html: |
+        <p class="govuk-body">We’ve introduced GOV.UK accounts as a new way to manage your notifications.</p>
+        <p class="govuk-body">If you’ve set up a GOV.UK account, you need to <a class="govuk-link govuk-link--no-visited-state" href="%{process_govuk_account_path}">sign in</a>.</p>
+      account_unlinked_heading: "I don’t have a GOV.UK account"
       missing_email:
         title: There is a problem
         description: "Enter your email address"

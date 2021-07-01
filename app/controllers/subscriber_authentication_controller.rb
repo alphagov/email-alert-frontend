@@ -36,7 +36,7 @@ class SubscriberAuthenticationController < ApplicationController
   end
 
   def process_govuk_account
-    head :not_found and return unless ENV["FEATURE_FLAG_GOVUK_ACCOUNT"] == "enabled"
+    head :not_found and return unless govuk_account_auth_enabled?
     reauthenticate_govuk_account and return if account_session_header.blank?
 
     api_response = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(govuk_account_session: account_session_header)
@@ -49,6 +49,10 @@ class SubscriberAuthenticationController < ApplicationController
     deauthenticate_subscriber
     set_account_session_header(JSON.parse(e.http_body)["govuk_account_session"])
     render plain: "This GOV.UK account does not have a verified email address."
+  end
+
+  helper_method def govuk_account_auth_enabled?
+    ENV["FEATURE_FLAG_GOVUK_ACCOUNT"] == "enabled"
   end
 
 private
