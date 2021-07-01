@@ -41,7 +41,7 @@ class SubscriberAuthenticationController < ApplicationController
 
     api_response = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(govuk_account_session: account_session_header)
     set_account_session_header(api_response["govuk_account_session"])
-    authenticate_subscriber(api_response.dig("subscriber", "id"))
+    authenticate_subscriber(api_response.dig("subscriber", "id"), linked_to_govuk_account: true)
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnauthorized
     reauthenticate_govuk_account

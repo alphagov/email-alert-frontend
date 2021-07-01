@@ -43,7 +43,7 @@
 
     <p class="govuk-body">
       <%= link_to "Change email address",
-                  update_address_path,
+                  @account_change_email_url || update_address_path,
                   class: %w[govuk-link govuk-link--no-visited-state] %>
     </p>
 

@@ -1,6 +1,7 @@
 class SubscriptionsManagementController < ApplicationController
   before_action :require_authentication
   before_action :get_subscription_details
+  before_action :set_account_change_email_url
   before_action :set_back_url
 
   def index; end
@@ -36,10 +37,14 @@ class SubscriptionsManagementController < ApplicationController
   end
 
   def update_address
+    redirect_to @account_change_email_url and return if @account_change_email_url
+
     @address = @subscriber["address"]
   end
 
   def change_address
+    redirect_to @account_change_email_url and return if @account_change_email_url
+
     @address = @subscriber["address"]
 
     if params[:new_address].blank?
@@ -81,6 +86,12 @@ class SubscriptionsManagementController < ApplicationController
   end
 
 private
+
+  def set_account_change_email_url
+    if session.dig("authentication", "linked_to_govuk_account")
+      @account_change_email_url = ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL")
+    end
+  end
 
   def get_subscription_details
     subscription_details = GdsApi.email_alert_api.get_subscriptions(

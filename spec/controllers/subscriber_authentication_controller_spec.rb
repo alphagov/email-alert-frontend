@@ -182,7 +182,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "creates a session for the subscriber" do
         get :process_govuk_account
-        expect(session.to_h).to include(session_for(subscriber_id))
+        expect(session.to_h).to include(session_for(subscriber_id, linked_to_govuk_account: true))
       end
 
       it "sets the Vary response header" do
