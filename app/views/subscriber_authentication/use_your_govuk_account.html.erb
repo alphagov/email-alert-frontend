@@ -1,0 +1,16 @@
+<% content_for :title, t("subscriber_authentication.use_your_govuk_account.heading") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("subscriber_authentication.use_your_govuk_account.heading"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6,
+    } %>
+
+    <div class="govuk-body">
+      <%= t("subscriber_authentication.use_your_govuk_account.description_html", address: @address, process_govuk_account_path: process_govuk_account_path) %>
+    </div>
+  </div>
+</div>

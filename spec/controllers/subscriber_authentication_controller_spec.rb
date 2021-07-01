@@ -48,6 +48,17 @@ RSpec.describe SubscriberAuthenticationController do
       end
     end
 
+    context "when the email address is linked to a GOV.UK Account" do
+      before do
+        stub_email_alert_api_subscriber_verification_email_linked_to_govuk_account
+      end
+
+      it "renders an error message" do
+        post :verify, params: { address: subscriber_address }
+        expect(response.body).to include(I18n.t!("subscriber_authentication.use_your_govuk_account.heading"))
+      end
+    end
+
     context "when a valid address is provided and the subscriber doesn't exist" do
       before do
         stub_email_alert_api_subscriber_verification_email_no_subscriber
