@@ -102,6 +102,21 @@ RSpec.describe SubscriptionsManagementController do
         expect(response.body).to include("You aren’t subscribed to any topics on GOV.UK.")
       end
     end
+
+    context "when the subscriber is logged in through a GOV.UK Account" do
+      around do |example|
+        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_ACCOUNT_CHANGE_EMAIL_URL: "https://www.gov.uk/change-your-password") do
+          example.run
+        end
+      end
+
+      let(:session_linked_to_govuk_account) { session_for(subscriber_id, linked_to_govuk_account: true) }
+
+      it "points the 'change email' link to the account" do
+        get :index, session: session_linked_to_govuk_account
+        expect(response.body).to include(ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL"))
+      end
+    end
   end
 
   describe "GET /email/manage/frequency/:id" do
@@ -174,10 +189,40 @@ RSpec.describe SubscriptionsManagementController do
         get :update_address, session: session
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
+
+      context "when the subscriber is logged in through a GOV.UK Account" do
+        around do |example|
+          ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_ACCOUNT_CHANGE_EMAIL_URL: "https://www.gov.uk/change-your-password") do
+            example.run
+          end
+        end
+
+        let(:session_linked_to_govuk_account) { session_for(subscriber_id, linked_to_govuk_account: true) }
+
+        it "redirects to the account" do
+          get :update_address, session: session_linked_to_govuk_account
+          expect(response).to redirect_to(ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL"))
+        end
+      end
     end
   end
 
   describe "POST /email/manage/address/change" do
+    context "when the subscriber is logged in through a GOV.UK Account" do
+      around do |example|
+        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_ACCOUNT_CHANGE_EMAIL_URL: "https://www.gov.uk/change-your-password") do
+          example.run
+        end
+      end
+
+      let(:session_linked_to_govuk_account) { session_for(subscriber_id, linked_to_govuk_account: true) }
+
+      it "redirects to the account" do
+        post :change_address, session: session_linked_to_govuk_account
+        expect(response).to redirect_to(ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL"))
+      end
+    end
+
     context "when no email address is provided" do
       let(:new_address) { "" }
 

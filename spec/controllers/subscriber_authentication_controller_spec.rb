@@ -22,6 +22,24 @@ RSpec.describe SubscriberAuthenticationController do
         get :sign_in
         expect(response.body).to include(%(action="#{verify_subscriber_path}"))
       end
+
+      it "doesn't mention the GOV.UK Account" do
+        get :sign_in
+        expect(response.body).not_to include(I18n.t!("subscriber_authentication.sign_in.account_unlinked_heading"))
+      end
+
+      context "when the accounts feature flag is enabled" do
+        around do |example|
+          ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+            example.run
+          end
+        end
+
+        it "mentions the GOV.UK Account" do
+          get :sign_in
+          expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.account_unlinked_heading"))
+        end
+      end
     end
   end
 
@@ -45,6 +63,17 @@ RSpec.describe SubscriberAuthenticationController do
       it "renders an error message" do
         post :verify, params: { address: subscriber_address }
         expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.invalid_email.description"))
+      end
+    end
+
+    context "when the email address is linked to a GOV.UK Account" do
+      before do
+        stub_email_alert_api_subscriber_verification_email_linked_to_govuk_account
+      end
+
+      it "renders an error message" do
+        post :verify, params: { address: subscriber_address }
+        expect(response.body).to include(I18n.t!("subscriber_authentication.use_your_govuk_account.heading"))
       end
     end
 
@@ -141,7 +170,7 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       before do
-        stub_email_alert_api_authenticate_subscriber_by_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
+        stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
       end
 
       let(:new_session_id) { nil }
@@ -153,7 +182,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "creates a session for the subscriber" do
         get :process_govuk_account
-        expect(session.to_h).to include(session_for(subscriber_id))
+        expect(session.to_h).to include(session_for(subscriber_id, linked_to_govuk_account: true))
       end
 
       it "sets the Vary response header" do
@@ -197,7 +226,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       context "when the user's session is invalid" do
         before do
-          stub_email_alert_api_authenticate_subscriber_by_govuk_account_session_invalid(session_id)
+          stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
           stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
         end
 
@@ -220,13 +249,19 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       context "when the account email address is unverified" do
+        around do |example|
+          ClimateControl.modify GOVUK_ACCOUNT_CONFIRM_EMAIL_URL: "https://www.gov.uk" do
+            example.run
+          end
+        end
+
         before do
-          stub_email_alert_api_authenticate_subscriber_by_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
+          stub_email_alert_api_link_subscriber_to_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
         end
 
         it "renders an error response" do
           get :process_govuk_account
-          expect(response.body).to eq("This GOV.UK account does not have a verified email address.")
+          expect(response.body).to include(I18n.t!("subscriber_authentication.confirm_your_govuk_account.heading"))
         end
 
         it "clears any existing session" do

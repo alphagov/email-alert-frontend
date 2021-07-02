@@ -4,6 +4,10 @@ en:
       heading: Change your email preferences
       description: For security, we need you to confirm your email address.
       email_input: Email address
+      account_description_html: |
+        <p class="govuk-body">We’ve introduced GOV.UK accounts as a new way to manage your notifications.</p>
+        <p class="govuk-body">If you’ve set up a GOV.UK account, you need to <a class="govuk-link govuk-link--no-visited-state" href="%{process_govuk_account_path}">sign in</a>.</p>
+      account_unlinked_heading: "I don’t have a GOV.UK account"
       missing_email:
         title: There is a problem
         description: "Enter your email address"
@@ -27,3 +31,15 @@ en:
         <p>Emails sometimes take a few minutes to arrive.</p>
         <p>If you do not receive an email soon, check your spam or junk folder.</p>
         <p>If this does not work, <a class="govuk-link govuk-link--no-visited-state" href="https://www.gov.uk/contact/govuk">contact GOV.UK</a> for help.</p>
+    use_your_govuk_account:
+      heading: "Sign in with your GOV.UK account"
+      description_html: |
+        <p class="govuk-body">You’ve set up a GOV.UK account for <strong>%{address}</strong></p>
+        <p class="govuk-body">You now need to use your email address and password to manage your notifications.</p>
+        <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="%{process_govuk_account_path}">Sign in to your account</a>.</p>
+    confirm_your_govuk_account:
+      heading: "You must confirm your GOV.UK account to continue"
+      description_html: |
+        <p class="govuk-body">You’ve set up a GOV.UK account for <strong>%{address}</strong></p>
+        <p class="govuk-body">Before you can manage your notifications, you need to confirm the email address for that account.</p>
+        <p class="govuk-body">If you haven’t received the confirmation email, you can <a class="govuk-link govuk-link--no-visited-state" href="%{confirm_govuk_account_url}">request another one</a>.</p>

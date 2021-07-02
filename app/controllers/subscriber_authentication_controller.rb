@@ -15,6 +15,8 @@ class SubscriberAuthenticationController < ApplicationController
     @address = params.require(:address)
     VerifySubscriberEmailService.call(@address)
     render :check_email
+  rescue GdsApi::HTTPForbidden
+    render :use_your_govuk_account
   rescue GdsApi::HTTPUnprocessableEntity
     flash.now[:error] = :invalid_email
     render :sign_in
@@ -34,22 +36,30 @@ class SubscriberAuthenticationController < ApplicationController
   end
 
   def process_govuk_account
-    head :not_found and return unless ENV["FEATURE_FLAG_GOVUK_ACCOUNT"] == "enabled"
+    head :not_found and return unless govuk_account_auth_enabled?
     reauthenticate_govuk_account and return if account_session_header.blank?
 
-    api_response = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(govuk_account_session: account_session_header)
+    api_response = GdsApi.email_alert_api.link_subscriber_to_govuk_account(govuk_account_session: account_session_header)
     set_account_session_header(api_response["govuk_account_session"])
-    authenticate_subscriber(api_response.dig("subscriber", "id"))
+    authenticate_subscriber(api_response.dig("subscriber", "id"), linked_to_govuk_account: true)
     redirect_to list_subscriptions_path
   rescue GdsApi::HTTPUnauthorized
     reauthenticate_govuk_account
   rescue GdsApi::HTTPForbidden => e
     deauthenticate_subscriber
     set_account_session_header(JSON.parse(e.http_body)["govuk_account_session"])
-    render plain: "This GOV.UK account does not have a verified email address."
+    render :confirm_your_govuk_account
   end
 
 private
+
+  helper_method def confirm_govuk_account_url
+    ENV.fetch("GOVUK_ACCOUNT_CONFIRM_EMAIL_URL")
+  end
+
+  helper_method def govuk_account_auth_enabled?
+    ENV["FEATURE_FLAG_GOVUK_ACCOUNT"] == "enabled"
+  end
 
   def token
     @token ||= AuthToken.new(params.require(:token))
