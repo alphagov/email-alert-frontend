@@ -51,6 +51,8 @@ class SubscriberAuthenticationController < ApplicationController
     render :confirm_your_govuk_account
   end
 
+private
+
   helper_method def confirm_govuk_account_url
     ENV.fetch("GOVUK_ACCOUNT_CONFIRM_EMAIL_URL")
   end
@@ -58,8 +60,6 @@ class SubscriberAuthenticationController < ApplicationController
   helper_method def govuk_account_auth_enabled?
     ENV["FEATURE_FLAG_GOVUK_ACCOUNT"] == "enabled"
   end
-
-private
 
   def token
     @token ||= AuthToken.new(params.require(:token))
