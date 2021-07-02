@@ -39,7 +39,7 @@ class SubscriberAuthenticationController < ApplicationController
     head :not_found and return unless govuk_account_auth_enabled?
     reauthenticate_govuk_account and return if account_session_header.blank?
 
-    api_response = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(govuk_account_session: account_session_header)
+    api_response = GdsApi.email_alert_api.link_subscriber_to_govuk_account(govuk_account_session: account_session_header)
     set_account_session_header(api_response["govuk_account_session"])
     authenticate_subscriber(api_response.dig("subscriber", "id"), linked_to_govuk_account: true)
     redirect_to list_subscriptions_path

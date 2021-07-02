@@ -170,7 +170,7 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       before do
-        stub_email_alert_api_authenticate_subscriber_by_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
+        stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
       end
 
       let(:new_session_id) { nil }
@@ -226,7 +226,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       context "when the user's session is invalid" do
         before do
-          stub_email_alert_api_authenticate_subscriber_by_govuk_account_session_invalid(session_id)
+          stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
           stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
         end
 
@@ -250,7 +250,7 @@ RSpec.describe SubscriberAuthenticationController do
 
       context "when the account email address is unverified" do
         before do
-          stub_email_alert_api_authenticate_subscriber_by_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
+          stub_email_alert_api_link_subscriber_to_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
         end
 
         it "renders an error response" do
