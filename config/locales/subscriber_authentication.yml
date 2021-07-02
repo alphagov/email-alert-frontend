@@ -37,3 +37,9 @@ en:
         <p class="govuk-body">You’ve set up a GOV.UK account for <strong>%{address}</strong></p>
         <p class="govuk-body">You now need to use your email address and password to manage your notifications.</p>
         <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="%{process_govuk_account_path}">Sign in to your account</a>.</p>
+    confirm_your_govuk_account:
+      heading: "You must confirm your GOV.UK account to continue"
+      description_html: |
+        <p class="govuk-body">You’ve set up a GOV.UK account for <strong>%{address}</strong></p>
+        <p class="govuk-body">Before you can manage your notifications, you need to confirm the email address for that account.</p>
+        <p class="govuk-body">If you haven’t received the confirmation email, you can <a class="govuk-link govuk-link--no-visited-state" href="%{confirm_govuk_account_url}">request another one</a>.</p>

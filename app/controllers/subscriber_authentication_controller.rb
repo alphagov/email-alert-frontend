@@ -48,7 +48,11 @@ class SubscriberAuthenticationController < ApplicationController
   rescue GdsApi::HTTPForbidden => e
     deauthenticate_subscriber
     set_account_session_header(JSON.parse(e.http_body)["govuk_account_session"])
-    render plain: "This GOV.UK account does not have a verified email address."
+    render :confirm_your_govuk_account
+  end
+
+  helper_method def confirm_govuk_account_url
+    ENV.fetch("GOVUK_ACCOUNT_CONFIRM_EMAIL_URL")
   end
 
   helper_method def govuk_account_auth_enabled?

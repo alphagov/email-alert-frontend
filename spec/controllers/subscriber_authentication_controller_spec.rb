@@ -249,13 +249,19 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       context "when the account email address is unverified" do
+        around do |example|
+          ClimateControl.modify GOVUK_ACCOUNT_CONFIRM_EMAIL_URL: "https://www.gov.uk" do
+            example.run
+          end
+        end
+
         before do
           stub_email_alert_api_link_subscriber_to_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
         end
 
         it "renders an error response" do
           get :process_govuk_account
-          expect(response.body).to eq("This GOV.UK account does not have a verified email address.")
+          expect(response.body).to include(I18n.t!("subscriber_authentication.confirm_your_govuk_account.heading"))
         end
 
         it "clears any existing session" do
