@@ -1,5 +1,4 @@
-$govuk-typography-use-rem: false;
-$govuk-compatibility-govuktemplate: true;
+$govuk-compatibility-govuktemplate: false;
 $govuk-use-legacy-palette: false;
 $govuk-new-link-styles: true;
 
@@ -19,10 +18,3 @@ $govuk-new-link-styles: true;
 @import 'govuk_publishing_components/components/radio';
 @import 'govuk_publishing_components/components/success-alert';
 @import 'govuk_publishing_components/components/title';
-
-.govuk-link,
-.govuk-back-link {
-  &:focus {
-    @include govuk-template-link-focus-override;
-  }
-}
