@@ -19,12 +19,6 @@ $govuk-use-legacy-palette: false;
 @import 'govuk_publishing_components/components/success-alert';
 @import 'govuk_publishing_components/components/title';
 
-.app-email-option {
-  @include govuk-font(24, $line-height: 1.5);
-  margin-top: govuk-spacing(3);
-  margin-bottom: govuk-spacing(3);
-}
-
 .govuk-link,
 .govuk-back-link {
   &:focus {
