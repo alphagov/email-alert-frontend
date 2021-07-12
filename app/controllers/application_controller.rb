@@ -26,6 +26,8 @@ class ApplicationController < ActionController::Base
     session["authentication"].present?
   end
 
+  slimmer_template :gem_layout
+
 private
 
   def set_cache_control_header
