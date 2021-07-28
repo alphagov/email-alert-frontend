@@ -7,36 +7,32 @@
   } %>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriptions_management.heading"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6,
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscriptions_management.heading"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
+
+<%= form_tag change_frequency_path, method: :post do %>
+  <%= hidden_field_tag :id, @subscription_id %>
+    <%= render 'govuk_publishing_components/components/radio', {
+      name: 'new_frequency',
+      heading: page_heading,
+      items: frequencies(:checked_frequency => @current_frequency)
     } %>
 
-    <%= form_tag change_frequency_path, method: :post do %>
-      <%= hidden_field_tag :id, @subscription_id %>
-        <%= render 'govuk_publishing_components/components/radio', {
-          name: 'new_frequency',
-          heading: page_heading,
-          items: frequencies(:checked_frequency => @current_frequency)
-        } %>
-
-        <%= render 'govuk_publishing_components/components/button', {
-          text: 'Save',
-          margin_bottom: true,
-          data_attributes: {
-            module: 'auto-track-event',
-            track_category: 'email_subscriptions',
-            track_action: 'update_frequency',
-            track_label: @current_frequency,
-          }
-        } %>
-    <% end %>
-    <p class="govuk-body">
-      <%= link_to "Cancel", @back_url, class: %w[govuk-link govuk-link--no-visited-state] %>
-    </p>
-  </div>
-</div>
+    <%= render 'govuk_publishing_components/components/button', {
+      text: 'Save',
+      margin_bottom: true,
+      data_attributes: {
+        module: 'auto-track-event',
+        track_category: 'email_subscriptions',
+        track_action: 'update_frequency',
+        track_label: @current_frequency,
+      }
+    } %>
+<% end %>
+<p class="govuk-body">
+  <%= link_to "Cancel", @back_url, class: %w[govuk-link govuk-link--no-visited-state] %>
+</p>

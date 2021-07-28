@@ -14,12 +14,26 @@
   </head>
   <body class="govuk-template__body">
     <div class="govuk-width-container" id="wrapper">
-      <%= yield :back_link %>
-      <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main" id="content">
-        <div id="email-alert-frontend">
+      <% if use_govuk_account_layout? %>
+        <% content_for :before_content do %>
+          <%= yield :back_link %>
+        <% end %>
+        <%= yield :before_content %>
+        <main role="main" id="content">
           <%= yield %>
-        </div>
-      </main>
+        </main>
+      <% else %>
+        <%= yield :back_link %>
+        <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main" id="content">
+          <div id="email-alert-frontend">
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-two-thirds">
+                <%= yield %>
+              </div>
+            </div>
+          </div>
+        </main>
+      <% end %>
     </div>
     <%= javascript_include_tag 'application' %>
   </body>

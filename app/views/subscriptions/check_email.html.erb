@@ -1,34 +1,30 @@
 <% content_for :title, t("subscriptions.check_email.title") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriptions.check_email.title"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscriptions.check_email.title"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
 
-    <p class="govuk-body">
-      <%= t("subscriptions.check_email.description_html", address: @address) %>
-    </p>
+<p class="govuk-body">
+  <%= t("subscriptions.check_email.description_html", address: @address) %>
+</p>
 
-    <p class="govuk-body">
-      <%= t("subscriptions.check_email.instruction") %>
-    </p>
+<p class="govuk-body">
+  <%= t("subscriptions.check_email.instruction") %>
+</p>
 
-    <p class="govuk-body">
-      <strong><%= @subscriber_list["title"] %></strong>
-    </p>
+<p class="govuk-body">
+  <strong><%= @subscriber_list["title"] %></strong>
+</p>
 
-    <p class="govuk-body">
-      <%= t("subscriptions.check_email.expiry") %>
-    </p>
+<p class="govuk-body">
+  <%= t("subscriptions.check_email.expiry") %>
+</p>
 
-    <%= render "govuk_publishing_components/components/details", {
-      title: t("subscriptions.check_email.not_received_title"),
-    } do %>
-      <%= t("subscriptions.check_email.not_received_detail_html") %>
-    <% end %>
-  </div>
-</div>
+<%= render "govuk_publishing_components/components/details", {
+  title: t("subscriptions.check_email.not_received_title"),
+} do %>
+  <%= t("subscriptions.check_email.not_received_detail_html") %>
+<% end %>

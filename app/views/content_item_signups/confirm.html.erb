@@ -1,35 +1,31 @@
 <% content_for :title, t("content_item_signups.confirm.title") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
 
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("content_item_signups.confirm.title"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("content_item_signups.confirm.title"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6
+} %>
 
-    <p class="govuk-body">
-      <%= t("content_item_signups.confirm.description") %>
-    </p>
+<p class="govuk-body">
+  <%= t("content_item_signups.confirm.description") %>
+</p>
 
-    <p class="govuk-body govuk-!-margin-bottom-8">
-      <strong><%= @content_item['title'] %></strong>
-    </p>
+<p class="govuk-body govuk-!-margin-bottom-8">
+  <strong><%= @content_item['title'] %></strong>
+</p>
 
-    <%= form_tag(action: :create) do %>
-      <%= hidden_field_tag 'link', @content_item['base_path'] %>
-      <%= render 'govuk_publishing_components/components/button', {
-        text: 'Continue',
-        margin_bottom: true,
-        data_attributes: {
-          module: 'gem-track-click',
-          track_category: 'email_subscriptions',
-          track_action: 'new_frequency',
-          track_label: @content_item['title'],
-        },
-      } %>
-    <% end %>
-  </div>
-</div>
+<%= form_tag(action: :create) do %>
+  <%= hidden_field_tag 'link', @content_item['base_path'] %>
+  <%= render 'govuk_publishing_components/components/button', {
+    text: 'Continue',
+    margin_bottom: true,
+    data_attributes: {
+      module: 'gem-track-click',
+      track_category: 'email_subscriptions',
+      track_action: 'new_frequency',
+      track_label: @content_item['title'],
+    },
+  } %>
+<% end %>
