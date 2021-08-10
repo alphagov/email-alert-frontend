@@ -1,5 +1,5 @@
 class SubscriberAuthenticationController < ApplicationController
-  include GovukPersonalisation::AccountConcern
+  include GovukPersonalisation::ControllerConcern
   include SessionsHelper
 
   def sign_in
