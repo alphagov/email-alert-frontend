@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :authenticated?
 
+  helper_method :use_govuk_account_layout?
+
   if ENV["BASIC_AUTH_USERNAME"]
     http_basic_authenticate_with(
       name: ENV.fetch("BASIC_AUTH_USERNAME"),
@@ -24,6 +26,10 @@ class ApplicationController < ActionController::Base
 
   def authenticated?
     session["authentication"].present?
+  end
+
+  def use_govuk_account_layout?
+    false
   end
 
   slimmer_template :gem_layout

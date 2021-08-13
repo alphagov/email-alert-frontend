@@ -1,107 +1,103 @@
 <% content_for :title, t("subscriptions_management.heading") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <% if flash[:success] %>
-      <%= render 'govuk_publishing_components/components/success_alert', {
-        message: flash[:success]["message"],
-        description: flash[:success]["description"],
-      } %>
+<% if flash[:success] %>
+  <%= render 'govuk_publishing_components/components/success_alert', {
+    message: flash[:success]["message"],
+    description: flash[:success]["description"],
+  } %>
+<% end %>
+
+<% if flash[:subscription] %>
+  <% subscription = @subscriptions[flash[:subscription]['id']] %>
+
+  <% if subscription %>
+    <% description = capture do %>
+      <p class="govuk-body">
+        <%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %>
+      </p>
+      <p><strong><%= subscription['subscriber_list']['title'] %></strong></p>
     <% end %>
 
-    <% if flash[:subscription] %>
-      <% subscription = @subscriptions[flash[:subscription]['id']] %>
+    <%= render 'govuk_publishing_components/components/success_alert', {
+      message: flash[:subscription]['message'],
+      description: description
+    } %>
+  <% end %>
+<% end %>
 
-      <% if subscription %>
-        <% description = capture do %>
-          <p class="govuk-body">
-            <%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %>
-          </p>
-          <p><strong><%= subscription['subscriber_list']['title'] %></strong></p>
-        <% end %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscriptions_management.heading"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
 
-        <%= render 'govuk_publishing_components/components/success_alert', {
-          message: flash[:subscription]['message'],
-          description: description
-        } %>
-      <% end %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: "Subscriptions for #{@subscriber['address']}",
+  heading_level: 2,
+  font_size: "m",
+  margin_bottom: 4,
+} %>
+
+<p class="govuk-body">
+  <%= link_to "Change email address",
+              @account_change_email_url || update_address_path,
+              class: %w[govuk-link govuk-link--no-visited-state] %>
+</p>
+
+<hr class="govuk-section-break govuk-section-break--l">
+
+<% if @subscriptions.empty? %>
+  <p class="govuk-body">
+    You aren’t subscribed to any topics on GOV.UK.
+    <%= link_to "Find out how to subscribe",
+                "/help/get-emails-about-updates-to-govuk",
+                class: "govuk-link" %>.
+  </p>
+<% else %>
+  <% @subscriptions.each do |_key, subscription| %>
+    <%= render "govuk_publishing_components/components/heading", {
+      text: subscription['subscriber_list']['title'],
+      heading_level: 3,
+      font_size: "s",
+      margin_bottom: 4
+    } %>
+
+    <p class='govuk-body'>
+      <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
+    </p>
+    <% if subscription['subscriber_list']['url'] =~ %r{transition-check/results} ||
+      subscription['subscriber_list']['url'] =~ %r{get-ready-brexit-check/results} %>
+      <p class="govuk-body">
+        <%= link_to 'You can view a copy of your results on GOV.UK',
+                    subscription['subscriber_list']['url'],
+                    class: %w[govuk-link govuk-link--no-visited-state] %>
+      </p>
     <% end %>
-
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriptions_management.heading"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6,
-    } %>
-
-    <%= render "govuk_publishing_components/components/heading", {
-      text: "Subscriptions for #{@subscriber['address']}",
-      heading_level: 2,
-      font_size: "m",
-      margin_bottom: 4,
-    } %>
-
     <p class="govuk-body">
-      <%= link_to "Change email address",
-                  @account_change_email_url || update_address_path,
+      <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
+      <br>
+      <%= link_to "Change how often you get updates",
+                  update_frequency_path(id: subscription['id']),
                   class: %w[govuk-link govuk-link--no-visited-state] %>
     </p>
+    <p class="govuk-body">
+      <%= link_to "Unsubscribe",
+                  confirm_unsubscribe_path(id: subscription['id']),
+                  class: %w[govuk-link govuk-link--no-visited-state] %>
+    </p>
+    <hr class="govuk-section-break govuk-section-break--m">
+  <% end %>
 
-    <hr class="govuk-section-break govuk-section-break--l">
+  <% unsubscribe_all_text = capture do %>
+    <p class="govuk-body">
+      <%= link_to "Unsubscribe from everything",
+                  confirm_unsubscribe_all_path,
+                  class: %w[govuk-link govuk-link--no-visited-state] %>
+    </p>
+  <% end %>
 
-    <% if @subscriptions.empty? %>
-      <p class="govuk-body">
-        You aren’t subscribed to any topics on GOV.UK.
-        <%= link_to "Find out how to subscribe",
-                    "/help/get-emails-about-updates-to-govuk",
-                    class: "govuk-link" %>.
-      </p>
-    <% else %>
-      <% @subscriptions.each do |_key, subscription| %>
-        <%= render "govuk_publishing_components/components/heading", {
-          text: subscription['subscriber_list']['title'],
-          heading_level: 3,
-          font_size: "s",
-          margin_bottom: 4
-        } %>
-
-        <p class='govuk-body'>
-          <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
-        </p>
-        <% if subscription['subscriber_list']['url'] =~ %r{transition-check/results} ||
-          subscription['subscriber_list']['url'] =~ %r{get-ready-brexit-check/results} %>
-          <p class="govuk-body">
-            <%= link_to 'You can view a copy of your results on GOV.UK',
-                        subscription['subscriber_list']['url'],
-                        class: %w[govuk-link govuk-link--no-visited-state] %>
-          </p>
-        <% end %>
-        <p class="govuk-body">
-          <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
-          <br>
-          <%= link_to "Change how often you get updates",
-                      update_frequency_path(id: subscription['id']),
-                      class: %w[govuk-link govuk-link--no-visited-state] %>
-        </p>
-        <p class="govuk-body">
-          <%= link_to "Unsubscribe",
-                      confirm_unsubscribe_path(id: subscription['id']),
-                      class: %w[govuk-link govuk-link--no-visited-state] %>
-        </p>
-        <hr class="govuk-section-break govuk-section-break--m">
-      <% end %>
-
-      <% unsubscribe_all_text = capture do %>
-        <p class="govuk-body">
-          <%= link_to "Unsubscribe from everything",
-                      confirm_unsubscribe_all_path,
-                      class: %w[govuk-link govuk-link--no-visited-state] %>
-        </p>
-      <% end %>
-
-      <%= render "govuk_publishing_components/components/inset_text", {
-        text: unsubscribe_all_text
-      } %>
-    <% end %>
-  </div>
-</div>
+  <%= render "govuk_publishing_components/components/inset_text", {
+    text: unsubscribe_all_text
+  } %>
+<% end %>

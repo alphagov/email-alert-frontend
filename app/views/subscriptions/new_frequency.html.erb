@@ -1,47 +1,42 @@
 <% content_for :title, t("subscriptions.new_frequency.title") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+<% if flash[:error] %>
+  <%= render "govuk_publishing_components/components/error_summary", {
+    title: t('subscriptions.new_frequency.general_problem'),
+    items: [
+      {
+        text: flash[:error],
+        href: "#email-frequency-input",
+      }
+    ]
+  } %>
+<% end %>
 
-  <% if flash[:error] %>
-      <%= render "govuk_publishing_components/components/error_summary", {
-        title: t('subscriptions.new_frequency.general_problem'),
-        items: [
-          {
-            text: flash[:error],
-            href: "#email-frequency-input",
-          }
-        ]
-      } %>
-    <% end %>
+<%= form_tag(subscription_frequency_path,
+  class: "checklist-email-signup",
+  data: {
+    module: "track-email-alert-signup-choices",
+    track_category: "email_subscriptions",
+    track_action: 'new_address',
+  }) do %>
+  <%= hidden_field_tag :topic_id, @topic_id %>
 
-    <%= form_tag(subscription_frequency_path,
-      class: "checklist-email-signup",
-      data: {
-        module: "track-email-alert-signup-choices",
-        track_category: "email_subscriptions",
-        track_action: 'new_address',
-      }) do %>
-      <%= hidden_field_tag :topic_id, @topic_id %>
+  <%= render "govuk_publishing_components/components/radio", {
+    name: "frequency",
+    id: "email-frequency-input",
+    heading: t("subscriptions.new_frequency.title"),
+    heading_level: 1,
+    heading_size: "l",
+    error_message: flash[:error],
+    items: frequencies
+  } %>
 
-      <%= render "govuk_publishing_components/components/radio", {
-        name: "frequency",
-        id: "email-frequency-input",
-        heading: t("subscriptions.new_frequency.title"),
-        heading_level: 1,
-        heading_size: "l",
-        error_message: flash[:error],
-        items: frequencies
-      } %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: "Continue",
+    margin_bottom: true
+  } %>
 
-      <%= render "govuk_publishing_components/components/button", {
-        text: "Continue",
-        margin_bottom: true
-      } %>
-
-      <p class="govuk-body">
-        <%= t("subscriptions.new_frequency.unsubscribe_html") %>
-      </p>
-    <% end %>
-  </div>
-</div>
+  <p class="govuk-body">
+    <%= t("subscriptions.new_frequency.unsubscribe_html") %>
+  </p>
+<% end %>

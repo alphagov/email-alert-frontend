@@ -1,57 +1,53 @@
 <% content_for :title, t("subscriber_authentication.sign_in.heading") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriber_authentication.sign_in.heading"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscriber_authentication.sign_in.heading"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
 
-    <% if flash[:error] %>
-      <%= render 'govuk_publishing_components/components/error_summary', {
-        title: t("subscriber_authentication.sign_in.#{flash[:error]}.title"),
-        items: [{
-          text: t("subscriber_authentication.sign_in.#{flash[:error]}.description"),
-          href: '#email-address-input'
-        }]
-      } %>
-    <% end %>
+<% if flash[:error] %>
+  <%= render 'govuk_publishing_components/components/error_summary', {
+    title: t("subscriber_authentication.sign_in.#{flash[:error]}.title"),
+    items: [{
+      text: t("subscriber_authentication.sign_in.#{flash[:error]}.description"),
+      href: '#email-address-input'
+    }]
+  } %>
+<% end %>
 
-    <% if govuk_account_auth_enabled? %>
-      <%= t("subscriber_authentication.sign_in.account_description_html", process_govuk_account_path: process_govuk_account_path) %>
+<% if govuk_account_auth_enabled? %>
+  <%= t("subscriber_authentication.sign_in.account_description_html", process_govuk_account_path: process_govuk_account_path) %>
 
-      <%= render "govuk_publishing_components/components/heading", {
-        text: t("subscriber_authentication.sign_in.account_unlinked_heading"),
-        heading_level: 2,
-        font_size: "m",
-        margin_bottom: 3,
-      } %>
-    <% end %>
+  <%= render "govuk_publishing_components/components/heading", {
+    text: t("subscriber_authentication.sign_in.account_unlinked_heading"),
+    heading_level: 2,
+    font_size: "m",
+    margin_bottom: 3,
+  } %>
+<% end %>
 
-    <p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
+<p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
 
-    <%= form_tag verify_subscriber_path, method: :post, novalidate: "novalidate"  do %>
-      <%= render 'govuk_publishing_components/components/input', {
-        error_message: flash[:error] &&
-          t("subscriber_authentication.sign_in.#{flash[:error]}.message"),
-        id: 'email-address-input',
-        label: { text: t("subscriber_authentication.sign_in.email_input") },
-        name: :address,
-        type: 'email',
-        value: @address,
-      } %>
+<%= form_tag verify_subscriber_path, method: :post, novalidate: "novalidate"  do %>
+  <%= render 'govuk_publishing_components/components/input', {
+    error_message: flash[:error] &&
+      t("subscriber_authentication.sign_in.#{flash[:error]}.message"),
+    id: 'email-address-input',
+    label: { text: t("subscriber_authentication.sign_in.email_input") },
+    name: :address,
+    type: 'email',
+    value: @address,
+  } %>
 
-      <%= render 'govuk_publishing_components/components/button', {
-        text: 'Continue',
-        margin_bottom: true,
-        data_attributes: {
-          module: 'auto-track-event',
-          track_category: 'email_subscriptions',
-          track_action: 'authenticate',
-        },
-      } %>
-    <%- end -%>
-  </div>
-</div>
+  <%= render 'govuk_publishing_components/components/button', {
+    text: 'Continue',
+    margin_bottom: true,
+    data_attributes: {
+      module: 'auto-track-event',
+      track_category: 'email_subscriptions',
+      track_action: 'authenticate',
+    },
+  } %>
+<%- end -%>

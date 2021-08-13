@@ -1,16 +1,12 @@
 <% content_for :title, t("subscriber_authentication.confirm_your_govuk_account.heading") %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriber_authentication.confirm_your_govuk_account.heading"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscriber_authentication.confirm_your_govuk_account.heading"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
 
-    <div class="govuk-body">
-      <%= t("subscriber_authentication.confirm_your_govuk_account.description_html", address: @address, confirm_govuk_account_url: confirm_govuk_account_url) %>
-    </div>
-  </div>
+<div class="govuk-body">
+  <%= t("subscriber_authentication.confirm_your_govuk_account.description_html", address: @address, confirm_govuk_account_url: confirm_govuk_account_url) %>
 </div>

@@ -6,60 +6,56 @@
   } %>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriptions_management.update_address.heading"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscriptions_management.update_address.heading"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
 
-    <% if flash[:error] %>
-      <%= render 'govuk_publishing_components/components/error_summary', {
-        title: t("subscriptions_management.update_address.error_title"),
-        items: [
-          {
-            text: t("subscriptions_management.update_address.error_description"),
-            href: '#email-address-input',
-          }
-        ]
-      } %>
-    <% end %>
+<% if flash[:error] %>
+  <%= render 'govuk_publishing_components/components/error_summary', {
+    title: t("subscriptions_management.update_address.error_title"),
+    items: [
+      {
+        text: t("subscriptions_management.update_address.error_description"),
+        href: '#email-address-input',
+      }
+    ]
+  } %>
+<% end %>
 
-    <p class="govuk-body"><%= t("subscriptions_management.update_address.current_email", address: @address) %></p>
+<p class="govuk-body"><%= t("subscriptions_management.update_address.current_email", address: @address) %></p>
 
-    <%= form_tag change_address_path, method: :post do %>
-      <%= render 'govuk_publishing_components/components/input', {
-        error_message: flash[:error],
-        id: 'email-address-input',
-        label: { text: t("subscriptions_management.update_address.new_email_label") },
-        name: :new_address,
-        type: 'email',
-        value: @new_address,
-      } %>
-      <% unless @new_address.nil? %>
-        <p class="govuk-body">
-          <%= t("subscriptions_management.update_address.description", address: @new_address) %>
-          <%= link_to "contact us",
-                      "/contact/govuk",
-                      class: %w[govuk-link govuk-link--no-visited-state] %>.
-        </p>
-      <% end %>
-      <%= render 'govuk_publishing_components/components/button', {
-        text: 'Save',
-        margin_bottom: true,
-        data_attributes: {
-          module: 'auto-track-event',
-          track_category: 'email_subscriptions',
-          track_action: 'update_address',
-        },
-      } %>
-    <%- end -%>
+<%= form_tag change_address_path, method: :post do %>
+  <%= render 'govuk_publishing_components/components/input', {
+    error_message: flash[:error],
+    id: 'email-address-input',
+    label: { text: t("subscriptions_management.update_address.new_email_label") },
+    name: :new_address,
+    type: 'email',
+    value: @new_address,
+  } %>
+  <% unless @new_address.nil? %>
     <p class="govuk-body">
-      <%= link_to "Cancel",
-                  @back_url,
-                  class: %w[govuk-link govuk-link--no-visited-state] %>
+      <%= t("subscriptions_management.update_address.description", address: @new_address) %>
+      <%= link_to "contact us",
+                  "/contact/govuk",
+                  class: %w[govuk-link govuk-link--no-visited-state] %>.
     </p>
-  </div>
-</div>
+  <% end %>
+  <%= render 'govuk_publishing_components/components/button', {
+    text: 'Save',
+    margin_bottom: true,
+    data_attributes: {
+      module: 'auto-track-event',
+      track_category: 'email_subscriptions',
+      track_action: 'update_address',
+    },
+  } %>
+<%- end -%>
+<p class="govuk-body">
+  <%= link_to "Cancel",
+              @back_url,
+              class: %w[govuk-link govuk-link--no-visited-state] %>
+</p>

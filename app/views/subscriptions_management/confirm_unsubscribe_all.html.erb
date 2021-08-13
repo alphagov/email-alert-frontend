@@ -6,31 +6,27 @@
   } %>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render "govuk_publishing_components/components/heading", {
-      text: t("subscriptions_management.confirm_unsubscribe_all.heading"),
-      heading_level: 1,
-      font_size: "l",
-      margin_bottom: 6,
-    } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscriptions_management.confirm_unsubscribe_all.heading"),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
 
-    <p class="govuk-body"><%= t("subscriptions_management.confirm_unsubscribe_all.description") %></p>
+<p class="govuk-body"><%= t("subscriptions_management.confirm_unsubscribe_all.description") %></p>
 
-    <%= form_tag(action: :confirmed_unsubscribe_all) do %>
-      <%= hidden_field_tag(:from, @from) %>
-      <%= render 'govuk_publishing_components/components/button', {
-        text: 'Unsubscribe',
-        margin_bottom: true,
-        data_attributes: {
-          module: 'auto-track-event',
-          track_category: 'email_subscriptions',
-          track_action: 'unsubscribe_all',
-        },
-      } %>
-    <% end %>
-    <p class="govuk-body">
-      <%= link_to "Cancel", @back_url, class: %w[govuk-link govuk-link--no-visited-state] %>
-    </p>
-  </div>
-</div>
+<%= form_tag(action: :confirmed_unsubscribe_all) do %>
+  <%= hidden_field_tag(:from, @from) %>
+  <%= render 'govuk_publishing_components/components/button', {
+    text: 'Unsubscribe',
+    margin_bottom: true,
+    data_attributes: {
+      module: 'auto-track-event',
+      track_category: 'email_subscriptions',
+      track_action: 'unsubscribe_all',
+    },
+  } %>
+<% end %>
+<p class="govuk-body">
+  <%= link_to "Cancel", @back_url, class: %w[govuk-link govuk-link--no-visited-state] %>
+</p>

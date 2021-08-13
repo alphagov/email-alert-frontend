@@ -1,8 +1,11 @@
 class SubscriptionsManagementController < ApplicationController
+  include Slimmer::Headers
+  include Slimmer::Template
   before_action :require_authentication
   before_action :get_subscription_details
   before_action :set_account_change_email_url
   before_action :set_back_url
+  before_action :use_govuk_account_layout?
 
   def index; end
 
@@ -83,6 +86,13 @@ class SubscriptionsManagementController < ApplicationController
       nil
     end
     redirect_to list_subscriptions_path
+  end
+
+  helper_method def use_govuk_account_layout?
+    if session.dig("authentication", "linked_to_govuk_account")
+      set_slimmer_headers(template: "gem_layout_account_manager", remove_search: true, show_accounts: "signed-in")
+      true
+    end
   end
 
 private
