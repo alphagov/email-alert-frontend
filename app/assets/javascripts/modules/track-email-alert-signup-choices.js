@@ -4,10 +4,11 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 (function (Modules) {
   'use strict'
 
-  function TrackEmailAlertSignupChoices () { }
+  function TrackEmailAlertSignupChoices (element) {
+    this.form = element
+  }
 
-  TrackEmailAlertSignupChoices.prototype.start = function ($module) {
-    this.form = $module[0]
+  TrackEmailAlertSignupChoices.prototype.init = function () {
     this.form.addEventListener('submit', this.handleSubmit.bind(this))
   }
 

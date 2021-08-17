@@ -23,8 +23,8 @@ describe('Email alert sign up tracking', function () {
 
     document.body.appendChild(container)
     var element = document.querySelector('[data-module="track-email-alert-signup-choices"]')
-    tracker = new GOVUK.Modules.TrackEmailAlertSignupChoices()
-    tracker.start($(element))
+    tracker = new GOVUK.Modules.TrackEmailAlertSignupChoices(element)
+    tracker.init()
   })
 
   afterEach(function () {
