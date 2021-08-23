@@ -1,5 +1,6 @@
 class SubscriberAuthenticationController < ApplicationController
   include GovukPersonalisation::ControllerConcern
+  include AccountHelper
   include SessionsHelper
 
   def sign_in
@@ -55,10 +56,6 @@ private
 
   helper_method def confirm_govuk_account_url
     ENV.fetch("GOVUK_ACCOUNT_CONFIRM_EMAIL_URL")
-  end
-
-  helper_method def govuk_account_auth_enabled?
-    ENV["FEATURE_FLAG_GOVUK_ACCOUNT"] == "enabled"
   end
 
   def token
