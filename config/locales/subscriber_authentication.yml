@@ -2,7 +2,10 @@ en:
   subscriber_authentication:
     sign_in:
       heading: Change your email preferences
-      description: For security, we need you to confirm your email address.
+      description_html: |
+        <p>If you are subscribed to GOV.UK email updates, you can unsubscribe or change the frequency at which you receive emails here.</p>
+        <p>You cannot use this page to set up new email subscriptions.  You can set up new subscriptions on topic pages or search pages.</p>
+        <p>For security, we need you to confirm your email address before you can manage your existing subscriptions.</p>
       email_input: Email address
       account_description_html: |
         <p class="govuk-body">We’ve introduced GOV.UK accounts as a new way to manage your notifications.</p>

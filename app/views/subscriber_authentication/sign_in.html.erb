@@ -28,7 +28,9 @@
   } %>
 <% end %>
 
-<p class="govuk-body"><%= t("subscriber_authentication.sign_in.description") %></p>
+<div class="govuk-body">
+  <%= t("subscriber_authentication.sign_in.description_html") %>
+</div>
 
 <%= form_tag verify_subscriber_path, method: :post, novalidate: "novalidate"  do %>
   <%= render 'govuk_publishing_components/components/input', {
