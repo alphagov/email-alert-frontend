@@ -1,4 +1,6 @@
 class GenerateSubscriberListParamsService < ApplicationService
+  include AccountHelper
+
   def initialize(content_item)
     super()
     @content_item = content_item
@@ -37,7 +39,11 @@ private
     when "service_manual_service_standard"
       single_link(key: "parent")
     else
-      raise UnsupportedContentItemError
+      if govuk_account_auth_enabled?
+        single_link(key: content_item_type)
+      else
+        raise UnsupportedContentItemError
+      end
     end
   end
 

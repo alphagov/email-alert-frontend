@@ -1,0 +1,16 @@
+en:
+  account_subscriptions:
+    new:
+      logged_in:
+        title: Create your email subscription
+        heading: Create your email subscription
+        description: Click to finish creating your subscription
+        action_button_text: "Create subscription"
+        tracking: "create-subscription"
+      logged_out:
+        title: Sign in to your GOV.UK account
+        heading: You need a GOV.UK account to get email updates
+        description: Click to be signed in to your GOV.UK account and finish subscribing
+        action_button_text: "Sign in"
+        tracking: "sign-in-to-create-subscription"
+

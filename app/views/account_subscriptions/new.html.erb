@@ -1,0 +1,36 @@
+<% content_for :title, t("account_subscriptions.new.#{@auth_status}.title") %>
+
+<div class="govuk-grid-row">
+    <%= render "govuk_publishing_components/components/heading", {
+      text: t("account_subscriptions.new.#{@auth_status}.heading"),
+      heading_level: 1,
+      font_size: "l",
+      margin_bottom: 6,
+    } %>
+
+  <p class="govuk-body">
+    <%= sanitize(t("account_subscriptions.new.#{@auth_status}.description")) %>
+  </p>
+
+    <%= form_tag(@sign_in_or_create_path) do %>
+      <% if @auth_status == "logged_in" %>
+        <% if @permitted_parameters.present? %>
+          <% @permitted_parameters.each do |param| %>
+            <%= tag.input(type: "hidden", name: param[0], value: param[1]) %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= tag.input(type: "hidden", name: "redirect_to", value: new_account_subscription_path(@permitted_parameters)) %>
+      <% end %>
+
+      <%= render "govuk_publishing_components/components/button", {
+        text: t("account_subscriptions.new.#{@auth_status}.action_button_text"),
+        margin_bottom: true,
+        data_attributes: {
+          module: 'auto-track-event',
+          track_category: 'account-email-subscription',
+          track_action: t("account_subscriptions.new.#{@auth_status}.tracking"),
+        },
+      } %>
+  <% end %>
+</div>
