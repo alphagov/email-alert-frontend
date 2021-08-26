@@ -133,13 +133,13 @@ RSpec.describe AccountSubscriptionsController do
           mock_logged_in_session("new-session-id")
           stub_email_alert_api_creates_subscriber_list(
             {
-              "title" => "Salary sacrifice",
-              "slug" => "abc123",
-              "links" => { "detailed_guide" => %w[c9e77115-22aa-45a2-8c0d-827d92462758] },
-              "url" => "/guidance/salary-sacrifice-and-the-effects-on-paye",
+              "title" => content_item["title"],
+              "slug" => content_item["slug"],
+              "links" => content_item["links"],
+              "url" => content_item["url"],
             },
           )
-          stub_account_api_put_email_subscription(name: "c9e77115-22aa-45a2-8c0d-827d92462758", topic_slug: "abc123")
+          stub_account_api_put_email_subscription(name: content_item["content_id"], topic_slug: content_item["slug"])
           get :create, params: { link: base_path }
           expect(response).to redirect_to(base_path)
         end
