@@ -74,7 +74,6 @@ RSpec.describe AccountSubscriptionsController do
           stub_account_api_get_sign_in_url(
             redirect_path: new_account_subscription_path(base_path),
             level_of_authentication: "level0",
-            auth_uri: auth_uri,
           )
           get :new, params: { link: base_path }
         end
