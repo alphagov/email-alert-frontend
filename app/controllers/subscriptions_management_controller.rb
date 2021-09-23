@@ -99,7 +99,7 @@ private
 
   def set_account_change_email_url
     if session.dig("authentication", "linked_to_govuk_account")
-      @account_change_email_url = ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL")
+      @account_change_email_url = GovukPersonalisation::Urls.manage
     end
   end
 
