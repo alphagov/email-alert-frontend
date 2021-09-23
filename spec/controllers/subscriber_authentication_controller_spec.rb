@@ -249,33 +249,16 @@ RSpec.describe SubscriberAuthenticationController do
       end
 
       context "when the account email address is unverified" do
-        around do |example|
-          ClimateControl.modify GOVUK_ACCOUNT_CONFIRM_EMAIL_URL: "https://www.gov.uk" do
-            example.run
-          end
-        end
-
         before do
           stub_email_alert_api_link_subscriber_to_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
+          stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
         end
 
-        it "renders an error response" do
+        let(:auth_uri) { "/sign-in" }
+
+        it "redirects users to sign in again" do
           get :process_govuk_account
-          expect(response.body).to include(I18n.t!("subscriber_authentication.confirm_your_govuk_account.heading"))
-        end
-
-        it "clears any existing session" do
-          get :process_govuk_account, session: session_for(subscriber_id)
-          expect(session.to_h).to_not include(session_for(subscriber_id))
-        end
-
-        context "when email-alert-api returns a new session ID" do
-          let(:new_session_id) { "new-session-id" }
-
-          it "includes a new session ID in the response headers" do
-            get :process_govuk_account
-            expect(response.headers["GOVUK-Account-Session"]).to eq(new_session_id)
-          end
+          expect(response).to redirect_to(auth_uri)
         end
       end
     end

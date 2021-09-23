@@ -44,19 +44,11 @@ class SubscriberAuthenticationController < ApplicationController
     set_account_session_header(api_response["govuk_account_session"])
     authenticate_subscriber(api_response.dig("subscriber", "id"), linked_to_govuk_account: true)
     redirect_to list_subscriptions_path
-  rescue GdsApi::HTTPUnauthorized
+  rescue GdsApi::HTTPUnauthorized, GdsApi::HTTPForbidden
     reauthenticate_govuk_account
-  rescue GdsApi::HTTPForbidden => e
-    deauthenticate_subscriber
-    set_account_session_header(JSON.parse(e.http_body)["govuk_account_session"])
-    render :confirm_your_govuk_account
   end
 
 private
-
-  helper_method def confirm_govuk_account_url
-    ENV.fetch("GOVUK_ACCOUNT_CONFIRM_EMAIL_URL")
-  end
 
   def token
     @token ||= AuthToken.new(params.require(:token))
