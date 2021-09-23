@@ -105,7 +105,7 @@ RSpec.describe SubscriptionsManagementController do
 
     context "when the subscriber is logged in through a GOV.UK Account" do
       around do |example|
-        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_ACCOUNT_CHANGE_EMAIL_URL: "https://www.gov.uk/change-your-password") do
+        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_PERSONALISATION_MANAGE_URI: "https://www.gov.uk/change-your-password") do
           example.run
         end
       end
@@ -114,7 +114,7 @@ RSpec.describe SubscriptionsManagementController do
 
       it "points the 'change email' link to the account" do
         get :index, session: session_linked_to_govuk_account
-        expect(response.body).to include(ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL"))
+        expect(response.body).to include(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
       end
     end
   end
@@ -192,7 +192,7 @@ RSpec.describe SubscriptionsManagementController do
 
       context "when the subscriber is logged in through a GOV.UK Account" do
         around do |example|
-          ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_ACCOUNT_CHANGE_EMAIL_URL: "https://www.gov.uk/change-your-password") do
+          ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_PERSONALISATION_MANAGE_URI: "https://www.gov.uk/change-your-password") do
             example.run
           end
         end
@@ -201,7 +201,7 @@ RSpec.describe SubscriptionsManagementController do
 
         it "redirects to the account" do
           get :update_address, session: session_linked_to_govuk_account
-          expect(response).to redirect_to(ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL"))
+          expect(response).to redirect_to(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
         end
       end
     end
@@ -210,7 +210,7 @@ RSpec.describe SubscriptionsManagementController do
   describe "POST /email/manage/address/change" do
     context "when the subscriber is logged in through a GOV.UK Account" do
       around do |example|
-        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_ACCOUNT_CHANGE_EMAIL_URL: "https://www.gov.uk/change-your-password") do
+        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_PERSONALISATION_MANAGE_URI: "https://www.gov.uk/change-your-password") do
           example.run
         end
       end
@@ -219,7 +219,7 @@ RSpec.describe SubscriptionsManagementController do
 
       it "redirects to the account" do
         post :change_address, session: session_linked_to_govuk_account
-        expect(response).to redirect_to(ENV.fetch("GOVUK_ACCOUNT_CHANGE_EMAIL_URL"))
+        expect(response).to redirect_to(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
       end
     end
 
