@@ -10,7 +10,9 @@ RSpec.describe "subscriptions_management/index" do
           "id" => 1,
           "frequency" => frequency,
           "created_at" => Time.zone.now.to_s,
-          "subscriber_list" => {},
+          "subscriber_list" => {
+            "title" => "A thing to subscribe to",
+          },
         }
 
         assign(:subscriptions, { subscription["id"] => subscription })
@@ -22,6 +24,10 @@ RSpec.describe "subscriptions_management/index" do
         expect(rendered).to have_content(
           I18n.t!("subscriptions_management.index.flashes.subscription.#{frequency}"),
         )
+        expect(rendered).to have_css("a[href='#{confirm_unsubscribe_path(subscription['id'])}'] .govuk-visually-hidden", text: "from #{subscription['subscriber_list']['title']}")
+        expect(rendered).to have_css("a[href='#{update_frequency_path(subscription['id'])}'] .govuk-visually-hidden", text: "about #{subscription['subscriber_list']['title']}")
+        expect(rendered).to have_content("Change how often you get updates about #{subscription['subscriber_list']['title']}", normalize_ws: true)
+        expect(rendered).to have_content("Unsubscribe from #{subscription['subscriber_list']['title']}", normalize_ws: true)
       end
     end
   end

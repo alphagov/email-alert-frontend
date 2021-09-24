@@ -63,7 +63,7 @@ RSpec.feature "Unsubscribe" do
   end
 
   def and_i_click_on_unsubscribe
-    click_on "Unsubscribe"
+    find("a[href='#{confirm_unsubscribe_path(@subscription_id)}']").click
   end
 
   def and_i_confirm_to_unsubscribe
