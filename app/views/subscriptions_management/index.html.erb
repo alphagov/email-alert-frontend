@@ -77,12 +77,18 @@
     <p class="govuk-body">
       <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
       <br>
-      <%= link_to "Change how often you get updates",
+      <% change_frequency_link_text = capture do %>
+        Change how often you get updates <span class="govuk-visually-hidden"> about <%= subscription['subscriber_list']['title'] %></span>
+      <% end %>
+      <%= link_to change_frequency_link_text,
                   update_frequency_path(id: subscription['id']),
                   class: %w[govuk-link govuk-link--no-visited-state] %>
     </p>
     <p class="govuk-body">
-      <%= link_to "Unsubscribe",
+      <% unsubscribe_link_text = capture do %>
+        Unsubscribe <span class="govuk-visually-hidden"> from <%= subscription['subscriber_list']['title'] %></span>
+      <% end %>
+      <%= link_to unsubscribe_link_text,
                   confirm_unsubscribe_path(id: subscription['id']),
                   class: %w[govuk-link govuk-link--no-visited-state] %>
     </p>
