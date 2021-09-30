@@ -18,9 +18,9 @@ RSpec.describe VerifySubscriberEmailService do
       expect(request).to have_been_requested
     end
 
-    it "hides whether or not a user is subscribed" do
+    it "exposes a not_found error if the user's email address cannot be found" do
       stub_email_alert_api_subscriber_verification_email_no_subscriber
-      expect { described_class.call(address) }.to_not raise_error
+      expect { described_class.call(address) }.to raise_error(GdsApi::HTTPNotFound)
     end
 
     it "increments a rate limiter for the address" do

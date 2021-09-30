@@ -40,3 +40,10 @@ en:
         <p class="govuk-body">You’ve set up a GOV.UK account for <strong>%{address}</strong></p>
         <p class="govuk-body">You now need to use your email address and password to manage your notifications.</p>
         <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="%{process_govuk_account_path}">Sign in to your account</a>.</p>
+    no_subscriber:
+      heading: You’re not subscribed to emails about updates to GOV.UK
+      description: "You’re not currently getting emails about updates to GOV.UK at this email address: %{email}"
+      retry_link_text: Try a different email address
+      how_to_get_updates_heading: How to get emails about updates to GOV.UK
+      how_to_get_updates_description: You can use that link to subscribe to pages or topics you’re interested in.
+      how_to_get_updates_link_text: Go to the GOV.UK homepage

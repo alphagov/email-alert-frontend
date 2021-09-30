@@ -20,15 +20,10 @@ class VerifySubscriberEmailService < ApplicationService
   def call
     rate_limiter.add(address)
     raise_if_over_rate_limit
-
     GdsApi.email_alert_api.send_subscriber_verification_email(
       address: address,
       destination: process_sign_in_token_path,
     )
-  rescue GdsApi::HTTPNotFound
-    # User isn't subscribed, but we carry on as if they were so we
-    # don't reveal this information.
-    nil
   end
 
 private
