@@ -99,7 +99,7 @@ RSpec.describe SubscriptionsManagementController do
 
       it "renders a message" do
         get :index, session: session_with_no_subscriptions
-        expect(response.body).to include("You aren’t subscribed to any topics on GOV.UK.")
+        expect(response.body).to include(I18n.t("subscriptions_management.heading"))
       end
     end
 

@@ -1,6 +1,6 @@
 en:
   subscriptions_management:
-    heading: Change your email preferences
+    heading: Manage your GOV.UK emails
     index:
       subscription:
         immediately: "You get updates as soon as they happen."
@@ -14,6 +14,9 @@ en:
           immediately: "You’ll get an email from GOV.UK each time we add or update a page about:"
           daily: "You’ll get one email a day from GOV.UK about:"
           weekly: "You’ll get one email a week from GOV.UK about:"
+    no_subscriptions_warning_html: |
+      <p class="govuk-body">You’re not currently getting emails about updates to GOV.UK.</p>
+      <p class="govuk-body">Some GOV.UK pages have a link to ‘get emails’. You can use that link to subscribe to pages or topics you’re interested in.</p>
     update_address:
       heading: Change your email address
       current_email: "Your current email address is %{address}"
@@ -35,3 +38,4 @@ en:
     confirmed_unsubscribe_all:
       success_message: You have been unsubscribed from all your subscriptions.
       success_description: It can take up to an hour for this change to take effect.
+
