@@ -80,11 +80,11 @@ RSpec.describe SubscriberAuthenticationController do
     context "when a valid address is provided and the subscriber doesn't exist" do
       before do
         stub_email_alert_api_subscriber_verification_email_no_subscriber
+        post :verify, params: { address: subscriber_address }
       end
 
-      it "renders a message" do
-        post :verify, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.check_email.heading"))
+      it "renders no_subscriber header" do
+        expect(response.body).to include(I18n.t!("subscriber_authentication.no_subscriber.heading"))
       end
     end
 

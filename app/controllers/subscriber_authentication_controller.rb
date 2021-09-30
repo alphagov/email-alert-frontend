@@ -23,6 +23,8 @@ class SubscriberAuthenticationController < ApplicationController
     render :sign_in
   rescue VerifySubscriberEmailService::RatelimitExceededError
     head :too_many_requests
+  rescue GdsApi::HTTPNotFound
+    render :no_subscriber, email: @address
   end
 
   def process_sign_in_token
