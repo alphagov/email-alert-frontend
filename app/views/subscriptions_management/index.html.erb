@@ -48,12 +48,9 @@
 <hr class="govuk-section-break govuk-section-break--l">
 
 <% if @subscriptions.empty? %>
-  <p class="govuk-body">
-    You aren’t subscribed to any topics on GOV.UK.
-    <%= link_to "Find out how to subscribe",
-                "/help/get-emails-about-updates-to-govuk",
-                class: "govuk-link" %>.
-  </p>
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <%= t("subscriptions_management.no_subscriptions_warning_html") %>
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 <% else %>
   <% @subscriptions.each do |_key, subscription| %>
     <%= render "govuk_publishing_components/components/heading", {
