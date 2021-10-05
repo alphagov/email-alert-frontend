@@ -22,24 +22,6 @@ RSpec.describe SubscriberAuthenticationController do
         get :sign_in
         expect(response.body).to include(%(action="#{verify_subscriber_path}"))
       end
-
-      it "doesn't mention the GOV.UK Account" do
-        get :sign_in
-        expect(response.body).not_to include(I18n.t!("subscriber_authentication.sign_in.account_unlinked_heading"))
-      end
-
-      context "when the accounts feature flag is enabled" do
-        around do |example|
-          ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
-            example.run
-          end
-        end
-
-        it "mentions the GOV.UK Account" do
-          get :sign_in
-          expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.account_unlinked_heading"))
-        end
-      end
     end
   end
 

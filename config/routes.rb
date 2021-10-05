@@ -28,8 +28,6 @@ Rails.application.routes.draw do
       get "/authenticate/process" => "subscriber_authentication#process_sign_in_token", as: :process_sign_in_token
       get "/authenticate/account" => "subscriber_authentication#process_govuk_account", as: :process_govuk_account
       post "/authenticate/account" => "subscriber_authentication#process_govuk_account"
-
-      get "/things-are-changing" => "link_accounts#show", as: :things_are_changing
     end
 
     scope "/subscriptions" do

@@ -17,17 +17,6 @@
   } %>
 <% end %>
 
-<% if govuk_account_auth_enabled? %>
-  <%= t("subscriber_authentication.sign_in.account_description_html", process_govuk_account_path: process_govuk_account_path) %>
-
-  <%= render "govuk_publishing_components/components/heading", {
-    text: t("subscriber_authentication.sign_in.account_unlinked_heading"),
-    heading_level: 2,
-    font_size: "m",
-    margin_bottom: 3,
-  } %>
-<% end %>
-
 <div class="govuk-body">
   <%= t("subscriber_authentication.sign_in.description_html") %>
 </div>
