@@ -60,8 +60,6 @@ private
     deauthenticate_subscriber
     logout!
 
-    uri = GdsApi.account_api.get_sign_in_url(redirect_path: process_govuk_account_path)["auth_uri"]
-    uri += "&_ga=#{params[:_ga]}" if params[:_ga]
-    redirect_to uri
+    redirect_with_analytics GdsApi.account_api.get_sign_in_url(redirect_path: process_govuk_account_path)["auth_uri"]
   end
 end
