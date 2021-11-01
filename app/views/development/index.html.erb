@@ -18,3 +18,24 @@ See the <%= link_to "README",
               govuk_publishing_components.component_guide_path,
               class: "govuk-link" %>.
 </p>
+
+<h3>Single page notifications</h3>
+
+  <p class="govuk-body">
+    The single page notification feature starts with a POST request to this app.
+    It then performs some conditional checks, and either subscribes the user or
+    shows them an inforamtional page and asks them to take further action.
+  </p>
+
+  <p class="govuk-body">
+    To test this page manually you can use the button below.
+  </p>
+
+  <%= form_tag "/email/subscriptions/single-page/new", method: :post do %>
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Subscribe to single page notification"
+    } %>
+
+    <%= hidden_field_tag(:topic, "/guidance/keeping-a-pet-pig-or-micropig") %>
+
+  <% end %>
