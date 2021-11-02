@@ -3,6 +3,8 @@
 class CreateAccountSubscriptionService < ApplicationService
   include AccountHelper
 
+  SUCCESS_FLASH = "email-subscription-success"
+
   def initialize(subscriber_list, frequency, govuk_account_session)
     super()
     @subscriber_list = subscriber_list

@@ -195,7 +195,7 @@ RSpec.describe AccountSubscriptionsController do
         it "creates the subscription with a default frequency, links the subscriber to the GOV.UK account, and redirects to the manage page" do
           post :create, params: { topic_id: topic_id }
           expect(response).to redirect_to(process_govuk_account_path)
-          expect(response.headers["GOVUK-Account-Session"]).to include(AccountSubscriptionsController::SUCCESS_FLASH)
+          expect(response.headers["GOVUK-Account-Session"]).to include(CreateAccountSubscriptionService::SUCCESS_FLASH)
           expect(create_stub).to have_been_made
         end
 
@@ -206,7 +206,7 @@ RSpec.describe AccountSubscriptionsController do
           it "creates the subscription with the correct frequency" do
             post :create, params: { topic_id: topic_id, frequency: frequency }
             expect(response).to redirect_to(process_govuk_account_path)
-            expect(response.headers["GOVUK-Account-Session"]).to include(AccountSubscriptionsController::SUCCESS_FLASH)
+            expect(response.headers["GOVUK-Account-Session"]).to include(CreateAccountSubscriptionService::SUCCESS_FLASH)
             expect(create_stub).to have_been_made
           end
 

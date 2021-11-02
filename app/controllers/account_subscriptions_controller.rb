@@ -6,7 +6,6 @@ class AccountSubscriptionsController < ApplicationController
   include GovukPersonalisation::ControllerConcern
 
   DEFAULT_FREQUENCY = "daily"
-  SUCCESS_FLASH = "email-subscription-success"
 
   before_action do
     head :not_found unless govuk_account_auth_enabled?
@@ -49,7 +48,7 @@ class AccountSubscriptionsController < ApplicationController
     result = CreateAccountSubscriptionService.call(@subscriber_list, @frequency, account_session_header)
     reauthenticate_user and return unless result
 
-    account_flash_add SUCCESS_FLASH
+    account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
     set_account_session_header(result[:govuk_account_session])
 
     if subscription_parameters[:return_to_url].blank? || @subscriber_list["url"].blank?

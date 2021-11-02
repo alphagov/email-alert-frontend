@@ -1,5 +1,6 @@
 RSpec.describe SubscriptionsController do
   include GdsApi::TestHelpers::EmailAlertApi
+  include GovukPersonalisation::TestHelpers::Requests
 
   let(:topic_id) { "GOVUK123" }
   let(:subscriber_list_title) { "My exciting list" }
@@ -89,6 +90,71 @@ RSpec.describe SubscriptionsController do
           topic_id: topic_id, frequency: frequency,
         )
         expect(response).to redirect_to(destination)
+      end
+
+      context "when the user is logged in" do
+        before { mock_logged_in_session(session_id) }
+
+        let(:session_id) { "session-id" }
+
+        it "redirects to new with frequency" do
+          post :frequency, params: { topic_id: topic_id, frequency: frequency }
+          destination = new_subscription_url(
+            topic_id: topic_id, frequency: frequency,
+          )
+          expect(response).to redirect_to(destination)
+        end
+
+        context "when GOV.UK accounts is enabled" do
+          around do |example|
+            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+              example.run
+            end
+          end
+
+          let!(:link_stub) do
+            stub_email_alert_api_link_subscriber_to_govuk_account(
+              session_id,
+              subscriber_id,
+              address,
+              govuk_account_id: linked_govuk_account_id,
+            )
+          end
+
+          let!(:create_stub) do
+            stub_email_alert_api_creates_a_subscription(
+              subscriber_list_id: subscriber_list_id,
+              address: address,
+              frequency: frequency,
+            )
+          end
+
+          let(:subscriber_id) { "subscriber-id" }
+          let(:address) { "email@example.com" }
+          let(:linked_govuk_account_id) { 42 }
+
+          it "creates the subscription and redirects to the manage page" do
+            post :frequency, params: { topic_id: topic_id, frequency: frequency }
+            expect(response).to redirect_to(process_govuk_account_path)
+            expect(response.headers["GOVUK-Account-Session"]).to include(CreateAccountSubscriptionService::SUCCESS_FLASH)
+            expect(link_stub).to have_been_made
+            expect(create_stub).to have_been_made
+          end
+
+          context "when the session is invalid" do
+            let!(:link_stub) do
+              stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
+            end
+
+            it "treats the user as logged out" do
+              post :frequency, params: { topic_id: topic_id, frequency: frequency }
+              destination = new_subscription_url(
+                topic_id: topic_id, frequency: frequency,
+              )
+              expect(response).to redirect_to(destination)
+            end
+          end
+        end
       end
     end
   end
