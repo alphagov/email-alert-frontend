@@ -1,0 +1,59 @@
+<% content_for :title, t("account_subscriptions.confirm.title") %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("account_subscriptions.confirm.title"),
+  heading_level: 1,
+  font_size: "xl",
+  margin_bottom: 6
+} %>
+
+<p class="govuk-body">
+  <%= t("account_subscriptions.confirm.description") %>
+</p>
+
+<p class="govuk-body">
+  <strong><%= @subscriber_list["title"] %></strong>
+</p>
+
+<%= form_tag(action: :create) do %>
+  <%= hidden_field_tag "topic_id", params[:topic_id] %>
+  <%= hidden_field_tag "frequency", params[:frequency] %>
+  <%= hidden_field_tag "return_to_url", params[:return_to_url] %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("account_subscriptions.confirm.confirm"),
+    margin_bottom: 4,
+    data_attributes: {
+      module: "gem-track-click",
+      track_category: "email_subscriptions",
+      track_action: "new_account",
+      track_label: @subscriber_list["title"],
+    },
+  } %>
+<% end %>
+
+<p class="govuk-body">
+  <a href="/" class="govuk-link"><%= t("account_subscriptions.confirm.cancel") %></a>
+</p>
+
+<% unless @unlinked_subscriptions.empty? %>
+  <%= render "govuk_publishing_components/components/heading", {
+    text: t("account_subscriptions.confirm.unlinked_subscriptions.title"),
+    heading_level: 2,
+    font_size: "m",
+    margin_bottom: 4
+  } %>
+
+  <%= t("account_subscriptions.confirm.unlinked_subscriptions.before_html", address: @address) %>
+
+  <ul class="govuk-list govuk-list--bullet">
+    <% @unlinked_subscriptions.each do |subscription| %>
+      <li>
+        <%= subscription.dig("subscriber_list", "title") %>
+      </li>
+    <% end %>
+  </ul>
+
+  <p class="govuk-body">
+    <%= t("account_subscriptions.confirm.unlinked_subscriptions.after") %>
+  </p>
+<% end %>
