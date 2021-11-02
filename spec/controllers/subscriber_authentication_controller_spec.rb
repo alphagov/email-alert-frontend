@@ -48,14 +48,43 @@ RSpec.describe SubscriberAuthenticationController do
       end
     end
 
-    context "when the email address is linked to a GOV.UK Account" do
+    context "when the email address is linked to a GOV.UK account" do
       before do
         stub_email_alert_api_subscriber_verification_email_linked_to_govuk_account
       end
 
-      it "renders an error message" do
+      it "returns a 403 error" do
         post :verify, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.use_your_govuk_account.heading"))
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      context "when GOV.UK accounts auth is enabled" do
+        around do |example|
+          ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+            example.run
+          end
+        end
+
+        before do
+          stub_account_api_match_user_by_email_does_not_match(email: subscriber_address)
+        end
+
+        it "tells the user to sign in with their account" do
+          post :verify, params: { address: subscriber_address }
+          expect(response.body).to include(I18n.t!("subscriber_authentication.use_your_govuk_account.heading"))
+        end
+
+        context "when the user is currently logged in to that account" do
+          before do
+            mock_logged_in_session("session-id")
+            stub_account_api_match_user_by_email_matches(email: subscriber_address, govuk_account_session: "session-id")
+          end
+
+          it "redirects the user to authenticate" do
+            post :verify, params: { address: subscriber_address }
+            expect(response).to redirect_to(process_govuk_account_path)
+          end
+        end
       end
     end
 

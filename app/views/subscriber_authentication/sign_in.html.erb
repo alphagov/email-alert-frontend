@@ -21,7 +21,7 @@
   <%= t("subscriber_authentication.sign_in.description_html") %>
 </div>
 
-<%= form_tag verify_subscriber_path, method: :post, novalidate: "novalidate"  do %>
+<%= form_tag verify_subscriber_path, method: :post, novalidate: "novalidate", :"data-module" => "explicit-cross-domain-links" do %>
   <%= render 'govuk_publishing_components/components/input', {
     error_message: flash[:error] &&
       t("subscriber_authentication.sign_in.#{flash[:error]}.message"),

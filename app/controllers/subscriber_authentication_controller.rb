@@ -14,10 +14,15 @@ class SubscriberAuthenticationController < ApplicationController
     end
 
     @address = params.require(:address)
-    VerifySubscriberEmailService.call(@address)
-    render :check_email
-  rescue GdsApi::HTTPForbidden
-    render :use_your_govuk_account
+    case VerifySubscriberEmailService.call(@address, govuk_account_session: account_session_header)
+    when :account
+      redirect_with_analytics process_govuk_account_path
+    when :account_reauthenticate
+      logout!
+      render :use_your_govuk_account
+    else
+      render :check_email
+    end
   rescue GdsApi::HTTPUnprocessableEntity
     flash.now[:error] = :invalid_email
     render :sign_in

@@ -1,4 +1,6 @@
 class VerifySubscriberEmailService < ApplicationService
+  include AccountHelper
+
   include Rails.application.routes.url_helpers
 
   class RatelimitExceededError < StandardError; end
@@ -12,23 +14,49 @@ class VerifySubscriberEmailService < ApplicationService
   # to manage their # subscriptions on different devices.
   HOURLY_THRESHOLD = 11
 
-  def initialize(address)
+  def initialize(address, govuk_account_session: nil)
     super()
     @address = address
+    @govuk_account_session = govuk_account_session
   end
 
   def call
     rate_limiter.add(address)
     raise_if_over_rate_limit
-    GdsApi.email_alert_api.send_subscriber_verification_email(
-      address: address,
-      destination: process_sign_in_token_path,
-    )
+
+    if govuk_account_auth_enabled?
+      authenticate_with_account
+    else
+      authenticate_with_email
+    end
   end
 
 private
 
-  attr_reader :address
+  attr_reader :address, :govuk_account_session
+
+  def authenticate_with_account
+    response = GdsApi.account_api.match_user_by_email(
+      email: address,
+      govuk_account_session: govuk_account_session,
+    )
+
+    if response["match"]
+      :account
+    else
+      :account_reauthenticate
+    end
+  rescue GdsApi::HTTPNotFound
+    authenticate_with_email
+  end
+
+  def authenticate_with_email
+    GdsApi.email_alert_api.send_subscriber_verification_email(
+      address: address,
+      destination: process_sign_in_token_path,
+    )
+    :email
+  end
 
   def raise_if_over_rate_limit
     raise RatelimitExceededError if rate_limiter.exceeded?(
