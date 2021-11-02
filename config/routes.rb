@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       get "/new" => "subscriptions#new", as: :new_subscription
       post "/frequency" => "subscriptions#frequency", as: :subscription_frequency
       post "/verify" => "subscriptions#verify", as: :verify_subscription
+      post "/verify/account" => "subscriptions#verify_account", as: :verify_subscription_account
       get "/authenticate" => "subscription_authentication#authenticate", as: :confirm_subscription
 
       scope "/account" do
