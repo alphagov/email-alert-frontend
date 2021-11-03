@@ -38,8 +38,10 @@ en:
         <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="%{process_govuk_account_path}">Sign in to your account</a>.</p>
     no_subscriber:
       heading: You’re not subscribed to emails about updates to GOV.UK
-      description: "You’re not currently getting emails about updates to GOV.UK at this email address: %{email}"
+      description_html: "You’re not currently getting emails about updates to GOV.UK at this email address: <strong>%{email}</strong>"
       retry_link_text: Try a different email address
       how_to_get_updates_heading: How to get emails about updates to GOV.UK
-      how_to_get_updates_description: You can use that link to subscribe to pages or topics you’re interested in.
+      how_to_get_updates_description_html: |
+        <p class="govuk-body">Some GOV.UK pages have a link to ‘get emails’.</p>
+        <p class="govuk-body">You can use that link to subscribe to pages or topics you’re interested in.</p>
       how_to_get_updates_link_text: Go to the GOV.UK homepage

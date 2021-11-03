@@ -7,15 +7,15 @@
   margin_bottom: 6,
 } %>
 
-<div class="govuk-body">
-  <%= t("subscriber_authentication.no_subscriber.description", email: @address) %>
-</div>
+<p class="govuk-body">
+  <%= t("subscriber_authentication.no_subscriber.description_html", email: @address) %>
+</p>
 
-<div class="govuk-body">
+<p class="govuk-body">
   <a class="govuk-link" href=<%= sign_in_path %>>
-    <strong><%= t("subscriber_authentication.no_subscriber.retry_link_text") %></strong>
+    <%= t("subscriber_authentication.no_subscriber.retry_link_text") %>
   </a>
-</div>
+</p>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: t("subscriber_authentication.no_subscriber.how_to_get_updates_heading"),
@@ -24,12 +24,10 @@
   margin_bottom: 6,
 } %>
 
-<div class="govuk-body">
-  <%= t("subscriber_authentication.no_subscriber.how_to_get_updates_description") %>
-</div>
+<%= t("subscriber_authentication.no_subscriber.how_to_get_updates_description_html") %>
 
-<div class="govuk-body">
+<p class="govuk-body">
   <a class="govuk-link" href="https://www.gov.uk">
     <%= t("subscriber_authentication.no_subscriber.how_to_get_updates_link_text") %>
   </a>
-</div>
+</p>
