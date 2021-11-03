@@ -1,5 +1,7 @@
 RSpec.describe SubscriptionsController do
+  include GdsApi::TestHelpers::AccountApi
   include GdsApi::TestHelpers::EmailAlertApi
+  include GovukPersonalisation::TestHelpers::Requests
 
   let(:topic_id) { "GOVUK123" }
   let(:subscriber_list_title) { "My exciting list" }
@@ -90,6 +92,71 @@ RSpec.describe SubscriptionsController do
         )
         expect(response).to redirect_to(destination)
       end
+
+      context "when the user is logged in" do
+        before { mock_logged_in_session(session_id) }
+
+        let(:session_id) { "session-id" }
+
+        it "redirects to new with frequency" do
+          post :frequency, params: { topic_id: topic_id, frequency: frequency }
+          destination = new_subscription_url(
+            topic_id: topic_id, frequency: frequency,
+          )
+          expect(response).to redirect_to(destination)
+        end
+
+        context "when GOV.UK accounts is enabled" do
+          around do |example|
+            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+              example.run
+            end
+          end
+
+          let!(:link_stub) do
+            stub_email_alert_api_link_subscriber_to_govuk_account(
+              session_id,
+              subscriber_id,
+              address,
+              govuk_account_id: linked_govuk_account_id,
+            )
+          end
+
+          let!(:create_stub) do
+            stub_email_alert_api_creates_a_subscription(
+              subscriber_list_id: subscriber_list_id,
+              address: address,
+              frequency: frequency,
+            )
+          end
+
+          let(:subscriber_id) { "subscriber-id" }
+          let(:address) { "email@example.com" }
+          let(:linked_govuk_account_id) { 42 }
+
+          it "creates the subscription and redirects to the manage page" do
+            post :frequency, params: { topic_id: topic_id, frequency: frequency }
+            expect(response).to redirect_to(process_govuk_account_path)
+            expect(response.headers["GOVUK-Account-Session"]).to include(CreateAccountSubscriptionService::SUCCESS_FLASH)
+            expect(link_stub).to have_been_made
+            expect(create_stub).to have_been_made
+          end
+
+          context "when the session is invalid" do
+            let!(:link_stub) do
+              stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
+            end
+
+            it "treats the user as logged out" do
+              post :frequency, params: { topic_id: topic_id, frequency: frequency }
+              destination = new_subscription_url(
+                topic_id: topic_id, frequency: frequency,
+              )
+              expect(response).to redirect_to(destination)
+            end
+          end
+        end
+      end
     end
   end
 
@@ -140,7 +207,7 @@ RSpec.describe SubscriptionsController do
         { topic_id: topic_id, frequency: frequency, address: address }
       end
 
-      let!(:request) do
+      let!(:verify_stub) do
         stub_email_alert_api_sends_subscription_verification_email(address, frequency, topic_id)
       end
 
@@ -152,7 +219,49 @@ RSpec.describe SubscriptionsController do
 
       it "sends a request to email-alert-api" do
         post :verify, params: params
-        expect(request).to have_been_requested
+        expect(verify_stub).to have_been_requested
+      end
+
+      context "when the user is logged in" do
+        before { mock_logged_in_session(session_id) }
+
+        let(:session_id) { "session-id" }
+
+        it "sends a request to email-alert-api" do
+          post :verify, params: params
+          expect(verify_stub).to have_been_requested
+        end
+
+        context "when GOV.UK accounts is enabled" do
+          around do |example|
+            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+              example.run
+            end
+          end
+
+          context "when there is an account with that email address" do
+            before do
+              stub_account_api_match_user_by_email_matches(email: address)
+            end
+
+            it "prompts the user to sign in to that account" do
+              post :verify, params: params
+              expect(response.body).to include(I18n.t!("subscriptions.use_your_govuk_account.heading"))
+              expect(verify_stub).not_to have_been_requested
+            end
+          end
+
+          context "when there is no account with that email address" do
+            before do
+              stub_account_api_match_user_by_email_does_not_exist(email: address)
+            end
+
+            it "sends a request to email-alert-api" do
+              post :verify, params: params
+              expect(verify_stub).to have_been_requested
+            end
+          end
+        end
       end
     end
 

@@ -1,0 +1,18 @@
+<% content_for :title, t("subscriptions.use_your_govuk_account.heading") %>
+
+<%= render "govuk_publishing_components/components/heading", {
+  text: yield(:title),
+  heading_level: 1,
+  font_size: "l",
+  margin_bottom: 6,
+} %>
+
+<p class="govuk-body"><%= t("subscriptions.use_your_govuk_account.description") %></p>
+
+<p class="govuk-body"><strong><%= @subscriber_list["title"] %></strong></p>
+
+<%= form_tag confirm_account_subscription_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("subscriptions.use_your_govuk_account.continue"),
+  } %>
+<% end %>
