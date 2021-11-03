@@ -31,11 +31,9 @@ en:
         <p>If you do not receive an email soon, check your spam or junk folder.</p>
         <p>If this does not work, <a class="govuk-link govuk-link--no-visited-state" href="https://www.gov.uk/contact/govuk">contact GOV.UK</a> for help.</p>
     use_your_govuk_account:
-      heading: "Sign in with your GOV.UK account"
-      description_html: |
-        <p class="govuk-body">You’ve set up a GOV.UK account for <strong>%{address}</strong></p>
-        <p class="govuk-body">You now need to use your email address and password to manage your notifications.</p>
-        <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="%{process_govuk_account_path}">Sign in to your account</a>.</p>
+      heading: You have a GOV.UK account
+      description: Sign in to see and manage your GOV.UK emails.
+      continue: Continue to sign in to your account
     no_subscriber:
       heading: You’re not subscribed to emails about updates to GOV.UK
       description_html: "You’re not currently getting emails about updates to GOV.UK at this email address: <strong>%{email}</strong>"

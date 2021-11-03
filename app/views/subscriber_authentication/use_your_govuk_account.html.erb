@@ -1,12 +1,16 @@
 <% content_for :title, t("subscriber_authentication.use_your_govuk_account.heading") %>
 
 <%= render "govuk_publishing_components/components/heading", {
-  text: t("subscriber_authentication.use_your_govuk_account.heading"),
+  text: yield(:title),
   heading_level: 1,
   font_size: "l",
   margin_bottom: 6,
 } %>
 
-<div class="govuk-body">
-  <%= t("subscriber_authentication.use_your_govuk_account.description_html", address: @address, process_govuk_account_path: process_govuk_account_path) %>
-</div>
+<p class="govuk-body"><%= t("subscriber_authentication.use_your_govuk_account.description") %></p>
+
+<%= form_tag process_govuk_account_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
+  <%= render "govuk_publishing_components/components/button", {
+    text: t("subscriber_authentication.use_your_govuk_account.continue"),
+  } %>
+<% end %>
