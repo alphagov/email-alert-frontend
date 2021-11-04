@@ -6,7 +6,8 @@ en:
     accounts_are_new_description_html: |
       <p class="govuk-body">They are a first step towards creating a single account where you can access all your government services.</p>
       <p class="govuk-body">GOV.UK accounts will eventually replace all other government accounts.</p>
-    inset_description: At the moment, GOV.UK accounts are separate from other government accounts (for example Government Gateway or Universal Credit).
+    inset_description_html: |
+      At the moment, GOV.UK accounts are separate from <a href="/sign-in" class="govuk-link">other government accounts</a> (for example Government Gateway or Universal Credit).
     usage_description_html: |
       <p class="govuk-body">Currently you can only use a GOV.UK account to manage your GOV.UK email subscriptions.</p>
       <p class="govuk-body">We’ll be adding more features and services in the next few months.</p>
