@@ -2,6 +2,8 @@ class SinglePageSubscriptionsController < ApplicationController
   include AccountHelper
   include GovukPersonalisation::ControllerConcern
 
+  UNSUBSCRIBE_FLASH = "email-unsubscribe-success".freeze
+
   before_action do
     head :not_found unless govuk_account_auth_enabled?
   end
@@ -12,6 +14,12 @@ class SinglePageSubscriptionsController < ApplicationController
     content_item = GdsApi.content_store.content_item(topic).to_h
     return unless logged_in?
 
+    subscriber = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(
+      govuk_account_session: @account_session_header,
+    ).to_h.fetch("subscriber")
+
+    subscriptions = GdsApi.email_alert_api.get_subscriptions(id: subscriber.fetch("id")).to_h.fetch("subscriptions", [])
+
     subscriber_list = GdsApi.email_alert_api.find_or_create_subscriber_list(
       {
         url: topic,
@@ -20,9 +28,17 @@ class SinglePageSubscriptionsController < ApplicationController
       },
     ).to_h.fetch("subscriber_list")
 
-    result = CreateAccountSubscriptionService.call(subscriber_list, "daily", @account_session_header)
-    account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
-    set_account_session_header(result[:govuk_account_session])
+    subscription = subscriptions.find { |s| s["subscriber_list_id"] == subscriber_list["id"] }
+
+    if subscription
+      GdsApi.email_alert_api.unsubscribe(subscription["id"])
+      account_flash_add UNSUBSCRIBE_FLASH
+
+    else
+      result = CreateAccountSubscriptionService.call(subscriber_list, "daily", @account_session_header)
+      account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
+      set_account_session_header(result[:govuk_account_session])
+    end
 
     redirect_to topic
   rescue GdsApi::ContentStore::ItemNotFound
