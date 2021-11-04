@@ -87,7 +87,7 @@ RSpec.describe SinglePageSubscriptionsController do
             address: user_email,
             frequency: "daily",
             returned_subscription_id: "subscription-id",
-            skip_confirmation_email: false,
+            skip_confirmation_email: true,
             subscriber_id: subscriber_id,
           )
 
