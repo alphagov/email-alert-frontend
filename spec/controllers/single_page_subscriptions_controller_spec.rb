@@ -75,6 +75,19 @@ RSpec.describe SinglePageSubscriptionsController do
           mock_logged_in_session(session_id)
           stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path: redirect_path)
 
+          stub_email_alert_api_authenticate_subscriber_by_govuk_account(
+            session_id,
+            subscriber_id,
+            user_email,
+            govuk_account_id: user_id,
+          )
+
+          stub_email_alert_api_has_subscriber_subscriptions(
+            subscriber_id,
+            user_email,
+            subscriptions: [],
+          )
+
           stub_email_alert_api_creates_subscriber_list({
             url: topic,
             title: topic_name,
@@ -108,6 +121,35 @@ RSpec.describe SinglePageSubscriptionsController do
         it "subscribes them and redirects back to the page" do
           post :show, params: params
           expect(response).to redirect_to("http://test.host#{topic}")
+        end
+
+        context "when the user is already subscribed to that topic" do
+          let(:subscription_id) { "subscription-id" }
+
+          before do
+            stub_email_alert_api_has_subscriber_subscriptions(
+              subscriber_id,
+              user_email,
+              subscriptions: [
+                {
+                  "subscriber_id" => subscriber_id,
+                  "subscriber_list_id" => subscription_list_id,
+                  "frequency" => "daily",
+                  "id" => subscription_id,
+                  "subscriber_list" => {
+                    "id" => subscription_list_id,
+                    "slug" => topic,
+                  },
+                },
+              ],
+            )
+            stub_email_alert_api_unsubscribes_a_subscription(subscription_id)
+          end
+
+          it "unsubscribes them and redirects back to the page" do
+            post :show, params: params
+            expect(response).to redirect_to("http://test.host#{topic}")
+          end
         end
       end
     end
