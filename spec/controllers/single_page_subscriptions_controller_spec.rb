@@ -6,12 +6,12 @@ RSpec.describe SinglePageSubscriptionsController do
 
   render_views
 
-  let(:topic) { "/test" }
+  let(:base_path) { "/test" }
   let(:topic_slug) { SecureRandom.uuid }
   let(:topic_name) { "Test" }
-  let(:redirect_path) { "/email/subscriptions/account/confirm?topic=#{topic}" }
+  let(:redirect_path) { "/email/subscriptions/account/confirm?base_path=#{base_path}" }
   let(:auth_provider) { "http://auth/provider" }
-  let(:params) { { topic: topic } }
+  let(:params) { { base_path: base_path } }
 
   describe "when feature flag is not 'enabled'" do
     it "POST /email/subscriptions/single-page/new-session returns 404" do
@@ -48,17 +48,17 @@ RSpec.describe SinglePageSubscriptionsController do
 
     describe "POST /email/subscriptions/single-page/new" do
       before do
-        stub_content_store_has_item(topic)
+        stub_content_store_has_item(base_path)
       end
 
       it "404s when a content item can't be found" do
-        stub_content_store_does_not_have_item(topic)
+        stub_content_store_does_not_have_item(base_path)
         get :show, params: params
         expect(response).to have_http_status(:not_found)
       end
 
       context "when a user is not logged in" do
-        it "renders the view with a sign in link including the topic" do
+        it "renders the view with a sign in link including the base_path" do
           get :show, params: params
           expect(response.body).to include(single_page_new_session_path)
         end
@@ -89,7 +89,7 @@ RSpec.describe SinglePageSubscriptionsController do
           )
 
           stub_email_alert_api_creates_subscriber_list({
-            url: topic,
+            url: base_path,
             title: topic_name,
             slug: topic_slug,
             id: subscription_list_id,
@@ -120,10 +120,10 @@ RSpec.describe SinglePageSubscriptionsController do
 
         it "subscribes them and redirects back to the page" do
           post :show, params: params
-          expect(response).to redirect_to("http://test.host#{topic}")
+          expect(response).to redirect_to("http://test.host#{base_path}")
         end
 
-        context "when the user is already subscribed to that topic" do
+        context "when the user is already subscribed to that base_path" do
           let(:subscription_id) { "subscription-id" }
 
           before do
@@ -138,7 +138,7 @@ RSpec.describe SinglePageSubscriptionsController do
                   "id" => subscription_id,
                   "subscriber_list" => {
                     "id" => subscription_list_id,
-                    "slug" => topic,
+                    "slug" => base_path,
                   },
                 },
               ],
@@ -148,7 +148,7 @@ RSpec.describe SinglePageSubscriptionsController do
 
           it "unsubscribes them and redirects back to the page" do
             post :show, params: params
-            expect(response).to redirect_to("http://test.host#{topic}")
+            expect(response).to redirect_to("http://test.host#{base_path}")
           end
         end
       end

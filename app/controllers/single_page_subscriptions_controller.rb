@@ -11,7 +11,7 @@ class SinglePageSubscriptionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:show]
 
   def show
-    content_item = GdsApi.content_store.content_item(topic).to_h
+    content_item = GdsApi.content_store.content_item(base_path).to_h
     return unless logged_in?
 
     subscriber = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(
@@ -22,7 +22,7 @@ class SinglePageSubscriptionsController < ApplicationController
 
     subscriber_list = GdsApi.email_alert_api.find_or_create_subscriber_list(
       {
-        url: topic,
+        url: base_path,
         name: content_item["title"],
         content_id: content_item["content_id"],
       },
@@ -40,7 +40,7 @@ class SinglePageSubscriptionsController < ApplicationController
       set_account_session_header(result[:govuk_account_session])
     end
 
-    redirect_to topic
+    redirect_to base_path
   rescue GdsApi::ContentStore::ItemNotFound
     head :not_found
   rescue GdsApi::HTTPUnauthorized
@@ -54,12 +54,12 @@ class SinglePageSubscriptionsController < ApplicationController
 
 private
 
-  def topic
-    @topic ||= params.fetch(:topic)
+  def base_path
+    @base_path ||= params.fetch(:base_path)
   end
 
   def single_page_session_path
-    redirect_path = "#{confirm_account_subscription_path}?topic=#{topic}"
+    redirect_path = "#{confirm_account_subscription_path}?base_path=#{base_path}"
 
     GdsApi.account_api.get_sign_in_url(
       redirect_path: redirect_path,
