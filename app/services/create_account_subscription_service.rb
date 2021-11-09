@@ -26,7 +26,6 @@ class CreateAccountSubscriptionService < ApplicationService
       subscriber_list_id: subscriber_list.fetch("id"),
       address: subscriber.fetch("address"),
       frequency: frequency,
-      skip_confirmation_email: true,
     )
 
     { govuk_account_session: response["govuk_account_session"] }
