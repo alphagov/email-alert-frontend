@@ -59,7 +59,7 @@ private
 
   def sign_in_and_confirm
     redirect_with_analytics GdsApi.account_api.get_sign_in_url(
-      redirect_path: confirm_account_subscription_path(topic_id: @topic_id),
+      redirect_path: confirm_account_subscription_path(topic_id: @topic_id, return_to_url: true),
     )["auth_uri"]
   end
 end
