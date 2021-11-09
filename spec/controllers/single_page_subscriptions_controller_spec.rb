@@ -9,9 +9,8 @@ RSpec.describe SinglePageSubscriptionsController do
   let(:base_path) { "/test" }
   let(:topic_slug) { SecureRandom.uuid }
   let(:topic_name) { "Test" }
-  let(:redirect_path) { "/email/subscriptions/account/confirm?base_path=#{base_path}" }
+  let(:redirect_path) { "/email/subscriptions/account/confirm?topic_id=#{topic_slug}" }
   let(:auth_provider) { "http://auth/provider" }
-  let(:params) { { base_path: base_path } }
 
   describe "when feature flag is not 'enabled'" do
     it "POST /email/subscriptions/single-page/new-session returns 404" do
@@ -35,6 +34,8 @@ RSpec.describe SinglePageSubscriptionsController do
     describe "POST /email/subscriptions/single-page/new-session" do
       before { stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path: redirect_path) }
 
+      let(:params) { { topic_id: topic_slug } }
+
       it "redirects to sign in with a redirect_path param" do
         post :edit, params: params
         expect(response).to redirect_to(auth_provider.to_s)
@@ -48,8 +49,20 @@ RSpec.describe SinglePageSubscriptionsController do
 
     describe "POST /email/subscriptions/single-page/new" do
       before do
-        stub_content_store_has_item(base_path)
+        stub_content_store_has_item(base_path, content_item_for_base_path(base_path).merge("content_id" => content_id))
+
+        stub_email_alert_api_creates_subscriber_list({
+          url: base_path,
+          title: topic_name,
+          slug: topic_slug,
+          id: subscription_list_id,
+          content_id: content_id,
+        })
       end
+
+      let(:content_id) { SecureRandom.uuid }
+      let(:subscription_list_id) { "subscription-list-id" }
+      let(:params) { { base_path: base_path } }
 
       it "404s when a content item can't be found" do
         stub_content_store_does_not_have_item(base_path)
@@ -69,7 +82,6 @@ RSpec.describe SinglePageSubscriptionsController do
         let(:user_id) { "user-id" }
         let(:subscriber_id) { "subscriber-id" }
         let(:user_email) { "test@gov.uk" }
-        let(:subscription_list_id) { "subscription-list-id" }
 
         before do
           mock_logged_in_session(session_id)
@@ -87,13 +99,6 @@ RSpec.describe SinglePageSubscriptionsController do
             user_email,
             subscriptions: [],
           )
-
-          stub_email_alert_api_creates_subscriber_list({
-            url: base_path,
-            title: topic_name,
-            slug: topic_slug,
-            id: subscription_list_id,
-          })
 
           stub_email_alert_api_creates_a_subscription(
             subscriber_list_id: subscription_list_id,

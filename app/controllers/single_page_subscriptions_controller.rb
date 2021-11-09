@@ -10,8 +10,9 @@ class SinglePageSubscriptionsController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:show]
 
+  before_action :fetch_subscriber_list, only: %i[show]
+
   def show
-    content_item = GdsApi.content_store.content_item(base_path).to_h
     return unless logged_in?
 
     subscriber = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(
@@ -20,49 +21,45 @@ class SinglePageSubscriptionsController < ApplicationController
 
     subscriptions = GdsApi.email_alert_api.get_subscriptions(id: subscriber.fetch("id")).to_h.fetch("subscriptions", [])
 
-    subscriber_list = GdsApi.email_alert_api.find_or_create_subscriber_list(
-      {
-        url: base_path,
-        name: content_item["title"],
-        content_id: content_item["content_id"],
-      },
-    ).to_h.fetch("subscriber_list")
-
-    subscription = subscriptions.find { |s| s["subscriber_list_id"] == subscriber_list["id"] }
+    subscription = subscriptions.find { |s| s["subscriber_list_id"] == @subscriber_list["id"] }
 
     if subscription
       GdsApi.email_alert_api.unsubscribe(subscription["id"])
       account_flash_add UNSUBSCRIBE_FLASH
-
     else
-      result = CreateAccountSubscriptionService.call(subscriber_list, "daily", @account_session_header)
+      result = CreateAccountSubscriptionService.call(@subscriber_list, "daily", @account_session_header)
       account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
       set_account_session_header(result[:govuk_account_session])
     end
 
-    redirect_to base_path
-  rescue GdsApi::ContentStore::ItemNotFound
-    head :not_found
+    redirect_to @content_item.fetch("base_path")
   rescue GdsApi::HTTPUnauthorized
     logout!
-    redirect_with_analytics single_page_session_path
+    sign_in_and_confirm
   end
 
   def edit
-    redirect_with_analytics single_page_session_path
+    @topic_id = params.fetch(:topic_id)
+    sign_in_and_confirm
   end
 
 private
 
-  def base_path
-    @base_path ||= params.fetch(:base_path)
+  def fetch_subscriber_list
+    @content_item = GdsApi.content_store.content_item(params.fetch(:base_path)).to_h
+    @subscriber_list = GdsApi.email_alert_api.find_or_create_subscriber_list(
+      {
+        url: @content_item.fetch("base_path"),
+        name: @content_item.fetch("title"),
+        content_id: @content_item.fetch("content_id"),
+      },
+    ).to_h.fetch("subscriber_list")
+    @topic_id = @subscriber_list.fetch("slug")
   end
 
-  def single_page_session_path
-    redirect_path = "#{confirm_account_subscription_path}?base_path=#{base_path}"
-
-    GdsApi.account_api.get_sign_in_url(
-      redirect_path: redirect_path,
+  def sign_in_and_confirm
+    redirect_with_analytics GdsApi.account_api.get_sign_in_url(
+      redirect_path: confirm_account_subscription_path(topic_id: @topic_id),
     )["auth_uri"]
   end
 end
