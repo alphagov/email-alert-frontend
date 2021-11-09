@@ -127,7 +127,6 @@ RSpec.describe SubscriptionsController do
               subscriber_list_id: subscriber_list_id,
               address: address,
               frequency: frequency,
-              skip_confirmation_email: true,
             )
           end
 
