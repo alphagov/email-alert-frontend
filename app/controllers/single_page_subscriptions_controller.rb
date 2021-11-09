@@ -50,7 +50,7 @@ private
     @subscriber_list = GdsApi.email_alert_api.find_or_create_subscriber_list(
       {
         url: @content_item.fetch("base_path"),
-        name: @content_item.fetch("title"),
+        title: @content_item.fetch("title"),
         content_id: @content_item.fetch("content_id"),
       },
     ).to_h.fetch("subscriber_list")
