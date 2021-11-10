@@ -132,6 +132,24 @@ RSpec.describe AccountSubscriptionsController do
           end
         end
 
+        context "when the user has no session" do
+          before do
+            mock_logged_in_session(nil)
+            stub_account_api_get_sign_in_url(
+              redirect_path: "/email/subscriptions/account/confirm?frequency=#{AccountSubscriptionsController::DEFAULT_FREQUENCY}&topic_id=#{topic_id}",
+              auth_uri: auth_uri,
+            )
+          end
+
+          let(:auth_uri) { "/sign-in" }
+
+          it "logs the user out and redirects to sign in" do
+            get :confirm, params: { topic_id: topic_id }
+            expect(response.headers["GOVUK-Account-End-Session"]).to_not be_nil
+            expect(response).to redirect_to(auth_uri)
+          end
+        end
+
         context "when the user's session is invalid" do
           before do
             stub_email_alert_api_authenticate_subscriber_by_govuk_account_session_invalid(session_id)
