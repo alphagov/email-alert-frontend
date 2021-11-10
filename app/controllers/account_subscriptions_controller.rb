@@ -15,6 +15,7 @@ class AccountSubscriptionsController < ApplicationController
     @topic_id = subscription_parameters.fetch(:topic_id)
     @subscriber_list = GdsApi.email_alert_api.get_subscriber_list(slug: @topic_id).to_h.fetch("subscriber_list")
     @frequency = subscription_parameters.fetch(:frequency, DEFAULT_FREQUENCY)
+    @return_to_url = params[:return_to_url]
 
     unless valid_frequencies.include?(@frequency)
       redirect_with_analytics confirm_account_subscription_path(
@@ -51,7 +52,7 @@ class AccountSubscriptionsController < ApplicationController
     account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
     set_account_session_header(result[:govuk_account_session])
 
-    if subscription_parameters[:return_to_url].blank? || @subscriber_list["url"].blank?
+    if @return_to_url.blank? || @subscriber_list["url"].blank?
       redirect_to process_govuk_account_path
     else
       redirect_to @subscriber_list["url"]
