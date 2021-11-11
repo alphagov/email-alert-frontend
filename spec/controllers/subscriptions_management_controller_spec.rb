@@ -1,5 +1,6 @@
 RSpec.describe SubscriptionsManagementController do
   include GdsApi::TestHelpers::EmailAlertApi
+  include GovukPersonalisation::TestHelpers::Requests
   include SessionHelper
 
   let(:subscriber_id) { 1 }
@@ -110,10 +111,15 @@ RSpec.describe SubscriptionsManagementController do
         end
       end
 
-      let(:session_linked_to_govuk_account) { session_for(subscriber_id, linked_to_govuk_account: true) }
+      before do
+        mock_logged_in_session(session_id)
+        stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address)
+      end
+
+      let(:session_id) { "session-id" }
 
       it "points the 'change email' link to the account" do
-        get :index, session: session_linked_to_govuk_account
+        get :index
         expect(response.body).to include(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
       end
     end
@@ -197,10 +203,15 @@ RSpec.describe SubscriptionsManagementController do
           end
         end
 
-        let(:session_linked_to_govuk_account) { session_for(subscriber_id, linked_to_govuk_account: true) }
+        before do
+          mock_logged_in_session(session_id)
+          stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address)
+        end
+
+        let(:session_id) { "session-id" }
 
         it "redirects to the account" do
-          get :update_address, session: session_linked_to_govuk_account
+          get :update_address
           expect(response).to redirect_to(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
         end
       end
@@ -215,10 +226,15 @@ RSpec.describe SubscriptionsManagementController do
         end
       end
 
-      let(:session_linked_to_govuk_account) { session_for(subscriber_id, linked_to_govuk_account: true) }
+      before do
+        mock_logged_in_session(session_id)
+        stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address)
+      end
+
+      let(:session_id) { "session-id" }
 
       it "redirects to the account" do
-        post :change_address, session: session_linked_to_govuk_account
+        post :change_address
         expect(response).to redirect_to(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
       end
     end

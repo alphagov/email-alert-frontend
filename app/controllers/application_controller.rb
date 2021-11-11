@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  include GovukPersonalisation::ControllerConcern
+  include AccountHelper
+
   include Slimmer::Template
 
   before_action :set_cache_control_header
@@ -14,7 +17,7 @@ class ApplicationController < ActionController::Base
   rescue_from GdsApi::HTTPGone, with: :gone
 
   helper_method :authenticated?
-
+  helper_method :authenticated_via_account?
   helper_method :use_govuk_account_layout?
 
   if ENV["BASIC_AUTH_USERNAME"]
@@ -25,7 +28,22 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticated?
-    session["authentication"].present?
+    authenticated_via_account? || session["authentication"].present?
+  end
+
+  def authenticated_via_account?
+    return false unless govuk_account_auth_enabled?
+    return false if account_session_header.blank?
+    return @authenticated_via_account unless @authenticated_via_account.nil?
+
+    api_response = GdsApi.email_alert_api.link_subscriber_to_govuk_account(govuk_account_session: account_session_header)
+    session["authentication"] = nil
+    set_account_session_header(api_response["govuk_account_session"])
+    @authenticated_subscriber_id = api_response.dig("subscriber", "id")
+    @authenticated_via_account = true
+  rescue GdsApi::HTTPUnauthorized, GdsApi::HTTPForbidden
+    logout!
+    @authenticated_via_account = false
   end
 
   def use_govuk_account_layout?
@@ -68,6 +86,6 @@ private
 
   def authenticated_subscriber_id
     # session isn't a real hash and doesn't respond to dig
-    session["authentication"]&.fetch("subscriber_id", nil)
+    @authenticated_subscriber_id ||= session["authentication"]&.fetch("subscriber_id", nil)
   end
 end

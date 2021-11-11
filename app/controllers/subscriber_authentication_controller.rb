@@ -1,6 +1,4 @@
 class SubscriberAuthenticationController < ApplicationController
-  include GovukPersonalisation::ControllerConcern
-  include AccountHelper
   include SessionsHelper
 
   def sign_in
@@ -45,26 +43,17 @@ class SubscriberAuthenticationController < ApplicationController
 
   def process_govuk_account
     head :not_found and return unless govuk_account_auth_enabled?
-    reauthenticate_govuk_account and return if account_session_header.blank?
 
-    api_response = GdsApi.email_alert_api.link_subscriber_to_govuk_account(govuk_account_session: account_session_header)
-    set_account_session_header(api_response["govuk_account_session"])
-    authenticate_subscriber(api_response.dig("subscriber", "id"), linked_to_govuk_account: true)
-    redirect_to list_subscriptions_path
-  rescue GdsApi::HTTPUnauthorized, GdsApi::HTTPForbidden
-    reauthenticate_govuk_account
+    if authenticated_via_account?
+      redirect_to list_subscriptions_path
+    else
+      redirect_with_analytics GdsApi.account_api.get_sign_in_url(redirect_path: process_govuk_account_path)["auth_uri"]
+    end
   end
 
 private
 
   def token
     @token ||= AuthToken.new(params.require(:token))
-  end
-
-  def reauthenticate_govuk_account
-    deauthenticate_subscriber
-    logout!
-
-    redirect_with_analytics GdsApi.account_api.get_sign_in_url(redirect_path: process_govuk_account_path)["auth_uri"]
   end
 end

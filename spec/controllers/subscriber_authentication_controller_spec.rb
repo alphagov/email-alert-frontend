@@ -191,9 +191,14 @@ RSpec.describe SubscriberAuthenticationController do
         expect(response).to redirect_to(list_subscriptions_path)
       end
 
-      it "creates a session for the subscriber" do
+      it "does not create a new session" do
         get :process_govuk_account
-        expect(session.to_h).to include(session_for(subscriber_id, linked_to_govuk_account: true))
+        expect(session["authentication"]).to be_nil
+      end
+
+      it "clears any existing session" do
+        get :process_govuk_account, session: session_for(subscriber_id)
+        expect(session["authentication"]).to be_nil
       end
 
       it "sets the Vary response header" do
@@ -223,16 +228,6 @@ RSpec.describe SubscriberAuthenticationController do
           get :process_govuk_account
           expect(response).to redirect_to(auth_uri)
         end
-
-        it "sets the logout session header" do
-          get :process_govuk_account
-          expect(response.headers["GOVUK-Account-End-Session"]).to_not be_nil
-        end
-
-        it "clears any existing session" do
-          get :process_govuk_account, session: session_for(subscriber_id)
-          expect(session.to_h).to_not include(session_for(subscriber_id))
-        end
       end
 
       context "when the user's session is invalid" do
@@ -251,11 +246,6 @@ RSpec.describe SubscriberAuthenticationController do
         it "sets the logout session header" do
           get :process_govuk_account
           expect(response.headers["GOVUK-Account-End-Session"]).to_not be_nil
-        end
-
-        it "clears any existing session" do
-          get :process_govuk_account, session: session_for(subscriber_id)
-          expect(session.to_h).to_not include(session_for(subscriber_id))
         end
       end
 
