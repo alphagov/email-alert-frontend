@@ -16,9 +16,9 @@
 </p>
 
 <%= form_tag(action: :create) do %>
-  <%= hidden_field_tag "topic_id", params[:topic_id] %>
-  <%= hidden_field_tag "frequency", params[:frequency] %>
-  <%= hidden_field_tag "return_to_url", params[:return_to_url] %>
+  <%= hidden_field_tag "topic_id", @topic_id %>
+  <%= hidden_field_tag "frequency", @frequency %>
+  <%= hidden_field_tag "return_to_url", @return_to_url %>
   <%= render "govuk_publishing_components/components/button", {
     text: t("account_subscriptions.confirm.confirm"),
     margin_bottom: 4,
