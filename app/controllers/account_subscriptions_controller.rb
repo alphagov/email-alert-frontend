@@ -29,6 +29,8 @@ class AccountSubscriptionsController < ApplicationController
   rescue_from GdsApi::HTTPForbidden, with: :reauthenticate_user
 
   def confirm
+    reauthenticate_user and return unless logged_in?
+
     response = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(
       govuk_account_session: account_session_header,
     )
