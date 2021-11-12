@@ -3,16 +3,16 @@ RSpec.feature "Subscribe" do
   include GdsApi::TestHelpers::EmailAlertApi
 
   scenario do
-    given_i_do_not_have_a_govuk_account
+    given_i_have_a_govuk_account
     given_there_is_content_i_can_subscribe_to
     when_i_visit_the_email_signup_page
     and_i_choose_a_frequency
     and_i_enter_my_email_address
-    then_i_expect_to_get_an_email
+    then_i_expect_to_sign_in
   end
 
-  def given_i_do_not_have_a_govuk_account
-    stub_account_api_match_user_by_email_does_not_exist(email: "test@test.com")
+  def given_i_have_a_govuk_account
+    stub_account_api_match_user_by_email_does_not_match(email: "test@test.com")
   end
 
   def given_there_is_content_i_can_subscribe_to
@@ -54,8 +54,8 @@ RSpec.feature "Subscribe" do
     click_on "Continue"
   end
 
-  def then_i_expect_to_get_an_email
-    expect(@request).to have_been_requested
-    expect(page).to have_content(I18n.t!("subscriptions.check_email.title"))
+  def then_i_expect_to_sign_in
+    expect(@request).not_to have_been_requested
+    expect(page).to have_content(I18n.t!("subscriptions.use_your_govuk_account.heading"))
   end
 end

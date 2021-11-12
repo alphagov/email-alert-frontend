@@ -130,12 +130,6 @@ RSpec.describe SubscriptionsManagementController do
     end
 
     context "when the subscriber is logged in through a GOV.UK Account" do
-      around do |example|
-        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled") do
-          example.run
-        end
-      end
-
       before do
         mock_logged_in_session(session_id)
         stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address)
@@ -244,12 +238,6 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       context "when the subscriber is logged in through a GOV.UK Account" do
-        around do |example|
-          ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled") do
-            example.run
-          end
-        end
-
         before do
           mock_logged_in_session(session_id)
           stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address)
@@ -267,12 +255,6 @@ RSpec.describe SubscriptionsManagementController do
 
   describe "POST /email/manage/address/change" do
     context "when the subscriber is logged in through a GOV.UK Account" do
-      around do |example|
-        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled") do
-          example.run
-        end
-      end
-
       before do
         mock_logged_in_session(session_id)
         stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address)

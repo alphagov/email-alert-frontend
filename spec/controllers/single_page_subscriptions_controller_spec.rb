@@ -12,7 +12,13 @@ RSpec.describe SinglePageSubscriptionsController do
   let(:redirect_path) { "/email/subscriptions/account/confirm?frequency=immediately&return_to_url=true&topic_id=#{topic_slug}" }
   let(:auth_provider) { "http://auth/provider" }
 
-  describe "when feature flag is not 'enabled'" do
+  describe "when feature flag is disabled" do
+    around do |example|
+      ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
+        example.run
+      end
+    end
+
     it "POST /email/subscriptions/single-page/new-session returns 404" do
       post :edit
       expect(response).to have_http_status(:not_found)
@@ -29,13 +35,7 @@ RSpec.describe SinglePageSubscriptionsController do
     end
   end
 
-  context "when the feature is on" do
-    around do |example|
-      ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
-        example.run
-      end
-    end
-
+  context "when the feature is not disabled" do
     describe "POST /email/subscriptions/single-page/new-session" do
       before { stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path: redirect_path) }
 

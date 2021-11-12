@@ -29,12 +29,20 @@ RSpec.describe AccountSubscriptionsController do
   end
 
   describe "GET /email/subscriptions/account/confirm" do
-    it "returns 404" do
-      get :confirm
-      expect(response).to have_http_status(:not_found)
+    context "when the feature flag is disabled" do
+      around do |example|
+        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
+          example.run
+        end
+      end
+
+      it "returns 404" do
+        get :confirm
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
-    context "when the feature flag is enabled" do
+    context "when the feature flag is not disabled" do
       before do
         stub_email_alert_api_authenticate_subscriber_by_govuk_account(
           session_id,
@@ -48,12 +56,6 @@ RSpec.describe AccountSubscriptionsController do
           address,
           subscriptions: active_subscriptions,
         )
-      end
-
-      around do |example|
-        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
-          example.run
-        end
       end
 
       let(:active_subscriptions) { [] }
@@ -192,12 +194,20 @@ RSpec.describe AccountSubscriptionsController do
   end
 
   describe "POST /email/subscriptions/account" do
-    it "returns 404" do
-      post :create
-      expect(response).to have_http_status(:not_found)
+    context "when the feature flag is disabled" do
+      around do |example|
+        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
+          example.run
+        end
+      end
+
+      it "returns 404" do
+        post :create
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
-    context "when the feature flag is enabled" do
+    context "when the feature flag is not disabled" do
       before do
         stub_email_alert_api_link_subscriber_to_govuk_account(
           session_id,
@@ -205,12 +215,6 @@ RSpec.describe AccountSubscriptionsController do
           address,
           govuk_account_id: linked_govuk_account_id,
         )
-      end
-
-      around do |example|
-        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
-          example.run
-        end
       end
 
       let(:linked_govuk_account_id) { "user-id" }
