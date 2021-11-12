@@ -3,7 +3,6 @@ class SubscriptionsManagementController < ApplicationController
   include Slimmer::Template
   before_action :require_authentication
   before_action :get_subscription_details
-  before_action :set_account_change_email_url
   before_action :set_back_url
   before_action :use_govuk_account_layout?
 
@@ -40,13 +39,13 @@ class SubscriptionsManagementController < ApplicationController
   end
 
   def update_address
-    redirect_to @account_change_email_url and return if @account_change_email_url
+    head :not_found and return if authenticated_via_account?
 
     @address = @subscriber["address"]
   end
 
   def change_address
-    redirect_to @account_change_email_url and return if @account_change_email_url
+    head :not_found and return if authenticated_via_account?
 
     @address = @subscriber["address"]
 
@@ -89,19 +88,14 @@ class SubscriptionsManagementController < ApplicationController
   end
 
   def use_govuk_account_layout?
-    if authenticated_via_account?
-      set_slimmer_headers(template: "gem_layout_account_manager", remove_search: true, show_accounts: "signed-in")
-      true
-    end
+    @use_govuk_account_layout ||=
+      if authenticated_via_account?
+        set_slimmer_headers(template: "gem_layout_account_manager", remove_search: true, show_accounts: "signed-in")
+        true
+      end
   end
 
 private
-
-  def set_account_change_email_url
-    if authenticated_via_account?
-      @account_change_email_url = GovukPersonalisation::Urls.manage
-    end
-  end
 
   def get_subscription_details
     subscription_details = GdsApi.email_alert_api.get_subscriptions(
@@ -119,4 +113,9 @@ private
   def set_back_url
     @back_url = list_subscriptions_path
   end
+
+  def is_single_page_subscription?(subscription)
+    subscription.dig("subscriber_list", "content_id").present?
+  end
+  helper_method :is_single_page_subscription?
 end

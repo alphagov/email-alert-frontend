@@ -1,6 +1,7 @@
 en:
   subscriptions_management:
-    heading: Manage your GOV.UK emails
+    heading: Manage your GOV.UK email subscriptions
+    account_breadcrumb: Go back to your account
     index:
       subscription:
         immediately: "You get updates as soon as they happen."

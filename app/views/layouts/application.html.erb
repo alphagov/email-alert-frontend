@@ -13,8 +13,8 @@
     <meta name="robots" content="noindex, nofollow">
   </head>
   <body class="govuk-template__body">
-    <div class="govuk-width-container" id="wrapper">
-      <% if use_govuk_account_layout? %>
+    <% if use_govuk_account_layout? %>
+      <div id="wrapper">
         <% content_for :before_content do %>
           <%= yield :back_link %>
         <% end %>
@@ -22,7 +22,9 @@
         <main role="main" id="content">
           <%= yield %>
         </main>
-      <% else %>
+      </div>
+    <% else %>
+      <div class="govuk-width-container" id="wrapper">
         <%= yield :back_link %>
         <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main" id="content">
           <div id="email-alert-frontend">
@@ -33,8 +35,8 @@
             </div>
           </div>
         </main>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
     <%= javascript_include_tag 'application' %>
   </body>
 </html>

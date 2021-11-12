@@ -40,7 +40,7 @@ RSpec.feature "Change email frequency" do
   end
 
   def when_i_click_to_change_how_often_i_get_updates
-    click_on "Change how often you get updates"
+    click_on "Change how often you get emails"
   end
 
   def and_i_select_once_a_week
