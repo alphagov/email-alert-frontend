@@ -1,8 +1,7 @@
 module SessionsHelper
-  def authenticate_subscriber(subscriber_id, linked_to_govuk_account: false)
+  def authenticate_subscriber(subscriber_id)
     session["authentication"] = {
       "subscriber_id" => subscriber_id,
-      "linked_to_govuk_account" => linked_to_govuk_account,
     }
   end
 

@@ -88,8 +88,8 @@ class SubscriptionsManagementController < ApplicationController
     redirect_to list_subscriptions_path
   end
 
-  helper_method def use_govuk_account_layout?
-    if session.dig("authentication", "linked_to_govuk_account")
+  def use_govuk_account_layout?
+    if authenticated_via_account?
       set_slimmer_headers(template: "gem_layout_account_manager", remove_search: true, show_accounts: "signed-in")
       true
     end
@@ -98,7 +98,7 @@ class SubscriptionsManagementController < ApplicationController
 private
 
   def set_account_change_email_url
-    if session.dig("authentication", "linked_to_govuk_account")
+    if authenticated_via_account?
       @account_change_email_url = GovukPersonalisation::Urls.manage
     end
   end
