@@ -106,7 +106,7 @@ RSpec.describe SubscriptionsManagementController do
 
     context "when the subscriber is logged in through a GOV.UK Account" do
       around do |example|
-        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_PERSONALISATION_MANAGE_URI: "https://www.gov.uk/change-your-password") do
+        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled") do
           example.run
         end
       end
@@ -118,9 +118,9 @@ RSpec.describe SubscriptionsManagementController do
 
       let(:session_id) { "session-id" }
 
-      it "points the 'change email' link to the account" do
+      it "does not show the 'change email' link" do
         get :index
-        expect(response.body).to include(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
+        expect(response.body).not_to include("Change email address")
       end
     end
   end
@@ -198,7 +198,7 @@ RSpec.describe SubscriptionsManagementController do
 
       context "when the subscriber is logged in through a GOV.UK Account" do
         around do |example|
-          ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_PERSONALISATION_MANAGE_URI: "https://www.gov.uk/change-your-password") do
+          ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled") do
             example.run
           end
         end
@@ -210,9 +210,9 @@ RSpec.describe SubscriptionsManagementController do
 
         let(:session_id) { "session-id" }
 
-        it "redirects to the account" do
+        it "returns a 404" do
           get :update_address
-          expect(response).to redirect_to(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
@@ -221,7 +221,7 @@ RSpec.describe SubscriptionsManagementController do
   describe "POST /email/manage/address/change" do
     context "when the subscriber is logged in through a GOV.UK Account" do
       around do |example|
-        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled", GOVUK_PERSONALISATION_MANAGE_URI: "https://www.gov.uk/change-your-password") do
+        ClimateControl.modify(FEATURE_FLAG_GOVUK_ACCOUNT: "enabled") do
           example.run
         end
       end
@@ -233,9 +233,9 @@ RSpec.describe SubscriptionsManagementController do
 
       let(:session_id) { "session-id" }
 
-      it "redirects to the account" do
+      it "returns a 404" do
         post :change_address
-        expect(response).to redirect_to(ENV.fetch("GOVUK_PERSONALISATION_MANAGE_URI"))
+        expect(response).to have_http_status(:not_found)
       end
     end
 

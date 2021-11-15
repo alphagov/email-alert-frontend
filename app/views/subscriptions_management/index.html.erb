@@ -25,38 +25,76 @@
   <% end %>
 <% end %>
 
+<% if use_govuk_account_layout? %>
+  <% content_for :before_content do %>
+    <%= render "govuk_publishing_components/components/breadcrumbs", {
+      collapse_on_mobile: true,
+      breadcrumbs: [
+        {
+          title: t("subscriptions_management.account_breadcrumb"),
+          url: GovukPersonalisation::Urls.your_account,
+        },
+      ]
+    } %>
+    <% end %>
+<% end %>
+
 <%= render "govuk_publishing_components/components/heading", {
   text: t("subscriptions_management.heading"),
   heading_level: 1,
-  font_size: "l",
+  font_size: "xl",
   margin_bottom: 6,
 } %>
 
-<%= render "govuk_publishing_components/components/heading", {
-  text: "Subscriptions for #{@subscriber['address']}",
-  heading_level: 2,
-  font_size: "m",
-  margin_bottom: 4,
-} %>
+<% unless use_govuk_account_layout? %>
+  <%= render "govuk_publishing_components/components/heading", {
+    text: "Subscriptions for #{@subscriber['address']}",
+    heading_level: 2,
+    font_size: "m",
+    margin_bottom: 4,
+  } %>
 
-<p class="govuk-body">
-  <%= link_to "Change email address",
-              @account_change_email_url || update_address_path,
-              class: %w[govuk-link govuk-link--no-visited-state] %>
-</p>
+  <p class="govuk-body">
+    <%= link_to "Change email address",
+                update_address_path,
+                class: %w[govuk-link govuk-link--no-visited-state] %>
+  </p>
 
-<hr class="govuk-section-break govuk-section-break--l">
+  <hr class="govuk-section-break govuk-section-break--l">
+<% end %>
 
 <% if @subscriptions.empty? %>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <%= t("subscriptions_management.no_subscriptions_warning_html") %>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 <% else %>
+  <% unsubscribe_all_text = capture do %>
+    <p class="govuk-body">
+      <%= link_to "Unsubscribe from everything",
+                  confirm_unsubscribe_all_path,
+                  class: %w[govuk-link govuk-link--no-visited-state] %>
+    </p>
+  <% end %>
+
+  <%= render "govuk_publishing_components/components/inset_text", {
+    text: unsubscribe_all_text
+  } %>
+
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
   <% @subscriptions.each do |_key, subscription| %>
+    <span class="govuk-body govuk-!-margin-bottom-3">
+      <% if is_single_page_subscription?(subscription) %>
+        Page
+      <% else %>
+        Topic
+      <% end %>
+    </span>
+
     <%= render "govuk_publishing_components/components/heading", {
       text: subscription['subscriber_list']['title'],
-      heading_level: 3,
-      font_size: "s",
+      heading_level: use_govuk_account_layout? ? 2 : 3,
+      font_size: "m",
       margin_bottom: 4
     } %>
 
@@ -75,7 +113,7 @@
       <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
       <br>
       <% change_frequency_link_text = capture do %>
-        Change how often you get updates <span class="govuk-visually-hidden"> about <%= subscription['subscriber_list']['title'] %></span>
+        Change how often you get emails <span class="govuk-visually-hidden"> about <%= subscription['subscriber_list']['title'] %></span>
       <% end %>
       <%= link_to change_frequency_link_text,
                   update_frequency_path(id: subscription['id']),
@@ -89,18 +127,7 @@
                   confirm_unsubscribe_path(id: subscription['id']),
                   class: %w[govuk-link govuk-link--no-visited-state] %>
     </p>
-    <hr class="govuk-section-break govuk-section-break--m">
-  <% end %>
 
-  <% unsubscribe_all_text = capture do %>
-    <p class="govuk-body">
-      <%= link_to "Unsubscribe from everything",
-                  confirm_unsubscribe_all_path,
-                  class: %w[govuk-link govuk-link--no-visited-state] %>
-    </p>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <% end %>
-
-  <%= render "govuk_publishing_components/components/inset_text", {
-    text: unsubscribe_all_text
-  } %>
 <% end %>
