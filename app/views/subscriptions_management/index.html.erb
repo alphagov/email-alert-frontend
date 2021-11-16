@@ -92,7 +92,7 @@
     </span>
 
     <%= render "govuk_publishing_components/components/heading", {
-      text: subscription['subscriber_list']['title'],
+      text: get_heading_content(subscription),
       heading_level: use_govuk_account_layout? ? 2 : 3,
       font_size: "m",
       margin_bottom: 4
