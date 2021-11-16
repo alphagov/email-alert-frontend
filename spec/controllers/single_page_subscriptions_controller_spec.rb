@@ -103,7 +103,7 @@ RSpec.describe SinglePageSubscriptionsController do
           stub_email_alert_api_creates_a_subscription(
             subscriber_list_id: subscription_list_id,
             address: user_email,
-            frequency: "daily",
+            frequency: "immediately",
             returned_subscription_id: "subscription-id",
             subscriber_id: subscriber_id,
           )
@@ -138,7 +138,7 @@ RSpec.describe SinglePageSubscriptionsController do
                 {
                   "subscriber_id" => subscriber_id,
                   "subscriber_list_id" => subscription_list_id,
-                  "frequency" => "daily",
+                  "frequency" => "immediately",
                   "id" => subscription_id,
                   "subscriber_list" => {
                     "id" => subscription_list_id,

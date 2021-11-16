@@ -27,7 +27,7 @@ class SinglePageSubscriptionsController < ApplicationController
       GdsApi.email_alert_api.unsubscribe(subscription["id"])
       account_flash_add UNSUBSCRIBE_FLASH
     else
-      result = CreateAccountSubscriptionService.call(@subscriber_list, "daily", @account_session_header)
+      result = CreateAccountSubscriptionService.call(@subscriber_list, "immediately", @account_session_header)
       account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
       set_account_session_header(result[:govuk_account_session])
     end
