@@ -27,7 +27,7 @@ end %>
 
 <%= t("single_page_subscriptions.usage_description_html") %>
 
-<%= form_tag single_page_new_session_path method: :post, :"data-module" => "explicit-cross-domain-links" do %>
+<%= form_tag single_page_new_session_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
 
   <%= render "govuk_publishing_components/components/button", {
     text: t("single_page_subscriptions.create_or_sign_in_description")
