@@ -105,7 +105,7 @@
     <% end %>
 
     <p class='govuk-body'>
-      <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
+      <%= subscription['created_at'].to_datetime.strftime(t("subscriptions_management.index.you_subscribed")) %>
     </p>
     <% if subscription['subscriber_list']['url'] =~ %r{transition-check/results} ||
       subscription['subscriber_list']['url'] =~ %r{get-ready-brexit-check/results} %>
