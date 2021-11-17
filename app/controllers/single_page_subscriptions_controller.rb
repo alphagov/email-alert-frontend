@@ -21,7 +21,7 @@ class SinglePageSubscriptionsController < ApplicationController
 
     subscriptions = GdsApi.email_alert_api.get_subscriptions(id: subscriber.fetch("id")).to_h.fetch("subscriptions", [])
 
-    subscription = subscriptions.find { |s| s["subscriber_list_id"] == @subscriber_list["id"] }
+    subscription = subscriptions.find { |s| s["subscriber_list"]["id"] == @subscriber_list["id"] }
 
     if subscription
       GdsApi.email_alert_api.unsubscribe(subscription["id"])

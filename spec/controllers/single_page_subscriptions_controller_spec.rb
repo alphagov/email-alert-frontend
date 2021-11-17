@@ -147,12 +147,14 @@ RSpec.describe SinglePageSubscriptionsController do
                 },
               ],
             )
-            stub_email_alert_api_unsubscribes_a_subscription(subscription_id)
           end
 
           it "unsubscribes them and redirects back to the page" do
+            unsubscribe_stub = stub_email_alert_api_unsubscribes_a_subscription(subscription_id)
+
             post :show, params: params
             expect(response).to redirect_to("http://test.host#{base_path}")
+            expect(unsubscribe_stub).to have_been_made
           end
         end
       end
