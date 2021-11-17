@@ -15,6 +15,7 @@ en:
           immediately: "You’ll get an email from GOV.UK each time we add or update a page about:"
           daily: "You’ll get one email a day from GOV.UK about:"
           weekly: "You’ll get one email a week from GOV.UK about:"
+      last_updated: "This page was last updated on %-d %B %Y"
     no_subscriptions_warning_html: |
       <p class="govuk-body">You’re not currently getting emails about updates to GOV.UK.</p>
       <p class="govuk-body">Some GOV.UK pages have a link to ‘get emails’. You can use that link to subscribe to pages or topics you’re interested in.</p>

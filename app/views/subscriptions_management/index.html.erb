@@ -100,7 +100,7 @@
 
     <% if is_single_page_subscription?(subscription) %>
       <p class="govuk-body">
-        <%= get_updated_at_from_subscription(subscription).to_datetime.strftime("This page was last updated on %-d %B %Y") %>
+        <%= get_updated_at_from_subscription(subscription).to_datetime.strftime(t("subscriptions_management.index.last_updated")) %>
       </p>
     <% end %>
 
