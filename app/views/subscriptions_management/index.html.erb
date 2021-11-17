@@ -98,6 +98,12 @@
       margin_bottom: 4
     } %>
 
+    <% if is_single_page_subscription?(subscription) %>
+      <p class="govuk-body">
+        <%= get_updated_at_from_subscription(subscription).to_datetime.strftime(t("subscriptions_management.index.last_updated")) %>
+      </p>
+    <% end %>
+
     <p class='govuk-body'>
       <%= subscription['created_at'].to_datetime.strftime("Created on %-d %B %Y at %-I:%M%P") %>
     </p>

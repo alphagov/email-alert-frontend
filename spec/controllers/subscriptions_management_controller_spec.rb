@@ -1,5 +1,6 @@
 RSpec.describe SubscriptionsManagementController do
   include GdsApi::TestHelpers::EmailAlertApi
+  include GdsApi::TestHelpers::ContentStore
   include GovukPersonalisation::TestHelpers::Requests
   include SessionHelper
 
@@ -49,6 +50,30 @@ RSpec.describe SubscriptionsManagementController do
         get :index, session: session
         expect(response.body).to include("Some thing")
         expect(response.body).to include("Created on 16 September 2019 at 2:08am")
+      end
+
+      context "when the subscription is to a single page" do
+        let(:content_base_path) { "/some-thing" }
+
+        before do
+          stub_email_alert_api_has_subscriber_subscriptions(
+            subscriber_id,
+            subscriber_address,
+            subscriptions: [
+              {
+                "id" => subscription_id,
+                "created_at" => "2019-09-16 02:08:08 01:00",
+                "subscriber_list" => { "title" => "Some thing", "url" => content_base_path, "content_id" => "abc123" },
+              },
+            ],
+          )
+          stub_content_store_has_item(content_base_path)
+        end
+
+        it "displays the date the page was last updated" do
+          get :index, session: session
+          expect(response.body).to include("This page was last updated on ")
+        end
       end
     end
 
