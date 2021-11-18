@@ -10,10 +10,14 @@ class SinglePageSubscriptionsController < ApplicationController
 
   skip_before_action :verify_authenticity_token, only: [:create]
   before_action :fetch_subscriber_list, only: %i[create]
-  before_action :not_found_without_topic_id, only: %i[edit]
+  before_action :not_found_without_topic_id, only: %i[edit show]
+
+  def show; end
 
   def create
-    return unless logged_in?
+    unless logged_in?
+      redirect_to new_single_page_subscription_path(topic_id: @topic_id) and return
+    end
 
     subscriber = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(
       govuk_account_session: @account_session_header,

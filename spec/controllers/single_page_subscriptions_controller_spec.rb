@@ -22,6 +22,11 @@ RSpec.describe SinglePageSubscriptionsController do
       post :create
       expect(response).to have_http_status(:not_found)
     end
+
+    it "GET /email/subscriptions/single-page/new" do
+      get :show
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   context "when the feature is on" do
@@ -76,9 +81,9 @@ RSpec.describe SinglePageSubscriptionsController do
       end
 
       context "when a user is not logged in" do
-        it "renders the view with a sign in link including the base_path" do
-          get :show, params: params
-          expect(response.body).to include(single_page_new_session_path)
+        it "redirects to show and renders a sign in link including the topic_id" do
+          post :create, params: params
+          expect(response).to redirect_to(new_single_page_subscription_path(topic_id: topic_slug))
         end
       end
 
@@ -162,6 +167,20 @@ RSpec.describe SinglePageSubscriptionsController do
             expect(unsubscribe_stub).to have_been_made
           end
         end
+      end
+    end
+
+    describe "GET /email/subscriptions/single-page/new" do
+      let(:params) { { topic_id: topic_slug } }
+
+      it "returns 404 if no topic_id parameter is provided" do
+        get :show
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns 200 if a topic_id parameter is provided and renders an information page" do
+        get :show, params: params
+        expect(response).to have_http_status(:ok)
       end
     end
   end
