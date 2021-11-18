@@ -45,6 +45,11 @@ RSpec.describe SinglePageSubscriptionsController do
         post :edit, params: params.merge({ _ga: "abc123", cookie_consent: "accept" })
         expect(response).to redirect_to("#{auth_provider}?_ga=abc123&cookie_consent=accept")
       end
+
+      it "returns 404 if no topic_id parameter is provided" do
+        post :edit
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
     describe "POST /email/subscriptions/single-page/new" do
