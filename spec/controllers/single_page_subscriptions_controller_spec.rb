@@ -19,7 +19,12 @@ RSpec.describe SinglePageSubscriptionsController do
     end
 
     it "POST /email/subscriptions/single-page/new" do
-      post :show
+      post :create
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "GET /email/subscriptions/single-page/new" do
+      get :show
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -45,6 +50,11 @@ RSpec.describe SinglePageSubscriptionsController do
         post :edit, params: params.merge({ _ga: "abc123", cookie_consent: "accept" })
         expect(response).to redirect_to("#{auth_provider}?_ga=abc123&cookie_consent=accept")
       end
+
+      it "returns 404 if no topic_id parameter is provided" do
+        post :edit
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
     describe "POST /email/subscriptions/single-page/new" do
@@ -66,14 +76,14 @@ RSpec.describe SinglePageSubscriptionsController do
 
       it "404s when a content item can't be found" do
         stub_content_store_does_not_have_item(base_path)
-        get :show, params: params
+        post :create, params: params
         expect(response).to have_http_status(:not_found)
       end
 
       context "when a user is not logged in" do
-        it "renders the view with a sign in link including the base_path" do
-          get :show, params: params
-          expect(response.body).to include(single_page_new_session_path)
+        it "redirects to show and renders a sign in link including the topic_id" do
+          post :create, params: params
+          expect(response).to redirect_to(new_single_page_subscription_path(topic_id: topic_slug))
         end
       end
 
@@ -118,12 +128,12 @@ RSpec.describe SinglePageSubscriptionsController do
 
         it "logs the user out if the session is invalid" do
           stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
-          post :show, params: params
+          post :create, params: params
           expect(response).to redirect_to(auth_provider.to_s)
         end
 
         it "subscribes them and redirects back to the page" do
-          post :show, params: params
+          post :create, params: params
           expect(response).to redirect_to("http://test.host#{base_path}")
         end
 
@@ -152,11 +162,25 @@ RSpec.describe SinglePageSubscriptionsController do
           it "unsubscribes them and redirects back to the page" do
             unsubscribe_stub = stub_email_alert_api_unsubscribes_a_subscription(subscription_id)
 
-            post :show, params: params
+            post :create, params: params
             expect(response).to redirect_to("http://test.host#{base_path}")
             expect(unsubscribe_stub).to have_been_made
           end
         end
+      end
+    end
+
+    describe "GET /email/subscriptions/single-page/new" do
+      let(:params) { { topic_id: topic_slug } }
+
+      it "returns 404 if no topic_id parameter is provided" do
+        get :show
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns 200 if a topic_id parameter is provided and renders an information page" do
+        get :show, params: params
+        expect(response).to have_http_status(:ok)
       end
     end
   end

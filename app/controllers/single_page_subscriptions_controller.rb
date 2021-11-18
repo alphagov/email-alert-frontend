@@ -8,12 +8,16 @@ class SinglePageSubscriptionsController < ApplicationController
     head :not_found unless govuk_account_auth_enabled?
   end
 
-  skip_before_action :verify_authenticity_token, only: [:show]
+  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :fetch_subscriber_list, only: %i[create]
+  before_action :not_found_without_topic_id, only: %i[edit show]
 
-  before_action :fetch_subscriber_list, only: %i[show]
+  def show; end
 
-  def show
-    return unless logged_in?
+  def create
+    unless logged_in?
+      redirect_to new_single_page_subscription_path(topic_id: @topic_id) and return
+    end
 
     subscriber = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(
       govuk_account_session: @account_session_header,
@@ -35,15 +39,22 @@ class SinglePageSubscriptionsController < ApplicationController
     redirect_to @content_item.fetch("base_path")
   rescue GdsApi::HTTPUnauthorized
     logout!
-    sign_in_and_confirm
+    sign_in_and_confirm(@topic_id)
   end
 
   def edit
-    @topic_id = params.fetch(:topic_id)
-    sign_in_and_confirm
+    sign_in_and_confirm(topic_id)
   end
 
 private
+
+  def not_found_without_topic_id
+    head :not_found and return unless topic_id
+  end
+
+  def topic_id
+    @topic_id = params[:topic_id]
+  end
 
   def fetch_subscriber_list
     @content_item = GdsApi.content_store.content_item(params.fetch(:base_path)).to_h
@@ -57,9 +68,9 @@ private
     @topic_id = @subscriber_list.fetch("slug")
   end
 
-  def sign_in_and_confirm
+  def sign_in_and_confirm(topic_id)
     redirect_with_analytics GdsApi.account_api.get_sign_in_url(
-      redirect_path: confirm_account_subscription_path(topic_id: @topic_id, return_to_url: true),
+      redirect_path: confirm_account_subscription_path(topic_id: topic_id, return_to_url: true),
     )["auth_uri"]
   end
 end
