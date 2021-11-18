@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       post "/verify" => "subscriptions#verify", as: :verify_subscription
       post "/verify/account" => "subscriptions#verify_account", as: :verify_subscription_account
       get "/authenticate" => "subscription_authentication#authenticate", as: :confirm_subscription
+      post "/single-page/new" => "single_page_subscriptions#create"
       post "/single-page/new" => "single_page_subscriptions#show"
       post "/single-page/new-session" => "single_page_subscriptions#edit", as: :single_page_new_session
       scope "/account" do

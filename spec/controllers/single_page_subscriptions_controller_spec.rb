@@ -19,7 +19,7 @@ RSpec.describe SinglePageSubscriptionsController do
     end
 
     it "POST /email/subscriptions/single-page/new" do
-      post :show
+      post :create
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe SinglePageSubscriptionsController do
 
       it "404s when a content item can't be found" do
         stub_content_store_does_not_have_item(base_path)
-        get :show, params: params
+        post :create, params: params
         expect(response).to have_http_status(:not_found)
       end
 
@@ -118,12 +118,12 @@ RSpec.describe SinglePageSubscriptionsController do
 
         it "logs the user out if the session is invalid" do
           stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
-          post :show, params: params
+          post :create, params: params
           expect(response).to redirect_to(auth_provider.to_s)
         end
 
         it "subscribes them and redirects back to the page" do
-          post :show, params: params
+          post :create, params: params
           expect(response).to redirect_to("http://test.host#{base_path}")
         end
 
@@ -152,7 +152,7 @@ RSpec.describe SinglePageSubscriptionsController do
           it "unsubscribes them and redirects back to the page" do
             unsubscribe_stub = stub_email_alert_api_unsubscribes_a_subscription(subscription_id)
 
-            post :show, params: params
+            post :create, params: params
             expect(response).to redirect_to("http://test.host#{base_path}")
             expect(unsubscribe_stub).to have_been_made
           end

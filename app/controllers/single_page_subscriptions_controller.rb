@@ -8,11 +8,10 @@ class SinglePageSubscriptionsController < ApplicationController
     head :not_found unless govuk_account_auth_enabled?
   end
 
-  skip_before_action :verify_authenticity_token, only: [:show]
+  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :fetch_subscriber_list, only: %i[create]
 
-  before_action :fetch_subscriber_list, only: %i[show]
-
-  def show
+  def create
     return unless logged_in?
 
     subscriber = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(
