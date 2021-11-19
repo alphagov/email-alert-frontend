@@ -1,11 +1,16 @@
 en:
   subscriber_authentication:
     sign_in:
-      heading: Change your email preferences
+      heading: Manage your GOV.UK email subscriptions
       description_html: |
-        <p>If you are subscribed to GOV.UK email updates, you can unsubscribe or change the frequency at which you receive emails here.</p>
-        <p>You cannot use this page to set up new email subscriptions.  You can set up new subscriptions on topic pages or search pages.</p>
-        <p>For security, we need you to confirm your email address before you can manage your existing subscriptions.</p>
+        <p>Sign in to see and manage the emails you get about updates to GOV.UK.</p>
+        <p>You can:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>unsubscribe from emails you get from GOV.UK</li>
+          <li>change how often you get emails</li>
+          <li>update your email address</li>
+        </ul>
+      cannot_setup_new: "You cannot set up new email subscriptions here. Use the link to ‘get emails’ on the page or topic you want to subscribe to."
       email_input: Email address
       missing_email:
         title: There is a problem
