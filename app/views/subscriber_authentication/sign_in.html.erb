@@ -19,6 +19,10 @@
 
 <div class="govuk-body">
   <%= t("subscriber_authentication.sign_in.description_html") %>
+
+  <%= render "govuk_publishing_components/components/inset_text", {
+    text: t("subscriber_authentication.sign_in.cannot_setup_new")
+  } %>
 </div>
 
 <%= form_tag verify_subscriber_path, method: :post, novalidate: "novalidate", :"data-module" => "explicit-cross-domain-links" do %>
