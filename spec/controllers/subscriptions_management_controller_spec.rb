@@ -49,7 +49,7 @@ RSpec.describe SubscriptionsManagementController do
       it "renders the subscriber's subscriptions" do
         get :index, session: session
         expect(response.body).to include("Some thing")
-        expect(response.body).to include("Created on 16 September 2019 at 2:08am")
+        expect(response.body).to include("You subscribed on 16 September 2019 at 2:08am")
       end
 
       context "when the subscription is to a single page" do
@@ -146,6 +146,28 @@ RSpec.describe SubscriptionsManagementController do
       it "does not show the 'change email' link" do
         get :index
         expect(response.body).not_to include("Change email address")
+      end
+
+      context "when the subscriber has a single page subscription" do
+        before do
+          stub_email_alert_api_has_subscriber_subscriptions(
+            subscriber_id,
+            subscriber_address,
+            subscriptions: [
+              {
+                "id" => subscription_id,
+                "created_at" => "2019-09-16 02:08:08 01:00",
+                "subscriber_list" => { "title" => "Some thing", "url" => "/some-thing", "content_id" => "abc123" },
+              },
+            ],
+          )
+          stub_content_store_has_item("/some-thing")
+        end
+
+        it "makes the heading a link to the page" do
+          get :index
+          expect(response.body).to include('href="/some-thing"')
+        end
       end
     end
   end
