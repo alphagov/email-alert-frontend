@@ -9,7 +9,7 @@ RSpec.describe SinglePageSubscriptionsController do
   let(:base_path) { "/test" }
   let(:topic_slug) { SecureRandom.uuid }
   let(:topic_name) { "Test" }
-  let(:redirect_path) { "/email/subscriptions/account/confirm?return_to_url=true&topic_id=#{topic_slug}" }
+  let(:redirect_path) { "/email/subscriptions/account/confirm?frequency=immediately&return_to_url=true&topic_id=#{topic_slug}" }
   let(:auth_provider) { "http://auth/provider" }
 
   describe "when feature flag is not 'enabled'" do
