@@ -3,6 +3,7 @@ class SinglePageSubscriptionsController < ApplicationController
   include GovukPersonalisation::ControllerConcern
 
   UNSUBSCRIBE_FLASH = "email-unsubscribe-success".freeze
+  DEFAULT_FREQUENCY = "immediately".freeze
 
   before_action do
     head :not_found unless govuk_account_auth_enabled?
@@ -31,7 +32,7 @@ class SinglePageSubscriptionsController < ApplicationController
       GdsApi.email_alert_api.unsubscribe(subscription["id"])
       account_flash_add UNSUBSCRIBE_FLASH
     else
-      result = CreateAccountSubscriptionService.call(@subscriber_list, "immediately", @account_session_header)
+      result = CreateAccountSubscriptionService.call(@subscriber_list, DEFAULT_FREQUENCY, @account_session_header)
       account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
       set_account_session_header(result[:govuk_account_session])
     end
@@ -70,7 +71,7 @@ private
 
   def sign_in_and_confirm(topic_id)
     redirect_with_analytics GdsApi.account_api.get_sign_in_url(
-      redirect_path: confirm_account_subscription_path(topic_id: topic_id, return_to_url: true),
+      redirect_path: confirm_account_subscription_path(topic_id: topic_id, return_to_url: true, frequency: DEFAULT_FREQUENCY),
     )["auth_uri"]
   end
 end
