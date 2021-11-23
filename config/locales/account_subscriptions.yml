@@ -2,7 +2,9 @@ en:
   account_subscriptions:
     confirm:
       title: Confirm you want to get emails
-      description: "You’ll get emails when there are updates or new pages about:"
+      description:
+        page: "You’ll get emails when there are updates to:"
+        topic: "You’ll get emails when there are updates or new pages about:"
       confirm: Confirm
       cancel: Cancel and go to the GOV.UK homepage
       unlinked_subscriptions:

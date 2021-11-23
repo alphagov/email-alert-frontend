@@ -82,6 +82,11 @@ RSpec.describe AccountSubscriptionsController do
             ]
           end
 
+          it "shows the topic sign-up description" do
+            get :confirm, params: { topic_id: topic_id }
+            expect(response.body).to include(I18n.t("account_subscriptions.confirm.description.topic"))
+          end
+
           it "lists them" do
             get :confirm, params: { topic_id: topic_id }
             expect(response.body).to include(I18n.t("account_subscriptions.confirm.unlinked_subscriptions.title"))
@@ -99,6 +104,21 @@ RSpec.describe AccountSubscriptionsController do
               active_subscriptions.each do |subscription|
                 expect(response.body).not_to include(subscription.dig(:subscriber_list, :title))
               end
+            end
+          end
+
+          context "when the subscriberlist is for a single page" do
+            let(:subscriber_list_attributes) do
+              {
+                id: subscriber_list_id,
+                title: subscriber_list_title,
+                content_id: SecureRandom.uuid,
+              }
+            end
+
+            it "shows the page sign-up description" do
+              get :confirm, params: { topic_id: topic_id }
+              expect(response.body).to include(I18n.t("account_subscriptions.confirm.description.page"))
             end
           end
         end

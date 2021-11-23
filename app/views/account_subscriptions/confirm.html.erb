@@ -8,7 +8,11 @@
 } %>
 
 <p class="govuk-body">
-  <%= t("account_subscriptions.confirm.description") %>
+  <% if @subscriber_list["content_id"].present? %>
+    <%= t("account_subscriptions.confirm.description.page") %>
+  <% else %>
+    <%= t("account_subscriptions.confirm.description.topic") %>
+  <% end %>
 </p>
 
 <p class="govuk-body">
