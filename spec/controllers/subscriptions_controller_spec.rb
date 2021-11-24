@@ -98,21 +98,23 @@ RSpec.describe SubscriptionsController do
 
         let(:session_id) { "session-id" }
 
-        it "redirects to new with frequency" do
-          post :frequency, params: { topic_id: topic_id, frequency: frequency }
-          destination = new_subscription_url(
-            topic_id: topic_id, frequency: frequency,
-          )
-          expect(response).to redirect_to(destination)
-        end
-
-        context "when GOV.UK accounts is enabled" do
+        context "when GOV.UK accounts is disabled" do
           around do |example|
-            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
               example.run
             end
           end
 
+          it "redirects to new with frequency" do
+            post :frequency, params: { topic_id: topic_id, frequency: frequency }
+            destination = new_subscription_url(
+              topic_id: topic_id, frequency: frequency,
+            )
+            expect(response).to redirect_to(destination)
+          end
+        end
+
+        context "when GOV.UK accounts is not disabled" do
           let!(:link_stub) do
             stub_email_alert_api_link_subscriber_to_govuk_account(
               session_id,
@@ -189,6 +191,7 @@ RSpec.describe SubscriptionsController do
       end
 
       before do
+        stub_account_api_match_user_by_email_does_not_exist(email: address)
         stub_email_alert_api_subscription_verification_email_invalid(address, frequency, topic_id)
       end
 
@@ -211,6 +214,10 @@ RSpec.describe SubscriptionsController do
         stub_email_alert_api_sends_subscription_verification_email(address, frequency, topic_id)
       end
 
+      before do
+        stub_account_api_match_user_by_email_does_not_exist(email: address)
+      end
+
       it "renders a notice to check email" do
         post :verify, params: params
         expect(response.body).to include(I18n.t!("subscriptions.check_email.title"))
@@ -227,18 +234,20 @@ RSpec.describe SubscriptionsController do
 
         let(:session_id) { "session-id" }
 
-        it "sends a request to email-alert-api" do
-          post :verify, params: params
-          expect(verify_stub).to have_been_requested
-        end
-
-        context "when GOV.UK accounts is enabled" do
+        context "when GOV.UK accounts is disabled" do
           around do |example|
-            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
               example.run
             end
           end
 
+          it "sends a request to email-alert-api" do
+            post :verify, params: params
+            expect(verify_stub).to have_been_requested
+          end
+        end
+
+        context "when GOV.UK accounts is not disabled" do
           context "when there is an account with that email address" do
             before do
               stub_account_api_match_user_by_email_matches(email: address)

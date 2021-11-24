@@ -14,52 +14,54 @@ RSpec.describe VerifySubscriberEmailService do
       allow(Ratelimit).to receive(:new).and_return(rate_limiter)
     end
 
-    it "makes an API call to send a verification email" do
-      expect(described_class.call(address)).to eq(:email)
-      expect(request).to have_been_requested
-    end
-
-    it "exposes a not_found error if the user's email address cannot be found" do
-      stub_email_alert_api_subscriber_verification_email_no_subscriber
-      expect { described_class.call(address) }.to raise_error(GdsApi::HTTPNotFound)
-    end
-
-    it "increments a rate limiter for the address" do
-      expect(rate_limiter).to receive(:add).with(address)
-      described_class.call(address)
-    end
-
-    it "raises an error for too many requests per minute" do
-      allow(rate_limiter).to receive(:exceeded?).with(
-        address,
-        threshold: described_class::MINUTELY_THRESHOLD,
-        interval: 60.seconds.to_i,
-      ).and_return(true)
-
-      expect { described_class.call(address) }
-        .to raise_error(described_class::RatelimitExceededError)
-    end
-
-    it "raises an error for too many requests per minute" do
-      allow(rate_limiter).to receive(:exceeded?).with(
-        address,
-        threshold: described_class::HOURLY_THRESHOLD,
-        interval: 1.hour.to_i,
-      ).and_return(true)
-
-      expect { described_class.call(address) }
-        .to raise_error(described_class::RatelimitExceededError)
-    end
-
-    context "when GOV.UK accounts auth is enabled" do
+    context "when GOV.UK accounts auth is disabled" do
       around do |example|
-        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
           example.run
         end
       end
 
+      it "makes an API call to send a verification email" do
+        expect(described_class.call(address)).to eq(:email)
+        expect(request).to have_been_requested
+      end
+
+      it "exposes a not_found error if the user's email address cannot be found" do
+        stub_email_alert_api_subscriber_verification_email_no_subscriber
+        expect { described_class.call(address) }.to raise_error(GdsApi::HTTPNotFound)
+      end
+    end
+
+    context "when GOV.UK accounts auth is not disabled" do
       let!(:match_request) do
         stub_account_api_match_user_by_email_does_not_exist(email: address)
+      end
+
+      it "increments a rate limiter for the address" do
+        expect(rate_limiter).to receive(:add).with(address)
+        described_class.call(address)
+      end
+
+      it "raises an error for too many requests per minute" do
+        allow(rate_limiter).to receive(:exceeded?).with(
+          address,
+          threshold: described_class::MINUTELY_THRESHOLD,
+          interval: 60.seconds.to_i,
+        ).and_return(true)
+
+        expect { described_class.call(address) }
+          .to raise_error(described_class::RatelimitExceededError)
+      end
+
+      it "raises an error for too many requests per minute" do
+        allow(rate_limiter).to receive(:exceeded?).with(
+          address,
+          threshold: described_class::HOURLY_THRESHOLD,
+          interval: 1.hour.to_i,
+        ).and_return(true)
+
+        expect { described_class.call(address) }
+          .to raise_error(described_class::RatelimitExceededError)
       end
 
       it "makes an API call to check if the address is associated with an account" do

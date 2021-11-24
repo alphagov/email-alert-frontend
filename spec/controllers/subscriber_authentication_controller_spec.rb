@@ -39,6 +39,7 @@ RSpec.describe SubscriberAuthenticationController do
       let(:subscriber_address) { "foobar" }
 
       before do
+        stub_account_api_match_user_by_email_does_not_exist(email: subscriber_address)
         stub_email_alert_api_subscriber_verification_email_invalid
       end
 
@@ -53,18 +54,20 @@ RSpec.describe SubscriberAuthenticationController do
         stub_email_alert_api_subscriber_verification_email_linked_to_govuk_account
       end
 
-      it "returns a 403 error" do
-        post :verify, params: { address: subscriber_address }
-        expect(response).to have_http_status(:forbidden)
-      end
-
-      context "when GOV.UK accounts auth is enabled" do
+      context "when GOV.UK accounts auth is disabled" do
         around do |example|
-          ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+          ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
             example.run
           end
         end
 
+        it "returns a 403 error" do
+          post :verify, params: { address: subscriber_address }
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+
+      context "when GOV.UK accounts auth is not disabled" do
         before do
           stub_account_api_match_user_by_email_does_not_match(email: subscriber_address)
         end
@@ -90,6 +93,7 @@ RSpec.describe SubscriberAuthenticationController do
 
     context "when a valid address is provided and the subscriber doesn't exist" do
       before do
+        stub_account_api_match_user_by_email_does_not_exist(email: subscriber_address)
         stub_email_alert_api_subscriber_verification_email_no_subscriber
         post :verify, params: { address: subscriber_address }
       end
@@ -101,6 +105,7 @@ RSpec.describe SubscriberAuthenticationController do
 
     context "when a valid address is provided and the subscriber exists" do
       before do
+        stub_account_api_match_user_by_email_does_not_exist(email: subscriber_address)
         stub_email_alert_api_sends_subscriber_verification_email(subscriber_id, subscriber_address)
       end
 
@@ -168,18 +173,20 @@ RSpec.describe SubscriberAuthenticationController do
 
     let(:session_id) { "session-id" }
 
-    it "returns a 404" do
-      get :process_govuk_account
-      expect(response).to have_http_status(:not_found)
-    end
-
     context "when the feature flag is on" do
       around do |example|
-        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "enabled" do
+        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
           example.run
         end
       end
 
+      it "returns a 404" do
+        get :process_govuk_account
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when the feature flag is not disabled" do
       before do
         stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
       end
