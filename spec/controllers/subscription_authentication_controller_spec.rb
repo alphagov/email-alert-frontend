@@ -41,7 +41,6 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "shows a success flash message" do
         get :authenticate, params: params
-        expect(flash[:subscription][:message]).to eq(I18n.t!("subscription_authentication.authenticate.message"))
         expect(flash[:subscription][:id]).to eq(subscription_id)
       end
 

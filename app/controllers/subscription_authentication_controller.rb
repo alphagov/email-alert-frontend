@@ -26,10 +26,7 @@ class SubscriptionAuthenticationController < ApplicationController
         frequency: @frequency,
       )["subscription"]
 
-    flash[:subscription] = {
-      id: subscription["id"],
-      message: t("subscription_authentication.authenticate.message"),
-    }
+    flash[:subscription] = { id: subscription["id"] }
 
     authenticate_subscriber(subscription.dig("subscriber", "id"))
     redirect_to list_subscriptions_path

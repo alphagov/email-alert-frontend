@@ -11,10 +11,7 @@ en:
         message: "You have been unsubscribed from ‘%{title}’"
         description: "It can take up to an hour for this change to take effect."
       flashes:
-        subscription:
-          immediately: "You’ll get an email from GOV.UK each time we add or update a page about:"
-          daily: "You’ll get one email a day from GOV.UK about:"
-          weekly: "You’ll get one email a week from GOV.UK about:"
+        subscription: "You’ve subscribed to emails about ‘%{title}’."
       last_updated: "This page was last updated on %-d %B %Y"
       you_subscribed: "You subscribed on %-d %B %Y at %-I:%M%P"
     no_subscriptions_warning_html: |

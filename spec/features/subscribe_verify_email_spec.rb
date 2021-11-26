@@ -48,7 +48,7 @@ RSpec.feature "Subscribe verify email" do
       subscriptions: [{
         "id": subscription_id,
         "frequency": "immediately",
-        "subscriber_list": { "title": "Title" },
+        "subscriber_list": { "title": @title },
         "created_at": Time.zone.now.to_s,
       }],
     )
@@ -62,8 +62,7 @@ RSpec.feature "Subscribe verify email" do
 
   def then_i_see_i_am_subscribed
     expect(@request).to have_been_requested
-    expect(page).to have_content(I18n.t!("subscription_authentication.authenticate.message"))
-    expect(page).to have_content(I18n.t!("subscriptions_management.index.flashes.subscription.immediately"))
+    expect(page).to have_content(I18n.t!("subscriptions_management.index.flashes.subscription", title: @title))
   end
 
   def and_i_can_manage_my_subscriptions
