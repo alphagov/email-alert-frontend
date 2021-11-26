@@ -1,6 +1,6 @@
 module FrequenciesHelper
   def valid_frequencies
-    t("frequencies").map { |frequency, _config| frequency.to_s }
+    t("frequencies.topic").map { |frequency, _config| frequency.to_s }
   end
 
   def frequencies(options = {})
@@ -13,9 +13,10 @@ module FrequenciesHelper
   end
 
   def frequency_item(key, options)
+    subscription_type = options[:is_single_page] ? "page" : "topic"
     {
       value: key.to_sym,
-      text: t("frequencies.#{key}"),
+      text: t("frequencies.#{subscription_type}.#{key}"),
       checked: (options[:checked_frequency] == key),
     }
   end

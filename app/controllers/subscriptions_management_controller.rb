@@ -23,10 +23,14 @@ class SubscriptionsManagementController < ApplicationController
 
     GdsApi.email_alert_api.change_subscription(id: id, frequency: new_frequency)
 
-    subscription_title = @subscriptions[id]["subscriber_list"]["title"]
+    subscription = @subscriptions[id]
+
+    subscription_type = is_single_page_subscription?(subscription) ? "page" : "topic"
+
+    subscription_title = subscription["subscriber_list"]["title"]
 
     frequency_text = if new_frequency == "immediately"
-                       I18n.t!("frequencies.immediately").downcase
+                       I18n.t!("frequencies.#{subscription_type}.immediately").downcase
                      else
                        new_frequency
                      end

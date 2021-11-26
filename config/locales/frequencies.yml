@@ -1,5 +1,10 @@
 en:
   frequencies:
-    immediately: Each time we add or update a page (you may get more than one email a day)
-    daily: Once a day
-    weekly: Once a week
+    topic:
+      immediately: Each time we add or update a page (you may get more than one email a day)
+      daily: Once a day
+      weekly: Once a week
+    page:
+      immediately: Each time there’s an update (you may get more than one email a day)
+      daily: Once a day
+      weekly: Once a week
