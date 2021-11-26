@@ -19,7 +19,7 @@
     <%= render 'govuk_publishing_components/components/radio', {
       name: 'new_frequency',
       heading: page_heading,
-      items: frequencies(:checked_frequency => @current_frequency)
+      items: frequencies(:checked_frequency => @current_frequency, :is_single_page => is_single_page_subscription?(@subscriptions[@subscription_id]))
     } %>
 
     <%= render 'govuk_publishing_components/components/button', {

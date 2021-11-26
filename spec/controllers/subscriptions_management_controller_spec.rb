@@ -187,6 +187,27 @@ RSpec.describe SubscriptionsManagementController do
       get :update_frequency, params: { id: subscription_id }, session: session
       expect(response).to have_http_status(:not_found)
     end
+
+    context "when the subscription is for a single page" do
+      before do
+        stub_email_alert_api_has_subscriber_subscriptions(
+          subscriber_id,
+          subscriber_address,
+          subscriptions: [
+            {
+              "id" => subscription_id,
+              "created_at" => "2019-09-16 02:08:08 01:00",
+              "subscriber_list" => { "title" => "Some thing", "url" => "/some-thing", "content_id" => "abc123" },
+            },
+          ],
+        )
+      end
+
+      it "displays the single page version of the content" do
+        get :update_frequency, params: { id: subscription_id }, session: session
+        expect(response.body).to include(I18n.t("frequencies.page.immediately"))
+      end
+    end
   end
 
   describe "POST /email/manage/frequency/:id/change" do
