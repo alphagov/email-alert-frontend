@@ -42,8 +42,6 @@ class SubscriberAuthenticationController < ApplicationController
   end
 
   def process_govuk_account
-    head :not_found and return unless govuk_account_auth_enabled?
-
     if authenticated_via_account?
       redirect_to list_subscriptions_path
     else

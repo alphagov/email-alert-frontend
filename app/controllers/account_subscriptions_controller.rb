@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
 class AccountSubscriptionsController < ApplicationController
-  include AccountHelper
   include FrequenciesHelper
   include GovukPersonalisation::ControllerConcern
 
   DEFAULT_FREQUENCY = "daily"
-
-  before_action do
-    head :not_found unless govuk_account_auth_enabled?
-  end
 
   before_action do
     @topic_id = subscription_parameters.fetch(:topic_id)

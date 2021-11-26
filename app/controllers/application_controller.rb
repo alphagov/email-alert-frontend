@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include GovukPersonalisation::ControllerConcern
-  include AccountHelper
 
   include Slimmer::Template
 
@@ -32,7 +31,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticated_via_account?
-    return false unless govuk_account_auth_enabled?
     return false if account_session_header.blank?
     return @authenticated_via_account unless @authenticated_via_account.nil?
 

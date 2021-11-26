@@ -1,13 +1,8 @@
 class SinglePageSubscriptionsController < ApplicationController
-  include AccountHelper
   include GovukPersonalisation::ControllerConcern
 
   UNSUBSCRIBE_FLASH = "email-unsubscribe-success".freeze
   DEFAULT_FREQUENCY = "immediately".freeze
-
-  before_action do
-    head :not_found unless govuk_account_auth_enabled?
-  end
 
   skip_before_action :verify_authenticity_token, only: [:create]
   before_action :fetch_subscriber_list, only: %i[create]

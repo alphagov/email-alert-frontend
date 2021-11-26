@@ -1,6 +1,4 @@
 class VerifySubscriberEmailService < ApplicationService
-  include AccountHelper
-
   include Rails.application.routes.url_helpers
 
   class RatelimitExceededError < StandardError; end
@@ -23,12 +21,7 @@ class VerifySubscriberEmailService < ApplicationService
   def call
     rate_limiter.add(address)
     raise_if_over_rate_limit
-
-    if govuk_account_auth_enabled?
-      authenticate_with_account
-    else
-      authenticate_with_email
-    end
+    authenticate_with_account
   end
 
 private

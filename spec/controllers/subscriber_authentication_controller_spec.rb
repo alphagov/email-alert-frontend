@@ -52,41 +52,23 @@ RSpec.describe SubscriberAuthenticationController do
     context "when the email address is linked to a GOV.UK account" do
       before do
         stub_email_alert_api_subscriber_verification_email_linked_to_govuk_account
+        stub_account_api_match_user_by_email_does_not_match(email: subscriber_address)
       end
 
-      context "when GOV.UK accounts auth is disabled" do
-        around do |example|
-          ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
-            example.run
-          end
-        end
-
-        it "returns a 403 error" do
-          post :verify, params: { address: subscriber_address }
-          expect(response).to have_http_status(:forbidden)
-        end
+      it "tells the user to sign in with their account" do
+        post :verify, params: { address: subscriber_address }
+        expect(response.body).to include(I18n.t!("subscriber_authentication.use_your_govuk_account.heading"))
       end
 
-      context "when GOV.UK accounts auth is not disabled" do
+      context "when the user is currently logged in to that account" do
         before do
-          stub_account_api_match_user_by_email_does_not_match(email: subscriber_address)
+          mock_logged_in_session("session-id")
+          stub_account_api_match_user_by_email_matches(email: subscriber_address, govuk_account_session: "session-id")
         end
 
-        it "tells the user to sign in with their account" do
+        it "redirects the user to authenticate" do
           post :verify, params: { address: subscriber_address }
-          expect(response.body).to include(I18n.t!("subscriber_authentication.use_your_govuk_account.heading"))
-        end
-
-        context "when the user is currently logged in to that account" do
-          before do
-            mock_logged_in_session("session-id")
-            stub_account_api_match_user_by_email_matches(email: subscriber_address, govuk_account_session: "session-id")
-          end
-
-          it "redirects the user to authenticate" do
-            post :verify, params: { address: subscriber_address }
-            expect(response).to redirect_to(process_govuk_account_path)
-          end
+          expect(response).to redirect_to(process_govuk_account_path)
         end
       end
     end
@@ -169,105 +151,88 @@ RSpec.describe SubscriberAuthenticationController do
   end
 
   describe "GET /email/authenticate/account" do
-    before { mock_logged_in_session(session_id) }
+    before do
+      mock_logged_in_session(session_id)
+      stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
+    end
 
     let(:session_id) { "session-id" }
+    let(:new_session_id) { nil }
 
-    context "when the feature flag is on" do
-      around do |example|
-        ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
-          example.run
-        end
-      end
+    it "redirects to the subscription management page" do
+      get :process_govuk_account
+      expect(response).to redirect_to(list_subscriptions_path)
+    end
 
-      it "returns a 404" do
+    it "does not create a new session" do
+      get :process_govuk_account
+      expect(session["authentication"]).to be_nil
+    end
+
+    it "clears any existing session" do
+      get :process_govuk_account, session: session_for(subscriber_id)
+      expect(session["authentication"]).to be_nil
+    end
+
+    it "sets the Vary response header" do
+      get :process_govuk_account
+      expect(response.headers["Vary"]).to include("GOVUK-Account-Session")
+    end
+
+    context "when email-alert-api returns a new session ID" do
+      let(:new_session_id) { "new-session-id" }
+
+      it "includes a new session ID in the response headers" do
         get :process_govuk_account
-        expect(response).to have_http_status(:not_found)
+        expect(response.headers["GOVUK-Account-Session"]).to eq(new_session_id)
       end
     end
 
-    context "when the feature flag is not disabled" do
+    context "when the user's session is missing" do
       before do
-        stub_email_alert_api_link_subscriber_to_govuk_account(session_id, subscriber_id, subscriber_address, new_govuk_account_session: new_session_id)
+        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
       end
 
-      let(:new_session_id) { nil }
+      let(:session_id) { nil }
 
-      it "redirects to the subscription management page" do
+      let(:auth_uri) { "/sign-in" }
+
+      it "redirects them to sign in" do
         get :process_govuk_account
-        expect(response).to redirect_to(list_subscriptions_path)
+        expect(response).to redirect_to(auth_uri)
+      end
+    end
+
+    context "when the user's session is invalid" do
+      before do
+        stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
+        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
       end
 
-      it "does not create a new session" do
+      let(:auth_uri) { "/sign-in" }
+
+      it "redirects them to sign in" do
         get :process_govuk_account
-        expect(session["authentication"]).to be_nil
+        expect(response).to redirect_to(auth_uri)
       end
 
-      it "clears any existing session" do
-        get :process_govuk_account, session: session_for(subscriber_id)
-        expect(session["authentication"]).to be_nil
-      end
-
-      it "sets the Vary response header" do
+      it "sets the logout session header" do
         get :process_govuk_account
-        expect(response.headers["Vary"]).to include("GOVUK-Account-Session")
+        expect(response.headers["GOVUK-Account-End-Session"]).to_not be_nil
+      end
+    end
+
+    context "when the account email address is unverified" do
+      before do
+        stub_email_alert_api_link_subscriber_to_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
+        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
       end
 
-      context "when email-alert-api returns a new session ID" do
-        let(:new_session_id) { "new-session-id" }
+      let(:auth_uri) { "/sign-in" }
 
-        it "includes a new session ID in the response headers" do
-          get :process_govuk_account
-          expect(response.headers["GOVUK-Account-Session"]).to eq(new_session_id)
-        end
-      end
-
-      context "when the user's session is missing" do
-        before do
-          stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
-        end
-
-        let(:session_id) { nil }
-
-        let(:auth_uri) { "/sign-in" }
-
-        it "redirects them to sign in" do
-          get :process_govuk_account
-          expect(response).to redirect_to(auth_uri)
-        end
-      end
-
-      context "when the user's session is invalid" do
-        before do
-          stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
-          stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
-        end
-
-        let(:auth_uri) { "/sign-in" }
-
-        it "redirects them to sign in" do
-          get :process_govuk_account
-          expect(response).to redirect_to(auth_uri)
-        end
-
-        it "sets the logout session header" do
-          get :process_govuk_account
-          expect(response.headers["GOVUK-Account-End-Session"]).to_not be_nil
-        end
-      end
-
-      context "when the account email address is unverified" do
-        before do
-          stub_email_alert_api_link_subscriber_to_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
-          stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
-        end
-
-        let(:auth_uri) { "/sign-in" }
-
-        it "redirects users to sign in again" do
-          get :process_govuk_account
-          expect(response).to redirect_to(auth_uri)
-        end
+      it "redirects users to sign in again" do
+        get :process_govuk_account
+        expect(response).to redirect_to(auth_uri)
       end
     end
   end
