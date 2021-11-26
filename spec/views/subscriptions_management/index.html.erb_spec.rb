@@ -18,13 +18,12 @@ RSpec.describe "subscriptions_management/index" do
         }
 
         assign(:subscriptions, { subscription["id"] => subscription })
-        flash[:subscription] = { "message" => "message", "id" => subscription["id"] }
+        flash[:subscription] = { "id" => subscription["id"] }
 
         render
-        expect(rendered).to have_content("message")
 
         expect(rendered).to have_content(
-          I18n.t!("subscriptions_management.index.flashes.subscription.#{frequency}"),
+          I18n.t!("subscriptions_management.index.flashes.subscription", title: subscription["subscriber_list"]["title"]),
         )
         expect(rendered).to have_css("a[href='#{confirm_unsubscribe_path(subscription['id'])}'] .govuk-visually-hidden", text: "from #{subscription['subscriber_list']['title']}")
         expect(rendered).to have_css("a[href='#{update_frequency_path(subscription['id'])}'] .govuk-visually-hidden", text: "about #{subscription['subscriber_list']['title']}")
@@ -37,10 +36,10 @@ RSpec.describe "subscriptions_management/index" do
   context "if the subscription is not found" do
     it "does not render a flash" do
       assign(:subscriptions, {})
-      flash[:subscription] = { "message" => "message", "id" => 1 }
+      flash[:subscription] = { "id" => 1 }
 
       render
-      expect(rendered).to_not have_content("message")
+      expect(rendered).to_not have_content("You’ve subscribed to emails about")
     end
   end
 end

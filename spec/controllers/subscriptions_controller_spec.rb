@@ -129,17 +129,19 @@ RSpec.describe SubscriptionsController do
               subscriber_list_id: subscriber_list_id,
               address: address,
               frequency: frequency,
+              returned_subscription_id: subscription_id,
             )
           end
 
+          let(:subscription_id) { 256 }
           let(:subscriber_id) { "subscriber-id" }
           let(:address) { "email@example.com" }
           let(:linked_govuk_account_id) { 42 }
 
           it "creates the subscription and redirects to the manage page" do
             post :frequency, params: { topic_id: topic_id, frequency: frequency }
-            expect(response).to redirect_to(process_govuk_account_path)
-            expect(response.headers["GOVUK-Account-Session"]).to include(CreateAccountSubscriptionService::SUCCESS_FLASH)
+            expect(response).to redirect_to(list_subscriptions_path)
+            expect(flash[:subscription][:id]).to eq(subscription_id)
             expect(link_stub).to have_been_made
             expect(create_stub).to have_been_made
           end

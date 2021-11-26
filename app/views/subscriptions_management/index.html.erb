@@ -10,19 +10,9 @@
 <% if flash[:subscription] %>
   <% subscription = @subscriptions[flash[:subscription]['id']] %>
 
-  <% if subscription %>
-    <% description = capture do %>
-      <p class="govuk-body">
-        <%= t("subscriptions_management.index.flashes.subscription.#{subscription['frequency']}") %>
-      </p>
-      <p><strong><%= subscription['subscriber_list']['title'] %></strong></p>
-    <% end %>
-
-    <%= render 'govuk_publishing_components/components/success_alert', {
-      message: flash[:subscription]['message'],
-      description: description
-    } %>
-  <% end %>
+  <%= render 'govuk_publishing_components/components/success_alert', {
+    message: t("subscriptions_management.index.flashes.subscription", title: subscription["subscriber_list"]["title"]),
+  } if subscription %>
 <% end %>
 
 <% if use_govuk_account_layout? %>

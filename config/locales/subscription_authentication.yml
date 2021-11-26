@@ -3,5 +3,3 @@ en:
     expired:
       title: Your link has expired
       description: The links we send only work for 7 days. This is to protect your personal data.
-    authenticate:
-      message: "You’ve subscribed to GOV.UK emails"

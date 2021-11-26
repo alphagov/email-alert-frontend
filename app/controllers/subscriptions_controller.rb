@@ -20,9 +20,9 @@ class SubscriptionsController < ApplicationController
 
       result = CreateAccountSubscriptionService.call(@subscriber_list, @frequency, account_session_header)
       if result
-        account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
         set_account_session_header(result[:govuk_account_session])
-        redirect_to process_govuk_account_path
+        flash[:subscription] = { id: result[:subscription]["id"] }
+        redirect_to list_subscriptions_path
       else
         redirect_to new_subscription_path(
           topic_id: @topic_id,

@@ -22,13 +22,16 @@ class CreateAccountSubscriptionService < ApplicationService
 
     subscriber = response.to_h.fetch("subscriber")
 
-    GdsApi.email_alert_api.subscribe(
+    subscription = GdsApi.email_alert_api.subscribe(
       subscriber_list_id: subscriber_list.fetch("id"),
       address: subscriber.fetch("address"),
       frequency: frequency,
-    )
+    )["subscription"]
 
-    { govuk_account_session: response["govuk_account_session"] }
+    {
+      govuk_account_session: response["govuk_account_session"],
+      subscription: subscription,
+    }
   end
 
 private

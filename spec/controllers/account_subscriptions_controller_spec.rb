@@ -229,15 +229,18 @@ RSpec.describe AccountSubscriptionsController do
             subscriber_list_id: subscriber_list_id,
             address: address,
             frequency: created_frequency,
+            returned_subscription_id: subscription_id,
           )
         end
+
+        let(:subscription_id) { 256 }
 
         let(:created_frequency) { AccountSubscriptionsController::DEFAULT_FREQUENCY }
 
         it "creates the subscription with a default frequency, links the subscriber to the GOV.UK account, and redirects to the manage page" do
           post :create, params: { topic_id: topic_id }
-          expect(response).to redirect_to(process_govuk_account_path)
-          expect(response.headers["GOVUK-Account-Session"]).to include(CreateAccountSubscriptionService::SUCCESS_FLASH)
+          expect(flash[:subscription][:id]).to eq(subscription_id)
+          expect(response).to redirect_to(list_subscriptions_path)
           expect(create_stub).to have_been_made
         end
 
@@ -247,8 +250,7 @@ RSpec.describe AccountSubscriptionsController do
 
           it "creates the subscription with the correct frequency" do
             post :create, params: { topic_id: topic_id, frequency: frequency }
-            expect(response).to redirect_to(process_govuk_account_path)
-            expect(response.headers["GOVUK-Account-Session"]).to include(CreateAccountSubscriptionService::SUCCESS_FLASH)
+            expect(response).to redirect_to(list_subscriptions_path)
             expect(create_stub).to have_been_made
           end
 
@@ -274,7 +276,7 @@ RSpec.describe AccountSubscriptionsController do
 
           it "redirects to the manage page when the return_to_url parameter is not given" do
             post :create, params: { topic_id: topic_id }
-            expect(response).to redirect_to(process_govuk_account_path)
+            expect(response).to redirect_to(list_subscriptions_path)
           end
 
           it "redirects to the manage page when the return_to_url parameter is given" do

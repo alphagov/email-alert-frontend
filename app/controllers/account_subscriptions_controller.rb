@@ -51,12 +51,13 @@ class AccountSubscriptionsController < ApplicationController
     result = CreateAccountSubscriptionService.call(@subscriber_list, @frequency, account_session_header)
     reauthenticate_user and return unless result
 
-    account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
     set_account_session_header(result[:govuk_account_session])
 
     if @return_to_url.blank? || @subscriber_list["url"].blank?
-      redirect_to process_govuk_account_path
+      flash[:subscription] = { id: result[:subscription]["id"] }
+      redirect_to list_subscriptions_path
     else
+      account_flash_add CreateAccountSubscriptionService::SUCCESS_FLASH
       redirect_to @subscriber_list["url"]
     end
   end
