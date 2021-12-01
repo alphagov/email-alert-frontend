@@ -77,34 +77,6 @@ RSpec.describe SubscriptionsManagementController do
       end
     end
 
-    %w[transition-check get-ready-brexit-check].each do |prefix|
-      context "when the subscription is for a #{prefix} list" do
-        before do
-          stub_email_alert_api_has_subscriber_subscriptions(
-            subscriber_id,
-            subscriber_address,
-            subscriptions: [
-              {
-                "id" => subscription_id,
-                "created_at" => "2019-09-16 02:08:08 01:00",
-                "subscriber_list" => {
-                  "title" => "Some thing",
-                  "url" => "/#{prefix}/results?c%5B%5D=automotive",
-                },
-              },
-            ],
-          )
-        end
-
-        it "renders a link to the list URL" do
-          get :index, session: session
-          expect(response.body).to include(
-            "href=\"/#{prefix}/results?c%5B%5D=automotive\">You can view a copy of your results on GOV.UK</a>",
-          )
-        end
-      end
-    end
-
     context "when there is a subscriber without any subscription" do
       let(:subscriber_id_with_no_subscriptions) { 2 }
       let(:subscriber_address_with_no_subscriptions) { "nothing@example.com" }
