@@ -30,7 +30,13 @@ end %>
 <%= form_tag single_page_new_session_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
 
   <%= render "govuk_publishing_components/components/button", {
-    text: t("single_page_subscriptions.create_or_sign_in_description")
+    text: t("single_page_subscriptions.create_or_sign_in_description"),
+    data_attributes: {
+      module: "gem-track-click",
+      track_action: t("single_page_subscriptions.create_or_sign_in_description"),
+      track_category: "External link clicked",
+      track_label: @topic_id,
+    }
   } %>
 
   <%= hidden_field_tag(:topic_id, @topic_id) %>
