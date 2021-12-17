@@ -98,66 +98,48 @@ RSpec.describe SubscriptionsController do
 
         let(:session_id) { "session-id" }
 
-        context "when GOV.UK accounts is disabled" do
-          around do |example|
-            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
-              example.run
-            end
+        let!(:link_stub) do
+          stub_email_alert_api_link_subscriber_to_govuk_account(
+            session_id,
+            subscriber_id,
+            address,
+            govuk_account_id: linked_govuk_account_id,
+          )
+        end
+
+        let!(:create_stub) do
+          stub_email_alert_api_creates_a_subscription(
+            subscriber_list_id: subscriber_list_id,
+            address: address,
+            frequency: frequency,
+            returned_subscription_id: subscription_id,
+          )
+        end
+
+        let(:subscription_id) { 256 }
+        let(:subscriber_id) { "subscriber-id" }
+        let(:address) { "email@example.com" }
+        let(:linked_govuk_account_id) { 42 }
+
+        it "creates the subscription and redirects to the manage page" do
+          post :frequency, params: { topic_id: topic_id, frequency: frequency }
+          expect(response).to redirect_to(list_subscriptions_path)
+          expect(flash[:subscription][:id]).to eq(subscription_id)
+          expect(link_stub).to have_been_made
+          expect(create_stub).to have_been_made
+        end
+
+        context "when the session is invalid" do
+          let!(:link_stub) do
+            stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
           end
 
-          it "redirects to new with frequency" do
+          it "treats the user as logged out" do
             post :frequency, params: { topic_id: topic_id, frequency: frequency }
             destination = new_subscription_url(
               topic_id: topic_id, frequency: frequency,
             )
             expect(response).to redirect_to(destination)
-          end
-        end
-
-        context "when GOV.UK accounts is not disabled" do
-          let!(:link_stub) do
-            stub_email_alert_api_link_subscriber_to_govuk_account(
-              session_id,
-              subscriber_id,
-              address,
-              govuk_account_id: linked_govuk_account_id,
-            )
-          end
-
-          let!(:create_stub) do
-            stub_email_alert_api_creates_a_subscription(
-              subscriber_list_id: subscriber_list_id,
-              address: address,
-              frequency: frequency,
-              returned_subscription_id: subscription_id,
-            )
-          end
-
-          let(:subscription_id) { 256 }
-          let(:subscriber_id) { "subscriber-id" }
-          let(:address) { "email@example.com" }
-          let(:linked_govuk_account_id) { 42 }
-
-          it "creates the subscription and redirects to the manage page" do
-            post :frequency, params: { topic_id: topic_id, frequency: frequency }
-            expect(response).to redirect_to(list_subscriptions_path)
-            expect(flash[:subscription][:id]).to eq(subscription_id)
-            expect(link_stub).to have_been_made
-            expect(create_stub).to have_been_made
-          end
-
-          context "when the session is invalid" do
-            let!(:link_stub) do
-              stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
-            end
-
-            it "treats the user as logged out" do
-              post :frequency, params: { topic_id: topic_id, frequency: frequency }
-              destination = new_subscription_url(
-                topic_id: topic_id, frequency: frequency,
-              )
-              expect(response).to redirect_to(destination)
-            end
           end
         end
       end
@@ -236,41 +218,26 @@ RSpec.describe SubscriptionsController do
 
         let(:session_id) { "session-id" }
 
-        context "when GOV.UK accounts is disabled" do
-          around do |example|
-            ClimateControl.modify FEATURE_FLAG_GOVUK_ACCOUNT: "disabled" do
-              example.run
-            end
+        context "when there is an account with that email address" do
+          before do
+            stub_account_api_match_user_by_email_matches(email: address)
+          end
+
+          it "prompts the user to sign in to that account" do
+            post :verify, params: params
+            expect(response.body).to include(I18n.t!("subscriptions.use_your_govuk_account.heading"))
+            expect(verify_stub).not_to have_been_requested
+          end
+        end
+
+        context "when there is no account with that email address" do
+          before do
+            stub_account_api_match_user_by_email_does_not_exist(email: address)
           end
 
           it "sends a request to email-alert-api" do
             post :verify, params: params
             expect(verify_stub).to have_been_requested
-          end
-        end
-
-        context "when GOV.UK accounts is not disabled" do
-          context "when there is an account with that email address" do
-            before do
-              stub_account_api_match_user_by_email_matches(email: address)
-            end
-
-            it "prompts the user to sign in to that account" do
-              post :verify, params: params
-              expect(response.body).to include(I18n.t!("subscriptions.use_your_govuk_account.heading"))
-              expect(verify_stub).not_to have_been_requested
-            end
-          end
-
-          context "when there is no account with that email address" do
-            before do
-              stub_account_api_match_user_by_email_does_not_exist(email: address)
-            end
-
-            it "sends a request to email-alert-api" do
-              post :verify, params: params
-              expect(verify_stub).to have_been_requested
-            end
           end
         end
       end

@@ -1,6 +1,4 @@
 class VerifySubscriptionEmailService < ApplicationService
-  include AccountHelper
-
   class RatelimitExceededError < StandardError; end
 
   # This allows for up to 2 retries, to account for users
@@ -24,12 +22,7 @@ class VerifySubscriptionEmailService < ApplicationService
   def call
     rate_limiter.add(address)
     raise_if_over_rate_limit
-
-    if govuk_account_auth_enabled?
-      authenticate_with_account
-    else
-      authenticate_with_email
-    end
+    authenticate_with_account
   end
 
 private

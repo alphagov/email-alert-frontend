@@ -1,5 +1,4 @@
 class SubscriptionsController < ApplicationController
-  include AccountHelper
   include FrequenciesHelper
   include GovukPersonalisation::ControllerConcern
   before_action :assign_attributes
@@ -63,7 +62,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def verify_account
-    head :not_found and return unless govuk_account_auth_enabled?
     return frequency_form_redirect unless valid_frequency
 
     redirect_with_analytics GdsApi.account_api.get_sign_in_url(

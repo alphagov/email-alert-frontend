@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class CreateAccountSubscriptionService < ApplicationService
-  include AccountHelper
-
   SUCCESS_FLASH = "email-subscription-success"
 
   def initialize(subscriber_list, frequency, govuk_account_session)
@@ -13,7 +11,6 @@ class CreateAccountSubscriptionService < ApplicationService
   end
 
   def call
-    return false unless govuk_account_auth_enabled?
     return false unless @govuk_account_session
 
     response = GdsApi.email_alert_api.link_subscriber_to_govuk_account(
