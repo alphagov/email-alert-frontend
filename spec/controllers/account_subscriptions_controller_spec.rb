@@ -108,6 +108,28 @@ RSpec.describe AccountSubscriptionsController do
             get :confirm, params: { topic_id: topic_id }
             expect(response.body).to include(I18n.t("account_subscriptions.confirm.description.page"))
           end
+
+          context "when the user is already subscribed to this subscriber list" do
+            let(:subscriber_list_attributes) do
+              {
+                id: subscriber_list_id,
+                title: subscriber_list_title,
+                content_id: SecureRandom.uuid,
+                url: "/some/page",
+              }
+            end
+
+            let(:active_subscriptions) do
+              [
+                { subscriber_list: subscriber_list_attributes },
+              ]
+            end
+
+            it "redirects them to the content page" do
+              get :confirm, params: { topic_id: topic_id }
+              expect(response).to redirect_to(subscriber_list_attributes[:url])
+            end
+          end
         end
       end
 
