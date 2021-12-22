@@ -2,6 +2,7 @@
 
 class CreateAccountSubscriptionService < ApplicationService
   SUCCESS_FLASH = "email-subscription-success"
+  ALREADY_SUBSCRIBED_FLASH = "email-subscription-already-subscribed"
 
   def initialize(subscriber_list, frequency, govuk_account_session)
     super()
