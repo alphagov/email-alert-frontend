@@ -85,6 +85,6 @@ private
   def redirect_with_already_subscribed
     account_flash_add CreateAccountSubscriptionService::ALREADY_SUBSCRIBED_FLASH
 
-    redirect_to @subscriber_list["url"]
+    redirect_with_analytics @subscriber_list["url"]
   end
 end
