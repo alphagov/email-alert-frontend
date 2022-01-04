@@ -32,7 +32,8 @@ class AccountSubscriptionsController < ApplicationController
     set_account_session_header(response["govuk_account_session"])
     subscriber = response.to_h.fetch("subscriber")
 
-    redirect_with_already_subscribed if has_subscription?(subscriber)
+    subscriptions = GdsApi.email_alert_api.get_subscriptions(id: subscriber.fetch("id")).to_h.fetch("subscriptions", [])
+    redirect_with_already_subscribed and return if has_subscription?(subscriptions)
 
     @address = subscriber.fetch("address")
 
@@ -40,7 +41,7 @@ class AccountSubscriptionsController < ApplicationController
       if subscriber["govuk_account_id"]
         []
       else
-        GdsApi.email_alert_api.get_subscriptions(id: subscriber.fetch("id")).to_h.fetch("subscriptions", [])
+        subscriptions
       end
   end
 
@@ -77,15 +78,13 @@ private
     )["auth_uri"]
   end
 
-  def has_subscription?(subscriber)
-    subscriptions = GdsApi.email_alert_api.get_subscriptions(id: subscriber.fetch("id")).to_h.fetch("subscriptions", [])
-
-    !subscriptions.find { |s| s["subscriber_list"]["id"] == @subscriber_list["id"] }.nil?
+  def has_subscription?(subscriptions)
+    subscriptions.find { |s| s["subscriber_list"]["id"] == @subscriber_list["id"] }.present?
   end
 
   def redirect_with_already_subscribed
     account_flash_add CreateAccountSubscriptionService::ALREADY_SUBSCRIBED_FLASH
 
-    redirect_to @subscriber_list["url"]
+    redirect_with_analytics @subscriber_list["url"]
   end
 end
