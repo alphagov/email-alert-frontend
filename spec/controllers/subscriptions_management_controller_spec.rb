@@ -49,7 +49,8 @@ RSpec.describe SubscriptionsManagementController do
       it "renders the subscriber's subscriptions" do
         get :index, session: session
         expect(response.body).to include("Some thing")
-        expect(response.body).to include("You subscribed on 16 September 2019 at 2:08am")
+        expect(response.body).to include("You subscribed to weekly updates")
+        expect(response.body).to include("on 16 September 2019 at 2:08am")
       end
 
       context "when the subscription is to a single page" do
