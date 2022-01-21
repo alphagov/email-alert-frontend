@@ -99,12 +99,10 @@
         <%= get_updated_at_from_subscription(subscription).to_datetime.strftime(t("subscriptions_management.index.last_updated")) %>
       </p>
     <% end %>
-
-    <p class='govuk-body'>
-      <%= subscription['created_at'].to_datetime.strftime(t("subscriptions_management.index.you_subscribed")) %>
-    </p>
+    
     <p class="govuk-body">
       <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
+      <%= subscription['created_at'].to_datetime.strftime(t("subscriptions_management.index.you_subscribed")) %>
       <br>
       <% change_frequency_link_text = capture do %>
         Change how often you get emails <span class="govuk-visually-hidden"> about <%= subscription['subscriber_list']['title'] %></span>
