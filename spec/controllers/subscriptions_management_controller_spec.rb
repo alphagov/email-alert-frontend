@@ -150,6 +150,11 @@ RSpec.describe SubscriptionsManagementController do
       expect(response.body).to include(%(action="/email/manage/frequency/#{subscription_id}/change"))
     end
 
+    it "includes the subscription name in the page title" do
+      get :update_frequency, params: { id: subscription_id }, session: session
+      expect(response.body).to include("Some thing")
+    end
+
     it "returns 404 when the subscription doesn't belong to the subscriber" do
       stub_email_alert_api_has_subscriber_subscriptions(
         subscriber_id,
