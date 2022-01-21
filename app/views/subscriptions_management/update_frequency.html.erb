@@ -1,4 +1,4 @@
-<% page_heading = 'How often do you want to receive emails?' %>
+<% page_heading = t("subscriptions_management.update_frequency.title", subscription_title: get_subscription_title(@subscriptions[@subscription_id])) %>
 <% content_for :title, page_heading + ' - ' + t("subscriptions_management.heading") %>
 
 <% content_for :back_link do %>
