@@ -1,6 +1,6 @@
 en:
   single_page_subscriptions:
-    title: The way you subscribe to emails from GOV.UK is changing
+    title: The way you subscribe to get emails from GOV.UK is changing
     account_required_description: You need a GOV.UK account to get these emails.
     subheading: GOV.​UK accounts are new
     accounts_are_new_description_html: |
@@ -11,4 +11,8 @@ en:
     usage_description_html: |
       <p class="govuk-body">Currently you can only use a GOV.UK account to manage your GOV.UK email subscriptions.</p>
       <p class="govuk-body">We’ll be adding more features and services in the next few months.</p>
+    other_subs_heading: If you have other GOV.UK email subscriptions
+    other_subs_description_html: |
+      <p class="govuk-body">If you have subscriptions to other GOV.UK topics or pages, these will be moved to your new account so you can manage all your subscriptions in one place.</p>
     create_or_sign_in_description: Create a GOV.UK account or sign in
+    button_heading: Create a GOV.UK account or sign in
