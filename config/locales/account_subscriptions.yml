@@ -8,7 +8,7 @@ en:
       confirm: Confirm
       cancel: Cancel and go to the GOV.UK homepage
       unlinked_subscriptions:
-        title: Other emails you get from GOV.UK
+        title: Your other GOV.UK email subscriptions
         before_html: |
           <p class="govuk-body">There are more GOV.UK email subscriptions for <strong>%{address}</strong></p>
           <p class="govuk-body">These will be moved to your GOV.UK account:</p>
