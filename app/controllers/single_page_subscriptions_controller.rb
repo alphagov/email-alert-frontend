@@ -59,6 +59,7 @@ private
         url: @content_item.fetch("base_path"),
         title: @content_item.fetch("title"),
         content_id: @content_item.fetch("content_id"),
+        description: @content_item.fetch("description"),
       },
     ).to_h.fetch("subscriber_list")
     @topic_id = @subscriber_list.fetch("slug")
