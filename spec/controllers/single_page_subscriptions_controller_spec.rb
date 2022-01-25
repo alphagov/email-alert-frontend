@@ -11,6 +11,7 @@ RSpec.describe SinglePageSubscriptionsController do
   let(:topic_name) { "Test" }
   let(:redirect_path) { "/email/subscriptions/account/confirm?frequency=immediately&return_to_url=true&topic_id=#{topic_slug}" }
   let(:auth_provider) { "http://auth/provider" }
+  let(:description) { "A list description" }
 
   describe "POST /email/subscriptions/single-page/new-session" do
     before { stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path: redirect_path) }
@@ -35,7 +36,7 @@ RSpec.describe SinglePageSubscriptionsController do
 
   describe "POST /email/subscriptions/single-page/new" do
     before do
-      stub_content_store_has_item(base_path, content_item_for_base_path(base_path).merge("content_id" => content_id))
+      stub_content_store_has_item(base_path, content_item_for_base_path(base_path).merge("content_id" => content_id, "description" => description))
 
       stub_email_alert_api_creates_subscriber_list({
         url: base_path,
@@ -43,6 +44,7 @@ RSpec.describe SinglePageSubscriptionsController do
         slug: topic_slug,
         id: subscription_list_id,
         content_id: content_id,
+        description: description,
       })
     end
 
