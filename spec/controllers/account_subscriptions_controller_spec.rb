@@ -115,9 +115,11 @@ RSpec.describe AccountSubscriptionsController do
                 id: subscriber_list_id,
                 title: subscriber_list_title,
                 content_id: SecureRandom.uuid,
-                url: "/some/page",
+                url: url,
               }
             end
+
+            let(:url) { "/some/page" }
 
             let(:active_subscriptions) do
               [
@@ -125,9 +127,18 @@ RSpec.describe AccountSubscriptionsController do
               ]
             end
 
-            it "redirects them to the content page" do
+            it "redirects them to the list URL" do
               get :confirm, params: { topic_id: topic_id }
               expect(response).to redirect_to(subscriber_list_attributes[:url])
+            end
+
+            context "when the list has no URL" do
+              let(:url) { nil }
+
+              it "redirects them to the management page" do
+                get :confirm, params: { topic_id: topic_id }
+                expect(response).to redirect_to(list_subscriptions_path)
+              end
             end
           end
         end
