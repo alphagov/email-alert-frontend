@@ -83,8 +83,12 @@ private
   end
 
   def redirect_with_already_subscribed
-    account_flash_add CreateAccountSubscriptionService::ALREADY_SUBSCRIBED_FLASH
+    if @subscriber_list["url"].blank?
+      redirect_to list_subscriptions_path
+    else
+      account_flash_add CreateAccountSubscriptionService::ALREADY_SUBSCRIBED_FLASH
 
-    redirect_with_analytics @subscriber_list["url"]
+      redirect_with_analytics @subscriber_list["url"]
+    end
   end
 end
