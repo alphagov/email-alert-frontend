@@ -43,7 +43,7 @@ class SubscriberAuthenticationController < ApplicationController
 
   def process_govuk_account
     if authenticated_via_account?
-      redirect_to list_subscriptions_path
+      redirect_with_analytics list_subscriptions_path
     else
       redirect_with_analytics GdsApi.account_api.get_sign_in_url(redirect_path: process_govuk_account_path)["auth_uri"]
     end
