@@ -164,6 +164,11 @@ RSpec.describe SubscriberAuthenticationController do
       expect(response).to redirect_to(list_subscriptions_path)
     end
 
+    it "passes on _ga and cookie_consent parameters in the redirect if present" do
+      get :process_govuk_account, params: { _ga: "abc123", cookie_consent: "accept" }
+      expect(response).to redirect_to(list_subscriptions_path(_ga: "abc123", cookie_consent: "accept"))
+    end
+
     it "does not create a new session" do
       get :process_govuk_account
       expect(session["authentication"]).to be_nil
