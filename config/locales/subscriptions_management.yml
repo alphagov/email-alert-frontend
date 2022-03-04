@@ -1,7 +1,6 @@
 en:
   subscriptions_management:
     heading: Manage your GOV.UK email subscriptions
-    account_breadcrumb: Go back to your account
     index:
       subscription:
         immediately: "You subscribed to get updates as soon as they happen "
@@ -30,6 +29,7 @@ en:
       missing_email: Please enter your email address.
       invalid_email: "That email address isn’t valid, or it’s already in use – check you’ve typed in your email address correctly."
       success: "Your email address has been changed to %{address}"
+    update_address_account: Go to your GOV.UK account to <a href="%{href}" class="govuk-link">update your email address, password or phone number</a>.
     update_frequency:
       title: "How often do you want to get emails about ‘%{subscription_title}’?"
     change_frequency:
@@ -40,4 +40,3 @@ en:
     confirmed_unsubscribe_all:
       success_message: You have been unsubscribed from all your subscriptions.
       success_description: It can take up to an hour for this change to take effect.
-
