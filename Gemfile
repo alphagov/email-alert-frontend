@@ -17,8 +17,6 @@ gem "uglifier"
 group :development, :test do
   gem "climate_control"
   gem "govuk_test"
-  gem "jasmine"
-  gem "jasmine_selenium_runner"
   gem "pry-byebug"
   gem "rspec-rails"
   gem "rubocop-govuk"
