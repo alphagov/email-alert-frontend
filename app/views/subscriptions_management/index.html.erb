@@ -15,20 +15,6 @@
   } if subscription %>
 <% end %>
 
-<% if use_govuk_account_layout? %>
-  <% content_for :before_content do %>
-    <%= render "govuk_publishing_components/components/breadcrumbs", {
-      collapse_on_mobile: true,
-      breadcrumbs: [
-        {
-          title: t("subscriptions_management.account_breadcrumb"),
-          url: GovukPersonalisation::Urls.your_account,
-        },
-      ]
-    } %>
-    <% end %>
-<% end %>
-
 <%= render "govuk_publishing_components/components/heading", {
   text: t("subscriptions_management.heading"),
   heading_level: 1,
@@ -36,20 +22,28 @@
   margin_bottom: 6,
 } %>
 
-<% unless use_govuk_account_layout? %>
-  <%= render "govuk_publishing_components/components/heading", {
-    text: "Subscriptions for #{@subscriber['address']}",
-    heading_level: 2,
-    font_size: "m",
-    margin_bottom: 4,
-  } %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: "Subscriptions for #{@subscriber['address']}",
+  heading_level: 2,
+  font_size: "s",
+  margin_bottom: 4,
+} %>
 
+<% if use_govuk_account_layout? %>
+  <% change_details_account = capture do %>
+    <p class="govuk-body">
+      <%= sanitize(t("subscriptions_management.update_address_account", href: GovukPersonalisation::Urls.manage)) %>
+    </p>
+  <% end %>
+  <%= render "govuk_publishing_components/components/inset_text", {
+    text: change_details_account
+  } %>
+<% else %>
   <p class="govuk-body">
     <%= link_to "Change email address",
                 update_address_path,
                 class: %w[govuk-link govuk-link--no-visited-state] %>
   </p>
-
   <hr class="govuk-section-break govuk-section-break--l">
 <% end %>
 
@@ -58,24 +52,6 @@
     <%= t("subscriptions_management.no_subscriptions_warning_html") %>
   <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 <% else %>
-  <% unsubscribe_all_text = capture do %>
-    <p class="govuk-body">
-      <%= link_to "Unsubscribe from everything",
-                  confirm_unsubscribe_all_path,
-                  class: %w[govuk-link govuk-link--no-visited-state],
-                  data: {
-                    module: "gem-track-click",
-                    track_category: "Manage_your_email_subscriptions",
-                    track_action: "Unsubscribe",
-                    track_label: use_govuk_account_layout? ? "From_everything_logged_in" : "From_everything_logged_out",
-                  } %>
-    </p>
-  <% end %>
-
-  <%= render "govuk_publishing_components/components/inset_text", {
-    text: unsubscribe_all_text
-  } %>
-
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
   <% @subscriptions.each do |_key, subscription| %>
@@ -89,7 +65,7 @@
 
     <%= render "govuk_publishing_components/components/heading", {
       text: get_heading_content(subscription),
-      heading_level: use_govuk_account_layout? ? 2 : 3,
+      heading_level: 3,
       font_size: "m",
       margin_bottom: 4
     } %>
@@ -99,7 +75,6 @@
         <%= get_updated_at_from_subscription(subscription).to_datetime.strftime(t("subscriptions_management.index.last_updated")) %>
       </p>
     <% end %>
-    
     <p class="govuk-body">
       <%= t("subscriptions_management.index.subscription.#{subscription['frequency']}") %>
       <%= subscription['created_at'].to_datetime.strftime(t("subscriptions_management.index.you_subscribed")) %>
@@ -134,4 +109,17 @@
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <% end %>
+  <p class="govuk-body">
+    <%= render "govuk_publishing_components/components/button", {
+      text: "Unsubscribe from everything",
+      href: confirm_unsubscribe_all_path,
+      data_attributes: {
+        module: "gem-track-click",
+        track_category: "Manage_your_email_subscriptions",
+        track_action: "Unsubscribe",
+        track_label: use_govuk_account_layout? ? "From_everything_logged_in" : "From_everything_logged_out",
+      },
+      secondary_solid: true
+    } %>
+  </p>
 <% end %>
