@@ -45,6 +45,10 @@ end %>
 
 <%= form_tag single_page_new_session_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
 
+  <%= render "govuk_publishing_components/components/inset_text" do
+    t("single_page_subscriptions.mobile_phone_warning")
+  end %>
+
   <%= render "govuk_publishing_components/components/button", {
     text: t("single_page_subscriptions.create_or_sign_in_description"),
     data_attributes: {
