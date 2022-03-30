@@ -44,4 +44,4 @@ Some pages are only accessible once a user has logged-in, using a link sent in a
 
 ## Licence
 
-[MIT License](LICENCE)
+[MIT License](LICENSE)
