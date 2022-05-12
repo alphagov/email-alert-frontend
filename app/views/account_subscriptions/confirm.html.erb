@@ -61,3 +61,10 @@
     <%= t("account_subscriptions.confirm.unlinked_subscriptions.after") %>
   </p>
 <% end %>
+
+<%= render "govuk_publishing_components/components/details", {
+  title: t("account_subscriptions.confirm.how_we_use_information.title") 
+  } do %>
+    <%= t("account_subscriptions.confirm.how_we_use_information.expanded_html") %>
+  <% end %>
+  
