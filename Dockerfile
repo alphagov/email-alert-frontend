@@ -26,7 +26,7 @@ RUN GOVUK_WEBSITE_ROOT=https://www.gov.uk GOVUK_APP_DOMAIN=www.gov.uk bin/bundle
 
 FROM $base_image
 
-ENV RAILS_ENV=production GOVUK_APP_NAME=email-alert-frontend
+ENV GOVUK_PROMETHEUS_EXPORTER=true RAILS_ENV=production GOVUK_APP_NAME=email-alert-frontend
 
 RUN apt-get update -qy && \
     apt-get upgrade -y && \
