@@ -16,7 +16,7 @@ en:
       how_we_use_information:
         title: How we use your information
         expanded_html: |
-          <p class="govuk-body">GOV.UK email subscriptions will only store the information you've provided.</p>
+          <p class="govuk-body">GOV.UK email subscriptions will only store information you've provided.</p>
           <p class="govuk-body">You can access, update or permanently delete your subscriptions and the information associated with them at any time.</p>
           <p class="govuk-body">We will never:<ul class="govuk-list govuk-list--bullet">
           <li>sell or rent your information to third parties</li>
