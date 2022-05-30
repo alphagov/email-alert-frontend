@@ -1,0 +1,11 @@
+{
+  "srcDir": "public/assets/email-alert-frontend",
+  "srcFiles": [
+    "application-*.js"
+  ],
+  "specDir": "spec/javascripts",
+  "specFiles": [
+    "**/*[sS]pec.js"
+  ],
+  "browser": "headlessChrome"
+}
