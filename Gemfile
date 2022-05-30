@@ -12,6 +12,7 @@ gem "plek"
 gem "ratelimit"
 gem "sassc-rails"
 gem "slimmer"
+gem "sprockets-rails"
 gem "uglifier"
 
 group :development, :test do
