@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby File.read(".ruby-version")
 
-gem "rails", "7.0.3"
+gem "rails", "6.1.5.1"
 
 gem "gds-api-adapters"
 gem "govuk_app_config"
@@ -12,7 +12,6 @@ gem "plek"
 gem "ratelimit"
 gem "sassc-rails"
 gem "slimmer"
-gem "sprockets-rails"
 gem "uglifier"
 
 group :development, :test do
