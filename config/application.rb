@@ -17,6 +17,8 @@ module EmailAlertFrontend
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    Rails.application.config.active_support.hash_digest_class = OpenSSL::Digest::SHA1
+    Rails.application.config.active_support.key_generator_hash_digest_class = OpenSSL::Digest::SHA1
 
     # Add lib directory to autoload paths
     config.autoload_paths += Dir[Rails.root.join("lib")]
