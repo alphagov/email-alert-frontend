@@ -2,11 +2,6 @@ describe AuthToken do
   include TokenHelper
 
   describe "#data" do
-    it "returns the data hash when given a valid SHA1 token" do
-      token = AuthToken.new(encrypt_and_sign_token(data: { a: "b" }, hash_digest_class: OpenSSL::Digest::SHA1))
-      expect(token.data).to eq(a: "b")
-    end
-
     it "returns the data hash when given a valid SHA256 token" do
       token = AuthToken.new(encrypt_and_sign_token(data: { a: "b" }, hash_digest_class: OpenSSL::Digest::SHA256))
       expect(token.data).to eq(a: "b")
@@ -24,16 +19,9 @@ describe AuthToken do
   end
 
   describe "#valid?" do
-    context "with a SHA1 token" do
-      it "returns true when valid" do
-        token = AuthToken.new(encrypt_and_sign_token(data: { a: "b" }, hash_digest_class: OpenSSL::Digest::SHA1))
-        expect(token.valid?).to be true
-      end
-
-      it "returns false after the expiry time" do
-        token = AuthToken.new(encrypt_and_sign_token(expiry: 0, hash_digest_class: OpenSSL::Digest::SHA1))
-        expect(token.valid?).to be false
-      end
+    it "returns false when given a SHA1 token" do
+      token = AuthToken.new(encrypt_and_sign_token(data: { a: "b" }, hash_digest_class: OpenSSL::Digest::SHA1))
+      expect(token.valid?).to be false
     end
 
     context "with a SHA256 token" do
