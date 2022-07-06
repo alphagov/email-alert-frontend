@@ -10,7 +10,7 @@ RUN apt-get update -qq && \
     apt-get install -y build-essential nodejs && \
     apt-get clean
 
-RUN mkdir /app
+RUN mkdir -p /app && ln -fs /tmp /app/tmp && ln -fs /tmp /home/app
 
 WORKDIR /app
 COPY Gemfile* .ruby-version /app/
@@ -33,9 +33,16 @@ RUN apt-get update -qy && \
     apt-get install -y nodejs && \
     apt-get clean
 
+RUN mkdir -p /app && ln -fs /tmp /app/tmp && ln -fs /tmp /home/app
+
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder /app /app/
 
 WORKDIR /app
+
+RUN groupadd -g 1001 app && \
+    useradd app -u 1001 -g 1001 --home /home/app
+
+USER app
 
 CMD bundle exec puma
