@@ -43,7 +43,7 @@ RSpec.describe SubscriptionsManagementController do
     context "when there is a subscriber with a subscription" do
       it "renders the subscriber's email address" do
         get :index, session: session
-        expect(response.body).to include("Subscriptions for #{subscriber_address}")
+        expect(response.body).to have_content("Subscriptions for #{subscriber_address}")
       end
 
       it "renders the subscriber's subscriptions" do
@@ -93,7 +93,7 @@ RSpec.describe SubscriptionsManagementController do
 
       it "renders the subscriber's email address" do
         get :index, session: session_with_no_subscriptions
-        expect(response.body).to include("Subscriptions for #{subscriber_address_with_no_subscriptions}")
+        expect(response.body).to have_content("Subscriptions for #{subscriber_address_with_no_subscriptions}")
       end
 
       it "renders a message" do

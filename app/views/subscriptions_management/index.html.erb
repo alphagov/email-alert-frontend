@@ -22,12 +22,7 @@
   margin_bottom: 6,
 } %>
 
-<%= render "govuk_publishing_components/components/heading", {
-  text: "Subscriptions for #{@subscriber['address']}",
-  heading_level: 2,
-  font_size: "s",
-  margin_bottom: 4,
-} %>
+<p class="govuk-body">Subscriptions for <strong><%= @subscriber['address'] %></strong></p>
 
 <% if use_govuk_account_layout? %>
   <% change_details_account = capture do %>
