@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby File.read(".ruby-version")
 
-gem "rails", "7.0.3"
+gem "rails", "7.0.3.1"
 
 gem "gds-api-adapters"
 gem "govuk_app_config"
