@@ -1,26 +1,7 @@
 {
   "ignored_warnings": [
-    {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "59e3d7346526d83d64afe9efe3d30dc7856eed884dfbfe38ea371a6210df6abe",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/content_item_signups_controller.rb",
-      "line": 21,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(ContentItemSubscriberList.new(content_item.to_h).subscription_management_url)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ContentItemSignupsController",
-        "method": "create"
-      },
-      "user_input": "ContentItemSubscriberList.new(content_item.to_h).subscription_management_url",
-      "confidence": "High",
-      "note": "This URL comes from the Content Store and we trust all the data in the Content Store."
-    }
+
   ],
-  "updated": "2019-04-11 16:11:16 +0000",
-  "brakeman_version": "4.5.0"
+  "updated": "2022-09-12 10:25:13 +0000",
+  "brakeman_version": "5.2.3"
 }
