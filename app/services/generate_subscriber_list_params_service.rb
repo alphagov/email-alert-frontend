@@ -1,10 +1,23 @@
 class GenerateSubscriberListParamsService < ApplicationService
-  def initialize(content_item)
+  def initialize(content_item, single_page = nil)
     super()
     @content_item = content_item
+    @single_page = single_page
   end
 
   def call
+    return attributes_for_content_id_based_lists if single_page
+
+    attributes_for_links_based_lists
+  end
+
+private
+
+  attr_reader :content_item, :single_page
+
+  class UnsupportedContentItemError < StandardError; end
+
+  def attributes_for_links_based_lists
     {
       "title" => content_item["title"],
       "links" => link_hash,
@@ -12,11 +25,13 @@ class GenerateSubscriberListParamsService < ApplicationService
     }
   end
 
-private
-
-  attr_reader :content_item
-
-  class UnsupportedContentItemError < StandardError; end
+  def attributes_for_content_id_based_lists
+    {
+      "title" => content_item["title"],
+      "content_id" => content_item["content_id"],
+      "url" => content_item["base_path"],
+    }
+  end
 
   def link_hash
     case content_item_type

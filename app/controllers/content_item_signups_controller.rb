@@ -57,7 +57,8 @@ private
   end
 
   def assign_list_params
-    @list_params = GenerateSubscriberListParamsService.call(@content_item.to_h)
+    @single_page = params[:single_page].present?
+    @list_params = GenerateSubscriberListParamsService.call(@content_item.to_h, @single_page)
   rescue GenerateSubscriberListParamsService::UnsupportedContentItemError
     bad_request
   end
