@@ -37,7 +37,7 @@ RSpec.feature "Subscribe verify email" do
       subscriber_list_id: @subscriber_list_id,
       address: @address,
       frequency: "immediately",
-      subscriber_id: subscriber_id,
+      subscriber_id:,
       returned_subscription_id: subscription_id,
     )
 
@@ -54,7 +54,7 @@ RSpec.feature "Subscribe verify email" do
     )
 
     visit confirm_subscription_path(
-      token: token,
+      token:,
       topic_id: @topic_id,
       frequency: "immediately",
     )

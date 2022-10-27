@@ -24,7 +24,7 @@ RSpec.feature "Login verify email" do
       subscriptions: [],
     )
 
-    visit process_sign_in_token_path(token: token)
+    visit process_sign_in_token_path(token:)
   end
 
   def then_i_can_manage_my_subscriptions

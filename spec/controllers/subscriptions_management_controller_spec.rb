@@ -190,13 +190,13 @@ RSpec.describe SubscriptionsManagementController do
 
   describe "POST /email/manage/frequency/:id/change" do
     it "redirects to the subscription management page when frequency is updated" do
-      post :change_frequency, params: { id: subscription_id, new_frequency: new_frequency }, session: session
+      post :change_frequency, params: { id: subscription_id, new_frequency: }, session: session
       expect(response).to redirect_to(list_subscriptions_path)
     end
 
     it "raises an ActionController::ParameterMissing error when frequency is not provided" do
       expect {
-        post :change_frequency, params: { id: subscription_id }, session: session
+        post :change_frequency, params: { id: subscription_id }, session:
       }.to raise_error(ActionController::ParameterMissing)
     end
 
@@ -218,7 +218,7 @@ RSpec.describe SubscriptionsManagementController do
       )
 
       post :change_frequency,
-           params: { id: subscription_id, new_frequency: new_frequency },
+           params: { id: subscription_id, new_frequency: },
            session: session
       expect(response).to have_http_status(:not_found)
     end
@@ -271,14 +271,14 @@ RSpec.describe SubscriptionsManagementController do
       let(:new_address) { "" }
 
       it "renders an error message" do
-        post :change_address, params: { new_address: new_address }, session: session
+        post :change_address, params: { new_address: }, session: session
         expect(response.body).to include(
           I18n.t!("subscriptions_management.update_address.missing_email"),
         )
       end
 
       it "renders a form" do
-        post :change_address, params: { new_address: new_address }, session: session
+        post :change_address, params: { new_address: }, session: session
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
     end
@@ -291,21 +291,21 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       it "renders an error message" do
-        post :change_address, params: { new_address: new_address }, session: session
+        post :change_address, params: { new_address: }, session: session
         expect(response.body).to include(
           I18n.t!("subscriptions_management.update_address.invalid_email"),
         )
       end
 
       it "renders a form" do
-        post :change_address, params: { new_address: new_address }, session: session
+        post :change_address, params: { new_address: }, session: session
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
     end
 
     context "when a valid address is provided" do
       it "redirects to the subscription management page" do
-        post :change_address, params: { new_address: new_address }, session: session
+        post :change_address, params: { new_address: }, session: session
         expect(response).to redirect_to(list_subscriptions_path)
       end
     end

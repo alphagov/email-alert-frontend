@@ -15,7 +15,7 @@ class CreateAccountSubscriptionService < ApplicationService
     return false unless @govuk_account_session
 
     response = GdsApi.email_alert_api.link_subscriber_to_govuk_account(
-      govuk_account_session: govuk_account_session,
+      govuk_account_session:,
     )
 
     subscriber = response.to_h.fetch("subscriber")
@@ -23,12 +23,12 @@ class CreateAccountSubscriptionService < ApplicationService
     subscription = GdsApi.email_alert_api.subscribe(
       subscriber_list_id: subscriber_list.fetch("id"),
       address: subscriber.fetch("address"),
-      frequency: frequency,
+      frequency:,
     )["subscription"]
 
     {
       govuk_account_session: response["govuk_account_session"],
-      subscription: subscription,
+      subscription:,
     }
   end
 

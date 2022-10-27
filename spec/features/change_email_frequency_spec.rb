@@ -30,7 +30,7 @@ RSpec.feature "Change email frequency" do
       "subscriber_id" => @subscriber_id,
     })
 
-    visit process_sign_in_token_path(token: token)
+    visit process_sign_in_token_path(token:)
   end
 
   def then_i_can_see_i_am_subscribed_to_daily_updates

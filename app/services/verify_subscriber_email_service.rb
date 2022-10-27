@@ -31,7 +31,7 @@ private
   def authenticate_with_account
     response = GdsApi.account_api.match_user_by_email(
       email: address,
-      govuk_account_session: govuk_account_session,
+      govuk_account_session:,
     )
 
     if response["match"]
@@ -45,7 +45,7 @@ private
 
   def authenticate_with_email
     GdsApi.email_alert_api.send_subscriber_verification_email(
-      address: address,
+      address:,
       destination: process_sign_in_token_path,
     )
     :email

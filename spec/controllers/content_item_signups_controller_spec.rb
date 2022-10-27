@@ -79,7 +79,7 @@ RSpec.describe ContentItemSignupsController do
 
   describe "#new" do
     def make_request(params)
-      get :new, params: params
+      get :new, params:
     end
 
     it "shows a page to confirm the subscription" do
@@ -104,7 +104,7 @@ RSpec.describe ContentItemSignupsController do
 
   describe "#confirm" do
     def make_request(params)
-      get :confirm, params: params
+      get :confirm, params:
     end
 
     it "shows an error if a taxon is not selected" do
@@ -124,7 +124,7 @@ RSpec.describe ContentItemSignupsController do
 
   describe "#create" do
     def make_request(params)
-      post :create, params: params
+      post :create, params:
     end
 
     it_behaves_like "proxy to content store"
@@ -133,7 +133,7 @@ RSpec.describe ContentItemSignupsController do
 
     it "finds or creates a subscriber list for the content" do
       content_id = SecureRandom.uuid
-      stub_content_store_has_item("/my-organisation", document_type: "organisation", content_id: content_id)
+      stub_content_store_has_item("/my-organisation", document_type: "organisation", content_id:)
 
       stub_email_alert_api_creates_subscriber_list("links" => { organisations: [content_id] }, "slug" => "my-list")
 

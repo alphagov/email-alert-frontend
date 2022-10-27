@@ -21,7 +21,7 @@ class SubscriptionsManagementController < ApplicationController
 
     new_frequency = params.require(:new_frequency)
 
-    GdsApi.email_alert_api.change_subscription(id: id, frequency: new_frequency)
+    GdsApi.email_alert_api.change_subscription(id:, frequency: new_frequency)
 
     subscription = @subscriptions[id]
 
@@ -36,7 +36,7 @@ class SubscriptionsManagementController < ApplicationController
                      end
 
     flash[:success] = {
-      message: t("subscriptions_management.change_frequency.success", subscription_title: subscription_title, frequency: frequency_text),
+      message: t("subscriptions_management.change_frequency.success", subscription_title:, frequency: frequency_text),
     }
 
     redirect_to list_subscriptions_path
@@ -62,7 +62,7 @@ class SubscriptionsManagementController < ApplicationController
 
     GdsApi.email_alert_api.change_subscriber(
       id: authenticated_subscriber_id,
-      new_address: new_address,
+      new_address:,
     )
     flash[:success] = {
       message: t("subscriptions_management.update_address.success", address: new_address),

@@ -139,12 +139,12 @@ RSpec.describe SubscriberAuthenticationController do
 
     context "when a valid token is provided" do
       it "redirects to the subscription management page" do
-        get :process_sign_in_token, params: { token: token }
+        get :process_sign_in_token, params: { token: }
         expect(response).to redirect_to(list_subscriptions_path)
       end
 
       it "creates a session for the subscriber" do
-        get :process_sign_in_token, params: { token: token }
+        get :process_sign_in_token, params: { token: }
         expect(session.to_h).to include(session_for(subscriber_id))
       end
     end
@@ -195,7 +195,7 @@ RSpec.describe SubscriberAuthenticationController do
 
     context "when the user's session is missing" do
       before do
-        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
+        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri:)
       end
 
       let(:session_id) { nil }
@@ -211,7 +211,7 @@ RSpec.describe SubscriberAuthenticationController do
     context "when the user's session is invalid" do
       before do
         stub_email_alert_api_link_subscriber_to_govuk_account_session_invalid(session_id)
-        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
+        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri:)
       end
 
       let(:auth_uri) { "/sign-in" }
@@ -230,7 +230,7 @@ RSpec.describe SubscriberAuthenticationController do
     context "when the account email address is unverified" do
       before do
         stub_email_alert_api_link_subscriber_to_govuk_account_email_unverified(session_id, new_govuk_account_session: new_session_id)
-        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri: auth_uri)
+        stub_account_api_get_sign_in_url(redirect_path: "/email/manage/authenticate/account", auth_uri:)
       end
 
       let(:auth_uri) { "/sign-in" }
