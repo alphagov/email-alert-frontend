@@ -12,7 +12,7 @@ RSpec.describe SubscriptionAuthenticationController do
     let(:subscription_id) { 1 }
     let(:subscriber_id) { 2 }
     let(:token) { nil }
-    let(:params) { { topic_id: topic_id, frequency: frequency, token: token } }
+    let(:params) { { topic_id:, frequency:, token: } }
 
     before do
       stub_email_alert_api_has_subscriber_list_by_slug(
@@ -22,10 +22,10 @@ RSpec.describe SubscriptionAuthenticationController do
 
       stub_email_alert_api_creates_a_subscription(
         subscriber_list_id: 123,
-        address: address,
-        frequency: frequency,
+        address:,
+        frequency:,
         returned_subscription_id: subscription_id,
-        subscriber_id: subscriber_id,
+        subscriber_id:,
       )
     end
 

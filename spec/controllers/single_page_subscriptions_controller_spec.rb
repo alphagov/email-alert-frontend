@@ -14,7 +14,7 @@ RSpec.describe SinglePageSubscriptionsController do
   let(:description) { "A list description" }
 
   describe "POST /email/subscriptions/single-page/new-session" do
-    before { stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path: redirect_path) }
+    before { stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path:) }
 
     let(:params) { { topic_id: topic_slug } }
 
@@ -43,14 +43,14 @@ RSpec.describe SinglePageSubscriptionsController do
         title: topic_name,
         slug: topic_slug,
         id: subscription_list_id,
-        content_id: content_id,
-        description: description,
+        content_id:,
+        description:,
       })
     end
 
     let(:content_id) { SecureRandom.uuid }
     let(:subscription_list_id) { "subscription-list-id" }
-    let(:params) { { base_path: base_path } }
+    let(:params) { { base_path: } }
 
     it "404s when a content item can't be found" do
       stub_content_store_does_not_have_item(base_path)
@@ -73,7 +73,7 @@ RSpec.describe SinglePageSubscriptionsController do
 
       before do
         mock_logged_in_session(session_id)
-        stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path: redirect_path)
+        stub_account_api_get_sign_in_url(auth_uri: auth_provider, redirect_path:)
 
         stub_email_alert_api_authenticate_subscriber_by_govuk_account(
           session_id,
@@ -93,7 +93,7 @@ RSpec.describe SinglePageSubscriptionsController do
           address: user_email,
           frequency: "immediately",
           returned_subscription_id: "subscription-id",
-          subscriber_id: subscriber_id,
+          subscriber_id:,
         )
 
         stub_email_alert_api_link_subscriber_to_govuk_account(

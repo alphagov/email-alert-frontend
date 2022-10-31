@@ -28,7 +28,7 @@ RSpec.feature "Change email address" do
       "subscriber_id" => @subscriber_id,
     })
 
-    visit process_sign_in_token_path(token: token)
+    visit process_sign_in_token_path(token:)
   end
 
   def and_i_click_to_change_my_email_address

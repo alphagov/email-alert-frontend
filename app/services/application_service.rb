@@ -1,6 +1,6 @@
 class ApplicationService
-  def self.call(*args)
-    new(*args).call
+  def self.call(*args, **options)
+    new(*args, **options).call
   end
 
   private_class_method :new

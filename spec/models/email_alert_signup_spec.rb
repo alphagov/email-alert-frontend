@@ -2,13 +2,13 @@ RSpec.describe EmailAlertSignup do
   include GovukContentSchemaExamples
   include GdsApi::TestHelpers::EmailAlertApi
 
-  let(:api_client) { double(:api_client, find_or_create_subscriber_list: true) }
-  let(:travel_index_item) { govuk_content_schema_example("travel_advice_index_email_alert_signup") }
-  let(:travel_country_item) { govuk_content_schema_example("travel_advice_country_email_alert_signup") }
-
   let(:mock_subscriber_list) do
     mock_response(subscriber_list: { slug: "topic-id" })
   end
+
+  let(:api_client) { double(:api_client, find_or_create_subscriber_list: mock_subscriber_list) }
+  let(:travel_index_item) { govuk_content_schema_example("travel_advice_index_email_alert_signup") }
+  let(:travel_country_item) { govuk_content_schema_example("travel_advice_country_email_alert_signup") }
 
   before do
     allow(GdsApi).to receive(:email_alert_api).and_return(api_client)
@@ -42,9 +42,11 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
-            "title" => "Afghanistan travel advice",
-            "links" => { "countries" => %w[5a292f20-a9b6-46ea-b35f-584f8b3d7392] },
-            "document_type" => "travel_advice",
+            match_array(
+              "title" => "Afghanistan travel advice",
+              "links" => { "countries" => %w[5a292f20-a9b6-46ea-b35f-584f8b3d7392] },
+              "document_type" => "travel_advice",
+            ),
           )
           .and_return(mock_subscriber_list)
 
@@ -59,8 +61,10 @@ RSpec.describe EmailAlertSignup do
       it "sends the correct subscription params to the email alert api" do
         expect(api_client).to receive(:find_or_create_subscriber_list)
           .with(
-            "title" => "Foreign travel advice",
-            "document_type" => "travel_advice",
+            match_array(
+              "title" => "Foreign travel advice",
+              "document_type" => "travel_advice",
+            ),
           )
           .and_return(mock_subscriber_list)
 

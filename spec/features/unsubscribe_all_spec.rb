@@ -26,7 +26,7 @@ RSpec.feature "Bulk unsubscribe" do
       "address" => @address,
       "subscriber_id" => @subscriber_id,
     })
-    visit process_sign_in_token_path(token: token)
+    visit process_sign_in_token_path(token:)
   end
 
   def and_i_click_on_unsubscribe_from_everything

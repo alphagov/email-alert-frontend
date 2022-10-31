@@ -36,14 +36,14 @@ RSpec.describe SubscriptionsController do
       end
 
       it "returns 404" do
-        get :new, params: { topic_id: topic_id }
+        get :new, params: { topic_id: }
         expect(response).to have_http_status(:not_found)
       end
     end
 
     context "when a topic is provided" do
       it "returns 200" do
-        get :new, params: { topic_id: topic_id }
+        get :new, params: { topic_id: }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe SubscriptionsController do
     context "when a topic and frequency are provided" do
       let(:frequency) { "immediately" }
       it "returns 200" do
-        get :new, params: { topic_id: topic_id, frequency: frequency }
+        get :new, params: { topic_id:, frequency: }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -59,8 +59,8 @@ RSpec.describe SubscriptionsController do
     context "when a topic and an invalid frequency are provided" do
       let(:frequency) { "foobar" }
       it "redirects to new without the frequency" do
-        get :new, params: { topic_id: topic_id, frequency: frequency }
-        expect(response).to redirect_to(new_subscription_url(topic_id: topic_id))
+        get :new, params: { topic_id:, frequency: }
+        expect(response).to redirect_to(new_subscription_url(topic_id:))
       end
     end
   end
@@ -68,7 +68,7 @@ RSpec.describe SubscriptionsController do
   describe "POST /email/subscriptions/frequency" do
     context "when no frequency is provided" do
       it "renders an error" do
-        post :frequency, params: { topic_id: topic_id }
+        post :frequency, params: { topic_id: }
 
         expect(response.body).to include(I18n.t!("subscriptions.new_frequency.missing_frequency"))
         expect(response).to have_http_status(:ok)
@@ -78,17 +78,17 @@ RSpec.describe SubscriptionsController do
     context "when an invalid frequency is provided" do
       let(:frequency) { "foobar" }
       it "redirects to new without the frequency" do
-        post :frequency, params: { topic_id: topic_id, frequency: frequency }
-        expect(response).to redirect_to(new_subscription_url(topic_id: topic_id))
+        post :frequency, params: { topic_id:, frequency: }
+        expect(response).to redirect_to(new_subscription_url(topic_id:))
       end
     end
 
     context "when a valid frequency is provided" do
       let(:frequency) { "daily" }
       it "redirects to new with frequency" do
-        post :frequency, params: { topic_id: topic_id, frequency: frequency }
+        post :frequency, params: { topic_id:, frequency: }
         destination = new_subscription_url(
-          topic_id: topic_id, frequency: frequency,
+          topic_id:, frequency:,
         )
         expect(response).to redirect_to(destination)
       end
@@ -109,9 +109,9 @@ RSpec.describe SubscriptionsController do
 
         let!(:create_stub) do
           stub_email_alert_api_creates_a_subscription(
-            subscriber_list_id: subscriber_list_id,
-            address: address,
-            frequency: frequency,
+            subscriber_list_id:,
+            address:,
+            frequency:,
             returned_subscription_id: subscription_id,
           )
         end
@@ -122,7 +122,7 @@ RSpec.describe SubscriptionsController do
         let(:linked_govuk_account_id) { 42 }
 
         it "creates the subscription and redirects to the manage page" do
-          post :frequency, params: { topic_id: topic_id, frequency: frequency }
+          post :frequency, params: { topic_id:, frequency: }
           expect(response).to redirect_to(list_subscriptions_path)
           expect(flash[:subscription][:id]).to eq(subscription_id)
           expect(link_stub).to have_been_made
@@ -135,9 +135,9 @@ RSpec.describe SubscriptionsController do
           end
 
           it "treats the user as logged out" do
-            post :frequency, params: { topic_id: topic_id, frequency: frequency }
+            post :frequency, params: { topic_id:, frequency: }
             destination = new_subscription_url(
-              topic_id: topic_id, frequency: frequency,
+              topic_id:, frequency:,
             )
             expect(response).to redirect_to(destination)
           end
@@ -151,13 +151,13 @@ RSpec.describe SubscriptionsController do
 
     context "when no frequency is provided" do
       it "redirects to new without the frequency" do
-        post :verify, params: { topic_id: topic_id, address: valid_email }
-        expect(response).to redirect_to(new_subscription_url(topic_id: topic_id))
+        post :verify, params: { topic_id:, address: valid_email }
+        expect(response).to redirect_to(new_subscription_url(topic_id:))
       end
     end
 
     context "when no address is provided" do
-      let(:params) { { topic_id: topic_id, frequency: "daily" } }
+      let(:params) { { topic_id:, frequency: "daily" } }
 
       it "renders an error" do
         post :verify, params: params
@@ -171,7 +171,7 @@ RSpec.describe SubscriptionsController do
       let(:frequency) { "immediately" }
 
       let(:params) do
-        { topic_id: topic_id, frequency: frequency, address: address }
+        { topic_id:, frequency:, address: }
       end
 
       before do
@@ -191,7 +191,7 @@ RSpec.describe SubscriptionsController do
       let(:frequency) { "immediately" }
 
       let(:params) do
-        { topic_id: topic_id, frequency: frequency, address: address }
+        { topic_id:, frequency:, address: }
       end
 
       let!(:verify_stub) do
@@ -245,7 +245,7 @@ RSpec.describe SubscriptionsController do
 
     context "when there are too many requests for a particular address" do
       let(:params) do
-        { topic_id: topic_id, frequency: "immediately", address: valid_email }
+        { topic_id:, frequency: "immediately", address: valid_email }
       end
 
       before do

@@ -42,7 +42,7 @@ private
 
   def subscription_params
     subscriber_list = details["subscriber_list"]
-    subscription_params = { title: title }
+    subscription_params = { title: }
 
     if subscriber_list["document_type"].present?
       subscription_params[:document_type] = subscriber_list["document_type"]
