@@ -81,6 +81,9 @@ private
       .to_h.fetch("subscriber_list")
     @frequency = subscription_params[:frequency]
     @address = subscription_params[:address]
+  rescue Addressable::URI::InvalidURIError => e
+    Rails.logger.warn("Bad topic passed to SubscriptionsController: #{e}")
+    head :unprocessable_entity
   end
 
   def subscription_params

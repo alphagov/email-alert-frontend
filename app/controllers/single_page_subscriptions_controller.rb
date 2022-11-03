@@ -5,6 +5,7 @@ class SinglePageSubscriptionsController < ApplicationController
   DEFAULT_FREQUENCY = "immediately".freeze
 
   skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :validate_base_path, only: %i[create]
   before_action :fetch_subscriber_list, only: %i[create]
   before_action :not_found_without_topic_id, only: %i[edit show]
 
@@ -50,6 +51,13 @@ private
 
   def topic_id
     @topic_id = params[:topic_id]
+  end
+
+  def validate_base_path
+    URI.parse(params.fetch(:base_path))
+  rescue URI::InvalidURIError => e
+    Rails.logger.warn("Bad base path passed to SinglePageSubscriptionsController: #{e}")
+    head :unprocessable_entity
   end
 
   def fetch_subscriber_list

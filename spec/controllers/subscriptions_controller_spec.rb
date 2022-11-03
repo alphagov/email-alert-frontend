@@ -41,6 +41,15 @@ RSpec.describe SubscriptionsController do
       end
     end
 
+    context "when an unprocessable topic is provided" do
+      let(:topic_id) { "ofsted<https://wwww.gov.uk/" }
+      it "returns 422 and logs the error" do
+        expect(Rails.logger).to receive(:warn)
+        get :new, params: { topic_id: }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
     context "when a topic is provided" do
       it "returns 200" do
         get :new, params: { topic_id: }
