@@ -58,6 +58,12 @@ RSpec.describe SinglePageSubscriptionsController do
       expect(response).to have_http_status(:not_found)
     end
 
+    it "422s and writes to the log when a bad base path is passed" do
+      expect(Rails.logger).to receive(:warn)
+      post :create, params: { base_path: "/invalid{}" }
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
     context "when a user is not logged in" do
       it "redirects to show and renders a sign in link including the topic_id" do
         post :create, params: params
