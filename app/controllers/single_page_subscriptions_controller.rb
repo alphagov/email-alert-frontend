@@ -62,15 +62,16 @@ private
 
   def fetch_subscriber_list
     @content_item = GdsApi.content_store.content_item(params.fetch(:base_path)).to_h
-    @subscriber_list = GdsApi.email_alert_api.find_or_create_subscriber_list(
-      {
-        url: @content_item.fetch("base_path"),
-        title: @content_item.fetch("title"),
-        content_id: @content_item.fetch("content_id"),
-        description: @content_item.fetch("description"),
-      },
-    ).to_h.fetch("subscriber_list")
+    @subscriber_list =
+      GdsApi.email_alert_api
+      .find_or_create_subscriber_list(list_params)
+      .to_h
+      .fetch("subscriber_list")
     @topic_id = @subscriber_list.fetch("slug")
+  end
+
+  def list_params
+    @list_params ||= SubscriberListParams::GenerateSinglePageListParamsService.call(@content_item.to_h)
   end
 
   def sign_in_and_confirm(topic_id)
