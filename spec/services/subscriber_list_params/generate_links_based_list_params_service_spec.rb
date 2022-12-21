@@ -1,4 +1,4 @@
-RSpec.describe GenerateSubscriberListParamsService do
+RSpec.describe SubscriberListParams::GenerateLinksBasedListParamsService do
   describe ".call" do
     let(:content_item) do
       { "title" => "Foo", "content_id" => "foo-id", "base_path" => "/foo" }
@@ -68,7 +68,7 @@ RSpec.describe GenerateSubscriberListParamsService do
       content_item.merge!("document_type" => "other")
 
       expect { described_class.call(content_item) }
-        .to raise_error GenerateSubscriberListParamsService::UnsupportedContentItemError
+        .to raise_error SubscriberListParams::GenerateLinksBasedListParamsService::UnsupportedContentItemError
     end
   end
 end
