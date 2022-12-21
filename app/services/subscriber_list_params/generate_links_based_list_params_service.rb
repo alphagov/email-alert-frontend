@@ -13,11 +13,11 @@ module SubscriberListParams
       }
     end
 
+    class UnsupportedContentItemError < StandardError; end
+
   private
 
     attr_reader :content_item
-
-    class UnsupportedContentItemError < StandardError; end
 
     def link_hash
       case content_item_type
