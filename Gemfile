@@ -9,7 +9,7 @@ gem "govuk_app_config"
 gem "govuk_personalisation"
 gem "govuk_publishing_components"
 gem "jwt"
-gem "mail", "~> 2.7.1"  # TODO: remove once https://github.com/mikel/mail/issues/1489 is fixed.
+gem "mail", "~> 2.8.0"  # TODO: remove once https://github.com/mikel/mail/issues/1489 is fixed.
 gem "plek"
 gem "ratelimit"
 gem "sassc-rails"
