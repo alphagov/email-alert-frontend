@@ -1,7 +1,7 @@
 .dockerignore
 .git
-.gitignore
 .github
+.gitignore
 Dockerfile
 Jenkinsfile
 Procfile
@@ -16,5 +16,4 @@ script
 spec
 test
 tmp
-vendor
 yarn.lock
