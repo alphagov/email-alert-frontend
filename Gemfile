@@ -5,7 +5,7 @@ gem "rails", "7.0.4.1"
 
 gem "bootsnap", require: false
 gem "gds-api-adapters"
-gem "govuk_app_config"
+gem "govuk_app_config", github: "alphagov/govuk_app_config", branch: "aspirational-csp"
 gem "govuk_personalisation"
 gem "govuk_publishing_components"
 gem "jwt"
