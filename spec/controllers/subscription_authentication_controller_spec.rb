@@ -35,17 +35,17 @@ RSpec.describe SubscriptionAuthenticationController do
       end
 
       it "redirects to the manage page" do
-        get :authenticate, params: params
+        get(:authenticate, params:)
         expect(response).to redirect_to(list_subscriptions_path)
       end
 
       it "shows a success flash message" do
-        get :authenticate, params: params
+        get(:authenticate, params:)
         expect(flash[:subscription][:id]).to eq(subscription_id)
       end
 
       it "creates a new session" do
-        get :authenticate, params: params
+        get(:authenticate, params:)
         expect(session.to_h).to include(session_for(subscriber_id))
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe SubscriptionAuthenticationController do
       let(:token) { encrypt_and_sign_token(expiry: 0) }
 
       it "shows an expired error page" do
-        get :authenticate, params: params
+        get(:authenticate, params:)
         expect(response.body).to include(I18n.t!("subscription_authentication.expired.title"))
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe SubscriptionAuthenticationController do
       let(:token) { encrypt_and_sign_token(data: { "topic_id" => "another" }) }
 
       it "shows a general error page" do
-        get :authenticate, params: params
+        get(:authenticate, params:)
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe SubscriptionAuthenticationController do
       end
 
       it "shows a general error page" do
-        get :authenticate, params: params
+        get(:authenticate, params:)
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe SubscriptionAuthenticationController do
       let(:token) { "foo" }
 
       it "shows an expired error page" do
-        get :authenticate, params: params
+        get(:authenticate, params:)
         expect(response.body).to include(I18n.t!("subscription_authentication.expired.title"))
       end
     end

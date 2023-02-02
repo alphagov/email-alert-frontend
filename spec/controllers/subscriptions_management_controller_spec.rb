@@ -35,19 +35,19 @@ RSpec.describe SubscriptionsManagementController do
   describe "GET /email/manage" do
     context "when the page is requested" do
       it "returns 200" do
-        get :index, session: session
+        get(:index, session:)
         expect(response).to have_http_status(:ok)
       end
     end
 
     context "when there is a subscriber with a subscription" do
       it "renders the subscriber's email address" do
-        get :index, session: session
+        get(:index, session:)
         expect(response.body).to have_content("Subscriptions for #{subscriber_address}")
       end
 
       it "renders the subscriber's subscriptions" do
-        get :index, session: session
+        get(:index, session:)
         expect(response.body).to include("Some thing")
         expect(response.body).to include("You subscribed to weekly updates")
         expect(response.body).to include("on 16 September 2019 at 2:08am")
@@ -72,7 +72,7 @@ RSpec.describe SubscriptionsManagementController do
         end
 
         it "displays the date the page was last updated" do
-          get :index, session: session
+          get(:index, session:)
           expect(response.body).to include("This page was last updated on ")
         end
       end
@@ -141,17 +141,17 @@ RSpec.describe SubscriptionsManagementController do
 
   describe "GET /email/manage/frequency/:id" do
     it "returns a 200 response" do
-      get :update_frequency, params: { id: subscription_id }, session: session
+      get(:update_frequency, params: { id: subscription_id }, session:)
       expect(response).to have_http_status(:ok)
     end
 
     it "renders a form" do
-      get :update_frequency, params: { id: subscription_id }, session: session
+      get(:update_frequency, params: { id: subscription_id }, session:)
       expect(response.body).to include(%(action="/email/manage/frequency/#{subscription_id}/change"))
     end
 
     it "includes the subscription name in the page title" do
-      get :update_frequency, params: { id: subscription_id }, session: session
+      get(:update_frequency, params: { id: subscription_id }, session:)
       expect(response.body).to include("Some thing")
     end
 
@@ -162,7 +162,7 @@ RSpec.describe SubscriptionsManagementController do
         subscriptions: [],
       )
 
-      get :update_frequency, params: { id: subscription_id }, session: session
+      get(:update_frequency, params: { id: subscription_id }, session:)
       expect(response).to have_http_status(:not_found)
     end
 
@@ -182,7 +182,7 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       it "displays the single page version of the content" do
-        get :update_frequency, params: { id: subscription_id }, session: session
+        get(:update_frequency, params: { id: subscription_id }, session:)
         expect(response.body).to include(I18n.t("frequencies.page.immediately"))
       end
     end
@@ -190,7 +190,7 @@ RSpec.describe SubscriptionsManagementController do
 
   describe "POST /email/manage/frequency/:id/change" do
     it "redirects to the subscription management page when frequency is updated" do
-      post :change_frequency, params: { id: subscription_id, new_frequency: }, session: session
+      post(:change_frequency, params: { id: subscription_id, new_frequency: }, session:)
       expect(response).to redirect_to(list_subscriptions_path)
     end
 
@@ -204,9 +204,9 @@ RSpec.describe SubscriptionsManagementController do
       stub_request(:patch, "#{endpoint}/subscriptions/#{subscription_id}")
         .to_return(status: 422)
 
-      post :change_frequency,
+      post(:change_frequency,
            params: { id: subscription_id, new_frequency: "foobar" },
-           session: session
+           session:)
       expect(response).to have_http_status(:bad_request)
     end
 
@@ -217,9 +217,9 @@ RSpec.describe SubscriptionsManagementController do
         subscriptions: [],
       )
 
-      post :change_frequency,
+      post(:change_frequency,
            params: { id: subscription_id, new_frequency: },
-           session: session
+           session:)
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -227,12 +227,12 @@ RSpec.describe SubscriptionsManagementController do
   describe "GET /email/manage/address" do
     context "when the page is requested" do
       it "returns 200" do
-        get :update_address, session: session
+        get(:update_address, session:)
         expect(response).to have_http_status(:ok)
       end
 
       it "renders a form" do
-        get :update_address, session: session
+        get(:update_address, session:)
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
 
@@ -271,14 +271,14 @@ RSpec.describe SubscriptionsManagementController do
       let(:new_address) { "" }
 
       it "renders an error message" do
-        post :change_address, params: { new_address: }, session: session
+        post(:change_address, params: { new_address: }, session:)
         expect(response.body).to include(
           I18n.t!("subscriptions_management.update_address.missing_email"),
         )
       end
 
       it "renders a form" do
-        post :change_address, params: { new_address: }, session: session
+        post(:change_address, params: { new_address: }, session:)
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
     end
@@ -291,21 +291,21 @@ RSpec.describe SubscriptionsManagementController do
       end
 
       it "renders an error message" do
-        post :change_address, params: { new_address: }, session: session
+        post(:change_address, params: { new_address: }, session:)
         expect(response.body).to include(
           I18n.t!("subscriptions_management.update_address.invalid_email"),
         )
       end
 
       it "renders a form" do
-        post :change_address, params: { new_address: }, session: session
+        post(:change_address, params: { new_address: }, session:)
         expect(response.body).to include(%(action="/email/manage/address/change"))
       end
     end
 
     context "when a valid address is provided" do
       it "redirects to the subscription management page" do
-        post :change_address, params: { new_address: }, session: session
+        post(:change_address, params: { new_address: }, session:)
         expect(response).to redirect_to(list_subscriptions_path)
       end
     end
@@ -314,12 +314,12 @@ RSpec.describe SubscriptionsManagementController do
   describe "GET /email/manage/unsubscribe-all" do
     context "when the page is requested" do
       it "returns 200" do
-        get :confirm_unsubscribe_all, session: session
+        get(:confirm_unsubscribe_all, session:)
         expect(response).to have_http_status(:ok)
       end
 
       it "renders a message" do
-        get :confirm_unsubscribe_all, session: session
+        get(:confirm_unsubscribe_all, session:)
         expect(response.body).to include(
           I18n.t!("subscriptions_management.confirm_unsubscribe_all.description"),
         )
@@ -327,7 +327,7 @@ RSpec.describe SubscriptionsManagementController do
     end
 
     it "renders a form" do
-      get :confirm_unsubscribe_all, session: session
+      get(:confirm_unsubscribe_all, session:)
       expect(response.body).to include(%(action="/email/manage/unsubscribe-all"))
     end
   end
@@ -335,12 +335,12 @@ RSpec.describe SubscriptionsManagementController do
   describe "POST /email/manage/unsubscribe-all" do
     context "when the subscriber is unsubscribed" do
       it "redirects to subscription management" do
-        post :confirmed_unsubscribe_all, session: session
+        post(:confirmed_unsubscribe_all, session:)
         expect(response).to redirect_to(list_subscriptions_path)
       end
 
       it "sets a flash about the success" do
-        post :confirmed_unsubscribe_all, session: session
+        post(:confirmed_unsubscribe_all, session:)
         expect(flash[:success][:message]).to match(/unsubscribed from all your subscriptions/)
         expect(flash[:success][:description]).to match(/It can take up to an hour for this change to take effect./)
       end
