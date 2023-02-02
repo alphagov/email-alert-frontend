@@ -169,7 +169,7 @@ RSpec.describe SubscriptionsController do
       let(:params) { { topic_id:, frequency: "daily" } }
 
       it "renders an error" do
-        post :verify, params: params
+        post(:verify, params:)
         expect(response.body).to include(I18n.t!("subscriptions.new_address.missing_email"))
         expect(response).to have_http_status(:ok)
       end
@@ -189,7 +189,7 @@ RSpec.describe SubscriptionsController do
       end
 
       it "renders an error" do
-        post :verify, params: params
+        post(:verify, params:)
         expect(response.body).to include(I18n.t!("subscriptions.new_address.invalid_email"))
         expect(response).to have_http_status(:ok)
       end
@@ -212,13 +212,13 @@ RSpec.describe SubscriptionsController do
       end
 
       it "renders a notice to check email" do
-        post :verify, params: params
+        post(:verify, params:)
         expect(response.body).to include(I18n.t!("subscriptions.check_email.title"))
         expect(response).to have_http_status(:ok)
       end
 
       it "sends a request to email-alert-api" do
-        post :verify, params: params
+        post(:verify, params:)
         expect(verify_stub).to have_been_requested
       end
 
@@ -233,7 +233,7 @@ RSpec.describe SubscriptionsController do
           end
 
           it "prompts the user to sign in to that account" do
-            post :verify, params: params
+            post(:verify, params:)
             expect(response.body).to include(I18n.t!("subscriptions.use_your_govuk_account.heading"))
             expect(verify_stub).not_to have_been_requested
           end
@@ -245,7 +245,7 @@ RSpec.describe SubscriptionsController do
           end
 
           it "sends a request to email-alert-api" do
-            post :verify, params: params
+            post(:verify, params:)
             expect(verify_stub).to have_been_requested
           end
         end
@@ -263,7 +263,7 @@ RSpec.describe SubscriptionsController do
       end
 
       it "returns a 429 reponse" do
-        post :verify, params: params
+        post(:verify, params:)
         expect(response).to have_http_status(:too_many_requests)
       end
     end
