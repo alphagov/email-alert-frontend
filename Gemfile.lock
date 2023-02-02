@@ -144,7 +144,7 @@ GEM
     json (2.6.3)
     json-schema (3.0.0)
       addressable (>= 2.8)
-    jwt (2.6.0)
+    jwt (2.7.0)
     kgio (2.11.4)
     kramdown (2.4.0)
       rexml
