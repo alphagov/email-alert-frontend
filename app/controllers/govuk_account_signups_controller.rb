@@ -1,4 +1,4 @@
-class SinglePageSubscriptionsController < ApplicationController
+class GovukAccountSignupsController < ApplicationController
   include GovukPersonalisation::ControllerConcern
 
   UNSUBSCRIBE_FLASH = "email-unsubscribe-success".freeze
@@ -13,7 +13,7 @@ class SinglePageSubscriptionsController < ApplicationController
 
   def create
     unless logged_in?
-      redirect_to new_single_page_subscription_path(topic_id: @topic_id) and return
+      redirect_to new_govuk_account_signup_path(topic_id: @topic_id) and return
     end
 
     subscriber = GdsApi.email_alert_api.authenticate_subscriber_by_govuk_account(

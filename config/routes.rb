@@ -36,9 +36,9 @@ Rails.application.routes.draw do
       post "/verify" => "subscriptions#verify", as: :verify_subscription
       post "/verify/account" => "subscriptions#verify_account", as: :verify_subscription_account
       get "/authenticate" => "subscription_authentication#authenticate", as: :confirm_subscription
-      post "/single-page/new" => "single_page_subscriptions#create"
-      get "/single-page/new" => "single_page_subscriptions#show", as: :new_single_page_subscription
-      post "/single-page/new-session" => "single_page_subscriptions#edit", as: :single_page_new_session
+      post "/single-page/new" => "govuk_account_signups#create"
+      get "/single-page/new" => "govuk_account_signups#show", as: :new_govuk_account_signup
+      post "/single-page/new-session" => "govuk_account_signups#edit", as: :govuk_account_signups_new_session
       scope "/account" do
         get "/confirm" => "account_subscriptions#confirm", as: :confirm_account_subscription
         post "/" => "account_subscriptions#create"
