@@ -69,11 +69,19 @@ RSpec.describe ContentItemSignupsController do
     end
   end
 
-  shared_examples "limited to certain types" do
+  shared_examples "link based subscriptions are limited to certain types" do
     it "returns a 400 if the content item is not supported" do
       stub_content_store_has_item("/cma-cases", document_type: "finder")
       make_request(link: "/cma-cases")
       expect(response).to have_http_status(:bad_request)
+    end
+  end
+
+  shared_examples "single page subscriptions are not limited by type" do
+    it "returns a 200 for any content item if single_page_subscription is provided" do
+      stub_content_store_has_item("/document-collection-page", document_type: "document_collection")
+      make_request(link: "/document-collection-page", single_page_subscription: "true")
+      expect(response).to have_http_status(:success)
     end
   end
 
@@ -99,7 +107,7 @@ RSpec.describe ContentItemSignupsController do
 
     it_behaves_like "proxy to content store"
     it_behaves_like "router for redirects"
-    it_behaves_like "limited to certain types"
+    it_behaves_like "link based subscriptions are limited to certain types"
   end
 
   describe "#confirm" do
@@ -119,7 +127,8 @@ RSpec.describe ContentItemSignupsController do
 
     it_behaves_like "proxy to content store"
     it_behaves_like "router for redirects"
-    it_behaves_like "limited to certain types"
+    it_behaves_like "link based subscriptions are limited to certain types"
+    it_behaves_like "single page subscriptions are not limited by type"
   end
 
   describe "#create" do
@@ -129,15 +138,29 @@ RSpec.describe ContentItemSignupsController do
 
     it_behaves_like "proxy to content store"
     it_behaves_like "router for redirects"
-    it_behaves_like "limited to certain types"
+    it_behaves_like "link based subscriptions are limited to certain types"
 
-    it "finds or creates a subscriber list for the content" do
+    it "finds or creates links based subscriber list for the content" do
       content_id = SecureRandom.uuid
       stub_content_store_has_item("/my-organisation", document_type: "organisation", content_id:)
 
       stub_email_alert_api_creates_subscriber_list("links" => { organisations: [content_id] }, "slug" => "my-list")
 
       make_request(link: "/my-organisation")
+      expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
+    end
+
+    it "finds or creates single page subscriber lists for the content" do
+      content_id = SecureRandom.uuid
+      stub_content_store_has_item("/my-document-collection", document_type: "document-collection", content_id:)
+
+      stub_email_alert_api_creates_subscriber_list(
+        "links" => { document_collection: [content_id] },
+        "content-id" => content_id,
+        "slug" => "my-list",
+      )
+
+      make_request(link: "/my-document-collection", single_page_subscription: "true")
       expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
     end
   end

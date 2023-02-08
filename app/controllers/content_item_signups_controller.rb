@@ -14,15 +14,16 @@ class ContentItemSignupsController < ApplicationController
     if is_taxon_with_children?(@content_item)
       render "taxon"
     else
-      render "confirm"
+      render_confirm_page
     end
   end
 
   def confirm
     if is_taxon_with_children?(@content_item) && params[:topic].nil?
       flash[:error] = t("content_item_signups.taxon.no_selection")
-      render "taxon"
+      render "taxon" and return
     end
+    render_confirm_page
   end
 
   def create
@@ -57,8 +58,24 @@ private
   end
 
   def assign_list_params
-    @list_params = SubscriberListParams::GenerateLinksBasedListParamsService.call(@content_item.to_h)
+    @list_params = params_service.call(@content_item.to_h)
   rescue SubscriberListParams::GenerateLinksBasedListParamsService::UnsupportedContentItemError
     bad_request
+  end
+
+  def params_service
+    if single_page_subscription?
+      SubscriberListParams::GenerateSinglePageListParamsService
+    else
+      SubscriberListParams::GenerateLinksBasedListParamsService
+    end
+  end
+
+  def single_page_subscription?
+    params[:single_page_subscription].present?
+  end
+
+  def render_confirm_page
+    render "confirm", locals: { single_page_subscription: single_page_subscription? }
   end
 end

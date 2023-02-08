@@ -18,6 +18,7 @@
 
 <%= form_tag(action: :create) do %>
   <%= hidden_field_tag 'link', @content_item['base_path'] %>
+  <%= hidden_field_tag 'single_page_subscription', single_page_subscription %>
   <%= render 'govuk_publishing_components/components/button', {
     text: 'Continue',
     margin_bottom: true,

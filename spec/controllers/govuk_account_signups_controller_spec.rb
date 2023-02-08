@@ -1,4 +1,4 @@
-RSpec.describe SinglePageSubscriptionsController do
+RSpec.describe GovukAccountSignupsController do
   include GdsApi::TestHelpers::ContentStore
   include GdsApi::TestHelpers::AccountApi
   include GdsApi::TestHelpers::EmailAlertApi
@@ -67,7 +67,7 @@ RSpec.describe SinglePageSubscriptionsController do
     context "when a user is not logged in" do
       it "redirects to show and renders a sign in link including the topic_id" do
         post(:create, params:)
-        expect(response).to redirect_to(new_single_page_subscription_path(topic_id: topic_slug))
+        expect(response).to redirect_to(new_govuk_account_signup_path(topic_id: topic_slug))
       end
     end
 
