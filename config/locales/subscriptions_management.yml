@@ -29,7 +29,7 @@ en:
       missing_email: Please enter your email address.
       invalid_email: "That email address isn’t valid, or it’s already in use – check you’ve typed in your email address correctly."
       success: "Your email address has been changed to %{address}"
-    update_address_account: You can <a href="%{href}" class="govuk-link">change your email address, password or mobile number in your GOV.UK account</a>.
+    update_address_account: You can <a href="%{href}" class="govuk-link">change your sign in details in your GOV.UK One Login</a>.
     update_frequency:
       title: "How often do you want to get emails about ‘%{subscription_title}’?"
     change_frequency:

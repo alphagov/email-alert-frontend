@@ -21,6 +21,6 @@ en:
         <p>If you do not receive an email soon, check your spam or junk folder.</p>
         <p>If this does not work, <a class="govuk-link" href="https://www.gov.uk/contact/govuk">contact GOV.UK</a> for help.</p>
     use_your_govuk_account:
-      heading: You have a GOV.UK account
+      heading: You have a GOV.UK One Login
       description: "Sign in to subscribe to emails about:"
-      continue: Continue to sign in to your account
+      continue: Sign in to your GOV.UK One Login
