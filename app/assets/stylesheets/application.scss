@@ -6,11 +6,3 @@ $govuk-new-link-styles: true;
 // stylesheet - the font is being served by Static across all of GOV.UK, so is
 // not needed here.
 $govuk-include-default-font-face: false;
-
-@import "govuk_publishing_components/govuk_frontend_support";
-@import "govuk_publishing_components/components/back-link";
-@import "govuk_publishing_components/components/details";
-@import "govuk_publishing_components/components/error-summary";
-@import "govuk_publishing_components/components/inset-text";
-@import "govuk_publishing_components/components/radio";
-@import "govuk_publishing_components/components/success-alert";
