@@ -72,7 +72,7 @@ private
   end
 
   def single_page_subscription?
-    params[:single_page_subscription].present?
+    params[:single_page_subscription].present? && params[:single_page_subscription] == "true"
   end
 
   def render_confirm_page
