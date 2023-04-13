@@ -1,7 +1,13 @@
 # This controller takes any content item and makes it possible to subscribe
 # to alerts when documents linked to them are changed (taxons, orgs etc).
-# This is in contrast to EmailAlertSignupsController, which takes a
+# This is in contrast to the EmailAlertSignupsController, which takes a
 # finder_email_signup content item.
+#  This controller also supports subscribing users to changes to the document itself
+# (aka a content id based or single page list) if the paramater 'single_page_subscription'
+# is present in the request.
+# The govuk_account_signups controller also supports single page subscriptions, but it
+# enforces the govuk account.
+
 class ContentItemSignupsController < ApplicationController
   include TaxonsHelper
 
@@ -14,16 +20,15 @@ class ContentItemSignupsController < ApplicationController
     if is_taxon_with_children?(@content_item)
       render "taxon"
     else
-      render_confirm_page
+      render "confirm"
     end
   end
 
   def confirm
     if is_taxon_with_children?(@content_item) && params[:topic].nil?
       flash[:error] = t("content_item_signups.taxon.no_selection")
-      render "taxon" and return
+      render "taxon"
     end
-    render_confirm_page
   end
 
   def create
@@ -64,18 +69,15 @@ private
   end
 
   def params_service
-    if single_page_subscription?
+    if sign_up_to_content_id_based_subscription?
       SubscriberListParams::GenerateSinglePageListParamsService
     else
       SubscriberListParams::GenerateLinksBasedListParamsService
     end
   end
 
-  def single_page_subscription?
-    params[:single_page_subscription].present? && params[:single_page_subscription] == "true"
+  def sign_up_to_content_id_based_subscription?
+    params[:single_page_subscription] == "true"
   end
-
-  def render_confirm_page
-    render "confirm", locals: { single_page_subscription: single_page_subscription? }
-  end
+  helper_method :sign_up_to_content_id_based_subscription?
 end
