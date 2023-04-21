@@ -77,14 +77,6 @@ RSpec.describe ContentItemSignupsController do
     end
   end
 
-  shared_examples "single page subscriptions are not limited by type" do
-    it "returns a 200 for any content item if single_page_subscription is provided" do
-      stub_content_store_has_item("/document-collection-page", document_type: "document_collection")
-      make_request(link: "/document-collection-page", single_page_subscription: "true")
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe "#new" do
     def make_request(params)
       get :new, params:
@@ -125,10 +117,15 @@ RSpec.describe ContentItemSignupsController do
       expect(response.body).to include(I18n.t!("content_item_signups.taxon.no_selection"))
     end
 
+    it "allows content id based subscriptions for all document types" do
+      stub_content_store_has_item("/document-collection-page", document_type: "document_collection")
+      make_request(link: "/document-collection-page", single_page_subscription: "true")
+      expect(response).to have_http_status(:success)
+    end
+
     it_behaves_like "proxy to content store"
     it_behaves_like "router for redirects"
     it_behaves_like "link based subscriptions are limited to certain types"
-    it_behaves_like "single page subscriptions are not limited by type"
   end
 
   describe "#create" do
@@ -140,28 +137,72 @@ RSpec.describe ContentItemSignupsController do
     it_behaves_like "router for redirects"
     it_behaves_like "link based subscriptions are limited to certain types"
 
-    it "finds or creates links based subscriber list for the content" do
-      content_id = SecureRandom.uuid
-      stub_content_store_has_item("/my-organisation", document_type: "organisation", content_id:)
+    let(:content_id) { SecureRandom.uuid }
+    let(:title) { "Interesting organisation" }
+    let(:slug) { "interesting-organisation" }
+    let(:base_path) { "/#{slug}" }
+    let(:document_type) { "organisation" }
+    let(:description) { "some info" }
+    let(:email_alert_api_response) { { "subscriber_list" => { "slug" => slug } } }
+    let(:email_alert_endpoint) { GdsApi::TestHelpers::EmailAlertApi::EMAIL_ALERT_API_ENDPOINT }
+    let(:find_or_create_link) { "#{email_alert_endpoint}/subscriber-lists" }
 
-      stub_email_alert_api_creates_subscriber_list("links" => { organisations: [content_id] }, "slug" => "my-list")
-
-      make_request(link: "/my-organisation")
-      expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
+    let(:links_based_subscriber_list_params) do
+      {
+        "title" => title,
+        "links" => { "organisations" => [content_id] },
+        "url" => base_path,
+      }
     end
 
-    it "finds or creates single page subscriber lists for the content" do
-      content_id = SecureRandom.uuid
-      stub_content_store_has_item("/my-document-collection", document_type: "document-collection", content_id:)
+    let(:content_id_based_subscriber_list_params) do
+      {
+        "url" => base_path,
+        "title" => title,
+        "content_id" => content_id,
+        "description" => description,
+      }
+    end
 
-      stub_email_alert_api_creates_subscriber_list(
-        "links" => { document_collection: [content_id] },
-        "content-id" => content_id,
-        "slug" => "my-list",
-      )
+    before do
+      stub_content_store_has_item(base_path,
+                                  content_id:,
+                                  document_type:,
+                                  title:,
+                                  base_path:,
+                                  description:)
+    end
 
-      make_request(link: "/my-document-collection", single_page_subscription: "true")
-      expect(response).to redirect_to new_subscription_path(topic_id: "my-list")
+    it "finds or creates links based subscriber lists for the content" do
+      create_links_base_list_stub = stub_request(:post, find_or_create_link)
+                    .with(body: hash_including(links_based_subscriber_list_params))
+                    .to_return(status: 200, body: email_alert_api_response.to_json)
+
+      make_request(link: "/interesting-organisation")
+      expect(create_links_base_list_stub).to have_been_requested
+      expect(response).to redirect_to new_subscription_path(topic_id: "interesting-organisation")
+    end
+
+    context "single_page_subscription paramater is present" do
+      it "finds or creates content id based subscriber lists for the content if single_page_subscription = 'true'" do
+        create_content_id_based_stub = stub_request(:post, find_or_create_link)
+                    .with(body: hash_including(content_id_based_subscriber_list_params))
+                    .to_return(status: 200, body: email_alert_api_response.to_json)
+
+        make_request(link: "/interesting-organisation", single_page_subscription: "true")
+        expect(create_content_id_based_stub).to have_been_requested
+        expect(response).to redirect_to new_subscription_path(topic_id: "interesting-organisation")
+      end
+
+      it "finds or creates links based subscriber lists for the content if single_page_subscription is present but != 'true'" do
+        create_links_base_list_stub = stub_request(:post, find_or_create_link)
+                    .with(body: hash_including(links_based_subscriber_list_params))
+                    .to_return(status: 200, body: email_alert_api_response.to_json)
+
+        make_request(link: "/interesting-organisation", single_page_subscription: "anything-else")
+        expect(create_links_base_list_stub).to have_been_requested
+        expect(response).to redirect_to new_subscription_path(topic_id: "interesting-organisation")
+      end
     end
   end
 end
