@@ -3,7 +3,7 @@ ruby File.read(".ruby-version")
 
 ruby "~> 3.2.0"
 
-gem "rails", "7.0.4.3"
+gem "rails", "7.0.5"
 
 gem "bootsnap", require: false
 gem "gds-api-adapters"
