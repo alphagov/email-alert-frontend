@@ -1,4 +1,5 @@
 RSpec.describe SubscriptionsManagementController do
+  include GdsApi::TestHelpers::AccountApi
   include GdsApi::TestHelpers::EmailAlertApi
   include GdsApi::TestHelpers::ContentStore
   include GovukPersonalisation::TestHelpers::Requests
@@ -37,6 +38,32 @@ RSpec.describe SubscriptionsManagementController do
       it "returns 200" do
         get(:index, session:)
         expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "when the page is requested with a logged-in hint" do
+      before do
+        stub_account_api_get_sign_in_url(
+          redirect_path: "/email/manage",
+          auth_uri:,
+        )
+      end
+
+      let(:auth_uri) { "/sign-in" }
+
+      context "with a login session" do
+        it "ignores the hint and continues" do
+          get(:index, session:, params: { from: "your-services" })
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "without a login session" do
+        it "redirects to the account login bounce" do
+          get(:index, params: { from: "your-services" })
+          expect(response).to have_http_status(:redirect)
+          expect(response).to redirect_to(auth_uri)
+        end
       end
     end
 

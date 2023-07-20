@@ -1,6 +1,7 @@
 class SubscriptionsManagementController < ApplicationController
   include Slimmer::Headers
   include Slimmer::Template
+  before_action :handle_one_login_hint, only: [:index]
   before_action :require_authentication
   before_action :get_subscription_details
   before_action :set_back_url
@@ -100,6 +101,12 @@ class SubscriptionsManagementController < ApplicationController
   end
 
 private
+
+  def handle_one_login_hint
+    return unless params[:from] == "your-services" && !authenticated?
+
+    redirect_with_analytics GdsApi.account_api.get_sign_in_url(redirect_path: list_subscriptions_path)["auth_uri"]
+  end
 
   def get_subscription_details
     subscription_details = GdsApi.email_alert_api.get_subscriptions(
