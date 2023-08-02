@@ -38,6 +38,10 @@ You can use the [GOV.UK Docker environment](https://github.com/alphagov/govuk-do
 $ bundle exec rake
 ```
 
+### Publishing Routes
+
+There are six routes provided by this app: /email-signup, /email-signup/confirm, /email/unsubscribe, /email/subscriptions, /email/authenticate and /email/manage. If you are deploying this app to a new environment, you will need to publish these routes using [Special Route Publisher](https://github.com/alphagov/special-route-publisher)
+
 ### Testing account pages
 
 Some pages are only accessible once a user has logged-in, using a link sent in an email. To test these pages locally, you will need to make a temporary change to the controller code to bypass authentication. If testing on a deployed branch, see the documentation on [receiving emails from in Integration and Staging](https://docs.publishing.service.gov.uk/manual/receiving-emails-from-email-alert-api-in-integration-and-staging.html).
