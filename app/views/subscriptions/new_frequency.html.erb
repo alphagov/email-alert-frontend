@@ -1,23 +1,49 @@
 <% content_for :title, t("subscriptions.new_frequency.title") %>
 
 <% if flash[:error] %>
-  <%= render "govuk_publishing_components/components/error_summary", {
-    title: t('subscriptions.new_frequency.general_problem'),
-    items: [
-      {
-        text: flash[:error],
-        href: "#email-frequency-input",
-      }
-    ]
-  } %>
+  <%
+    ga4_data = {
+      event_name: "form_error",
+      type: "email subscription",
+      text: flash[:error],
+      section: t("subscriptions.new_frequency.title", locale: :en),
+      action: "error",
+      tool_name: "Get emails from GOV.UK"
+    }.to_json
+  %>
+  <%= content_tag(:div,
+    data: {
+      module: "ga4-auto-tracker",
+      ga4_auto: ga4_data
+    }) do %>
+    <%= render "govuk_publishing_components/components/error_summary", {
+      title: t('subscriptions.new_frequency.general_problem'),
+      items: [
+        {
+          text: flash[:error],
+          href: "#email-frequency-input",
+        }
+      ]
+    } %>
+  <% end %>
 <% end %>
 
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("subscriptions.new_frequency.title", locale: :en),
+    action: "continue",
+    tool_name: "Get emails from GOV.UK"
+  }.to_json
+%>
 <%= form_tag(subscription_frequency_path,
   class: "checklist-email-signup",
   data: {
-    module: "track-email-alert-signup-choices",
+    module: "track-email-alert-signup-choices ga4-form-tracker",
     track_category: "email_subscriptions",
     track_action: 'new_address',
+    ga4_form: ga4_data
   }) do %>
   <%= hidden_field_tag :topic_id, @topic_id %>
 
