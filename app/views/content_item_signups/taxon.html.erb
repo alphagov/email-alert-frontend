@@ -1,15 +1,31 @@
 <% content_for :title, t("content_item_signups.taxon.title") %>
 
 <% if flash[:error] %>
-  <%= render "govuk_publishing_components/components/error_summary", {
-    title: t('content_item_signups.taxon.general_problem'),
-    items: [
-      {
-        text: flash[:error],
-        href: "#topic",
-      }
-    ]
-  } %>
+  <%
+    ga4_data = {
+      event_name: "form_error",
+      type: "email subscription",
+      text: flash[:error],
+      section: t("content_item_signups.taxon.title", locale: :en),
+      action: "error",
+      tool_name: "Get emails from GOV.UK"
+    }.to_json
+  %>
+  <%= content_tag(:div,
+    data: {
+      module: "ga4-auto-tracker",
+      ga4_auto: ga4_data
+    }) do %>
+    <%= render "govuk_publishing_components/components/error_summary", {
+      title: t('content_item_signups.taxon.general_problem'),
+      items: [
+        {
+          text: flash[:error],
+          href: "#topic",
+        }
+      ]
+    } %>
+  <% end %>
 <% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
@@ -19,18 +35,28 @@
   margin_bottom: 6,
 } %>
 
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("content_item_signups.taxon.title", locale: :en),
+    action: "continue",
+    tool_name: "Get emails from GOV.UK"
+  }.to_json
+%>
 <%= form_tag({ action: :confirm },
-             method: "get",
-             data: {
-               module: "track-email-alert-signup-choices",
-               track_action: "new_topic",
-               track_category: "email_subscriptions",
-             }) do %>
+  method: "get",
+  data: {
+    module: "track-email-alert-signup-choices ga4-form-tracker",
+    ga4_form: ga4_data,
+    track_action: "new_topic",
+    track_category: "email_subscriptions",
+  }) do %>
 
   <%
-     radio_items = taxon_children(@content_item).map do |taxon|
-       { :value => taxon['base_path'], :text => taxon['title'] }
-     end
+    radio_items = taxon_children(@content_item).map do |taxon|
+      { :value => taxon['base_path'], :text => taxon['title'] }
+    end
   %>
 
   <%= render "govuk_publishing_components/components/radio", {
