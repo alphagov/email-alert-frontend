@@ -8,7 +8,8 @@ RSpec.feature "Subscribe" do
     when_i_visit_the_email_signup_page
     and_i_choose_a_frequency
     and_i_enter_my_email_address
-    then_i_expect_to_sign_in
+    then_i_expect_to_be_told_i_have_an_account
+    then_i_expect_the_login_button_to_redirect_me_to_a_login
   end
 
   def given_i_have_a_govuk_account
@@ -54,8 +55,20 @@ RSpec.feature "Subscribe" do
     click_on "Continue"
   end
 
-  def then_i_expect_to_sign_in
+  def then_i_expect_to_be_told_i_have_an_account
     expect(@request).not_to have_been_requested
     expect(page).to have_content(I18n.t!("subscriptions.use_your_govuk_account.heading"))
+  end
+
+  def then_i_expect_the_login_button_to_redirect_me_to_a_login
+    # this stub allows us to go through the double-redirect if everything is working
+    # but if the redirect bounce is broken it will fail, catching problems like this
+    # https://github.com/alphagov/email-alert-frontend/pull/1594 at test time.
+    @account_bounce_request =
+      stub_request(:get, "http://account-api.dev.gov.uk/api/oauth2/sign-in?mfa=false&redirect_path=/email/subscriptions/account/confirm?frequency=weekly%26topic_id=#{@topic_id}")
+        .to_return(status: 200, body: { auth_uri: "/" }.to_json, headers: {})
+
+    click_on I18n.t!("subscriptions.use_your_govuk_account.continue")
+    expect(@account_bounce_request).to have_been_requested
   end
 end
