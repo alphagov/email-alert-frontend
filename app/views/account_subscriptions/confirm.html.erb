@@ -19,7 +19,22 @@
   <strong><%= @subscriber_list["title"] %></strong>
 </p>
 
-<%= form_tag(action: :create) do %>
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("account_subscriptions.confirm.title", locale: :en),
+    text: @subscriber_list["title"],
+    action: t("account_subscriptions.confirm.confirm", locale: :en),
+    tool_name: "Get emails from GOV.UK",
+  }.to_json
+%>
+<%= form_tag(
+  { action: :create },
+  data: {
+    module: "ga4-form-tracker",
+    ga4_form: ga4_data
+  }) do %>
   <%= hidden_field_tag "topic_id", @topic_id %>
   <%= hidden_field_tag "frequency", @frequency %>
   <%= hidden_field_tag "return_to_url", @return_to_url %>
@@ -63,8 +78,7 @@
 <% end %>
 
 <%= render "govuk_publishing_components/components/details", {
-  title: t("account_subscriptions.confirm.how_we_use_information.title") 
+  title: t("account_subscriptions.confirm.how_we_use_information.title")
   } do %>
-    <%= t("account_subscriptions.confirm.how_we_use_information.expanded_html") %>
-  <% end %>
-  
+  <%= t("account_subscriptions.confirm.how_we_use_information.expanded_html") %>
+<% end %>

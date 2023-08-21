@@ -14,20 +14,51 @@
 } %>
 
 <% if flash[:error] %>
-  <%= render 'govuk_publishing_components/components/error_summary', {
-    title: t("subscriptions_management.update_address.error_title"),
-    items: [
-      {
-        text: t("subscriptions_management.update_address.error_description"),
-        href: '#email-address-input',
-      }
-    ]
-  } %>
+  <%
+    ga4_data = {
+      event_name: "form_error",
+      type: "email subscription",
+      text: t("subscriptions_management.update_address.error_description", locale: :en),
+      section: t("subscriptions_management.update_address.heading", locale: :en),
+      action: "error",
+      tool_name: "Get emails from GOV.UK"
+    }.to_json
+  %>
+  <%= content_tag(:div,
+    data: {
+      module: "ga4-auto-tracker",
+      ga4_auto: ga4_data
+    }) do %>
+    <%= render 'govuk_publishing_components/components/error_summary', {
+      title: t("subscriptions_management.update_address.error_title"),
+      items: [
+        {
+          text: t("subscriptions_management.update_address.error_description"),
+          href: '#email-address-input',
+        }
+      ]
+    } %>
+  <% end %>
 <% end %>
 
 <p class="govuk-body"><%= t("subscriptions_management.update_address.current_email", address: @address) %></p>
 
-<%= form_tag change_address_path, method: :post do %>
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("subscriptions_management.update_address.heading", locale: :en),
+    action: "continue",
+    tool_name: "Get emails from GOV.UK"
+  }.to_json
+%>
+<%= form_tag(
+  change_address_path,
+  method: :post,
+  data: {
+    module: "track-email-alert-signup-choices ga4-form-tracker",
+    ga4_form: ga4_data,
+  }) do %>
   <%= render 'govuk_publishing_components/components/input', {
     error_message: flash[:error],
     id: 'email-address-input',

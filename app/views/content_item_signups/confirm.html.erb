@@ -1,6 +1,5 @@
 <% content_for :title, t("content_item_signups.confirm.title") %>
 
-
 <%= render "govuk_publishing_components/components/heading", {
   text: t("content_item_signups.confirm.title"),
   heading_level: 1,
@@ -15,8 +14,21 @@
 <p class="govuk-body govuk-!-margin-bottom-8">
   <strong><%= @content_item['title'] %></strong>
 </p>
-
-<%= form_tag(action: :create) do %>
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("content_item_signups.confirm.title", locale: :en),
+    action: "continue",
+    text: @content_item['title'],
+    tool_name: "Get emails from GOV.UK"
+  }.to_json
+%>
+<%= form_tag({ action: :create },
+  data: {
+    module: "ga4-form-tracker",
+    ga4_form: ga4_data
+  }) do %>
   <%= hidden_field_tag 'link', @content_item['base_path'] %>
   <% if sign_up_to_content_id_based_subscription? %>
     <%= hidden_field_tag 'single_page_subscription', "true" %>

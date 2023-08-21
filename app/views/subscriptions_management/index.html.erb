@@ -9,10 +9,27 @@
 
 <% if flash[:subscription] %>
   <% subscription = @subscriptions[flash[:subscription]['id']] %>
-
-  <%= render 'govuk_publishing_components/components/success_alert', {
-    message: t("subscriptions_management.index.flashes.subscription", title: subscription["subscriber_list"]["title"]),
-  } if subscription %>
+  <% if subscription %>
+    <%
+      ga4_data = {
+        event_name: "form_response",
+        type: "email subscription",
+        text: t("subscriptions_management.index.flashes.subscription", title: subscription["subscriber_list"]["title"], locale: :en),
+        section: t("subscriptions_management.heading", locale: :en),
+        action: "complete",
+        tool_name: "Get emails from GOV.UK"
+      }.to_json
+    %>
+    <%= content_tag(:div,
+      data: {
+        module: "ga4-auto-tracker",
+        ga4_auto: ga4_data
+      }) do %>
+      <%= render 'govuk_publishing_components/components/success_alert', {
+        message: t("subscriptions_management.index.flashes.subscription", title: subscription["subscriber_list"]["title"]),
+      } %>
+    <% end %>
+  <% end %>
 <% end %>
 
 <%= render "govuk_publishing_components/components/heading", {

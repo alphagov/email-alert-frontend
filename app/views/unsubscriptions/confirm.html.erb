@@ -16,8 +16,22 @@
 } %>
 
 <%= render "confirmation" %>
-
-<%= form_tag(action: :confirmed) do %>
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("unsubscriptions.title.confirm", locale: :en),
+    text: t("unsubscriptions.confirmation.with_title", title: @title, locale: :en),
+    action: "unsubscribe",
+    tool_name: "Get emails from GOV.UK",
+  }.to_json
+%>
+<%= form_tag(
+  { action: :confirmed },
+  data: {
+    module: "ga4-form-tracker",
+    ga4_form: ga4_data
+  }) do %>
   <%= hidden_field_tag :token, params[:token] %>
 
   <%= render 'govuk_publishing_components/components/button', {
