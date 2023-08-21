@@ -27,6 +27,8 @@
     module: "explicit-cross-domain-links ga4-form-tracker",
     ga4_form: ga4_data
   }) do %>
+  <%= hidden_field_tag :topic_id, @topic_id %>
+  <%= hidden_field_tag :frequency, @frequency %>
   <%= render "govuk_publishing_components/components/button", {
     text: t("subscriptions.use_your_govuk_account.continue"),
   } %>
