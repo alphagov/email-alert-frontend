@@ -14,7 +14,22 @@
   margin_bottom: 6,
 } %>
 
-<%= form_tag change_frequency_path, method: :post do %>
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("subscriptions_management.update_frequency.title", subscription_title: get_subscription_title(@subscriptions[@subscription_id]), locale: :en),
+    action: "save",
+    tool_name: "Get emails from GOV.UK"
+  }
+%>
+<%= form_tag(
+  change_frequency_path,
+  method: :post,
+  data: {
+    module: "ga4-form-tracker",
+    ga4_form: ga4_data
+  }) do %>
   <%= hidden_field_tag :id, @subscription_id %>
     <%= render 'govuk_publishing_components/components/radio', {
       name: 'new_frequency',
