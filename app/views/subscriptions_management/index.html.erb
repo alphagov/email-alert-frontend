@@ -12,7 +12,7 @@
   <% if subscription %>
     <%
       ga4_data = {
-        event_name: "form_response",
+        event_name: "form_complete",
         type: "email subscription",
         text: t("subscriptions_management.index.flashes.subscription", title: subscription["subscriber_list"]["title"], locale: :en),
         section: t("subscriptions_management.heading", locale: :en),
