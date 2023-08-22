@@ -1,10 +1,26 @@
 <% content_for :title, t("subscriptions_management.heading") %>
 
 <% if flash[:success] %>
-  <%= render 'govuk_publishing_components/components/success_alert', {
-    message: flash[:success]["message"],
-    description: flash[:success]["description"],
-  } %>
+  <%
+    ga4_data = {
+      event_name: "form_complete",
+      type: "email subscription",
+      text: flash[:success]["description_en"],
+      section: t("subscriptions_management.heading", locale: :en),
+      action: "complete",
+      tool_name: "Get emails from GOV.UK"
+    }.to_json
+  %>
+  <%= content_tag(:div,
+    data: {
+      module: "ga4-auto-tracker",
+      ga4_auto: ga4_data
+    }) do %>
+    <%= render 'govuk_publishing_components/components/success_alert', {
+      message: flash[:success]["message"],
+      description: flash[:success]["description"],
+    } %>
+  <% end %>
 <% end %>
 
 <% if flash[:subscription] %>
@@ -12,7 +28,7 @@
   <% if subscription %>
     <%
       ga4_data = {
-        event_name: "form_response",
+        event_name: "form_complete",
         type: "email subscription",
         text: t("subscriptions_management.index.flashes.subscription", title: subscription["subscriber_list"]["title"], locale: :en),
         section: t("subscriptions_management.heading", locale: :en),

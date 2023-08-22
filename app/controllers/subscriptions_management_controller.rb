@@ -84,6 +84,7 @@ class SubscriptionsManagementController < ApplicationController
       flash[:success] = {
         message: t("subscriptions_management.confirmed_unsubscribe_all.success_message"),
         description: t("subscriptions_management.confirmed_unsubscribe_all.success_description"),
+        description_en: t("subscriptions_management.confirmed_unsubscribe_all.success_description", locale: :en),
       }
     rescue GdsApi::HTTPNotFound
       # The user has already unsubscribed.

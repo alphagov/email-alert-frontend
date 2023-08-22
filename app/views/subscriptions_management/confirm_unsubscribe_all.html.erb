@@ -15,7 +15,21 @@
 
 <p class="govuk-body"><%= t("subscriptions_management.confirm_unsubscribe_all.description") %></p>
 
-<%= form_tag(action: :confirmed_unsubscribe_all) do %>
+<%
+  ga4_data = {
+    event_name: "form_response",
+    type: "email subscription",
+    section: t("subscriptions_management.confirm_unsubscribe_all.heading", locale: :en),
+    action: "unsubscribe",
+    tool_name: "Get emails from GOV.UK"
+  }.to_json
+%>
+<%= form_tag(
+  { action: :confirmed_unsubscribe_all },
+  data: {
+    module: "ga4-form-tracker",
+    ga4_form: ga4_data
+  }) do %>
   <%= hidden_field_tag(:from, @from) %>
   <%= render 'govuk_publishing_components/components/button', {
     text: 'Unsubscribe',
