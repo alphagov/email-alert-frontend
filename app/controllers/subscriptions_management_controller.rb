@@ -38,6 +38,7 @@ class SubscriptionsManagementController < ApplicationController
 
     flash[:success] = {
       message: t("subscriptions_management.change_frequency.success", subscription_title:, frequency: frequency_text),
+      message_en: t("subscriptions_management.change_frequency.success", subscription_title:, frequency: frequency_text, locale: :en),
     }
 
     redirect_to list_subscriptions_path
@@ -67,6 +68,7 @@ class SubscriptionsManagementController < ApplicationController
     )
     flash[:success] = {
       message: t("subscriptions_management.update_address.success", address: new_address),
+      message_en: t("subscriptions_management.update_address.success", address: new_address, locale: :en),
     }
 
     redirect_to list_subscriptions_path
@@ -83,8 +85,8 @@ class SubscriptionsManagementController < ApplicationController
       GdsApi.email_alert_api.unsubscribe_subscriber(authenticated_subscriber_id)
       flash[:success] = {
         message: t("subscriptions_management.confirmed_unsubscribe_all.success_message"),
+        message_en: t("subscriptions_management.confirmed_unsubscribe_all.success_message", locale: :en),
         description: t("subscriptions_management.confirmed_unsubscribe_all.success_description"),
-        description_en: t("subscriptions_management.confirmed_unsubscribe_all.success_description", locale: :en),
       }
     rescue GdsApi::HTTPNotFound
       # The user has already unsubscribed.
