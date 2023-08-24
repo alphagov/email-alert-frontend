@@ -22,6 +22,7 @@ class UnsubscriptionsController < ApplicationController
     if authenticated?
       flash[:success] = {
         message: t("subscriptions_management.index.unsubscribe.message", title: @title),
+        message_en: t("subscriptions_management.index.unsubscribe.message", title: @title, locale: :en),
         description: t("subscriptions_management.index.unsubscribe.description"),
       }
 
