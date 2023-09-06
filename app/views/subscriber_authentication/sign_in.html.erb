@@ -1,14 +1,5 @@
 <% content_for :title, t("subscriber_authentication.sign_in.heading") %>
 
-<div class="govuk-width-container">
-  <%= render "govuk_publishing_components/components/intervention", {
-    suggestion_text: "Help improve GOV.UK",
-    suggestion_link_text: "Take part in user research",
-    suggestion_link_url: "https://surveys.publishing.service.gov.uk/s/4J4QD4/",
-    new_tab: true,
-  } %>
-</div>
-
 <%= render "govuk_publishing_components/components/heading", {
   text: t("subscriber_authentication.sign_in.heading"),
   heading_level: 1,

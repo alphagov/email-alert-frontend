@@ -22,13 +22,6 @@ RSpec.describe SubscriberAuthenticationController do
         get :sign_in
         expect(response.body).to include(%(action="#{verify_subscriber_path}"))
       end
-
-      it "displays Recruitment Banner" do
-        get :sign_in
-
-        expect(response.body).to include('href="https://surveys.publishing.service.gov.uk/s/4J4QD4/"')
-        expect(response.body).to include("Take part in user research (opens in a new tab)")
-      end
     end
   end
 
