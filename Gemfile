@@ -8,7 +8,7 @@ gem "rails", "7.0.8"
 gem "bootsnap", require: false
 gem "gds-api-adapters"
 gem "govuk_app_config"
-gem "govuk_personalisation"
+gem "govuk_personalisation", git: "https://github.com/alphagov/govuk_personalisation.git", branch: "update-di-urls"
 gem "govuk_publishing_components"
 gem "jwt"
 gem "plek"
