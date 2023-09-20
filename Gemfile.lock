@@ -111,7 +111,7 @@ GEM
     google-protobuf (3.24.3-aarch64-linux)
     google-protobuf (3.24.3-arm64-darwin)
     google-protobuf (3.24.3-x86_64-linux)
-    googleapis-common-protos-types (1.8.0)
+    googleapis-common-protos-types (1.9.0)
       google-protobuf (~> 3.18)
     govuk_app_config (9.2.0)
       logstasher (~> 2.1)
@@ -128,7 +128,7 @@ GEM
     govuk_personalisation (0.15.0)
       plek (>= 1.9.0)
       rails (>= 6, < 8)
-    govuk_publishing_components (35.15.4)
+    govuk_publishing_components (35.16.0)
       govuk_app_config
       govuk_personalisation (>= 0.7.0)
       kramdown
@@ -185,7 +185,7 @@ GEM
       net-protocol
     net-protocol (0.2.1)
       timeout
-    net-smtp (0.3.3)
+    net-smtp (0.4.0)
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
@@ -199,7 +199,7 @@ GEM
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     null_logger (0.0.1)
-    opentelemetry-api (1.2.2)
+    opentelemetry-api (1.2.3)
     opentelemetry-common (0.20.0)
       opentelemetry-api (~> 1.0)
     opentelemetry-exporter-otlp (0.26.1)
