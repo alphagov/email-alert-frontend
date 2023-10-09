@@ -11,36 +11,9 @@
   <%= t("single_page_subscriptions.account_required_description") %>
 </p>
 
-<%= render "govuk_publishing_components/components/heading", {
-  text: t("single_page_subscriptions.subheading"),
-  heading_level: 2,
-  font_size: "m",
-  margin_bottom: 6
-} %>
-
-<%= t("single_page_subscriptions.accounts_are_new_description_html") %>
-
-<%= render "govuk_publishing_components/components/inset_text" do
-  t("single_page_subscriptions.inset_description_html")
-end %>
-
-<%= t("single_page_subscriptions.usage_description_html") %>
-
-<%= render "govuk_publishing_components/components/heading", {
-  text: t("single_page_subscriptions.other_subs_heading") ,
-  heading_level: 2,
-  font_size: "m",
-  margin_bottom: 6
-} %>
-
-<%= t("single_page_subscriptions.other_subs_description_html") %>
-
-<%= render "govuk_publishing_components/components/heading", {
-  text: t("single_page_subscriptions.button_heading") ,
-  heading_level: 2,
-  font_size: "m",
-  margin_bottom: 6
-} %>
+<p class="govuk-body">
+  <%= t("single_page_subscriptions.other_subs_description") %>
+</p>
 
 <%= form_tag govuk_account_signups_new_session_path, method: :post, :"data-module" => "explicit-cross-domain-links" do %>
   <%= render "govuk_publishing_components/components/button", {
