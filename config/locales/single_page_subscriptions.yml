@@ -1,6 +1,7 @@
 en:
   single_page_subscriptions:
-    title: Create a GOV.UK One Login to get emails
+    title: Create a GOV.UK One Login or sign in
     account_required_description: You need a GOV.UK One Login to get these emails.
-    other_subs_description: If you have subscriptions to other GOV.UK topics or pages, these will be moved so you can manage all your subscriptions in one place.
+    other_subs_description_1: If you already have subscriptions to other GOV.UK topics or pages, these will be moved to your GOV.UK One Login.
+    other_subs_description_2: This is so you can manage all your subscriptions in one place
     create_or_sign_in_description: Create a GOV.UK One Login or sign in
