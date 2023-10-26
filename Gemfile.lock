@@ -160,18 +160,10 @@ GEM
       domain_name (~> 0.5)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
-<<<<<<< HEAD
     io-console (0.6.0)
     irb (1.8.3)
       rdoc
       reline (>= 0.3.8)
-||||||| parent of 2eadccb (Bump rails from 7.0.8 to 7.1.1)
-=======
-    io-console (0.6.0)
-    irb (1.8.1)
-      rdoc
-      reline (>= 0.3.8)
->>>>>>> 2eadccb (Bump rails from 7.0.8 to 7.1.1)
     json (2.6.3)
     json-schema (4.1.1)
       addressable (>= 2.8)
@@ -196,7 +188,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.5.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.1003)
+    mime-types-data (3.2023.0808)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
     minitest (5.20.0)
@@ -430,14 +422,8 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
-<<<<<<< HEAD
     psych (5.1.1.1)
       stringio
-||||||| parent of 2eadccb (Bump rails from 7.0.8 to 7.1.1)
-=======
-    psych (5.1.1)
-      stringio
->>>>>>> 2eadccb (Bump rails from 7.0.8 to 7.1.1)
     public_suffix (5.0.3)
     puma (6.4.0)
       nio4r (~> 2.0)
@@ -582,7 +568,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    slimmer (18.2.0)
+    slimmer (18.1.0)
       json
       nokogiri (~> 1.7)
       null_logger
