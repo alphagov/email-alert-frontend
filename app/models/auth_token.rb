@@ -29,6 +29,6 @@ private
   end
 
   def secret
-    Rails.application.secrets.email_alert_auth_token
+    Rails.application.credentials.email_alert_auth_token
   end
 end
