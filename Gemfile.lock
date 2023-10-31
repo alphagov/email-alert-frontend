@@ -139,7 +139,7 @@ GEM
     govuk_personalisation (0.15.0)
       plek (>= 1.9.0)
       rails (>= 6, < 8)
-    govuk_publishing_components (35.21.0)
+    govuk_publishing_components (35.21.1)
       govuk_app_config
       govuk_personalisation (>= 0.7.0)
       kramdown
@@ -194,7 +194,7 @@ GEM
     minitest (5.20.0)
     msgpack (1.7.2)
     mutex_m (0.1.2)
-    net-imap (0.4.2)
+    net-imap (0.4.3)
       date
       net-protocol
     net-pop (0.1.2)
@@ -468,7 +468,7 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    rake (13.0.6)
+    rake (13.1.0)
     ratelimit (1.0.4)
       redis (>= 3.0.0)
       redis-namespace (>= 1.0.0)
