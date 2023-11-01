@@ -6,10 +6,9 @@ class VerifySubscriptionEmailService < ApplicationService
   # and for users who subscribe to several things quickly.
   MINUTELY_THRESHOLD = 4
 
-  # This allows for up to 10 subscriptions per hour. Analysis
-  # shows 99% of subscribers have 10 or fewer active subs,
-  # so this covers someone creating all their subs in bulk.
-  HOURLY_THRESHOLD = 11
+  # This allows for up to 40 subscriptions per hour. The previous threshold of
+  # 11 requests per hour seemed too strict as legitimate users hit this limit.
+  HOURLY_THRESHOLD = 40
 
   def initialize(address, frequency, topic_id, govuk_account_session: nil)
     super()
