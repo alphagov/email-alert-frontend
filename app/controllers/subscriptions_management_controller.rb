@@ -98,7 +98,7 @@ class SubscriptionsManagementController < ApplicationController
   def use_govuk_account_layout?
     @use_govuk_account_layout ||=
       if authenticated_via_account?
-        set_slimmer_headers(template: "gem_layout_account_manager", remove_search: true, show_accounts: "signed-in")
+        set_slimmer_headers(template: "gem_layout_account_manager")
         true
       end
   end
