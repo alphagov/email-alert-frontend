@@ -2,6 +2,8 @@ tmp
 log
 /node_modules
 yarn-error.log
-public/assets
+/public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
 coverage
 .bundle
