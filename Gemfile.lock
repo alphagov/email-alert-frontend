@@ -1,3 +1,18 @@
+GIT
+  remote: https://github.com/alphagov/govuk_publishing_components.git
+  revision: 19db9f4673cace730f9c32a5cfc45aca89b39518
+  branch: migrate-to-dart-sass
+  specs:
+    govuk_publishing_components (35.23.0)
+      govuk_app_config
+      govuk_personalisation (>= 0.7.0)
+      kramdown
+      plek
+      rails (>= 6)
+      rouge
+      sprockets (>= 3)
+      sprockets-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -139,14 +154,6 @@ GEM
     govuk_personalisation (0.15.0)
       plek (>= 1.9.0)
       rails (>= 6, < 8)
-    govuk_publishing_components (35.23.0)
-      govuk_app_config
-      govuk_personalisation (>= 0.7.0)
-      kramdown
-      plek
-      rails (>= 6)
-      rouge
-      sprockets (>= 3)
     govuk_schemas (4.7.0)
       json-schema (>= 2.8, < 4.2)
     govuk_test (4.0.1)
@@ -622,7 +629,7 @@ DEPENDENCIES
   gds-api-adapters
   govuk_app_config
   govuk_personalisation
-  govuk_publishing_components
+  govuk_publishing_components!
   govuk_schemas
   govuk_test
   jwt
