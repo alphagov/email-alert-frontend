@@ -24,7 +24,7 @@ module EmailAlertFrontend
     include GovukPublishingComponents::AppHelpers::AssetHelper
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     # Add lib directory to autoload paths
     config.autoload_paths += Dir[Rails.root.join("lib")]
