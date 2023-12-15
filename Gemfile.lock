@@ -1,3 +1,18 @@
+GIT
+  remote: https://github.com/alphagov/govuk_publishing_components.git
+  revision: 0cb60d4cd7e14765949e7cc603105d159a0be57c
+  branch: delete-unused-builds-folder
+  specs:
+    govuk_publishing_components (37.1.0)
+      govuk_app_config
+      govuk_personalisation (>= 0.7.0)
+      kramdown
+      plek
+      rails (>= 6)
+      rouge
+      sprockets (>= 3)
+      sprockets-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -141,15 +156,6 @@ GEM
     govuk_personalisation (0.15.0)
       plek (>= 1.9.0)
       rails (>= 6, < 8)
-    govuk_publishing_components (37.0.0)
-      govuk_app_config
-      govuk_personalisation (>= 0.7.0)
-      kramdown
-      plek
-      rails (>= 6)
-      rouge
-      sprockets (>= 3)
-      sprockets-rails
     govuk_schemas (4.7.0)
       json-schema (>= 2.8, < 4.2)
     govuk_test (4.0.1)
@@ -623,7 +629,7 @@ DEPENDENCIES
   gds-api-adapters
   govuk_app_config
   govuk_personalisation
-  govuk_publishing_components
+  govuk_publishing_components!
   govuk_schemas
   govuk_test
   jwt
