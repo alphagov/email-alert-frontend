@@ -42,7 +42,5 @@ module EmailAlertFrontend
     # to use CSS that has same function names as SCSS such as max.
     # https://github.com/alphagov/govuk-frontend/issues/1350
     config.assets.css_compressor = nil
-
-    config.assets.precompile << get_component_css_paths
   end
 end
