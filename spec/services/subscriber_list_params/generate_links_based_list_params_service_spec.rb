@@ -43,13 +43,6 @@ RSpec.describe SubscriberListParams::GenerateLinksBasedListParamsService do
         .to match(list_params.merge("links" => { "topical_events" => %w[foo-id] }))
     end
 
-    it "returns subscriber list params for topics" do
-      content_item.merge!("document_type" => "topic")
-
-      expect(described_class.call(content_item))
-        .to match(list_params.merge("links" => { "topics" => %w[foo-id] }))
-    end
-
     it "returns subscriber list params for service manual topics" do
       content_item.merge!("document_type" => "service_manual_topic")
 
