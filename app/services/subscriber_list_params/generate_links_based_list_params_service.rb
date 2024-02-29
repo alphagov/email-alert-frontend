@@ -23,8 +23,6 @@ module SubscriberListParams
       case content_item_type
       when "taxon"
         single_link(key: "taxon_tree")
-      when "topic"
-        single_link(key: "topics")
       when "organisation"
         single_link(key: "organisations")
       when "person"
