@@ -6,6 +6,8 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
 
   function TrackEmailAlertSignupChoices (element) {
     this.form = element
+
+    this.init()
   }
 
   TrackEmailAlertSignupChoices.prototype.init = function () {
