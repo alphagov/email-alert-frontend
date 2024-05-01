@@ -15,7 +15,7 @@ gem "plek"
 gem "ratelimit"
 gem "slimmer"
 gem "sprockets-rails"
-gem "uglifier"
+gem "terser"
 
 group :development, :test do
   gem "climate_control"
