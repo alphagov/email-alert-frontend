@@ -11,7 +11,11 @@
   <%= t("subscriber_authentication.check_email.description_html", address: @address) %>
 </div>
 
-<%= render("govuk_publishing_components/components/details",
-           title: t("subscriber_authentication.check_email.delay_title")) do %>
+<%= render "govuk_publishing_components/components/details", {
+  title: t("subscriber_authentication.check_email.delay_title"),
+  ga4_attributes: {
+    index_section_count: 1
+  }
+} do %>
   <%= t("subscriber_authentication.check_email.delay_html") %>
 <% end %>

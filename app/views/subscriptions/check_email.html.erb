@@ -25,6 +25,9 @@
 
 <%= render "govuk_publishing_components/components/details", {
   title: t("subscriptions.check_email.not_received_title"),
+  ga4_attributes: {
+    index_section_count: 1
+  }
 } do %>
   <%= t("subscriptions.check_email.not_received_detail_html") %>
 <% end %>

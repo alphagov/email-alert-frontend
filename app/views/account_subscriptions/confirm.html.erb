@@ -78,7 +78,10 @@
 <% end %>
 
 <%= render "govuk_publishing_components/components/details", {
-  title: t("account_subscriptions.confirm.how_we_use_information.title")
-  } do %>
+  title: t("account_subscriptions.confirm.how_we_use_information.title"),
+  ga4_attributes: {
+    index_section_count: 1
+  }
+} do %>
   <%= t("account_subscriptions.confirm.how_we_use_information.expanded_html") %>
 <% end %>
