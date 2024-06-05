@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   scope "/email" do
     get "/unsubscribe/:id" => "unsubscriptions#confirm", as: :confirm_unsubscribe
+    post "/unsubscribe/one-click/:id" => "unsubscriptions#one_click", as: :one_click
     post "/unsubscribe/:id" => "unsubscriptions#confirmed", as: :unsubscribe
 
     scope "/manage" do

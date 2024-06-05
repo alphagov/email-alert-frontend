@@ -1,7 +1,24 @@
 class UnsubscriptionsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: %i[one_click]
+
   before_action :set_attributes
-  before_action :check_owns_subscription
+  before_action :check_owns_subscription, except: %i[one_click]
   before_action :check_is_latest, only: %i[confirm]
+
+  def one_click
+    expected_id = @subscription.dig("subscriber", "id")
+    token = AuthToken.new(params[:token].to_s)
+    return render json: {}, status: :unauthorized unless token.valid? && token.data[:subscriber_id] == expected_id && token.data[:one_click] == true
+
+    begin
+      GdsApi.email_alert_api.unsubscribe(@id)
+    rescue GdsApi::HTTPNotFound
+      # The user has already unsubscribed.
+      nil
+    end
+
+    render json: {}, status: :ok
+  end
 
   def confirm
     if @subscription["ended_at"].present?

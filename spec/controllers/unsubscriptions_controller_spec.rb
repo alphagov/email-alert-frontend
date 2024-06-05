@@ -124,7 +124,7 @@ RSpec.describe UnsubscriptionsController do
 
     it_behaves_like "requires authentication"
 
-    context "when the user has a one-click link" do
+    context "when the user has an unsubscribe link" do
       let(:token) { encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id }) }
 
       it "responds with a 200" do
@@ -180,6 +180,78 @@ RSpec.describe UnsubscriptionsController do
         expect(flash[:success][:message]).to eq(
           I18n.t!("subscriptions_management.index.unsubscribe.message", title:),
         )
+      end
+    end
+  end
+
+  describe "POST /email/unsubscribe-one-click/:id" do
+    def make_request(params:, session: nil)
+      post :one_click, params:, session:
+    end
+
+    context "when the token is for a different subscription" do
+      it "returns 401 unauthorized" do
+        token = encrypt_and_sign_token(data: { "subscriber_id" => "other", "one_click" => true })
+        make_request(params: { id:, token: })
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when the token is expired" do
+      it "returns 401 unauthorized" do
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id, "one_click" => true }, expiry: 0)
+        make_request(params: { id:, token: })
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when the token is invalid" do
+      it "returns 401 unauthorized" do
+        token = encrypt_and_sign_token(data: {})
+        make_request(params: { id:, token: })
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when the user has no token" do
+      it "returns 401 unauthorized" do
+        make_request(params: { id: })
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when the user has a token that isn't one-click" do
+      it "returns 401 unauthorized" do
+        token = encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id })
+        make_request(params: { id:, token: })
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context "when the user has a one-click unsubscribe link" do
+      let(:token) { encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id, "one_click" => true }) }
+
+      it "responds with a 200" do
+        make_request(params: { id:, token: })
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "sends an unsubscribe request to email-alert-api" do
+        make_request(params: { id:, token: })
+        assert_unsubscribed(id)
+      end
+    end
+
+    context "when the user has already unsubscribed" do
+      let(:token) { encrypt_and_sign_token(data: { "subscriber_id" => subscriber_id, "one_click" => true }) }
+
+      before do
+        stub_email_alert_api_has_no_subscription_for_uuid(id)
+      end
+
+      it "responds with a 200" do
+        make_request(params: { id:, token: })
+        expect(response).to have_http_status(:ok)
       end
     end
   end
