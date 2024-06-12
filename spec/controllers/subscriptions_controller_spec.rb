@@ -46,7 +46,7 @@ RSpec.describe SubscriptionsController do
       it "returns 422 and logs the error" do
         expect(Rails.logger).to receive(:warn)
         get :new, params: { topic_id: }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 

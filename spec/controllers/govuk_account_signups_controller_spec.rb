@@ -61,7 +61,7 @@ RSpec.describe GovukAccountSignupsController do
     it "422s and writes to the log when a bad base path is passed" do
       expect(Rails.logger).to receive(:warn)
       post :create, params: { base_path: "/invalid{}" }
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     context "when a user is not logged in" do
