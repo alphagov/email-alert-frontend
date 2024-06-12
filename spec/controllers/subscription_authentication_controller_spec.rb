@@ -64,7 +64,7 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "shows a general error page" do
         get(:authenticate, params:)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe SubscriptionAuthenticationController do
 
       it "shows a general error page" do
         get(:authenticate, params:)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
