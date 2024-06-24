@@ -43,5 +43,6 @@
   <body class="govuk-template__body">
     <%= yield :body %>
     <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag "es6-components", type: "module" %>
   </body>
 </html>
