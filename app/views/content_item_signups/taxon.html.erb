@@ -47,10 +47,8 @@
 <%= form_tag({ action: :confirm },
   method: "get",
   data: {
-    module: "track-email-alert-signup-choices ga4-form-tracker",
-    ga4_form: ga4_data,
-    track_action: "new_topic",
-    track_category: "email_subscriptions",
+    module: "ga4-form-tracker",
+    ga4_form: ga4_data
   }) do %>
 
   <%
