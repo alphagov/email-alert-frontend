@@ -35,12 +35,6 @@
   <% end %>
   <%= render 'govuk_publishing_components/components/button', {
     text: 'Continue',
-    margin_bottom: true,
-    data_attributes: {
-      module: 'gem-track-click',
-      track_category: 'email_subscriptions',
-      track_action: 'new_frequency',
-      track_label: @content_item['title'],
-    },
+    margin_bottom: true
   } %>
 <% end %>
