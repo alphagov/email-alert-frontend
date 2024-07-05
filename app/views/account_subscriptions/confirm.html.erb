@@ -40,13 +40,7 @@
   <%= hidden_field_tag "return_to_url", @return_to_url %>
   <%= render "govuk_publishing_components/components/button", {
     text: t("account_subscriptions.confirm.confirm"),
-    margin_bottom: 4,
-    data_attributes: {
-      module: "gem-track-click",
-      track_category: "email_subscriptions",
-      track_action: "new_account",
-      track_label: @subscriber_list["title"],
-    },
+    margin_bottom: 4
   } %>
 <% end %>
 

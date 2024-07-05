@@ -112,13 +112,7 @@
       <% end %>
       <%= link_to change_frequency_link_text,
                   update_frequency_path(id: subscription['id']),
-                  class: %w[govuk-link govuk-link--no-visited-state],
-                  data: {
-                    module: "gem-track-click",
-                    track_category: "Manage_your_email_subscriptions",
-                    track_action: "Change-frequency",
-                    track_label: use_govuk_account_layout? ? "From_specific_logged_in" : "From_specific_logged_out",
-                  } %>
+                  class: %w[govuk-link govuk-link--no-visited-state] %>
     </p>
     <p class="govuk-body">
       <% unsubscribe_link_text = capture do %>
@@ -126,13 +120,7 @@
       <% end %>
       <%= link_to unsubscribe_link_text,
                   confirm_unsubscribe_path(id: subscription['id']),
-                  class: %w[govuk-link govuk-link--no-visited-state],
-                  data: {
-                    module: "gem-track-click",
-                    track_category: "Manage_your_email_subscriptions",
-                    track_action: "Unsubscribe",
-                    track_label: use_govuk_account_layout? ? "From_specific_logged_in" : "From_specific_logged_out",
-                  } %>
+                  class: %w[govuk-link govuk-link--no-visited-state] %>
     </p>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -141,12 +129,6 @@
     <%= render "govuk_publishing_components/components/button", {
       text: "Unsubscribe from everything",
       href: confirm_unsubscribe_all_path,
-      data_attributes: {
-        module: "gem-track-click",
-        track_category: "Manage_your_email_subscriptions",
-        track_action: "Unsubscribe",
-        track_label: use_govuk_account_layout? ? "From_everything_logged_in" : "From_everything_logged_out",
-      },
       secondary_solid: true
     } %>
   </p>

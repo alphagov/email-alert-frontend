@@ -34,12 +34,7 @@
   <%= hidden_field_tag(:from, @from) %>
   <%= render 'govuk_publishing_components/components/button', {
     text: 'Unsubscribe',
-    margin_bottom: true,
-    data_attributes: {
-      module: 'auto-track-event',
-      track_category: 'email_subscriptions',
-      track_action: 'unsubscribe_all',
-    },
+    margin_bottom: true
   } %>
 <% end %>
 <p class="govuk-body">
