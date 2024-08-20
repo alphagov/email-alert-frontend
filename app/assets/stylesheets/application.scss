@@ -3,9 +3,4 @@
 
 // https://github.com/alphagov/govuk_publishing_components/blob/main/docs/set-up-individual-component-css-loading.md
 
-@import "govuk_publishing_components/govuk_frontend_support";
-@import "govuk_publishing_components/component_support";
-@import "govuk_publishing_components/components/layout-for-public";
-@import "govuk_publishing_components/components/layout-footer";
-@import "govuk_publishing_components/components/layout-header";
-@import "govuk_publishing_components/components/layout-super-navigation-header";
+@import "govuk_publishing_components/all_components";
