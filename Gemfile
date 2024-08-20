@@ -13,7 +13,6 @@ gem "govuk_publishing_components"
 gem "jwt"
 gem "plek"
 gem "ratelimit"
-gem "slimmer"
 gem "sprockets-rails"
 gem "terser"
 
