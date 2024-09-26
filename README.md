@@ -40,7 +40,7 @@ $ bundle exec rake
 
 ### Publishing Routes
 
-There are six routes provided by this app: /email-signup, /email-signup/confirm, /email/unsubscribe, /email/subscriptions, /email/authenticate and /email/manage. If you are deploying this app to a new environment, you will need to publish these routes using [Special Route Publisher](https://github.com/alphagov/special-route-publisher)
+There are six routes provided by this app: /email-signup, /email-signup/confirm, /email/unsubscribe, /email/subscriptions, /email/authenticate and /email/manage. If you are deploying this app to a new environment, you will need to publish these routes using the [special_route tasks](https://github.com/alphagov/publishing-api/blob/main/docs/admin-tasks.md#publishing-special-routes) in Publishing API
 
 ### Testing account pages
 
