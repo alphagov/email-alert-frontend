@@ -1,6 +1,4 @@
 class SubscriptionsManagementController < ApplicationController
-  include Slimmer::Headers
-  include Slimmer::Template
   before_action :handle_one_login_hint, only: [:index]
   before_action :require_authentication
   before_action :get_subscription_details
@@ -98,7 +96,8 @@ class SubscriptionsManagementController < ApplicationController
   def use_govuk_account_layout?
     @use_govuk_account_layout ||=
       if authenticated_via_account?
-        set_slimmer_headers(template: "gem_layout_account_manager")
+        # TODO: HERE WE NEED THE ACCOUNT MANAGER LAYOUT
+        # set_slimmer_headers(template: "gem_layout_account_manager")
         true
       end
   end
