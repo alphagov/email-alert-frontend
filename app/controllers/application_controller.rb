@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   include GovukPersonalisation::ControllerConcern
 
-  include Slimmer::Template
-
   before_action :set_cache_control_header
 
   # Prevent CSRF attacks by raising an exception.
@@ -47,8 +45,6 @@ class ApplicationController < ActionController::Base
   def use_govuk_account_layout?
     false
   end
-
-  slimmer_template :gem_layout
 
 private
 
