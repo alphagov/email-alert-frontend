@@ -152,7 +152,7 @@ GEM
     govuk_personalisation (1.1.0)
       plek (>= 1.9.0)
       rails (>= 6, < 9)
-    govuk_publishing_components (45.4.1)
+    govuk_publishing_components (45.5.0)
       chartkick
       govuk_app_config
       govuk_personalisation (>= 0.7.0)
@@ -186,8 +186,8 @@ GEM
       addressable (>= 2.8)
     jwt (2.9.3)
       base64
-    kramdown (2.4.0)
-      rexml
+    kramdown (2.5.1)
+      rexml (>= 3.3.9)
     language_server-protocol (3.17.0.3)
     link_header (0.0.8)
     logger (1.6.1)
@@ -497,7 +497,7 @@ GEM
     ratelimit (1.1.0)
       redis (>= 3.0.0)
       redis-namespace (>= 1.0.0)
-    rdoc (6.7.0)
+    rdoc (6.8.1)
       psych (>= 4.0.0)
     redis (5.0.8)
       redis-client (>= 0.17.0)
