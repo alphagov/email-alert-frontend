@@ -1,8 +1,11 @@
 <% content_for :title, t("subscription_authentication.expired.title") %>
 <% content_for :meta_description, t("subscription_authentication.expired.description") %>
 
-<%= render "govuk_publishing_components/components/title", {
-  title: t("subscription_authentication.expired.title")
+<%= render "govuk_publishing_components/components/heading", {
+  text: t("subscription_authentication.expired.title"),
+  heading_level: 1,
+  font_size: "xl",
+  margin_bottom: 8
 } %>
 
 <p class="govuk-body">
