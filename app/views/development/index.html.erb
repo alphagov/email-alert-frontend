@@ -1,6 +1,11 @@
 <% content_for :title, "Email Alert Frontend" %>
 
-<%= render "govuk_publishing_components/components/title", title: "Email Alert Frontend" %>
+<%= render "govuk_publishing_components/components/heading", {
+  text: "Email Alert Frontend",
+  heading_level: 1,
+  font_size: "xl",
+  margin_bottom: 8
+} %>
 
 <p class="govuk-body">
   This page is intended to only be shown in development.
