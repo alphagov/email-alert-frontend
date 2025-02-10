@@ -3,4 +3,7 @@
 //= require govuk_publishing_components/components/error-summary
 //= require govuk_publishing_components/components/radio
 //= require govuk_publishing_components/components/feedback
+//= require govuk_publishing_components/components/global-banner
 //= require govuk_publishing_components/components/layout-super-navigation-header
+
+//= require govuk_web_banners/dependencies

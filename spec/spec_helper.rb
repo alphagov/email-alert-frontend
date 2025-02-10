@@ -30,5 +30,6 @@ RSpec.configure do |config|
   config.before :each do
     rate_limiter = instance_double(Ratelimit, add: nil, exceeded?: false)
     allow(Ratelimit).to receive(:new).and_return(rate_limiter)
+    Rails.application.config.emergency_banner_redis_client = instance_double(Redis, hgetall: {})
   end
 end
