@@ -1,3 +1,6 @@
+<% emergency_banner = render("govuk_web_banners/emergency_banner") %>
+<% global_banner = render("govuk_web_banners/global_banner") %>
+
 <% content_for :body do %>
   <div class="govuk-width-container" id="wrapper">
     <%= yield :back_link %>
@@ -19,6 +22,8 @@
 
 <%= render "govuk_publishing_components/components/layout_for_public", {
       title: yield(:title),
+      emergency_banner:,
+      global_banner:,
   } do %>
   <%= yield :body %>
 <% end %>
