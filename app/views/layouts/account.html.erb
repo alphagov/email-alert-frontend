@@ -1,3 +1,5 @@
+<% emergency_banner = render("govuk_web_banners/emergency_banner") %>
+
 <% content_for :body do %>
   <%= yield :back_link %>
   <main role="main" id="content">
@@ -8,9 +10,8 @@
 <%= content_for :head do %>
   <%= csp_meta_tag %>
   <meta name="robots" content="noindex, nofollow">
-
   <% add_gem_component_stylesheet("cross-service-header") %>
-  <% add_gem_component_stylesheet("emergency-banner") %>
+  <% add_gem_component_stylesheet("phase-banner") %>
 
   <%= render_component_stylesheets %>
 <% end %>
@@ -18,6 +19,7 @@
 <%= render "govuk_publishing_components/components/layout_for_public", {
   title: yield(:title),
   blue_bar: false,
+  emergency_banner:,
   omit_feedback_form: true,
   omit_footer_border: true,
   omit_footer_navigation: true,
