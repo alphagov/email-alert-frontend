@@ -18,6 +18,7 @@
 <%= render "govuk_publishing_components/components/layout_for_public", {
   title: yield(:title),
   blue_bar: false,
+  emergency_banner: render("govuk_web_banners/emergency_banner"),
   omit_feedback_form: true,
   omit_footer_border: true,
   omit_footer_navigation: true,
