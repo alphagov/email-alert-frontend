@@ -12,12 +12,15 @@
 
 <%= content_for :head do %>
   <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/search/opensearch.xml">
-  <% add_gem_component_stylesheet("layout-for-public") %>
-  <% add_gem_component_stylesheet("layout-super-navigation-header") %>
+  <% add_gem_component_stylesheet("cookie-banner") %>
+  <% add_gem_component_stylesheet("cross-service-header") %>
+  <% add_gem_component_stylesheet("emergency-banner") %>
   <% add_gem_component_stylesheet("feedback") %>
   <% add_gem_component_stylesheet("global-banner") %>
   <% add_gem_component_stylesheet("layout-header") %>
   <% add_gem_component_stylesheet("layout-footer") %>
+  <% add_gem_component_stylesheet("layout-for-public") %>
+  <% add_gem_component_stylesheet("layout-super-navigation-header") %>
   <%= render_component_stylesheets %>
 <% end %>
 
