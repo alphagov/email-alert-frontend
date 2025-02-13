@@ -1,13 +1,8 @@
 <% content_for :body do %>
-  <div id="wrapper">
-    <% content_for :before_content do %>
-      <%= yield :back_link %>
-    <% end %>
-    <%= yield :before_content %>
-    <main role="main" id="content">
-      <%= yield %>
-    </main>
-  </div>
+  <%= yield :back_link %>
+  <main role="main" id="content">
+    <%= yield %>
+  </main>
 <% end %>
 
 <%= content_for :head do %>
