@@ -3,7 +3,8 @@ class SubscriptionsManagementController < ApplicationController
   before_action :require_authentication
   before_action :get_subscription_details
   before_action :set_back_url
-  before_action :use_govuk_account_layout?
+
+  layout :choose_layout
 
   def index; end
 
@@ -94,15 +95,14 @@ class SubscriptionsManagementController < ApplicationController
   end
 
   def use_govuk_account_layout?
-    @use_govuk_account_layout ||=
-      if authenticated_via_account?
-        # TODO: HERE WE NEED THE ACCOUNT MANAGER LAYOUT
-        # set_slimmer_headers(template: "gem_layout_account_manager")
-        true
-      end
+    @use_govuk_account_layout ||= authenticated_via_account?
   end
 
 private
+
+  def choose_layout
+    use_govuk_account_layout? ? "account" : "application"
+  end
 
   def handle_one_login_hint
     return unless params[:from] == "your-services" && !authenticated?
