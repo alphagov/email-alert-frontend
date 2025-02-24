@@ -1,0 +1,69 @@
+<% content_for :body do %>
+  <%= yield :back_link %>
+  <main role="main" id="content">
+    <%= yield %>
+  </main>
+<% end %>
+
+<%= content_for :head do %>
+  <%= csp_meta_tag %>
+  <meta name="robots" content="noindex, nofollow">
+
+  <% add_gem_component_stylesheet("cross-service-header") %>
+  <% add_gem_component_stylesheet("emergency-banner") %>
+
+  <%= render_component_stylesheets %>
+<% end %>
+
+<%= render "govuk_publishing_components/components/layout_for_public", {
+  title: yield(:title),
+  blue_bar: false,
+  omit_feedback_form: true,
+  omit_footer_border: true,
+  omit_footer_navigation: true,
+  product_name: "GOV.UK email subscriptions",
+  show_account_layout: true,
+  show_cross_service_header: true,
+  omit_account_navigation: true,
+  one_login_navigation_items: {
+    one_login_home: {
+      href: GovukPersonalisation::Urls.one_login_your_services,
+      data: {
+        module: "explicit-cross-domain-links",
+        link_for: "accounts-signed-in",
+      },
+    },
+    one_login_sign_out: {
+      text: "Sign out",
+      href: GovukPersonalisation::Urls.sign_out,
+      data: {
+        module: "explicit-cross-domain-links",
+        link_for: "accounts-signed-in",
+      },
+    },
+  },
+  footer_meta: { items: [
+    {
+      href: "https://signin.account.gov.uk/accessibility-statement",
+      text: "Accessibility statement"
+    },
+    {
+      href: "/help/cookies",
+      text: "Cookies"
+    },
+    {
+      href: "https://signin.account.gov.uk/terms-and-conditions",
+      text: "Terms and conditions"
+    },
+    {
+      href: "https://signin.account.gov.uk/privacy-statement",
+      text: "Privacy notice"
+    },
+    {
+      href: "https://signin.account.gov.uk/support",
+      text: "Support"
+    },
+  ]},
+  } do %>
+  <%= yield :body %>
+<% end %>
