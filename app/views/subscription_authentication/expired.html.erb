@@ -1,5 +1,7 @@
 <% content_for :title, t("subscription_authentication.expired.title") %>
-<% content_for :meta_description, t("subscription_authentication.expired.description") %>
+<% content_for :head do %>%
+  <meta name="description" content="<%= t("subscription_authentication.expired.description") %>" />
+<% end %>
 
 <%= render "govuk_publishing_components/components/heading", {
   text: t("subscription_authentication.expired.title"),
