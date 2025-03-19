@@ -9,7 +9,6 @@ end
 require File.expand_path("../config/environment", __dir__)
 require "rspec/rails"
 require "webmock/rspec"
-require "slimmer/rspec"
 require "gds_api/test_helpers/account_api"
 require "gds_api/test_helpers/email_alert_api"
 
@@ -31,5 +30,6 @@ RSpec.configure do |config|
   config.before :each do
     rate_limiter = instance_double(Ratelimit, add: nil, exceeded?: false)
     allow(Ratelimit).to receive(:new).and_return(rate_limiter)
+    Rails.application.config.emergency_banner_redis_client = instance_double(Redis, hgetall: {})
   end
 end

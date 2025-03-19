@@ -1,47 +1,30 @@
+<% stylesheet_link_tag "application", media: "all"  # Trigger this without rendering it to ensure it appears in links header %>
+<% emergency_banner = render("govuk_web_banners/emergency_banner") %>
+<% global_banner = render("govuk_web_banners/global_banner") %>
+
 <% content_for :body do %>
-  <% if use_govuk_account_layout? %>
-    <div id="wrapper">
-      <% content_for :before_content do %>
-        <%= yield :back_link %>
-      <% end %>
-      <%= yield :before_content %>
-      <main role="main" id="content">
-        <%= yield %>
-      </main>
-    </div>
-  <% else %>
-    <div class="govuk-width-container" id="wrapper">
-      <%= yield :back_link %>
-      <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main" id="content">
-        <div id="email-alert-frontend">
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-              <%= yield %>
-            </div>
-          </div>
+  <div class="govuk-width-container" id="wrapper">
+    <%= yield :back_link %>
+    <main class="govuk-main-wrapper<%= " govuk-main-wrapper--l" if yield(:back_link).blank?%>" role="main" id="content">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <%= yield %>
         </div>
-      </main>
-    </div>
-  <% end %>
+      </div>
+    </main>
+  </div>
 <% end %>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= yield :title %> - GOV.UK</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <% if content_for(:meta_description).present? %>
-      <meta name="description" content="<%= content_for(:meta_description) %>" />
-    <% end %>
-    <%= yield :head %>
-    <meta name="robots" content="noindex, nofollow">
-    <%=
-      render_component_stylesheets
-    %>
-  </head>
-  <body class="govuk-template__body">
-    <%= yield :body %>
-    <%= javascript_include_tag 'application', type: "module" %>
-  </body>
-</html>
+<%= content_for :head do %>
+  <%= csp_meta_tag %>
+  <meta name="robots" content="noindex, nofollow">
+  <%= render_component_stylesheets %>
+<% end %>
+
+<%= render "govuk_publishing_components/components/layout_for_public", {
+      title: yield(:title),
+      emergency_banner:,
+      global_banner:,
+  } do %>
+  <%= yield :body %>
+<% end %>

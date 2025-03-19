@@ -169,6 +169,11 @@ GEM
       capybara (>= 3.36)
       puma
       selenium-webdriver (>= 4.0)
+    govuk_web_banners (1.0.1)
+      govuk_app_config
+      govuk_publishing_components
+      rails (>= 7)
+      redis
     hashdiff (1.1.2)
     http-accept (1.7.0)
     http-cookie (1.0.8)
@@ -611,13 +616,6 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    slimmer (18.7.0)
-      json
-      nokogiri (~> 1.7)
-      null_logger
-      plek (>= 1.1.0)
-      rack (>= 3.0)
-      rest-client
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -670,6 +668,7 @@ DEPENDENCIES
   govuk_publishing_components
   govuk_schemas
   govuk_test
+  govuk_web_banners
   jwt
   plek
   pry-byebug
@@ -678,7 +677,6 @@ DEPENDENCIES
   rspec-rails
   rubocop-govuk
   simplecov
-  slimmer
   sprockets-rails
   terser
   timecop

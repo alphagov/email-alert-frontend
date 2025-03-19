@@ -57,6 +57,11 @@ RSpec.describe SubscriptionAuthenticationController do
         get(:authenticate, params:)
         expect(response.body).to include(I18n.t!("subscription_authentication.expired.title"))
       end
+
+      it "shows an expired description in the metadata" do
+        get(:authenticate, params:)
+        expect(response.body).to have_css("meta[content=\"#{I18n.t!('subscription_authentication.expired.description')}\"]", visible: false)
+      end
     end
 
     context "the token is re-used" do
