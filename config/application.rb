@@ -14,6 +14,7 @@ require "action_view/railtie"
 # require "action_cable/engine"
 # require "rails/test_unit/railtie"
 require "sprockets/railtie"
+require "govuk_publishing_components/middleware/ga4_optimise"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -42,5 +43,8 @@ module EmailAlertFrontend
     # to use CSS that has same function names as SCSS such as max.
     # https://github.com/alphagov/govuk-frontend/issues/1350
     config.assets.css_compressor = nil
+
+    # Use the middleware to compact data-ga4-event/link attributes
+    config.middleware.use GovukPublishingComponents::Middleware::Ga4Optimise
   end
 end
