@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get "/*base_path" => "email_alert_signups#new", as: :email_alert_signup, constraints: { base_path: %r{.*/email-signup} }
   post "/*base_path" => "email_alert_signups#create", as: :email_alert_signups, constraints: { base_path: %r{.*/email-signup} }
 
-  get "/email-signup" => "content_item_signups#new", as: :new_content_item_signup
-  get "/email-signup/confirm" => "content_item_signups#confirm", as: :confirm_content_item_signup
+  get "/email-signup" => "content_item_signups#new"
+  get "/email-signup/confirm" => "content_item_signups#confirm"
   post "/email-signup" => "content_item_signups#create"
 
   scope "/email" do
@@ -29,6 +29,12 @@ Rails.application.routes.draw do
       get "/authenticate/process" => "subscriber_authentication#process_sign_in_token", as: :process_sign_in_token
       get "/authenticate/account" => "subscriber_authentication#process_govuk_account", as: :process_govuk_account
       post "/authenticate/account" => "subscriber_authentication#process_govuk_account"
+    end
+
+    scope "/signup" do
+      get "/" => "content_item_signups#new", as: :new_content_item_signup
+      get "/confirm" => "content_item_signups#confirm", as: :confirm_content_item_signup
+      post "/" => "content_item_signups#create"
     end
 
     scope "/subscriptions" do
