@@ -1,5 +1,5 @@
 class EmailAlertSignupsController < ApplicationController
-  protect_from_forgery except: [:create]
+  skip_forgery_protection only: [:create]
 
   def new; end
 

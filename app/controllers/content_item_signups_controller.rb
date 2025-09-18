@@ -11,7 +11,7 @@
 class ContentItemSignupsController < ApplicationController
   include TaxonsHelper
 
-  protect_from_forgery except: [:create]
+  skip_forgery_protection only: [:create]
   before_action :assign_content_item
   before_action :handle_redirects
   before_action :assign_list_params
