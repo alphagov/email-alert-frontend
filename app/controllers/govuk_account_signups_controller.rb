@@ -4,7 +4,7 @@ class GovukAccountSignupsController < ApplicationController
   UNSUBSCRIBE_FLASH = "email-unsubscribe-success".freeze
   DEFAULT_FREQUENCY = "immediately".freeze
 
-  skip_before_action :verify_authenticity_token, only: [:create]
+  skip_forgery_protection only: [:create]
   before_action :validate_base_path, only: %i[create]
   before_action :fetch_subscriber_list, only: %i[create]
   before_action :not_found_without_topic_id, only: %i[edit show]
@@ -57,7 +57,7 @@ private
     URI.parse(params.fetch(:base_path))
   rescue URI::InvalidURIError => e
     Rails.logger.warn("Bad base path passed to SinglePageSubscriptionsController: #{e}")
-    head :unprocessable_entity
+    head :unprocessable_content
   end
 
   def fetch_subscriber_list

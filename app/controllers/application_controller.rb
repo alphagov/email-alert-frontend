@@ -55,7 +55,7 @@ private
 
   def invalid_token
     reset_session
-    head :unprocessable_entity
+    head :unprocessable_content
   end
 
   def bad_request

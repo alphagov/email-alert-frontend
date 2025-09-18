@@ -1,5 +1,5 @@
 class UnsubscriptionsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: %i[one_click]
+  skip_forgery_protection only: [:one_click]
 
   before_action :set_attributes
   before_action :check_owns_subscription, except: %i[one_click]
