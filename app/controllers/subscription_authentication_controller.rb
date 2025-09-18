@@ -12,7 +12,7 @@ class SubscriptionAuthenticationController < ApplicationController
     end
 
     unless valid_params?
-      head :unprocessable_entity
+      head :unprocessable_content
       return
     end
 

@@ -57,7 +57,7 @@ private
     URI.parse(params.fetch(:base_path))
   rescue URI::InvalidURIError => e
     Rails.logger.warn("Bad base path passed to SinglePageSubscriptionsController: #{e}")
-    head :unprocessable_entity
+    head :unprocessable_content
   end
 
   def fetch_subscriber_list

@@ -83,7 +83,7 @@ private
     @address = subscription_params[:address]
   rescue Addressable::URI::InvalidURIError => e
     Rails.logger.warn("Bad topic passed to SubscriptionsController: #{e}")
-    head :unprocessable_entity
+    head :unprocessable_content
   end
 
   def subscription_params
