@@ -169,7 +169,7 @@ GEM
       capybara (>= 3.36)
       puma
       selenium-webdriver (>= 4.0)
-    govuk_web_banners (1.19.0)
+    govuk_web_banners (1.20.0)
       govuk_app_config (>= 9)
       govuk_publishing_components
       rails (>= 7)
@@ -181,11 +181,11 @@ GEM
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     io-console (0.8.1)
-    irb (1.15.2)
+    irb (1.15.3)
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.13.2)
+    json (2.15.2)
     json-schema (6.0.0)
       addressable (~> 2.8)
       bigdecimal (~> 3.1)
@@ -438,7 +438,7 @@ GEM
     puma (7.1.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.2.3)
+    rack (3.2.4)
     rack-proxy (0.7.7)
       rack
     rack-session (2.1.1)
@@ -483,7 +483,7 @@ GEM
     ratelimit (1.1.0)
       redis (>= 3.0.0)
       redis-namespace (>= 1.0.0)
-    rdoc (6.15.0)
+    rdoc (6.15.1)
       erb
       psych (>= 4.0.0)
       tsort
