@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   root to: "development#index"
 
+  match "*" => "maintenance#show", via: %i[get post] if Rails.application.config.maintenance_mode
+
   get "/*base_path" => "email_alert_signups#new", as: :email_alert_signup, constraints: { base_path: %r{.*/email-signup} }
   post "/*base_path" => "email_alert_signups#create", as: :email_alert_signups, constraints: { base_path: %r{.*/email-signup} }
 
