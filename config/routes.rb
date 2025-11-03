@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   mount GovukPublishingComponents::Engine, at: "/component-guide"
 
+  get "/healthcheck/live", to: proc { [200, {}, %w[OK]] }
+  get "/healthcheck/ready", to: GovukHealthcheck.rack_response(
+    GovukHealthcheck::Redis,
+  )
+
   root to: "development#index"
 
   get "/*base_path" => "email_alert_signups#new", as: :email_alert_signup, constraints: { base_path: %r{.*/email-signup} }
@@ -49,9 +54,4 @@ Rails.application.routes.draw do
     # DEPRECATED: legacy route in emails from GOV.UK
     get "/authenticate", to: redirect("/email/manage/authenticate")
   end
-
-  get "/healthcheck/live", to: proc { [200, {}, %w[OK]] }
-  get "/healthcheck/ready", to: GovukHealthcheck.rack_response(
-    GovukHealthcheck::Redis,
-  )
 end
