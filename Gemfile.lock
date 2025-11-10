@@ -637,7 +637,7 @@ DEPENDENCIES
   climate_control
   dartsass-rails
   gds-api-adapters
-  govuk_app_config
+  govuk_app_config (= 9.22.0)
   govuk_personalisation
   govuk_publishing_components
   govuk_schemas
