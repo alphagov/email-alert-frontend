@@ -98,7 +98,7 @@ GEM
     climate_control (1.2.0)
     coderay (1.1.3)
     concurrent-ruby (1.3.5)
-    connection_pool (3.0.1)
+    connection_pool (3.0.2)
     crack (1.0.1)
       bigdecimal
       rexml
@@ -123,16 +123,16 @@ GEM
       rest-client (~> 2.0)
     globalid (1.3.0)
       activesupport (>= 6.1)
-    google-protobuf (4.33.1)
+    google-protobuf (4.33.2)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.1-aarch64-linux-gnu)
+    google-protobuf (4.33.2-aarch64-linux-gnu)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.1-arm64-darwin)
+    google-protobuf (4.33.2-arm64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.1-x86_64-linux-gnu)
+    google-protobuf (4.33.2-x86_64-linux-gnu)
       bigdecimal
       rake (>= 13)
     googleapis-common-protos-types (1.22.0)
@@ -169,7 +169,7 @@ GEM
       capybara (>= 3.36)
       puma
       selenium-webdriver (>= 4.0)
-    govuk_web_banners (1.25.2)
+    govuk_web_banners (1.25.3)
       govuk_app_config (>= 9)
       govuk_publishing_components
       rails (>= 7)
@@ -483,7 +483,7 @@ GEM
     ratelimit (1.1.0)
       redis (>= 3.0.0)
       redis-namespace (>= 1.0.0)
-    rdoc (6.16.1)
+    rdoc (6.17.0)
       erb
       psych (>= 4.0.0)
       tsort
@@ -602,7 +602,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     thor (1.4.0)
     timecop (0.9.10)
-    timeout (0.4.4)
+    timeout (0.5.0)
     tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
