@@ -22,8 +22,6 @@ Bundler.require(*Rails.groups)
 
 module EmailAlertFrontend
   class Application < Rails::Application
-    include GovukPublishingComponents::AppHelpers::AssetHelper
-
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
 
