@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   post "/email-signup" => "content_item_signups#create"
 
   scope "/email" do
+    get "/subscribe" => "content_item_signups#create", defaults: { single_page_subscription: "true" }
+
     get "/unsubscribe/:id" => "unsubscriptions#confirm", as: :confirm_unsubscribe
     post "/unsubscribe/one-click/:id" => "unsubscriptions#one_click", as: :one_click
     post "/unsubscribe/:id" => "unsubscriptions#confirmed", as: :unsubscribe
