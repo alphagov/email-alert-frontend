@@ -62,10 +62,10 @@ RSpec.describe ContentItemSignupsController do
       expect(response).to have_http_status(:not_found)
     end
 
-    it "returns a 410 if the content item is unpublished" do
+    it "returns a 460 if the content item is unpublished" do
       stub_content_store_has_gone_item("/taxon-is-gone")
       make_request(link: "/taxon-is-gone")
-      expect(response).to have_http_status(:gone)
+      expect(response).to have_http_status(460)
     end
   end
 
