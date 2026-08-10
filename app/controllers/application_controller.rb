@@ -71,7 +71,7 @@ private
   end
 
   def gone
-    render status: :gone, plain: "410 gone"
+    render status: 460, plain: "460 gone"
   end
 
   def require_authentication
