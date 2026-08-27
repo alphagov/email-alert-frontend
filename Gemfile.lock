@@ -115,7 +115,7 @@ GEM
     erb (6.0.7)
     erubi (1.13.1)
     execjs (2.10.1)
-    gds-api-adapters (103.4.1)
+    gds-api-adapters (103.4.3)
       addressable
       link_header
       null_logger
