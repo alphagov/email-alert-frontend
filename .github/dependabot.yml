@@ -10,10 +10,17 @@ updates:
         - gds-api-adapters
         - govuk_*
         - plek
-        - rubocop-govuk        
+        - rubocop-govuk
 
   - package-ecosystem: npm
     directory: /
+    schedule:
+      interval: daily
+    cooldown:
+      default-days: 3
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
       interval: daily
     cooldown:
