@@ -7,7 +7,7 @@ gem "rails", "8.1.3.1"
 gem "bootsnap", require: false
 gem "dartsass-rails"
 gem "gds-api-adapters"
-gem "govuk_app_config", "9.25.2"
+gem "govuk_app_config", "9.25.3"
 gem "govuk_personalisation"
 gem "govuk_publishing_components"
 gem "govuk_web_banners"
