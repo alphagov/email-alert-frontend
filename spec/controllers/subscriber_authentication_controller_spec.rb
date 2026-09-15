@@ -31,7 +31,9 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders an error message" do
         post :verify, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.missing_email.description"))
+        expect(response.body).to have_selector("h2.govuk-error-summary__title", text: I18n.t!("subscriber_authentication.sign_in.missing_email.title"))
+        expect(response.body).to have_selector("a[href='#email-address-input']", text: I18n.t!("subscriber_authentication.sign_in.missing_email.description"))
+        expect(response.body).to have_selector("input[type='email'][id='email-address-input']")
       end
     end
 
@@ -45,7 +47,9 @@ RSpec.describe SubscriberAuthenticationController do
 
       it "renders an error message" do
         post :verify, params: { address: subscriber_address }
-        expect(response.body).to include(I18n.t!("subscriber_authentication.sign_in.invalid_email.description"))
+        expect(response.body).to have_selector("h2.govuk-error-summary__title", text: I18n.t!("subscriber_authentication.sign_in.invalid_email.title"))
+        expect(response.body).to have_selector("a[href='#email-address-input']", text: I18n.t!("subscriber_authentication.sign_in.invalid_email.description"))
+        expect(response.body).to have_selector("input[type='email'][id='email-address-input']")
       end
     end
 

@@ -21,7 +21,7 @@
       items: [
         {
           text: flash[:error],
-          href: "#email-frequency-input",
+          href: "#frequency-0",
         }
       ]
     } %>
@@ -48,6 +48,7 @@
   <%= render "govuk_publishing_components/components/radio", {
     name: "frequency",
     id: "email-frequency-input",
+    id_prefix: "frequency",
     heading: t("subscriptions.new_frequency.title"),
     heading_level: 1,
     heading_size: "l",

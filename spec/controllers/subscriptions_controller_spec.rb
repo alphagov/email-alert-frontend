@@ -78,8 +78,9 @@ RSpec.describe SubscriptionsController do
     context "when no frequency is provided" do
       it "renders an error" do
         post :frequency, params: { topic_id: }
-
-        expect(response.body).to include(I18n.t!("subscriptions.new_frequency.missing_frequency"))
+        expect(response.body).to have_selector("h2.govuk-error-summary__title", text: I18n.t!("subscriptions.new_frequency.general_problem"))
+        expect(response.body).to have_selector("a[href='#frequency-0']", text: I18n.t!("subscriptions.new_frequency.missing_frequency"))
+        expect(response.body).to have_selector("input[type='radio'][id='frequency-0']")
         expect(response).to have_http_status(:ok)
       end
     end
@@ -170,7 +171,9 @@ RSpec.describe SubscriptionsController do
 
       it "renders an error" do
         post(:verify, params:)
-        expect(response.body).to include(I18n.t!("subscriptions.new_address.missing_email"))
+        expect(response.body).to have_selector("h2.govuk-error-summary__title", text: I18n.t!("subscriptions.new_address.general_problem"))
+        expect(response.body).to have_selector("a[href='#email-address-input']", text: I18n.t!("subscriptions.new_address.missing_email"))
+        expect(response.body).to have_selector("input[type='email'][id='email-address-input']")
         expect(response).to have_http_status(:ok)
       end
     end
@@ -190,7 +193,9 @@ RSpec.describe SubscriptionsController do
 
       it "renders an error" do
         post(:verify, params:)
-        expect(response.body).to include(I18n.t!("subscriptions.new_address.invalid_email"))
+        expect(response.body).to have_selector("h2.govuk-error-summary__title", text: I18n.t!("subscriptions.new_address.general_problem"))
+        expect(response.body).to have_selector("a[href='#email-address-input']", text: I18n.t!("subscriptions.new_address.invalid_email"))
+        expect(response.body).to have_selector("input[type='email'][id='email-address-input']")
         expect(response).to have_http_status(:ok)
       end
     end
