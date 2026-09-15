@@ -299,9 +299,9 @@ RSpec.describe SubscriptionsManagementController do
 
       it "renders an error message" do
         post(:change_address, params: { new_address: }, session:)
-        expect(response.body).to include(
-          I18n.t!("subscriptions_management.update_address.missing_email"),
-        )
+        expect(response.body).to have_selector("h2.govuk-error-summary__title", text: I18n.t!("subscriptions_management.update_address.error_title"))
+        expect(response.body).to have_selector("a[href='#email-address-input']", text: I18n.t!("subscriptions_management.update_address.error_description"))
+        expect(response.body).to have_selector("input[type='email'][id='email-address-input']")
       end
 
       it "renders a form" do
@@ -319,9 +319,9 @@ RSpec.describe SubscriptionsManagementController do
 
       it "renders an error message" do
         post(:change_address, params: { new_address: }, session:)
-        expect(response.body).to include(
-          I18n.t!("subscriptions_management.update_address.invalid_email"),
-        )
+        expect(response.body).to have_selector("h2.govuk-error-summary__title", text: I18n.t!("subscriptions_management.update_address.error_title"))
+        expect(response.body).to have_selector("a[href='#email-address-input']", text: I18n.t!("subscriptions_management.update_address.error_description"))
+        expect(response.body).to have_selector("input[type='email'][id='email-address-input']")
       end
 
       it "renders a form" do
