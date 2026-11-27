@@ -39,12 +39,12 @@ RSpec.describe GovukAccountSignupsController do
       stub_content_store_has_item(base_path, content_item_for_base_path(base_path).merge("content_id" => content_id, "description" => description))
 
       stub_email_alert_api_creates_subscriber_list({
-        url: base_path,
-        title: topic_name,
-        slug: topic_slug,
-        id: subscription_list_id,
-        content_id:,
-        description:,
+        "url" => base_path,
+        "title" => topic_name,
+        "slug" => topic_slug,
+        "id" => subscription_list_id,
+        "content_id" => content_id,
+        "description" => description,
       })
     end
 
