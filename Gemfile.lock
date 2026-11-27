@@ -114,7 +114,8 @@ GEM
     drb (2.2.3)
     erb (6.0.7)
     erubi (1.13.1)
-    execjs (2.10.1)
+    execjs (2.10.2)
+      json (>= 2)
     gds-api-adapters (104.0.0)
       addressable
       link_header
@@ -191,7 +192,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (3.2.0)
-    json-schema (6.2.0)
+    json-schema (6.2.1)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
     jwt (3.3.0)
@@ -685,4 +686,4 @@ RUBY VERSION
   ruby 4.0.10
 
 BUNDLED WITH
-  4.0.11
+  4.0.20
